@@ -1,0 +1,1330 @@
+tags:
+  -
+    name: Users
+    description: 'UserProfile signup, activiation, forgetpassword, change password'
+    externalDocs:
+      description: User
+      url: 'http://savingsmanager.co.in/developerdocs'
+  -
+    name: goals
+    description: 'goal identification,surplus calculation,goalssummary'
+    externalDocs:
+      url: 'http://savingsmanager.co.in/developerdocs'
+  -
+    name: 'mutual fund resources'
+    description: 'mutual fund resources'
+    externalDocs:
+      description: 'mutual fund resources'
+      url: 'http://savingsmanager.co.in/developerdocs'
+  -
+    name: funddetails
+    description: funddetails
+    externalDocs:
+      description: funddetails
+      url: 'http://savingsmanager.co.in/developerdocs'
+paths:
+  /users/signup:
+    put:
+      tags:
+        - Users
+      responses: {}
+    post:
+      operationId: users_signup
+      summary: 'users signup'
+      description: 'Customer Sign UP using profile, Bank, Nominee, Address'
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'Response success'
+          schema:
+            x-oad-type: string
+            type: string
+            title: responsetext
+            description: 'Please activate your account by clicking the link in the email'
+          x-oad-type: response
+      parameters:
+        -
+          name: UserProfile
+          in: body
+          description: 'User profile data body'
+          required: true
+          schema:
+            x-oad-type: object
+            type: object
+            title: User_registration
+            description: User_registration
+            properties:
+              userprofile:
+                x-oad-type: reference
+                $ref: '#/definitions/UserProfile'
+              correspondence_address:
+                x-oad-type: reference
+                $ref: '#/definitions/Address'
+              permanent_address:
+                x-oad-type: reference
+                $ref: '#/definitions/Address'
+              nominee1:
+                x-oad-type: reference
+                $ref: '#/definitions/nominee'
+              nominee2:
+                x-oad-type: reference
+                $ref: '#/definitions/nominee'
+              bank:
+                x-oad-type: reference
+                $ref: '#/definitions/bank'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/signin:
+    post:
+      operationId: users_signin
+      summary: 'Users sigin with email and password'
+      description: 'Users sigin with email and password'
+      tags:
+        - Users
+      responses:
+        '200':
+          description: 'Successful response'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: response
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: "Authorization with user credentials - Base64\nBasic base64(username:password)"
+          required: true
+          type: string
+          x-oad-type: parameter
+        -
+          name: apil_key
+          in: header
+          description: 'api key'
+          required: true
+          type: string
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/addgoal:
+    post:
+      operationId: add_goals
+      summary: 'add goals'
+      description: 'adding goals'
+      tags:
+        - goals
+      responses:
+        '200':
+          description: 'show the sucess message'
+          schema:
+            x-oad-type: string
+            type: string
+            title: sucess_message
+            description: 'show the sucess details of add goal'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'goal identification'
+          in: body
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/add goal'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/forgotpassword:
+    get:
+      operationId: user_forgot
+      summary: 'using email reset the password'
+      description: 'using email reset the password'
+      responses:
+        '200':
+          description: 'password reset link is sent to corresponding email'
+          x-oad-type: response
+      parameters:
+        -
+          name: email
+          in: body
+          description: 'enter the email '
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: parameter
+    post:
+      operationId: user_forgotpass
+      summary: 'users forgot password'
+      description: 'change the password'
+      responses:
+        '200':
+          description: 'reset password link is send to corresponding mail'
+          x-oad-type: response
+      parameters:
+        -
+          name: email
+          in: body
+          description: 'enter the email to reset the password'
+          required: false
+          schema:
+            x-oad-type: string
+            type: string
+            title: email
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/edituserprofile:
+    post:
+      operationId: users_editprofile
+      summary: 'edit the profile data'
+      description: 'edit the profile primary data'
+      responses:
+        '200':
+          description: 'your profile data is updated'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'edit profile'
+          in: body
+          description: 'edit the profile information'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/changepassword:
+    post:
+      operationId: user_changepassword
+      summary: 'to change the password'
+      description: 'to change the login  password'
+      responses:
+        '200':
+          description: 'your login password is sucessfully changed'
+          x-oad-type: response
+      parameters:
+        -
+          name: password
+          in: body
+          description: 'enter the new login password'
+          required: true
+          schema:
+            x-oad-type: string
+            type: string
+            title: password
+            description: password
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/editaddress:
+    post:
+      operationId: users_editaddress
+      summary: 'edit the address value'
+      description: 'edit the address value'
+      responses:
+        '200':
+          description: 'address is sucessfully updated'
+          x-oad-type: response
+      parameters:
+        -
+          name: editaddress
+          in: body
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Address'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/addbank:
+    post:
+      operationId: users_addbank
+      summary: 'add bank'
+      description: 'add bank'
+      responses:
+        '200':
+          description: 'bank is successfully addeded'
+          schema:
+            x-oad-type: string
+            type: string
+            title: bank_id
+            description: 'unique id for every added bank'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'add bank'
+          in: body
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/bank'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/addnominee:
+    post:
+      operationId: users_addnominee
+      summary: 'add nomineee'
+      description: 'add nomineee'
+      responses:
+        '200':
+          description: 'nominee is sucessfully addeded'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'add nominee'
+          in: body
+          description: 'fill the nominee details'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/nominee'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/removenominee:
+    x-oad-type: operation
+  /users/addnotification:
+    post:
+      operationId: user_notification
+      summary: 'add notification'
+      description: 'add notification'
+      responses:
+        '200':
+          description: notification
+          schema:
+            x-oad-type: string
+            type: string
+            title: notification_id
+            description: 'unique id for each notification'
+          x-oad-type: response
+      parameters:
+        -
+          name: addnotifications
+          in: body
+          description: 'add notification'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Notification'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/removenotification:
+    post:
+      operationId: user_removenotification
+      summary: 'remove notification'
+      description: 'remove notification'
+      responses:
+        '200':
+          description: 'notification suscessfully removed'
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'Sucess Message'
+            description: 'notification suscessfully removed'
+          x-oad-type: response
+      parameters:
+        -
+          name: notification_id
+          in: path
+          description: 'pass the notification to remove'
+          required: true
+          type: string
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/customersettings:
+    post:
+      operationId: user_extrasettings
+      summary: 'user extrasettings'
+      description: 'user extrasettings'
+      responses:
+        '200':
+          description: 'update the values'
+          x-oad-type: response
+      parameters:
+        -
+          name: surplus_calculation
+          in: body
+          description: surplus_calculation
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/surplus_calculation'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/numberotpverify:
+    post:
+      operationId: users_otpverify
+      summary: users_otpverify
+      description: 'users  otpverify'
+      responses:
+        '200':
+          description: 'Otp send to registermobile number'
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'OTP Verify'
+            description: 'Otp send to registermobile number'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'phone Number'
+          in: body
+          description: 'enter phonenumber'
+          required: true
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'Sucess Message'
+            description: 'otp send to coresponding mobile number'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/emailotpverify:
+    post:
+      operationId: users_emailotp
+      summary: 'otp send to corresponding email address'
+      description: 'otp send to corresponding email address'
+      responses:
+        '200':
+          description: 'otp send to corresponding email address'
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'Email  Sucess'
+            description: 'otp send to corresponding email address'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'email address'
+          in: body
+          description: 'otp send to corresponding email address'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/editcustomerssettings:
+    post:
+      operationId: users_editcustomersettings
+      summary: editcustomersettings
+      description: editcustomersettings
+      responses:
+        '200':
+          description: 'settings edited sucessfully'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/surplus_calculation'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'setting  Id'
+          in: body
+          description: 'pass surplus settings id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/surplus_calculation'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/profilestatus:
+    post:
+      operationId: 'profile status'
+      summary: 'profile status'
+      description: 'profile status'
+      responses:
+        '200':
+          description: 'display profile status message'
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'profile status'
+            description: 'profile status'
+          x-oad-type: response
+      parameters:
+        -
+          name: 'Profile Status'
+          in: body
+          description: 'profile status'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/UserProfile'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/notificationstatus:
+    post:
+      operationId: users_notificationstatus
+      summary: 'Notifications status'
+      description: 'Notifications status'
+      responses:
+        '200':
+          description: 'Notification un read'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Notification'
+          x-oad-type: response
+      parameters:
+        -
+          name: notification_id
+          in: body
+          description: 'pass the notification id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Notification'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/removebank:
+    post:
+      operationId: user_removebank
+      summary: removebank
+      description: removebank
+      responses:
+        '200':
+          description: 'bank suscessfully removed'
+          schema:
+            x-oad-type: string
+            type: string
+            title: 'Susess Message'
+            description: 'bank suscessfully removed'
+          x-oad-type: response
+      parameters:
+        -
+          name: bank_id
+          in: body
+          description: removebank
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/bank'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/editbank:
+    post:
+      operationId: user_editbank
+      summary: 'Edit bank details'
+      description: 'Edit bank details based on Id value'
+      responses:
+        '200':
+          description: 'bank field edit sucessfully'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/bank'
+          x-oad-type: response
+      parameters:
+        -
+          name: bank_id
+          in: body
+          description: 'Edit bank details'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/bank'
+          x-oad-type: parameter
+        -
+          name: bank_name
+          in: body
+          description: 'Edit bank details'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/bank'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/getcategorylist:
+    get:
+      operationId: users_categorylist
+      summary: 'users  category list'
+      description: 'users  category list'
+      tags:
+        - 'mutual fund resources'
+      responses:
+        '200':
+          description: 'fetch the categroy names list Category Name'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: response
+      parameters:
+        -
+          name: ""
+          in: path
+          required: true
+          type: string
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/getsubcategorylist:
+    post:
+      operationId: 'users subcategorylist'
+      summary: 'fetcth the subcategorylist from daa base based on category  id'
+      description: 'fetcth the subcategorylist from daa base based on category  id'
+      tags:
+        - 'mutual fund resources'
+      responses:
+        '200':
+          description: 'fetcth the subcategorylist from daa base based on category  id'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: response
+      parameters:
+        -
+          name: categoryname_id
+          in: body
+          description: 'fetcth the subcategorylist from daa base based on category  id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/getfundhouselist:
+    post:
+      operationId: 'users _fundhouse'
+      summary: 'fetcth the foundhouselist from data base based on subcategory  id'
+      description: 'fetcth the foundhouselist from data base based on subcategory  id'
+      responses:
+        '200':
+          description: 'fetcth the foundhouselist from data base based on subcategory  id'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: response
+      parameters:
+        -
+          name: subcategory_id
+          in: body
+          description: 'fetcth the foundhouselist from data base based on subcategory  id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /searchmutualfund:
+    get:
+      summary: sera
+      responses: {}
+    post:
+      operationId: users_searchmutualfund
+      summary: 'get all the mutual funds accordfing to the  user selectable fields'
+      description: 'get all the mutual funds accordfing to the  user selectable fields'
+      responses:
+        '200':
+          description: 'get all the  list of data from search api'
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/searchresponse'
+          x-oad-type: response
+      parameters:
+        -
+          name: category_id
+          in: body
+          description: 'pass the  selected categories id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: parameter
+        -
+          name: subcatogy_id
+          in: body
+          description: 'pass selected sub categories id'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: parameter
+        -
+          name: fundhouse_id
+          in: body
+          description: 'selected  fundhouse ids send'
+          required: true
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/Category'
+          x-oad-type: parameter
+    x-oad-type: operation
+  /users/fundsbasicinfo:
+    get:
+      operationId: user_fundsbasicinfo
+      summary: fundsbasicinfo
+      description: fundsbasicinfo
+      responses:
+        '200':
+          description: fundsbasicinfo
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/basicinfo'
+          x-oad-type: response
+    x-oad-type: operation
+  /users/navdetails:
+    get:
+      operationId: user_navdetails
+      summary: navdetails
+      description: navdetails
+      responses:
+        '200':
+          description: navdetails
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/navdetails'
+          x-oad-type: response
+    x-oad-type: operation
+  /users/returndetails:
+    get:
+      operationId: user_returndetails
+      summary: returndetails
+      description: returndetails
+      responses:
+        '200':
+          description: returndetails
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/returndetails'
+          x-oad-type: response
+    x-oad-type: operation
+  /users/fundratio:
+    get:
+      operationId: users_ratio
+      summary: ratio
+      description: ratio
+      responses:
+        '200':
+          description: ratio
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/ratios'
+          x-oad-type: response
+    x-oad-type: operation
+  /users/fundholdingstocks:
+    get:
+      operationId: user_fundholdingstocks
+      summary: fundholdingstocks
+      description: fundholdingstocks
+      responses:
+        '200':
+          description: fundholdingstocks
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/holdingstocks'
+          x-oad-type: response
+    x-oad-type: operation
+  /users/savingmanagertopfunds:
+    get:
+      operationId: users_savingmanagertopfunds
+      summary: savingmanagertopfunds
+      description: savingmanagertopfunds
+      responses:
+        '200':
+          description: savingmanagertopfunds
+          schema:
+            x-oad-type: reference
+            $ref: '#/definitions/searchresponse'
+          x-oad-type: response
+    x-oad-type: operation
+definitions:
+  UserProfile:
+    x-oad-type: object
+    type: object
+    title: UserProfile
+    description: UserProfile
+    properties:
+      firstname:
+        x-oad-type: string
+        type: string
+        title: 'firstname of the customer'
+      lastname:
+        x-oad-type: string
+        type: string
+        title: 'lastname of the customer'
+      dob:
+        x-oad-type: string
+        type: string
+        title: 'date of birth'
+        description: 'use dd/mm/yyyy'
+      email:
+        x-oad-type: string
+        type: string
+        title: email
+        description: email
+      customer_id:
+        x-oad-type: string
+        type: string
+        title: customer_id
+        description: customer_id
+      agent_id:
+        x-oad-type: string
+        type: string
+        title: agent_id
+        description: agent_id
+      salutation_name:
+        x-oad-type: string
+        type: string
+        title: salutation
+        description: salutation
+      mobile_number:
+        x-oad-type: number
+        type: number
+        title: 'mobile number'
+        description: 'mobile number'
+        format: float
+      county_birth:
+        x-oad-type: string
+        type: string
+        title: 'country birth'
+        description: 'whether he is indian or not'
+      residential_status:
+        x-oad-type: string
+        type: string
+        title: 'residential status'
+        description: 'residential status'
+      marital_status:
+        x-oad-type: string
+        type: string
+        title: 'Marital status'
+        description: 'Marital status'
+      occupation:
+        x-oad-type: string
+        type: string
+        title: occupation
+        description: occupation
+      pan_number:
+        x-oad-type: string
+        type: string
+        title: 'Pan Number'
+        description: 'Pan Number'
+      income_group:
+        x-oad-type: string
+        type: string
+        title: 'income group'
+        description: 'Income Group'
+      political_affiliations:
+        x-oad-type: string
+        type: string
+        title: 'political affiliations'
+        description: political_affiliations
+      userprofile_id:
+        x-oad-type: string
+        type: string
+        title: 'profile id'
+        description: 'unique id for every profile'
+      user_status:
+        x-oad-type: string
+        type: string
+        title: 'User Status'
+        description: 'using status field u can decide whether profile is in active or inactive'
+  Address:
+    x-oad-type: object
+    type: object
+    title: 'Address object'
+    description: 'Address object'
+    properties:
+      addressline1:
+        x-oad-type: string
+        type: string
+        title: addressline1
+        description: addressline1
+      addressline2:
+        x-oad-type: string
+        type: string
+        title: addressline2
+        description: addressline2
+      city:
+        x-oad-type: string
+        type: string
+        title: city
+        description: city
+      country:
+        x-oad-type: string
+        type: string
+        title: country
+        description: country
+      state:
+        x-oad-type: string
+        type: string
+        title: state
+        description: state
+      pincode:
+        x-oad-type: string
+        type: string
+        title: pincode
+        description: pincode
+      address_id:
+        x-oad-type: string
+        type: string
+        title: 'address id'
+        description: 'unique id for address'
+  nominee:
+    x-oad-type: object
+    type: object
+    title: nominee
+    description: nominee
+    properties:
+      Name:
+        x-oad-type: string
+        type: string
+        title: Name
+        description: Name
+      guardian_name:
+        x-oad-type: string
+        type: string
+        title: guardian_name
+        description: guardian_name
+      relationship:
+        x-oad-type: string
+        type: string
+        title: relationship
+        description: 'relationship with the customer'
+      nominee_address:
+        x-oad-type: reference
+        $ref: '#/definitions/Address'
+      nominee_dob:
+        x-oad-type: string
+        type: string
+      nominee_share:
+        x-oad-type: string
+        type: string
+        title: 'nominee share'
+        description: 'percentage of nominee share'
+      nominee_id:
+        x-oad-type: string
+        type: string
+        title: 'nominee id'
+        description: 'nominee id'
+  bank:
+    x-oad-type: object
+    type: object
+    title: 'Bank Details'
+    description: 'Bank Details'
+    properties:
+      account_num:
+        x-oad-type: string
+        type: string
+        title: account_num
+        description: account_num
+      account_type:
+        x-oad-type: string
+        type: string
+        title: account_type
+        description: account_type
+      full_name:
+        x-oad-type: string
+        type: string
+        title: bankname
+        description: 'person full name according with bank records'
+      ifsc_code:
+        x-oad-type: string
+        type: string
+        title: 'IFSc Code'
+        description: 'IFSC CODE'
+      micr_code:
+        x-oad-type: string
+        type: string
+        title: 'MICR Code'
+        description: 'Micr code'
+      adress:
+        x-oad-type: reference
+        $ref: '#/definitions/Address'
+      bank_id:
+        x-oad-type: string
+        type: string
+        title: 'bank id'
+        description: 'bank id'
+  'add goal':
+    x-oad-type: object
+    type: object
+    title: 'Add goals'
+    description: goals
+    properties:
+      goal_name:
+        x-oad-type: string
+        type: string
+        title: 'goal name'
+        description: 'enter goal name'
+      cost_goal:
+        x-oad-type: string
+        type: string
+        title: 'Cost of goal'
+        description: 'enter the cost of goal'
+      time_frame:
+        x-oad-type: string
+        type: string
+        title: 'Time frame'
+        description: 'Time frame'
+      future_cost:
+        x-oad-type: string
+        type: string
+        title: Future_cost
+      goal_id:
+        x-oad-type: string
+        type: string
+        title: 'goal id'
+        description: 'goal id'
+  surplus_calculation:
+    x-oad-type: object
+    type: object
+    title: 'surplus  calculation'
+    properties:
+      yearly_income:
+        x-oad-type: string
+        type: string
+        title: 'yearly income'
+        description: 'yearly income'
+      yearly_expances:
+        x-oad-type: string
+        type: string
+        title: 'yearly expances'
+      total_surplus:
+        x-oad-type: string
+        type: string
+        title: 'Total Surplus'
+      surplussetting_id:
+        x-oad-type: string
+        type: string
+        title: surplussetting_id
+        description: surplussetting_id
+  Notification:
+    x-oad-type: object
+    type: object
+    title: notifications
+    description: notifications
+    properties:
+      notification_title:
+        x-oad-type: string
+        type: string
+        title: 'notification tiotle'
+        description: 'notification tiotle'
+      notificatio_message:
+        x-oad-type: string
+        type: string
+        title: 'notification message'
+        description: 'notification message'
+      notification_status:
+        x-oad-type: string
+        type: string
+        title: 'notification status'
+        description: 'notification status'
+      notification_time:
+        x-oad-type: string
+        type: string
+        title: 'notification time'
+        description: 'notification time'
+      notification_id:
+        x-oad-type: string
+        type: string
+        title: 'notification id'
+        description: 'notification id'
+  Category:
+    x-oad-type: object
+    type: object
+    title: 'Category list'
+    description: 'Category list'
+    properties:
+      category_name:
+        x-oad-type: string
+        type: string
+        title: 'Category Name'
+        description: 'fetch the categroy names list Category Name'
+      categoryname_id:
+        x-oad-type: string
+        type: string
+        title: 'category id'
+        description: 'fetch the categroy ids list Category Name'
+  searchmutualfund:
+    x-oad-type: object
+    type: object
+    title: 'serch mutualfund'
+    description: 'serch mutualfund'
+    properties:
+      category_id:
+        x-oad-type: string
+        type: string
+        title: 'category id'
+        description: 'serch mutualfund pass selected category ids'
+      subcategory_id:
+        x-oad-type: string
+        type: string
+        title: 'subcategory id'
+        description: 'serch mutualfund send selcted subcategory ids'
+      fundhouse_id:
+        x-oad-type: string
+        type: string
+        title: 'fund house id'
+        description: 'fund house id'
+  response:
+    x-oad-type: object
+    type: object
+    title: response
+    description: serachresponse
+    properties:
+      fundsname:
+        x-oad-type: string
+        type: string
+        title: fundname
+        description: fundname
+      aasetsundermanagement:
+        x-oad-type: string
+        type: string
+        title: aasetsundermanagement
+        description: aasetsundermanagement
+      inceptiondate:
+        x-oad-type: string
+        type: string
+        title: inceptiondate
+        description: inceptiondate
+      currentnav:
+        x-oad-type: string
+        type: string
+        title: currentnav
+        description: currentnav
+      exitload:
+        x-oad-type: string
+        type: string
+        title: exitload
+        description: exitload
+      1/2yrreturn:
+        x-oad-type: string
+        type: string
+        title: 'half year return'
+        description: 'half year return'
+      1yrreturn:
+        x-oad-type: string
+        type: string
+        title: 'one year return'
+        description: 'one year return'
+      3yrreturn:
+        x-oad-type: string
+        type: string
+        title: 'three year return'
+        description: 'three year return'
+      5yrreturn:
+        x-oad-type: string
+        type: string
+        title: 'five year return'
+        description: 'five year return'
+      fund_message:
+        x-oad-type: string
+        type: string
+        title: fundmessage
+        description: fundmessage
+  basicinfo:
+    x-oad-type: object
+    type: object
+    title: 'users basic info'
+    description: 'mutual fund basic info'
+    properties:
+      fundname:
+        x-oad-type: string
+        type: string
+        title: fundname
+        description: fundname
+      Schemename:
+        x-oad-type: string
+        type: string
+        title: 'scheme name'
+        description: 'scheme name'
+      category:
+        x-oad-type: string
+        type: string
+        title: category
+        description: category
+      fundmanager:
+        x-oad-type: string
+        type: string
+        title: 'fund manager'
+        description: 'fund manager'
+      netuam:
+        x-oad-type: string
+        type: string
+        title: netuam
+        description: netuam
+      returndetails:
+        x-oad-type: string
+        type: string
+        title: returndetails
+        description: returndetails
+  navdetails:
+    x-oad-type: object
+    type: object
+    title: navdetails
+    description: navdetails
+    properties:
+      navprice:
+        x-oad-type: string
+        type: string
+        title: navprice
+        description: navprice
+      navdate:
+        x-oad-type: string
+        type: string
+        title: navdate
+        description: navdate
+      maxentryload:
+        x-oad-type: string
+        type: string
+        title: maxentryload
+        description: maxentryload
+      maxeditload:
+        x-oad-type: string
+        type: string
+        title: maxeditload
+        description: maxeditload
+      52weekhigh:
+        x-oad-type: string
+        type: string
+        title: 52weekhigh
+        description: 52weekhigh
+      52weeklow:
+        x-oad-type: string
+        type: string
+        title: 52weeklow
+        description: 52weeklow
+      minimuminvestment:
+        x-oad-type: string
+        type: string
+        title: minimuminvestment
+        description: minimuminvestment
+      minimumtopup:
+        x-oad-type: string
+        type: string
+      sip:
+        x-oad-type: boolean
+        type: boolean
+        title: sip
+        description: sip
+      stp:
+        x-oad-type: boolean
+        type: boolean
+        title: stp
+        description: stp
+      sipdate:
+        x-oad-type: string
+        type: string
+        title: sipdate
+        description: sipdate
+  searchresponse:
+    x-oad-type: object
+    type: object
+    title: searchresponse
+    description: searchresponse
+    properties:
+      Equity:
+        x-oad-type: reference
+        $ref: '#/definitions/response'
+      Gold:
+        x-oad-type: reference
+        $ref: '#/definitions/response'
+      debt:
+        x-oad-type: reference
+        $ref: '#/definitions/response'
+  returndetails:
+    x-oad-type: object
+    type: object
+    title: returndetails
+    description: returndetails
+    properties:
+      ytd:
+        x-oad-type: string
+        type: string
+        title: ytd
+        description: ytd
+      6months:
+        x-oad-type: string
+        type: string
+        title: 6months
+        description: 6months
+      1year:
+        x-oad-type: string
+        type: string
+        title: 1year
+        description: 1year
+      3year:
+        x-oad-type: string
+        type: string
+        title: 3year
+        description: 3year
+  ratios:
+    x-oad-type: object
+    type: object
+    title: ratios
+    description: ratios
+    properties:
+      standereddeviation:
+        x-oad-type: string
+        type: string
+        title: standereddeviation
+        description: standereddeviation
+      beta:
+        x-oad-type: string
+        type: string
+        title: beta
+        description: beta
+      alpha:
+        x-oad-type: string
+        type: string
+        title: alpha
+        description: alpha
+      r-squared:
+        x-oad-type: string
+        type: string
+        title: squared
+        description: squared
+      shapre:
+        x-oad-type: string
+        type: string
+        title: shapre
+        description: shapre
+      portfolioturnover:
+        x-oad-type: string
+        type: string
+        title: portfolioturnover
+        description: portfolioturnover
+      expanseratio:
+        x-oad-type: string
+        type: string
+        title: expanseratio
+        description: expanseratio
+  holdingstocks:
+    x-oad-type: object
+    type: object
+    title: holdingstocks
+    description: holdingstocks
+    properties:
+      holdingid:
+        x-oad-type: string
+        type: string
+        title: holdingid
+        description: holdingid
+      holdingname:
+        x-oad-type: string
+        type: string
+        title: holdingname
+        description: holdingname
+securityDefinitions:
+  apikey:
+    description: 'apikey for signup'
+    name: api_key
+    in: header
+    type: apiKey
+info:
+  title: 'Savings Manager API'
+  version: '1.0'
+  description: 'SavingsManager API definitions'
+  termsOfService: 'http://savingsmanager.co.in/termsandconditions'
+  contact:
+    name: Developer
+    email: support@savingsmanager.co.in
+    url: 'http://savingsmanager.co.in/contact'
+  license:
+    name: Commercial
+    url: 'http://savingsmanager.co.in/termsandconditions'
+externalDocs:
+  url: 'http://savingsmanager.co.in/developerdocs'
+host: savingsmanager.co.in
+basePath: /api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+swagger: '2.0'
