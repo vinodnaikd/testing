@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-
+// use App\Http\Controllers\Log;
+use App\Task;
+use Log;
 class ApiController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -26,4 +27,16 @@ class ApiController extends BaseController
         parent::index($request); 
         // specific code after index execution
     }*/
+    public function index()
+    {
+        $tasks = Task::all();
+        return response()->json($tasks);
+    }
+        // Todo
+     public function verifyWERTAccess(Request $request)
+    {
+        //$tasks = Task::all();
+        //return response()->json($tasks);
+        // Read header value from the request object with the name agent_id and query parameter user_id.verify in the access table if entries are available else throw 403 error. 
+    }
 }

@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Task;
 use Illuminate\Http\Request;
 use Symfony\Component\Yaml\Yaml;
-class TaskController extends Controller
+class TaskController extends ApiController
 {
     public function index()
     {
         // dd("sd");
-        $tasks = Task::all();
-
-        return response()->json($tasks);
+        $data = parent::index();
         //$value = Yaml::parseFile('mfund.yaml');
         //json_decode($value)
         //return $value;
+        return $data;
     }
 
     public function store(Request $request)
