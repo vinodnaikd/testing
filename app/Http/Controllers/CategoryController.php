@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
     /**
@@ -51,6 +51,59 @@ class CategoryController extends Controller
         return response()->json($data);
     }
 
+    public function getCategoryList(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+       $data['category_name'] ="string";
+       $data['categoryname_id']="String";	
+        return response()->json($data);
+    }
+    
+    public function getSubCategoryList(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'category_id' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+       $data['category_name'] ="string";
+       $data['categoryname_id']="String";	
+        return response()->json($data);
+    }
+    
+ 
+    
+    public function getFundHouseList(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'subcategory_id' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+       $data['category_name'] ="string";
+       $data['categoryname_id']="String";	
+        return response()->json($data);
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *

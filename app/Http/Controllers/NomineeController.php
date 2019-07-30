@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Nominee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class NomineeController extends Controller
 {
@@ -35,9 +36,41 @@ class NomineeController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+          'Name' => 'required|string|max:100',
+            'guardian_name' => 'required|string|max:100',
+            'relationship' => 'required|string|max:100',
+            'nominee_share' => 'required|string|max:100',
+            'nominee_id' => 'required|string|max:100',
+            'nominee_dob' => 'required|string|max:100',
+             'addressline1' => 'required|string|max:100',
+            'addressline2' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'pincode' => 'required|string|max:100',
+            'address_id' => 'required|string|max:100',
 
+      ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
+    }
+    public function removeNominee(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nominee_id' => 'required|string|max:100',
+      ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
+    }
     /**
      * Display the specified resource.
      *

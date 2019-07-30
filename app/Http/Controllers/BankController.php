@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\bank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BankController extends Controller
 {
@@ -35,9 +36,28 @@ class BankController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd(1);
+       $validator = Validator::make($request->all(), [
+             'account_num' => 'required|string|max:100',
+            'account_type' => 'required|string|max:100',
+            'full_name' => 'required|string|max:100',
+            'ifsc_code' => 'required|string|max:100',
+            'micr_code' => 'required|string|max:100',
+           'addressline1' => 'required|string|max:100',
+            'addressline2' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:100',
+            'state' => 'required|string|max:100',
+            'pincode' => 'required|string|max:100',
+            'bank_id' => 'required|string|max:100',
+             ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
     }
-
     /**
      * Display the specified resource.
      *
@@ -75,9 +95,18 @@ class BankController extends Controller
      * @param  \App\bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function edit(bank $bank)
+    public function edit(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'bank_name' => 'required|string|max:100',
+            'bank_id' => 'required|string|max:100',
+             ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
     }
 
     /**
@@ -98,8 +127,16 @@ class BankController extends Controller
      * @param  \App\bank  $bank
      * @return \Illuminate\Http\Response
      */
-    public function destroy(bank $bank)
+    public function destroy(Request $request)
     {
-        //
+         $validator = Validator::make($request->all(), [
+            'bank_id' => 'required|string|max:100',
+             ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
     }
 }

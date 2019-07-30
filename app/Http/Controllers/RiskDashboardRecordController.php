@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RiskDashboardRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RiskDashboardRecordController extends Controller
 {
@@ -47,6 +48,19 @@ class RiskDashboardRecordController extends Controller
     public function show(RiskDashboardRecord $riskDashboardRecord)
     {
         //
+    }
+    
+    public function getRiskDashboardRecords(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:100',
+             ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
     }
 
     /**

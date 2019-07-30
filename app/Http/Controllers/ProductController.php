@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -49,6 +50,24 @@ class ProductController extends Controller
         //
     }
 
+     public function getMutualFund(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'category_id' => 'required|string|max:255',
+             'subcategory_id' => 'required|string|max:255',
+             'fundhouse_id' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+       $data['category_name'] ="string";
+       $data['categoryname_id']="String";	
+        return response()->json($data);
+    }
     /**
      * Show the form for editing the specified resource.
      *

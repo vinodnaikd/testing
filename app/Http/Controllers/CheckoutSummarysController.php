@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CheckoutSummarys;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CheckoutSummarysController extends Controller
 {
@@ -70,7 +71,42 @@ class CheckoutSummarysController extends Controller
              $data], 200);
 		
     }
-
+    public function checkoutOrderList(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:100',
+             ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 200);
+      }
+      
+        $data['product_id'] = "string";
+	$data['product_totalcost']=(object)array(
+                     "product_name" => "string",
+                    "product_id" => "string",
+                    "product_quantity" => "string",
+                    "product_sum" => "string",
+                    "product_cost" => "string"
+	);
+		$data['tax_amount'] = "string";
+                 $data['gross_amount'] = "string";
+                 $data['nav_price'] = "string";
+                 $data['product_name'] = "string";
+                 $data['product_cost'] = "string";
+                 $data['sip_enable']  =  "0";
+		$data['sip']=(object)Array(
+		  "member_id" =>"string",
+                  "frequency_tytpe" => "string",
+                  "installment_amount" => "string",
+                  "no_of_installments" => "string",
+                  "folio_no" => "string");
+            return response()->json([
+             $data], 200);
+		
+    }
     /**
      * Show the form for editing the specified resource.
      *

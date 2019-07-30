@@ -19,20 +19,34 @@ Route::post('/login', 'AuthController@login');
 // });
 Route::post('/logout', 'AuthController@logout');
 
-Route::group(['middleware' => 'auth:api'], function() { 
+//Route::group(['middleware' => 'auth:api'], function() { 
 
     //User Routes
 //Route::post('signup', 'UserProfileController@show');
 Route::post('signup', 'UserProfileController@store');
 Route::post('signin', 'UserProfileController@signIn');
+Route::get('signout', 'UserProfileController@signOut');
 Route::post('changeaddress', 'UserProfileController@changeAddress');
+Route::post('forgotpassword', 'UserProfileController@forgotPassword');
+Route::post('changepassword', 'UserProfileController@changePassword');
+Route::post('editprofile', 'UserProfileController@edit');
+Route::post('customersettings', 'UserProfileController@customerSettings');
+Route::post('phoneotpverify', 'UserProfileController@PhoneOTPVerify');
+Route::post('emailotpverify', 'UserProfileController@EmailOTPVerify');
+Route::post('editcustomersettings', 'UserProfileController@editCustomerSettings');
+Route::post('profilestatus', 'UserProfileController@profileStatus');
+Route::post('settranscationpassword', 'UserProfileController@setTranscationPassword');
+Route::get('/gettranscationpassword', 'UserProfileController@getTranscationPassword');
     //End Of Routes
 
 //Checkout Routes
 Route::post('checkoutsummary', 'CheckoutSummarysController@show');
+Route::post('checkoutorderlist', 'CheckoutSummarysController@checkoutOrderList');
     //End Of Routes
 //Goal Routes
 Route::post('goals', 'GoalController@show');
+Route::post('addgoals', 'GoalController@store');
+Route::get('goalslist', 'GoalController@getGoalsList');
     //End Of Routes
 
 //ProductSelection Routes
@@ -53,14 +67,20 @@ Route::post('allocatefunds', 'AllocateFundsController@show');
 
 //Bank Routes
 Route::post('getbanklist', 'BankController@show');
+Route::post('addbank', 'BankController@store');
+Route::post('editbank', 'BankController@edit');
+Route::post('removbank', 'BankController@destroy');
     //End Of Routes
 
 //Nominee Routes
 Route::post('getnominee', 'NomineeController@show');
+Route::post('addnominee', 'NomineeController@store');
+Route::post('removenominee', 'NomineeController@removeNominee');
     //End Of Routes
 
-//Nominee Routes
+//FundPerformance Routes
 Route::post('getfunds', 'FundPerformanceController@show');
+//Route::post('getfunds', 'FundPerformanceController@show');
     //End Of Routes
 
 //FundHoldings Routes
@@ -78,6 +98,10 @@ Route::post('addnav','FundnavController@store');
 
 //Category Routes
 Route::post('category', 'CategoryController@show');
+Route::get('getcategorylist', 'CategoryController@getCategoryList');
+Route::get('getsubcategorylist', 'CategoryController@getSubCategoryList');
+Route::get('getfundhouselist', 'CategoryController@getFundHouseList');
+
 //End Of Routes
 
 //Dashboard Routes
@@ -91,6 +115,27 @@ Route::post('fundsbasicinfo', 'FundBasicInfoController@show');
 //Dashboard Routes
 Route::post('navdetails', 'FundBasicInfoController@show');
 //End Of Routes
+
+//RiskDashboard Routes
+Route::post('getriskprofile', 'RiskDashboardRecordController@getRiskDashboardRecords');
+//End Of Routes
+
+//RiskProfileDashboard Routes
+Route::get('getriskprofilequestions', 'RiskQuestionsController@getRiskProfileQuestions');
+Route::get('getriskprofileanswers', 'RiskQuestionsController@getRiskProfileAnswers');
+
+//End Of Routes
+
+
+//Product Routes
+Route::get('getmutualfund', 'ProductController@getMutualFund');
+//End Of Routes
+
+//Notification Routes
+Route::post('addnotification', 'NotificationController@store');
+Route::post('removenotification', 'NotificationController@removeNotification');
+Route::post('notificationstatus', 'NotificationController@notificationStatus');
+    //End Of Routes
 
 Route::get('/tasks', 'TaskController@index')->name('tasks.index');
 
@@ -109,5 +154,5 @@ Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-});
+//});
 

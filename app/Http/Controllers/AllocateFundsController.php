@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AllocateFunds;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AllocateFundsController extends Controller
 {
@@ -47,6 +48,18 @@ class AllocateFundsController extends Controller
     public function show(Request $request)
         {
 //          dd(121);
+        
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+       
+           // dd($dd);
           $data  = (object)array(
               'firstname' => "string",
               'lastname' => "string",
@@ -94,6 +107,7 @@ class AllocateFundsController extends Controller
               'total_amount'=> "string",
               'goal_name'=> "string",
                 );    
+               
                  return response()->json($dd, 200);
       }
     /**

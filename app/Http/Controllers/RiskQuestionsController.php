@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\RiskQuestions;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 class RiskQuestionsController extends Controller
 {
     /**
@@ -49,6 +49,51 @@ class RiskQuestionsController extends Controller
         //
     }
 
+    public function getRiskProfileQuestions(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+        $data['question_name'] = "string";
+        $data['option_a'] = "string";
+        $data['option_b'] = "string";
+        $data['option_c'] = "string";
+        $data['option_d'] = "string";
+        $data['question_id'] = "string";
+        $data['answer_id'] = "string";
+    return response()->json([array($data)]);
+    }
+    
+    public function getRiskProfileAnswers(Request $request)
+    {
+         $validator = Validator::make($request->all(), [
+            'user_id' => 'required|string|max:255',
+             'question_id' => 'required|string|max:255',
+             'user_answer' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+        
+        $data['question_name'] = "string";
+        $data['option_a'] = "string";
+        $data['option_b'] = "string";
+        $data['option_c'] = "string";
+        $data['option_d'] = "string";
+        $data['question_id'] = "string";
+        $data['answer_id'] = "string";
+    return response()->json([array($data)]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

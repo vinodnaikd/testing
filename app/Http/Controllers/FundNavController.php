@@ -40,7 +40,7 @@ class FundNavController extends Controller
         
        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
