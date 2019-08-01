@@ -6,14 +6,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nominee extends Model
 {
-  protected $fillable =
+    protected $table = "customernominee";
+    protected $fillable =
     [
-        'Name',
-        'guardian_name',
-        'relationship',
-        'nominee_address',
-        'nominee_dob',
-        'nominee_share',
-        'nominee_id',
+        'name',
+        'guardianname',
+        'relation',
+        'dateofbirth',
+        'addressline1',
+        'addressline2',
+        'city',
+        'country',
+        'state',
+        'pincode',
+        'customerid'
+        
     ];
+  
+  public function InsertCustomerNomineeDetails($arr)
+    {
+       return $this->insertGetId($arr);
+        
+    }
+
 }

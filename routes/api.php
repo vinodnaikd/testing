@@ -24,7 +24,8 @@ Route::post('db', 'AllocateEquitytableController@index');
 
      //User Routes
 //Route::post('signup', 'UserProfileController@show');
-Route::post('/v1/users/signup', 'UserProfileController@store');
+Route::post('/v1/users/signup', 'UserProfileController@signUp');
+Route::post('/v1/users/register', 'UserProfileController@Register');
 Route::post('/v1/users/signin', 'UserProfileController@signIn');
 Route::get('/v1/users/signout', 'UserProfileController@signOut');
 Route::post('/v1/users/changeaddress', 'UserProfileController@changeAddress');
