@@ -25,11 +25,24 @@ class Bank extends Model
             'customerid'
 
         ];
-  
+  public $timestamps = false;
     public function InsertCustomerBankDetails($arr)
     {
        return $this->insertGetId($arr);
         
+    }
+    public function getCustomerBankDetails($Id)
+    {
+        return $this->where('customerid','=',$Id)->get()->toArray();
+    }
+    
+    public function UpdateCustomerBankDetails($arr,$Id)
+    {
+        return $this->where('customerbankid','=',$Id)->update($arr);
+    }
+     public function getCustomerBankDetailsById($Id)
+    {
+        return $this->where('customerbankid','=',$Id)->get()->toArray();
     }
     
     public function checkDuplicateMailExists($email)

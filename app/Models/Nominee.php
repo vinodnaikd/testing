@@ -28,5 +28,20 @@ class Nominee extends Model
        return $this->insertGetId($arr);
         
     }
+    
+    public function getCustomerNomineeDetails($Id)
+    {
+        return $this->where('customerid','=',$Id)->get()->toArray();
+    }
+    
+     public function getCustomerNomineeDetailsById($Id)
+    {
+        return $this->where('customernomineeid','=',$Id)->get()->toArray();
+    }
+    
+    public function UpdateCustomerNomineeDetails($arr,$Id)
+    {
+        return $this->where('customernomineeid','=',$Id)->update($arr);
+    }
 
 }

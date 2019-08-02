@@ -19,9 +19,18 @@ class Customer extends Model
   
     public function InsertCustomer($arr)
     {
-//      dd($arr);
        return $this->insertGetId($arr);
         
+    }
+    
+    public function getUserDetails($Id)
+    {
+        return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
+    }
+    
+    public function UpdateCustomer($arr,$Id)
+    {
+        return $this->where('customerid','=',$Id)->update($arr);
     }
     
     public function checkDuplicateMailExists($email)

@@ -19,10 +19,20 @@ class CustomerDetails extends Model
             'pannumber'
 
         ];
-  public function InsertCustomerDetails($arr)
+    public $timestamps = false;
+    public function InsertCustomerDetails($arr)
     {
        return $this->insertGetId($arr);
         
+    }
+    public function getCustomerDetails($Id)
+    {
+        return $this->where('customerid','=',$Id)->get()->toArray();
+    }
+    
+    public function UpdateCustomerDetails($arr,$Id)
+    {
+        return $this->where('customerid','=',$Id)->update($arr);
     }
     
     public function checkDuplicateMailExists($email)

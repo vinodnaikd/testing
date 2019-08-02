@@ -16,38 +16,18 @@ class UserProfile extends Model
         'applicationid'
     ];
   
-  public function InsertUser($arr)
+    public function InsertUser($arr)
     {
-//      dd($arr);
        return $this->insertGetId($arr);
         
     }
-    
+    public function getUserDetails($email,$password)
+    {
+        return $this->where('email',$email)->where('password',$password)->get()->toArray();
+    }
     public function checkDuplicateMailExists($email)
     {
 	return $this->where('email','=',$email)->get()->toArray();
     }
-//  
-  
-  
-//   protected $fillable =
-//    [
-//        'firstname',
-//        'lastname',
-//        'dob',
-//        'email',
-//        'customer_id',
-//        'agent_id',
-//        'salutation_name',
-//        'mobile_number',
-//        'country_birth',
-//        'residential_status',
-//        'marital_status',
-//        'occupation',
-//        'pan_number',
-//        'income_group',
-//        'political_affiliations',
-//        'userprofile_id',
-//        'user_status',
-//    ];
+
 }
