@@ -16,7 +16,11 @@ class CustomerDetails extends Model
             'customerid',
             'mobileno',
             'occupation',
-            'pannumber'
+            'pannumber',
+            'residential_status',
+            'income_group',
+            'political_affiliations',
+            'country_birth'
 
         ];
     public $timestamps = false;

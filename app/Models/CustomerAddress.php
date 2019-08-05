@@ -20,10 +20,22 @@ class CustomerAddress extends Model
             'address_type'
 
         ];
+    public $timestamps = false;
+    
     public function InsertCustomerAddress($arr)
     {
        return $this->insertGetId($arr);
         
+    }
+    
+    public function getCustomerAddress($Id)
+    {
+        return $this->where('customerid','=',$Id)->get()->toArray();
+    }
+    
+    public function UpdateCustomerAddress($arr,$Id)
+    {
+        return $this->where('address_id','=',$Id)->update($arr);
     }
 }
 

@@ -13,14 +13,21 @@ class UserProfile extends Model
         'email',
         'mobileno',
         'password',
-        'applicationid'
+        'applicationid',
+        'transcation_password'
     ];
-  
+  public $timestamps = false;
     public function InsertUser($arr)
     {
        return $this->insertGetId($arr);
         
     }
+     public function setUserTranscationPassword($txnpassword,$userId)
+    {
+       return $this->where('userid','=',$userId)->update($txnpassword);
+        
+    }
+    
     public function getUserDetails($email,$password)
     {
         return $this->where('email',$email)->where('password',$password)->get()->toArray();

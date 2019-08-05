@@ -143,7 +143,7 @@ class UserProfileController extends Controller
           }
      elseif($request['action'] == "customerdetails")
           {
-//         dd($request->all());
+//       dd($request->all());
 //         $data['firstname'] = "vinod";
 //        $data['lastname'] = "naik";
 //        $data['dob'] = "10-04-1992";
@@ -174,6 +174,10 @@ class UserProfileController extends Controller
           'mobile_number' => 'required|string|max:255',
           'occupation' => 'required|string|max:100',
           'pan_number' => 'required|string|max:100',
+          'residential_status' => 'required|string|max:100',
+          'income_group' => 'required|string|max:100',
+          'political_affiliations' => 'required|string|max:100',
+          'country_birth' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -189,6 +193,10 @@ class UserProfileController extends Controller
         $reqData['mobileno'] = $request['mobile_number'];
         $reqData['occupation'] = $request['occupation'];
         $reqData['pannumber'] = $request['pan_number'];
+        $reqData['residential_status'] = $request['residential_status'];
+        $reqData['income_group'] = $request['income_group'];
+        $reqData['political_affiliations'] = $request['political_affiliations'];
+        $reqData['country_birth'] = $request['country_birth'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
@@ -197,10 +205,15 @@ class UserProfileController extends Controller
         if($getCustomerDetailsData)
         {
             $customerDetailsData = $this->customerdetails->UpdateCustomerDetails($reqData,$getCustomerInfo[0]['customerid']);
-            return response()->json([
+            if($customerDetailsData)
+            {
+                $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+                 return response()->json([
             'status' => 'Customer Details Updated Successfully',
             'customerdetails' => $getCustomerDetailsData
         ], 200);
+            }
+           
         }
         else
         {
@@ -216,7 +229,8 @@ class UserProfileController extends Controller
 //     dd($customerDetailsData);
      if($customerDetailsData == 0)
      {
-         //$getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getUserInfo[0]['customerid']);
+         //dd($getCustomerDetailsData);
+         $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
           return response()->json([
             'status' => 'Customer Details Added Successfully',
             'customerdetails' => $getCustomerDetailsData
@@ -316,7 +330,7 @@ class UserProfileController extends Controller
           {
           
         $data3['Name'] = "string";
-        $data3['guardian_name'] = "string";
+        $data3['guardian_name'] = "raj";
         $data3['relationship'] = "string";
         $data3['customerid'] = "1";
         $data3['nominee_address'] = (object)array(
@@ -332,9 +346,10 @@ class UserProfileController extends Controller
         $data3['nominee_share'] = "string";
         $data3['nominee_id'] = "string";
         $data3['userid'] = "3";
+        $data3['customernomineeid'] = "24";
         
         $data4['Name'] = "string";
-        $data4['guardian_name'] = "string";
+        $data4['guardian_name'] = "ram";
         $data4['relationship'] = "string";
         $data4['customerid'] = "1";
         $data4['nominee_address'] = (object)array(
@@ -350,19 +365,19 @@ class UserProfileController extends Controller
         $data4['nominee_share'] = "string";
         $data4['nominee_id'] = "string";
         $data4['userid'] = "3";
+        $data4['customernomineeid'] = "25";
         
        $nomineeData = [
             'nominee1' => $data3,
             'nominee2' => $data4
         ];
-//        return response()->json([
-//               // 'status' => 'error',
-//                'nominee1' => $data3,
-//            'nominee2' => $data4
-//            ], 200);
+        return response()->json([
+               // 'status' => 'error',
+                'nominee1' => $data3,
+            'nominee2' => $data4
+            ], 200);
           //dd($nomineeData);
      //  dd($nomineeData['nominee1']['userid']);
-       $nomineeCount = count($nomineeData);
        $getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
               
@@ -410,89 +425,58 @@ class UserProfileController extends Controller
        
         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
         $customerBankData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
-       $count = count($customerBankData);
-        
-//         dd($nomineeCount);
-       
-        if($count >= $nomineeCount )
+      
+        if($value['customernomineeid'])
         {
             
-            //dd($customerBankData);
-            $nomineeData = $this->customernominee->UpdateCustomerNomineeDetails($customerBankData[0]['customernomineeid']);
-            if($nomineeData)
-            {
-                $customerBankData = $this->customernominee->getCustomerNomineeDetailsById($customerBankData[0]['customernomineeid']);
-                return response()->json([
-            'status' => 'Nominee Details Updated Successfully',
-            'customernomineedetails' => $customerBankData
-            ], 200);
-            }
-            else
-            {
-               return response()->json([
-            'status' => 'Nominee Details Updated Failed',
-            //'customerbankdetails' => $customerBankData
-            ], 400); 
-            }
+            $nomineeData = $this->customernominee->UpdateCustomerNomineeDetails($reqData,$value['customernomineeid']);
+            $status = "Nominee Details Updated Successfully";
         }
         else
         {
             $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
             $nomineeData = $this->customernominee->InsertCustomerNomineeDetails($reqData);
-            if($nomineeData)
-            {
-                
-                
-            }
-            else
-            {
-               return response()->json([
-            'status' => 'Nominee Details Added Failed',
-            //'customerbankdetails' => $customerBankData
-            ], 400); 
-            }
+            $status = "Nominee Details Added Successfully";
             
         }
-         
-         
           }
-          //$customerBankData = $this->customernominee->getCustomerNomineeDetailsById($nomineeData);
-          $customerBankData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
-//          dd($customerBankData);
+          if($nomineeData)
+          {
+              $customerBankData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
           return response()->json([
-            'status' => 'Nominee Details Added Successfully',
+            'status' => $status,
             'customernomineedetails' => $customerBankData
             ], 200);
-       
+          }
           }
           
    elseif($request['action'] == "customeraddress")
           {
           
-        $data1['addressline1'] = "string";
-        $data1['addressline2'] = "string";
+        $data1['addressline1'] = "hyderabad";
+        $data1['addressline2'] = "kphb";
         $data1['city'] = "10000";
         $data1['country'] = "10000";
         $data1['state'] = "10000";
-        $data1['pincode'] = "500082";
-        $data1['address_id'] = "string";
+        $data1['pincode'] = "500085";
+        $data1['address_id'] = "18";
         $data1['customerid'] = "1";
         $data1['address_type'] = "correspondence_address";
         
-        $data2['addressline1'] = "string";
-        $data2['addressline2'] = "string";
+        $data2['addressline1'] = "jntu";
+        $data2['addressline2'] = "hyderabad";
         $data2['city'] = "10000";
         $data2['country'] = "10000";
         $data2['state'] = "10000";
-        $data2['pincode'] = "500082";
-        $data2['address_id'] = "string";
+        $data2['pincode'] = "500086";
+        $data2['address_id'] = "19";
         $data2['customerid'] = "1";
         $data2['address_type'] = "permanent_address";
        $customerAddressData = [
             'correspondence_address' => $data1,
             'permanent_address' => $data2
         ];
-//          dd($customerAddressData);
+//          $addressCount = count($customerAddressData);
           foreach ($customerAddressData as $key => $value) {
          $validator = Validator::make($value, [
           'addressline1' => 'required|string|max:255',
@@ -517,15 +501,38 @@ class UserProfileController extends Controller
         $reqData['stateid_fk'] = $value['state'];
         $reqData['pincode'] = $value['pincode'];
         $reqData['address_type'] = $value['address_type'];
-        $reqData['customerid'] = $value['customerid'];
+        //$reqData['customerid'] = $value['customerid'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
-       
-         $bankData = $this->customeraddress->InsertCustomerAddress($reqData);
+         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
+        // dd($getCustomerInfo);
+        $customerAddress = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+//        $custAddressCount = count($customerAddress);
+        if($value['address_id'])
+        {
+            //update
+             $AddressData = $this->customeraddress->UpdateCustomerAddress($reqData,$value['address_id']);
+             $status = "Customer Address Details Updated Successfully";
+        }
+        else
+        {
+            //Insert
+            $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
+            $AddressData = $this->customeraddress->InsertCustomerAddress($reqData);
+            $status = "Customer Address Details Added Successfully";
+        }
+         
          
           }
-         $status['success']="Customer Address Details Added Successfully";
-         return $status;
+         //$status['success']="Customer Address Details Added Successfully";
+          if($AddressData)
+          {
+           $customerAddress = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+                  return response()->json([
+            'status' => $status,
+            'customeraddress' => $customerAddress
+            ], 200);
+          }
        
           }
     }
@@ -562,6 +569,8 @@ class UserProfileController extends Controller
         }
          
     }
+    
+    
     /**
      * Display the specified resource.
      *
@@ -860,6 +869,16 @@ class UserProfileController extends Controller
                 'messages' => $validator->messages()
             ], 200);
         }
+        $reqData['userid'] = $request['user_id'];
+        $reqData['transcation_password'] = $request['password'];
+        
+          $AddressData = $this->usersprofile->setUserTranscationPassword($reqData,$reqData['userid']);      
+           return response()->json([
+            'status' => 'Transcation Password was Successfully Set',
+            'customeraddress' => $customerAddress
+            ], 200);
+        
+        
     }
     public function getTranscationPassword(Request $request)
     {

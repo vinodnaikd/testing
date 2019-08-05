@@ -22,8 +22,8 @@ class Nominee extends Model
         'customerid'
         
     ];
-  
-  public function InsertCustomerNomineeDetails($arr)
+    public $timestamps = false;
+    public function InsertCustomerNomineeDetails($arr)
     {
        return $this->insertGetId($arr);
         
