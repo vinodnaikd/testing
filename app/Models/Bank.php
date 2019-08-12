@@ -35,7 +35,10 @@ class Bank extends Model
     {
         return $this->where('customerid','=',$Id)->get()->toArray();
     }
-    
+     public function getCustomerBankDetailsByUserId($Id)
+    {
+        return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
+    }
     public function UpdateCustomerBankDetails($arr,$Id)
     {
         return $this->where('customerbankid','=',$Id)->update($arr);

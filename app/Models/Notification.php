@@ -14,4 +14,10 @@ class Notification extends Model
     'notification_time',
     'notification_id',
   ];
+  
+      public function InsertCustomerNotifications($arr)
+    {
+       return $this->insertGetId($arr);
+        
+    }
 }

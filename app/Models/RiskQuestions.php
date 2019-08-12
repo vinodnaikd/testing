@@ -6,14 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class RiskQuestions extends Model
 {
-  protected $fillable =
+    protected  $table = "riskprofile";
+    protected $fillable =
     [
-        'question_name',
-        'option _a',
-        'option_b',
-        'option_c',
-        'option_d',
-        'question_id',
-        'answer_if',
+        'questionid',
+        'customerid',
+        'optionid'
     ];
+  
+    public function InsertCustomerRiskProfile($arr)
+    {
+      return $this->insertGetId($arr);
+    }
+    public function getCustomerRiskProfileScore($customerId)
+    {
+      return $this->join('questionoptions', 'riskprofile.optionid',   '=', 'questionoptions.optionid')
+                  ->where('riskprofile.customerid',$customerId)
+                  ->sum('questionoptions.score');
+    }
+    public function getCustomerRiskProfile($customerId)
+    {
+      return $this->where('riskprofile.customerid',$customerId)->get()->toArray();
+    }
 }

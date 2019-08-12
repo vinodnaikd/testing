@@ -34,6 +34,11 @@ class CustomerDetails extends Model
         return $this->where('customerid','=',$Id)->get()->toArray();
     }
     
+   public function getCustomerDetailsByUserId($Id)
+    {
+        return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
+    }
+    
     public function UpdateCustomerDetails($arr,$Id)
     {
         return $this->where('customerid','=',$Id)->update($arr);

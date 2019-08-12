@@ -27,9 +27,17 @@ class UserProfile extends Model
        return $this->where('userid','=',$userId)->update($txnpassword);
         
     }
-    
+     public function UpdateUser($arr,$Id)
+    {
+        return $this->where('userid','=',$Id)->update($arr);
+    }
+    public function UpdateUserPassword($arr,$Id)
+    {
+        return $this->where('userid','=',$Id)->update($arr);
+    }
     public function getUserDetails($email,$password)
     {
+//        dd($password);
         return $this->where('email',$email)->where('password',$password)->get()->toArray();
     }
     public function checkDuplicateMailExists($email)

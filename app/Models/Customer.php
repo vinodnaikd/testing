@@ -16,7 +16,7 @@ class Customer extends Model
         'advisorid',
         'accountmanagerid'
     ];
-  
+  public $timestamps = false;
     public function InsertCustomer($arr)
     {
        return $this->insertGetId($arr);
@@ -26,6 +26,11 @@ class Customer extends Model
     public function getUserDetails($Id)
     {
         return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
+    }
+    
+       public function getUserDetailsrow($Id)
+    {
+        return $this->select('customerid')->where('userid','=',$Id)->get()->first();
     }
     
     public function UpdateCustomer($arr,$Id)

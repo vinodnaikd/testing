@@ -12,33 +12,71 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//Route::post('/v1/users/register', 'JWTAuthController@register')->name('api.jwt.register');
+//Route::post('/v1/users/login', 'JWTAuthController@login')->name('api.jwt.login');
 
-Route::post('/register', 'AuthController@register');
+//Route::post('/register', 'AuthController@register');
  //Route::group(['middleware' => ['api']], function() {
-Route::post('/login', 'AuthController@login');
+//Route::post('/login', 'AuthController@login');
 // });
-Route::post('/logout', 'AuthController@logout');
-Route::post('db', 'AllocateEquitytableController@index');
+
+//Route::get('unauthorized', function() {
+//    return response()->json([
+//        'status' => 'error',
+//        'message' => 'Unauthorized'
+//    ], 401);
+//})->name('api.jwt.unauthorized');
+//
+//Route::group(['middleware' => 'auth:api'], function(){
+//Route::post('/logout', 'AuthController@logout');
+//Route::post('db', 'AllocateEquitytableController@index');
 
 //Route::group(['middleware' => 'auth:api'], function() { 
 
      //User Routes
 //Route::post('signup', 'UserProfileController@show');
 Route::post('/v1/users/signup', 'UserProfileController@signUp');
-Route::post('/v1/users/register', 'UserProfileController@Register');
+//Route::post('/v1/users/register', 'UserProfileController@Register');
 Route::post('/v1/users/signin', 'UserProfileController@signIn');
-Route::get('/v1/users/signout', 'UserProfileController@signOut');
+
+//Route::get('unauthorized', function() {
+//    return response()->json([
+//        'status' => 'error',
+//        'message' => 'Unauthorized'
+//    ], 401);
+//})->name('api.jwt.unauthorized');
+
+//Route::group(['middleware' => 'jwt.verify'], function(){
+    Route::post('/v1/users/register', 'UserProfileController@Register');
+//Bank Routes
+Route::post('/v1/users/getbanklist', 'BankController@show');
+Route::post('/v1/users/addbank', 'BankController@store');
+Route::post('/v1/users/editbank', 'BankController@edit');
+Route::post('/v1/users/removbank', 'BankController@destroy');
+    //End Of Routes
+
+//Nominee Routes
+Route::post('/v1/users/getnominee', 'NomineeController@show');
+Route::post('/v1/users/addnominee', 'NomineeController@store');
+Route::post('/v1/users/removenominee', 'NomineeController@removeNominee');
 Route::post('/v1/users/changeaddress', 'UserProfileController@changeAddress');
+
+Route::get('/v1/users/signout', 'UserProfileController@signOut');
+
 Route::post('/v1/users/forgotpassword', 'UserProfileController@forgotPassword');
+Route::post('/v1/users/resetpassword', 'UserProfileController@resetPassword');
 Route::post('/v1/users/changepassword', 'UserProfileController@changePassword');
-Route::post('/v1/users/editprofile', 'UserProfileController@edit');
-Route::post('/v1/users/customersettings', 'UserProfileController@customerSettings');
-Route::post('/v1/users/phoneotpverify', 'UserProfileController@PhoneOTPVerify');
-Route::post('/v1/users/emailotpverify', 'UserProfileController@EmailOTPVerify');
-Route::post('/v1/users/editcustomersettings', 'UserProfileController@editCustomerSettings');
-Route::post('/v1/users/profilestatus', 'UserProfileController@profileStatus');
+
 Route::post('/v1/users/settranscationpassword', 'UserProfileController@setTranscationPassword');
 Route::get('/v1/users/gettranscationpassword', 'UserProfileController@getTranscationPassword');
+
+
+Route::post('/v1/users/editprofile', 'UserProfileController@edit');
+
+
+
+
+
     //End Of Routes
 
 //Checkout Routes
@@ -67,17 +105,6 @@ Route::post('/v1/invest/reedem/allocateinvestment', 'AllocateInvestmentControlle
 Route::post('/v1/invest/reedem/allocatefunds', 'AllocateFundsController@show');
     //End Of Routes
 
-//Bank Routes
-Route::post('/v1/users/getbanklist', 'BankController@show');
-Route::post('/v1/users/addbank', 'BankController@store');
-Route::post('/v1/users/editbank', 'BankController@edit');
-Route::post('/v1/users/removbank', 'BankController@destroy');
-    //End Of Routes
-
-//Nominee Routes
-Route::post('/v1/users/getnominee', 'NomineeController@show');
-Route::post('/v1/users/addnominee', 'NomineeController@store');
-Route::post('/v1/users/removenominee', 'NomineeController@removeNominee');
     //End Of Routes
 
 //FundPerformance Routes
@@ -125,8 +152,22 @@ Route::post('/v1/users/reports/getriskprofile', 'RiskDashboardRecordController@g
 //End Of Routes
 
 //RiskProfileDashboard Routes
-Route::get('/v1/users/reports/getriskprofilequestions', 'RiskQuestionsController@getRiskProfileQuestions');
-Route::get('/v1/users/reports/getriskprofileanswers', 'RiskQuestionsController@getRiskProfileAnswers');
+Route::post('/v1/users/reports/riskprofilequestions', 'RiskQuestionsController@store');
+Route::post('/v1/users/reports/getriskprofilescore', 'RiskQuestionsController@getRiskProfileScore');
+Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRiskProfile');
+
+//End Of Routes
+
+//Documents Routes
+Route::post('/v1/users/document/adddocument', 'DocumentsController@store');
+//Route::post('/v1/users/reports/getriskprofilescore', 'RiskQuestionsController@getRiskProfileScore');
+//Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRiskProfile');
+
+//End Of Routes
+
+//Question Routes
+Route::post('/v1/users/reports/addquestions', 'QuestionController@store');
+Route::post('/v1/users/reports/addquestionsoptions', 'QuestionController@QuestionOptions');
 
 //End Of Routes
 
@@ -140,6 +181,15 @@ Route::post('/v1/users/addnotification', 'NotificationController@store');
 Route::post('/v1/users/removenotification', 'NotificationController@removeNotification');
 Route::post('/v1/users/notificationstatus', 'NotificationController@notificationStatus');
     //End Of Routes
+
+
+Route::post('/v1/users/phoneotpverify', 'UserProfileController@PhoneOTPVerify');
+Route::post('/v1/users/emailotpverify', 'UserProfileController@EmailOTPVerify');
+Route::post('/v1/users/editcustomersettings', 'UserProfileController@editCustomerSettings');
+Route::post('/v1/users/profilestatus', 'UserProfileController@profileStatus');
+Route::post('/v1/users/customersettings', 'UserProfileController@customerSettings');
+
+
 
 Route::get('/tasks', 'TaskController@index')->name('tasks.index');
 

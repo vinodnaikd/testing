@@ -28,6 +28,11 @@ class CustomerAddress extends Model
         
     }
     
+    public function getCustomerAddressDetails($Id)
+    {
+        return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
+    }
+    
     public function getCustomerAddress($Id)
     {
         return $this->where('customerid','=',$Id)->get()->toArray();

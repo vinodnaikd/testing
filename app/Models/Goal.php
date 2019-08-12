@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Goal extends Model
 {
+    protected $table = "customergoal";
   protected $fillable =
 [
     'goal_name',
@@ -14,4 +15,9 @@ class Goal extends Model
     'future_cost',
     'goal_id',
 ];
+  
+public function InsertCustomerGoals($arr) {
+    
+    return $this->insertGetId($arr);
+}
 }

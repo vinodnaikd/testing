@@ -7,11 +7,13 @@ use App\Models\Bank;
 use App\Models\CustomerDetails;
 use App\Models\Nominee;
 use App\Models\CustomerAddress;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
 use Auth;
 use Carbon\Carbon;
+use App\User;
 
 class UserProfileController extends Controller
 {
@@ -21,7 +23,8 @@ class UserProfileController extends Controller
         CustomerDetails $customerdetails,
         Bank $customerbank,
         Nominee $customernominee,
-        CustomerAddress $customeraddress
+        CustomerAddress $customeraddress,
+        Notification $customernotifications
     )
     {
         $this->usersprofile = $usersprofile;
@@ -30,6 +33,7 @@ class UserProfileController extends Controller
         $this->customerbank = $customerbank;
         $this->customernominee = $customernominee;
         $this->customeraddress = $customeraddress;
+        $this->customernotifications = $customernotifications;
     }
     /**
      * Display a listing of the resource.
@@ -57,6 +61,39 @@ class UserProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
+     public function userregister(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|string|min:8|max:255|confirmed',
+            'password_confirmation' => 'required|string|min:8|max:255',
+            'mobile_number' => 'required|string|max:100',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 200);
+        }
+       
+        // dd($request['first_name']);
+        $user = new User;
+        $user->username = $request['first_name'];
+        $user->email = $request['email'];
+        $user->mobileno = $request['mobile_number'];
+        $user->password = bcrypt($request->password);
+        //dd($user);
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ], 200);
+    }
+    
     public function signUp(Request $request)
     {
         //$reqData = $request->all();
@@ -77,12 +114,33 @@ class UserProfileController extends Controller
 
       $reqData['username'] = $request['first_name'].$request['last_name'];
       $reqData['email'] = $request['email'];
-      $reqData['password'] = $request['password'];
+      $reqData['password'] = bcrypt($request['password']);
       $reqData['mobileno'] = $request['mobile_number'];
       $reqData['applicationid'] = 1;
       $reqData['createdutcdatetime'] = Carbon::now();
       $reqData['modifiedutcdatetime'] = Carbon::now();
-      $checkDuplicateEmail=$this->usersprofile->checkDuplicateMailExists($reqData['email']);
+      if($request['userid'])
+      {
+          $signUpData = $this->usersprofile->UpdateUser($reqData,$request['userid']);
+     if($signUpData)
+     {
+         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
+         $reqData1['email'] = $request['email'];
+         $reqData1['mobile'] = $request['mobile_number'];
+         $reqData1['advisorid'] = 1;
+         $reqData1['accountmanagerid'] = 1;
+         //$reqData1['userid'] = $signUpData;
+         $reqData1['createdutcdatetime'] = Carbon::now();
+         $reqData1['modifiedutcdatetime'] = Carbon::now();
+         $customerData = $this->customer->UpdateCustomer($reqData1,$getCustomerInfo[0]['customerid']);
+     }
+     $data['success']="User Updated Successfully";
+     return $data;
+        }
+      
+      else
+      {
+        $checkDuplicateEmail=$this->usersprofile->checkDuplicateMailExists($reqData['email']);
         if(count($checkDuplicateEmail)>0){
            $data['error']="Duplicate. Email already Exists";
            return $data;
@@ -91,6 +149,20 @@ class UserProfileController extends Controller
      $signUpData = $this->usersprofile->InsertUser($reqData);
      if($signUpData)
      {
+         $notificationArray = array(
+             "Email Verification"=>'Email Verification was pending',
+             "Personal Information"=>'Adding Personal Information was pending',
+             "Address"=>'Adding Address was pending',
+             "Bank Details"=>'Adding Bank Details was pending',
+             "Nominee"=>'Adding Nominees was pending'
+             );
+             foreach ($notificationArray as $key => $value) {
+                 $notf['notificationtext'] = $value;
+                 $notf['userid'] = $signUpData;
+                 $notf['createdutcdatetime'] = Carbon::now();
+                 $notf['modifiedutcdatetime'] = Carbon::now();
+                 $notificationsData = $this->customernotifications->InsertCustomerNotifications($notf);
+             }
          $reqData1['email'] = $request['email'];
          $reqData1['mobile'] = $request['mobile_number'];
          $reqData1['advisorid'] = 1;
@@ -104,6 +176,8 @@ class UserProfileController extends Controller
         }
      
             return $data;
+      }
+
     }
     public function Register(Request $request)
     {
@@ -178,6 +252,8 @@ class UserProfileController extends Controller
           'income_group' => 'required|string|max:100',
           'political_affiliations' => 'required|string|max:100',
           'country_birth' => 'required|string|max:100',
+          'salution' => 'required|string|max:100',
+          'marital_status' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -197,6 +273,8 @@ class UserProfileController extends Controller
         $reqData['income_group'] = $request['income_group'];
         $reqData['political_affiliations'] = $request['political_affiliations'];
         $reqData['country_birth'] = $request['country_birth'];
+        $reqData['salution'] = $request['salution'];
+        $reqData['marital_status'] = $request['marital_status'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
@@ -282,7 +360,7 @@ class UserProfileController extends Controller
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
-        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
+        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo['customerid']);
 //        dd($customerBankData[0]['customerbankid']); 
         if($customerBankData)
          {
@@ -306,7 +384,7 @@ class UserProfileController extends Controller
          }
          else
          {
-             $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
+             $reqData['customerid'] = $getCustomerInfo['customerid'];
           $bankData = $this->customerbank->InsertCustomerBankDetails($reqData);
           if($bankData)
           {
@@ -329,64 +407,82 @@ class UserProfileController extends Controller
    elseif($request['action'] == "customernominee")
           {
           
-        $data3['Name'] = "string";
-        $data3['guardian_name'] = "raj";
-        $data3['relationship'] = "string";
-        $data3['customerid'] = "1";
-        $data3['nominee_address'] = (object)array(
-            'addressline1' => "string",
-            'addressline2' => "string",
-            'city' => "string",
-            'country' => "string",
-            'state' => "string",
-            'pincode' => "string",
-            'address_id' => "string"
-        );
-        $data3['nominee_dob'] = "24";
-        $data3['nominee_share'] = "string";
-        $data3['nominee_id'] = "string";
-        $data3['userid'] = "3";
-        $data3['customernomineeid'] = "24";
-        
-        $data4['Name'] = "string";
-        $data4['guardian_name'] = "ram";
-        $data4['relationship'] = "string";
-        $data4['customerid'] = "1";
-        $data4['nominee_address'] = (object)array(
-            'addressline1' => "string",
-            'addressline2' => "string",
-            'city' => "string",
-            'country' => "string",
-            'state' => "string",
-            'pincode' => "string",
-            'address_id' => "string"
-        );
-        $data4['nominee_dob'] = "24";
-        $data4['nominee_share'] = "string";
-        $data4['nominee_id'] = "string";
-        $data4['userid'] = "3";
-        $data4['customernomineeid'] = "25";
-        
-       $nomineeData = [
-            'nominee1' => $data3,
-            'nominee2' => $data4
-        ];
-        return response()->json([
-               // 'status' => 'error',
-                'nominee1' => $data3,
-            'nominee2' => $data4
-            ], 200);
-          //dd($nomineeData);
+//        $data3['Name'] = "string";
+//        $data3['guardian_name'] = "raj";
+//        $data3['relationship'] = "string";
+//        $data3['customerid'] = "1";
+//        $data3['nominee_address'] = (object)array(
+//            'addressline1' => "string",
+//            'addressline2' => "string",
+//            'city' => "string",
+//            'country' => "string",
+//            'state' => "string",
+//            'pincode' => "string",
+//            'address_id' => "string"
+//        );
+//        $data3['nominee_dob'] = "24";
+//        $data3['nominee_share'] = "string";
+//        $data3['nominee_id'] = "string";
+//        $data3['userid'] = "3";
+//        $data3['customernomineeid'] = "24";
+//        
+//        $data4['Name'] = "string";
+//        $data4['guardian_name'] = "ram";
+//        $data4['relationship'] = "string";
+//        $data4['customerid'] = "1";
+//        $data4['nominee_address'] = (object)array(
+//            'addressline1' => "string",
+//            'addressline2' => "string",
+//            'city' => "string",
+//            'country' => "string",
+//            'state' => "string",
+//            'pincode' => "string",
+//            'address_id' => "string"
+//        );
+//        $data4['nominee_dob'] = "24";
+//        $data4['nominee_share'] = "string";
+//        $data4['nominee_id'] = "string";
+//        $data4['userid'] = "3";
+//        $data4['customernomineeid'] = "25";
+//        
+//       $nomineeData = [
+//            'nominee1' => $data3,
+//            'nominee2' => $data4
+//        ];
+              $validator = Validator::make($request->all(), [
+          'customernominee' => 'required|string',
+           ]);
+          if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+          }
+      // $request['customernominee'] = $nomineeData;
+       $nomineeData = json_decode($request['customernominee'],true);
+//       dd($dd['nominee1']);
+//        return response()->json([
+//               // 'status' => 'error',
+//                'nominee1' => $data3,
+//            'nominee2' => $data4
+//            ], 200);
+          //ddjson_decode($request['customernominee']));
+          
      //  dd($nomineeData['nominee1']['userid']);
        $getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
-              
-         $value['addressline1'] = $value['nominee_address']->addressline1;
-         $value['addressline2'] = $value['nominee_address']->addressline2;
-         $value['city'] = $value['nominee_address']->city;
-         $value['country'] = $value['nominee_address']->country;
-         $value['state'] = $value['nominee_address']->state;
-         $value['pincode'] = $value['nominee_address']->pincode;
+             // print_r($value);
+            //  die;
+              //$getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
+       // dd($getCustomerInfo['customerid']);
+        //$customerid = $getCustomerInfo['customerid'];
+         $value['customerid'] = $getCustomerInfo['customerid'];
+         $value['addressline1'] = $value['nominee_address']['addressline1'];
+         $value['addressline2'] = $value['nominee_address']['addressline2'];
+         $value['city'] = $value['nominee_address']['city'];
+         $value['country'] = $value['nominee_address']['country'];
+         $value['state'] = $value['nominee_address']['state'];
+         $value['pincode'] = $value['nominee_address']['pincode'];
          //$value['customerid'] = 1;
          $validator = Validator::make($value, [
           'Name' => 'required|string|max:255',
@@ -400,7 +496,7 @@ class UserProfileController extends Controller
           'pincode' => 'required|string|max:100',
           'nominee_dob'=> 'required|string|max:100',
           'nominee_share'=> 'required|string|max:100',
-          'customerid' => 'required|string|max:100',
+          'customerid' => 'required|integer|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -419,12 +515,12 @@ class UserProfileController extends Controller
         $reqData['pincode'] = $value['pincode'];
         $reqData['dateofbirth'] = $value['nominee_dob'];
         //$reqData['nominee_share'] = $request['nominee_share'];
-        //$reqData['customerid'] = $value['customerid'];
+        $reqData['customerid'] = $value['customerid'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
-        $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
-        $customerBankData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
+        
+        $customerBankData = $this->customernominee->getCustomerNomineeDetails($value['customerid']);
       
         if($value['customernomineeid'])
         {
@@ -434,7 +530,7 @@ class UserProfileController extends Controller
         }
         else
         {
-            $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
+            //$reqData['customerid'] = $customerid;
             $nomineeData = $this->customernominee->InsertCustomerNomineeDetails($reqData);
             $status = "Nominee Details Added Successfully";
             
@@ -442,7 +538,7 @@ class UserProfileController extends Controller
           }
           if($nomineeData)
           {
-              $customerBankData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
+              $customerBankData = $this->customernominee->getCustomerNomineeDetails($value['customerid']);
           return response()->json([
             'status' => $status,
             'customernomineedetails' => $customerBankData
@@ -453,31 +549,46 @@ class UserProfileController extends Controller
    elseif($request['action'] == "customeraddress")
           {
           
-        $data1['addressline1'] = "hyderabad";
-        $data1['addressline2'] = "kphb";
-        $data1['city'] = "10000";
-        $data1['country'] = "10000";
-        $data1['state'] = "10000";
-        $data1['pincode'] = "500085";
-        $data1['address_id'] = "18";
-        $data1['customerid'] = "1";
-        $data1['address_type'] = "correspondence_address";
-        
-        $data2['addressline1'] = "jntu";
-        $data2['addressline2'] = "hyderabad";
-        $data2['city'] = "10000";
-        $data2['country'] = "10000";
-        $data2['state'] = "10000";
-        $data2['pincode'] = "500086";
-        $data2['address_id'] = "19";
-        $data2['customerid'] = "1";
-        $data2['address_type'] = "permanent_address";
-       $customerAddressData = [
-            'correspondence_address' => $data1,
-            'permanent_address' => $data2
-        ];
+//        $data1['addressline1'] = "hyderabad";
+//        $data1['addressline2'] = "kphb";
+//        $data1['city'] = "10000";
+//        $data1['country'] = "10000";
+//        $data1['state'] = "10000";
+//        $data1['pincode'] = "500085";
+//        $data1['address_id'] = "18";
+//        $data1['customerid'] = "1";
+//        $data1['address_type'] = "correspondence_address";
+//        
+//        $data2['addressline1'] = "jntu";
+//        $data2['addressline2'] = "hyderabad";
+//        $data2['city'] = "10000";
+//        $data2['country'] = "10000";
+//        $data2['state'] = "10000";
+//        $data2['pincode'] = "500086";
+//        $data2['address_id'] = "19";
+//        $data2['customerid'] = "1";
+//        $data2['address_type'] = "permanent_address";
+//       $customerAddressData = [
+//            'correspondence_address' => $data1,
+//            'permanent_address' => $data2
+//        ];
+       
+//        return response()->json([
+//           // 'status' => $status,
+//            'customeraddress' => $customerAddressData
+//            ], 200);
 //          $addressCount = count($customerAddressData);
-          foreach ($customerAddressData as $key => $value) {
+       $validator = Validator::make($request->all(), [
+          'customeraddress' => 'required|string|max:255',
+           ]);
+          if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+          }
+        $customerAddressData = $request['customeraddress'];
+           foreach ($customerAddressData as $key => $value) {
          $validator = Validator::make($value, [
           'addressline1' => 'required|string|max:255',
           'addressline2' => 'required|string|max:100',
@@ -553,23 +664,79 @@ class UserProfileController extends Controller
         
         $email = $request['email'];
         $password = $request['password'];
-        $userData = $this->usersprofile->getUserDetails($email,$password);
-        if($userData)
-        {
-            return response()->json([
-              'status' => 'Login Success',
-              'userProfile' => $userData
-          ], 200); 
+         if (! $token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        else
-        {
-             return response()->json([
-              'status' => 'Login Failed Invalid Credentials'
-          ], 400);
-        }
+
+        $signInData = $this->respondWithToken($token);
+        //$password = bcrypt($request->password);
+        $userData['userProfile'] = Auth::user();
+        //$userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
+        //dd($currentUser);
+        $userData['usertoken'] =$signInData;
+        return $userData;
+        //$userData = $this->usersprofile->getUserDetails($email,$password);
+//        if($userData)
+//        {
+//            //dd($userData[0]['userid']);
+//            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
+//            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
+//            $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+//            $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+//            $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
+//            if(empty($customerDetailsData))
+//            {
+//                $redirectionurl = "localhost:8000/api/v1/users/register";
+//            }
+//            elseif(empty($customerAddressData))
+//            {
+//                $redirectionurl = "localhost:8000/api/v1/users/register";
+//            }
+//            elseif(empty($customerBankData))
+//            {
+//                $redirectionurl = "localhost:8000/api/v1/users/register";
+//            }
+//            else
+//            {
+//                $redirectionurl = "localhost:8000/api/v1/users/register";
+//            }
+//            
+//            return response()->json([
+//              'status' => 'Login Success',
+//              'userProfile' => $userData,
+//              'redirection_url' => $redirectionurl,
+//              'inflationvalue' => $inflation,
+//          ], 200); 
+//        }
+//        else
+//        {
+//             return response()->json([
+//              'status' => 'Login Failed Invalid Credentials'
+//          ], 400);
+//        }
          
     }
     
+        protected function respondWithToken($token) {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60
+        ]);
+    }
+    
+        public function refresh() {
+        return $this->respondWithToken(Auth::guard('api')->refresh());
+    }
+
+    public function logout() {
+        Auth::guard('api')->logout();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'logout'
+        ], 200);
+    }
     
     /**
      * Display the specified resource.
@@ -840,6 +1007,38 @@ class UserProfileController extends Controller
                 'messages' => $validator->messages()
             ], 200);
         }
+        $checkUser = $this->usersprofile->checkDuplicateMailExists($request['email']);
+        //$resetpasswordlink = "localhost:8000/api/v1/users/resetpassword";
+        $userid = $checkUser[0]['userid'];
+        //ToDo Email 
+        //dd($checkUser);
+    }
+    
+        public function resetPassword(Request $request)
+    {
+        
+        $validator = Validator::make($request->all(), [
+            'userid' => 'required|string|max:255',
+            'new_password' => 'min:6|required_with:conform_password|same:conform_password',
+            'conform_password' => 'min:6',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $reqData['userid'] = $request['userid'];
+        $reqData['password'] = $request['new_password'];
+        $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['userid']);
+        if($updateUserPwd)
+        {
+            return response()->json([
+                'status' => 'Password Updated Successfully'
+            ], 200);
+        }
+        //ToDo Email 
+        //dd($checkUser);
     }
     
     public function signOut(Request $request)

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\RiskQuestions;
+use App\Models\RiskQuestions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 class RiskQuestionsController extends Controller
 {
+    public function __construct(RiskQuestions $riskprofile) {
+        $this->riskprofile = $riskprofile;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +40,32 @@ class RiskQuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validator = Validator::make($request->all(), [
+            'optionid' => 'required|string|max:255',
+            'questionid' => 'required|string|max:255',
+            'customerid' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $reqData['optionid'] = $request['optionid'];
+        $reqData['questionid'] = $request['questionid'];
+        $reqData['customerid'] = $request['customerid'];
+        $reqData['createdutcdatetime'] = Carbon::now();
+        $reqData['modifiedutcdatetime'] = Carbon::now();
+      $riskProfile = $this->riskprofile->InsertCustomerRiskProfile($reqData);
+      if($riskProfile)
+      {
+                $customerRiskProfile = $this->riskprofile->getCustomerRiskProfile($request['customerid']);
+                return response()->json([
+                'status' => 'success',
+                'riskprofile' => $customerRiskProfile
+            ], 200);
+      }
+
     }
 
     /**
@@ -44,15 +74,29 @@ class RiskQuestionsController extends Controller
      * @param  \App\RiskQuestions  $riskQuestions
      * @return \Illuminate\Http\Response
      */
-    public function show(RiskQuestions $riskQuestions)
+    public function getRiskProfileScore(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'customerid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($request['customerid']);
+                return response()->json([
+                'status' => 'success',
+                'riskprofilescore' => $customerRiskProfileScore
+            ], 200);
+        
     }
 
-    public function getRiskProfileQuestions(Request $request)
+    public function getRiskProfile(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'user_id' => 'required|string|max:255',
+            'customerid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -61,14 +105,11 @@ class RiskQuestionsController extends Controller
             ], 200);
         }
         
-        $data['question_name'] = "string";
-        $data['option_a'] = "string";
-        $data['option_b'] = "string";
-        $data['option_c'] = "string";
-        $data['option_d'] = "string";
-        $data['question_id'] = "string";
-        $data['answer_id'] = "string";
-    return response()->json([array($data)]);
+        $customerRiskProfile = $this->riskprofile->getCustomerRiskProfile($request['customerid']);
+                return response()->json([
+                'status' => 'success',
+                'riskprofile' => $customerRiskProfile
+            ], 200);
     }
     
     public function getRiskProfileAnswers(Request $request)

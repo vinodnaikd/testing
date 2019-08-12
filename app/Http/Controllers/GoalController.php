@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Goal;
+use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class GoalController extends Controller
 {
+    public function __construct(
+        Goal $goals
+    )
+    {
+        $this->goals = $goals;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,14 +47,30 @@ class GoalController extends Controller
             'goal_name' => 'required|string|max:255',
             'cost_goal' => 'required|string|max:255',
             'time_frame' => 'required|string|max:255',
+            'customerid' => 'required|string|max:255',
             'future_cost' => 'required|string|max:255',
-            'goal_id' => 'required|string|max:255',
+            //'goal_id' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'messages' => $validator->messages()
             ], 200);
+        }
+        $reqData['customerid'] = $request['customerid'];
+        $reqData['goalname'] = $request['goal_name'];
+        $reqData['goalcost'] = $request['cost_goal'];
+        $reqData['timeframe'] = $request['time_frame'];
+        $reqData['futurecost'] = $request['futurecost'];
+        $reqData['createdutcdatetime'] = Carbon::now();
+        $reqData['modifiedutcdatetime'] = Carbon::now();
+        $goalData = $this->goals->InsertCustomerGoals($reqData);
+        if($goalData)
+        {
+            return response()->json([
+              'status' => 'Goal Added Successfully',
+              //'goal_info' => $goalData
+          ], 200);
         }
     }
 

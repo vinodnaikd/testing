@@ -16,8 +16,14 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
+    protected $table = "sso";
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'email',
+        'mobileno',
+        'password',
+        'applicationid',
+        'transcation_password'
     ];
 
     /**
@@ -25,24 +31,16 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
+    protected $primaryKey = 'userid';
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    public function getJWTIdentifier()
-    {
+    public function getJWTIdentifier() {
         return $this->getKey();
     }
 
-    public function getJWTCustomClaims()
-    {
+    public function getJWTCustomClaims() {
         return [];
-    }
-
-    public function setPasswordAttribute($password)
-    {
-        if ( $password !== null & $password !== "" ) {
-            $this->attributes['password'] = bcrypt($password);
-        }
     }
 }
