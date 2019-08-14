@@ -622,22 +622,22 @@ class UserProfileController extends Controller
         
         $email = $request['email'];
         $password = $request['password'];
-         if (! $token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
+         /*if (! $token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $signInData = $this->respondWithToken($token);
+        $signInData = $this->respondWithToken($token);*/
        
        
         //$password = bcrypt($request->password);
-        $userData['userProfile'] = Auth::user();
+        //$userData['userProfile'] = Auth::user();
 //        $userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
         //dd($currentUser);
-        $userData['usertoken'] =$signInData->original;
-        return $userData;
-//        $userData = $this->usersprofile->getUserDetails($email,$password);
-//        if($userData)
-//        {
+        //$userData['usertoken'] =$signInData->original;
+       // return $userData;
+      $userData = $this->usersprofile->getUserDetails($email,$password);
+        if($userData)
+     {
 //            //dd($userData[0]['userid']);
 //            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
 //            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
@@ -661,19 +661,19 @@ class UserProfileController extends Controller
 //                $redirectionurl = "localhost:8000/api/v1/users/register";
 //            }
 //            
-//            return response()->json([
-//              'status' => 'Login Success',
-//              'userProfile' => $userData,
-//              'redirection_url' => $redirectionurl,
-//              //'inflationvalue' => $inflation,
-//          ], 200); 
-//        }
-//        else
-//        {
-//             return response()->json([
-//              'status' => 'Login Failed Invalid Credentials'
-//          ], 400);
-//        }
+            return response()->json([
+              'status' => 'Login Success',
+              'userProfile' => $userData,
+              'redirection_url' => $redirectionurl,
+              //'inflationvalue' => $inflation,
+          ], 200); 
+        }
+        else
+        {
+             return response()->json([
+              'status' => 'Login Failed Invalid Credentials'
+          ], 400);
+        }
          
     }
     
