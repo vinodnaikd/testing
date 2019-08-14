@@ -7,8 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Auth;
+use Illuminate\Support\Facades\DB;
+
 class DocumentsController extends Controller
 {
+    function __construct(Documents $documents) {
+        $this->documents = $documents;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -38,10 +43,10 @@ class DocumentsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'document' => 'mimes:jpeg,jpg,png| max:1000',
+            'document' => 'mimes:jpeg,jpg,png',
             'customerid' => 'required | integer',
             'documenttypeid' => 'required | integer',
-            'customerid' => 'required | integer',
+            'documentname' => 'required | string '
         );
          $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -53,12 +58,24 @@ class DocumentsController extends Controller
         
         $file = $request->file('document');
         $fileName = $file->getClientOriginalName();
-        
-                $destinationPath = public_path().'/users';
-                $file->move($destinationPath,$fileName);
-                chmod($destinationPath,0777);
-                $reqData['filename']=$fileName;
-        dd($fileName);
+        $destinationPath = public_path().'/'.$request['customerid'];
+        $file->move($destinationPath,$fileName);
+        chmod($destinationPath,0777);
+        $reqData['documentpath']=$destinationPath.'/'.$fileName;
+        $reqData['documentname'] = $request['documentname'];
+        $reqData['customerid'] = $request['customerid'];
+        $reqData['documenttypeid'] = $request['documenttypeid'];
+        $reqData['createdutcdatetime'] = Carbon::now();
+        $reqData['modifiedutcdatetime'] = Carbon::now();
+        $documentData = $this->documents->InsertDocuments($reqData);
+        if($documentData)
+        {
+            $documentDetails = $this->documents->getDocumentsDetails($documentData);
+            return response()->json([
+                'status' => 'success',
+                'messages' => $documentDetails
+            ], 200);
+        }
     }
 
     /**
@@ -69,7 +86,20 @@ class DocumentsController extends Controller
      */
     public function show(Documents $documents)
     {
-        //
+        $documentsData = DB::table('documenttype')->get();
+        if($documentsData)
+        {
+           return response()->json([
+                'status' => 'success',
+                'Documents' => $documentsData
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 'failed'
+            ], 401);
+        }
     }
 
     /**

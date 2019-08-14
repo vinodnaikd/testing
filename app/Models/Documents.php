@@ -15,4 +15,15 @@ class Documents extends Model
     'documentpath',
     ''
 ];
+        public $timestamps = false;
+    public function InsertDocuments($arr)
+    {
+       return $this->insertGetId($arr);
+        
+    }
+        public function getDocumentsDetails($id)
+    {
+//        dd($password);
+        return $this->where('customerdocumentid',$id)->get()->toArray();
+    }
 }

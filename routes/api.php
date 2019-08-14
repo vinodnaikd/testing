@@ -48,6 +48,7 @@ Route::post('/v1/users/signin', 'UserProfileController@signIn');
 
 //Route::group(['middleware' => 'jwt.verify'], function(){
     Route::post('/v1/users/register', 'UserProfileController@Register');
+     Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
 //Bank Routes
 Route::post('/v1/users/getbanklist', 'BankController@show');
 Route::post('/v1/users/addbank', 'BankController@store');
@@ -160,6 +161,7 @@ Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRisk
 
 //Documents Routes
 Route::post('/v1/users/document/adddocument', 'DocumentsController@store');
+Route::get('/v1/users/document/getdocuments', 'DocumentsController@show');
 //Route::post('/v1/users/reports/getriskprofilescore', 'RiskQuestionsController@getRiskProfileScore');
 //Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRiskProfile');
 

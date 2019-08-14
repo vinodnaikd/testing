@@ -114,7 +114,8 @@ class UserProfileController extends Controller
 
       $reqData['username'] = $request['first_name'].$request['last_name'];
       $reqData['email'] = $request['email'];
-      $reqData['password'] = bcrypt($request['password']);
+      //$reqData['password'] = bcrypt($request['password']);
+      $reqData['password'] = $request['password'];
       $reqData['mobileno'] = $request['mobile_number'];
       $reqData['applicationid'] = 1;
       $reqData['createdutcdatetime'] = Carbon::now();
@@ -181,7 +182,7 @@ class UserProfileController extends Controller
     }
     public function Register(Request $request)
     {
-//      dd($request->all());
+      dd($request->json());
       if($request['action'] == "customer")
           {
           $validator = Validator::make($request->all(), [
@@ -626,17 +627,18 @@ class UserProfileController extends Controller
         }
 
         $signInData = $this->respondWithToken($token);
-     
+       
+       
         //$password = bcrypt($request->password);
         $userData['userProfile'] = Auth::user();
 //        $userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
         //dd($currentUser);
-       $userData['usertoken'] =$signInData;
-       return $userData;
-        //$userData = $this->usersprofile->getUserDetails($email,$password);
-        if($userData)
-        {
-            //dd($userData[0]['userid']);
+        $userData['usertoken'] =$signInData->original;
+        return $userData;
+//        $userData = $this->usersprofile->getUserDetails($email,$password);
+//        if($userData)
+//        {
+//            //dd($userData[0]['userid']);
 //            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
 //            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
 //            $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
@@ -658,20 +660,20 @@ class UserProfileController extends Controller
 //            {
 //                $redirectionurl = "localhost:8000/api/v1/users/register";
 //            }
-            
-            return response()->json([
-              'status' => 'Login Success',
-              'userProfile' => $userData,
-              //'redirection_url' => $redirectionurl,
-              //'inflationvalue' => $inflation,
-          ], 200); 
-        }
-        else
-        {
-             return response()->json([
-              'status' => 'Login Failed Invalid Credentials'
-          ], 400);
-        }
+//            
+//            return response()->json([
+//              'status' => 'Login Success',
+//              'userProfile' => $userData,
+//              'redirection_url' => $redirectionurl,
+//              //'inflationvalue' => $inflation,
+//          ], 200); 
+//        }
+//        else
+//        {
+//             return response()->json([
+//              'status' => 'Login Failed Invalid Credentials'
+//          ], 400);
+//        }
          
     }
     
@@ -693,6 +695,55 @@ class UserProfileController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'logout'
+        ], 200);
+    }
+    
+    public function getRegistraionDetails(Request $request) {
+        
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo['customerid']);
+            $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo['customerid']);
+            $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo['customerid']);
+            $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo['customerid']);
+            if($customerDetailsData)
+            {
+                $customerDetails = $customerDetailsData;
+            }
+            else
+            {
+                $customerDetails = array();
+            }
+            if($customerAddressData)
+            {
+                $customerAddress = $customerAddressData;
+            }
+            else
+            {
+                $customerAddress = array();
+            }
+            if($customerBankData)
+            {
+                $customerBank = $customerBankData;
+            }
+            else
+            {
+                $customerBank = array();
+            }
+            if($customernomineeData)
+            {
+                $customernominee = $customernomineeData;
+            }
+            else
+            {
+                $customernominee = array();
+            }
+            
+            return response()->json([
+            'status' => 'success',
+            'customerDetailsData' => $customerDetails,
+            'customerAddressData' => $customerAddress,
+            'customerBankData' => $customerBank,
+            'customernomineeData' => $customernominee,
         ], 200);
     }
     
