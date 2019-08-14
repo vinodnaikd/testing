@@ -17,4 +17,9 @@ public function InsertQuestions($arr) {
     
     return $this->insertGetId($arr);
 }
+public function getQuestions() {
+    
+    return $this->get()->toArray();
+}
+
 }

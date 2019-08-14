@@ -6,6 +6,7 @@ use App\Models\Documents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Auth;
 class DocumentsController extends Controller
 {
     /**
@@ -37,8 +38,10 @@ class DocumentsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            //'document' => 'required | mimes:jpeg,jpg,png | max:1000',
-            'document' => 'required | string',
+            'document' => 'mimes:jpeg,jpg,png| max:1000',
+            'customerid' => 'required | integer',
+            'documenttypeid' => 'required | integer',
+            'customerid' => 'required | integer',
         );
          $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -47,7 +50,15 @@ class DocumentsController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-        dd($request->all());
+        
+        $file = $request->file('document');
+        $fileName = $file->getClientOriginalName();
+        
+                $destinationPath = public_path().'/users';
+                $file->move($destinationPath,$fileName);
+                chmod($destinationPath,0777);
+                $reqData['filename']=$fileName;
+        dd($fileName);
     }
 
     /**

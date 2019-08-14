@@ -96,9 +96,35 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show()
     {
-        //
+        $questionoptionsData = $this->question->getQuestions();
+       
+        $questionsData = array();
+        foreach($questionoptionsData as $key =>$value)
+        {
+           
+            $questionoptionsData1 = $this->questionoptions->getQuestionsOptions($value['questionid']);
+            $queData['questionid'] = $value['questionid'];
+                $queData['questiontext'] = $value['questiontext'];
+                 $queOptnData1 = array();
+            foreach ($questionoptionsData1 as $key1 => $value1) {
+                
+                $queOptnData['optionid'] = $value1['optionid'];
+                $queOptnData['optionname'] = $value1['optionname'];
+                
+                array_push($queOptnData1,$queOptnData);
+            }
+            $queData['Options'] = $queOptnData1;
+            //dd($queData);
+           //array_push($questionsData,$queOptnData1);
+            array_push($questionsData,$queData);
+             //dd($queOptnData);
+        }
+        //dd($queOptnData);
+         return response()->json([
+              'questions' => $questionsData
+          ], 200);
     }
 
     /**

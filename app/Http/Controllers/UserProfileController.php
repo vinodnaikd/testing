@@ -460,22 +460,9 @@ class UserProfileController extends Controller
           }
       // $request['customernominee'] = $nomineeData;
        $nomineeData = json_decode($request['customernominee'],true);
-//       dd($dd['nominee1']);
-//        return response()->json([
-//               // 'status' => 'error',
-//                'nominee1' => $data3,
-//            'nominee2' => $data4
-//            ], 200);
-          //ddjson_decode($request['customernominee']));
-          
-     //  dd($nomineeData['nominee1']['userid']);
+//       dd($nomineeData);
        $getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
-             // print_r($value);
-            //  die;
-              //$getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
-       // dd($getCustomerInfo['customerid']);
-        //$customerid = $getCustomerInfo['customerid'];
          $value['customerid'] = $getCustomerInfo['customerid'];
          $value['addressline1'] = $value['nominee_address']['addressline1'];
          $value['addressline2'] = $value['nominee_address']['addressline2'];
@@ -548,38 +535,8 @@ class UserProfileController extends Controller
           
    elseif($request['action'] == "customeraddress")
           {
-          
-//        $data1['addressline1'] = "hyderabad";
-//        $data1['addressline2'] = "kphb";
-//        $data1['city'] = "10000";
-//        $data1['country'] = "10000";
-//        $data1['state'] = "10000";
-//        $data1['pincode'] = "500085";
-//        $data1['address_id'] = "18";
-//        $data1['customerid'] = "1";
-//        $data1['address_type'] = "correspondence_address";
-//        
-//        $data2['addressline1'] = "jntu";
-//        $data2['addressline2'] = "hyderabad";
-//        $data2['city'] = "10000";
-//        $data2['country'] = "10000";
-//        $data2['state'] = "10000";
-//        $data2['pincode'] = "500086";
-//        $data2['address_id'] = "19";
-//        $data2['customerid'] = "1";
-//        $data2['address_type'] = "permanent_address";
-//       $customerAddressData = [
-//            'correspondence_address' => $data1,
-//            'permanent_address' => $data2
-//        ];
-       
-//        return response()->json([
-//           // 'status' => $status,
-//            'customeraddress' => $customerAddressData
-//            ], 200);
-//          $addressCount = count($customerAddressData);
        $validator = Validator::make($request->all(), [
-          'customeraddress' => 'required|string|max:255',
+          'customeraddress' => 'required|string',
            ]);
           if($validator->fails()) {
           return response()->json([
@@ -587,8 +544,13 @@ class UserProfileController extends Controller
               'messages' => $validator->messages()
           ], 400);
           }
-        $customerAddressData = $request['customeraddress'];
-           foreach ($customerAddressData as $key => $value) {
+          
+          $customerAddressData = json_decode($request['customeraddress'],true);
+          $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+          $customerid = $getCustomerInfo['customerid'];
+           foreach ($customerAddressData['customeraddress'] as $key => $value) {
+
+               $value['customerid'] = $customerid;
          $validator = Validator::make($value, [
           'addressline1' => 'required|string|max:255',
           'addressline2' => 'required|string|max:100',
@@ -596,7 +558,7 @@ class UserProfileController extends Controller
           'country' => 'required|string|max:100',
           'state' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
-          'customerid' => 'required|string|max:100',
+          'customerid' => 'required|integer|max:100',
           'address_type' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
@@ -612,13 +574,10 @@ class UserProfileController extends Controller
         $reqData['stateid_fk'] = $value['state'];
         $reqData['pincode'] = $value['pincode'];
         $reqData['address_type'] = $value['address_type'];
-        //$reqData['customerid'] = $value['customerid'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
-         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
-        // dd($getCustomerInfo);
-        $customerAddress = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
-//        $custAddressCount = count($customerAddress);
+         
+        $customerAddress = $this->customeraddress->getCustomerAddress($value['customerid']);
         if($value['address_id'])
         {
             //update
@@ -628,17 +587,15 @@ class UserProfileController extends Controller
         else
         {
             //Insert
-            $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
+            $reqData['customerid'] = $value['customerid'];
             $AddressData = $this->customeraddress->InsertCustomerAddress($reqData);
             $status = "Customer Address Details Added Successfully";
         }
          
-         
           }
-         //$status['success']="Customer Address Details Added Successfully";
           if($AddressData)
           {
-           $customerAddress = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+           $customerAddress = $this->customeraddress->getCustomerAddress($value['customerid']);
                   return response()->json([
             'status' => $status,
             'customeraddress' => $customerAddress
@@ -669,16 +626,17 @@ class UserProfileController extends Controller
         }
 
         $signInData = $this->respondWithToken($token);
+     
         //$password = bcrypt($request->password);
         $userData['userProfile'] = Auth::user();
-        //$userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
+//        $userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
         //dd($currentUser);
-        $userData['usertoken'] =$signInData;
-        return $userData;
+       $userData['usertoken'] =$signInData;
+       return $userData;
         //$userData = $this->usersprofile->getUserDetails($email,$password);
-//        if($userData)
-//        {
-//            //dd($userData[0]['userid']);
+        if($userData)
+        {
+            //dd($userData[0]['userid']);
 //            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
 //            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
 //            $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
@@ -700,20 +658,20 @@ class UserProfileController extends Controller
 //            {
 //                $redirectionurl = "localhost:8000/api/v1/users/register";
 //            }
-//            
-//            return response()->json([
-//              'status' => 'Login Success',
-//              'userProfile' => $userData,
-//              'redirection_url' => $redirectionurl,
-//              'inflationvalue' => $inflation,
-//          ], 200); 
-//        }
-//        else
-//        {
-//             return response()->json([
-//              'status' => 'Login Failed Invalid Credentials'
-//          ], 400);
-//        }
+            
+            return response()->json([
+              'status' => 'Login Success',
+              'userProfile' => $userData,
+              //'redirection_url' => $redirectionurl,
+              //'inflationvalue' => $inflation,
+          ], 200); 
+        }
+        else
+        {
+             return response()->json([
+              'status' => 'Login Failed Invalid Credentials'
+          ], 400);
+        }
          
     }
     

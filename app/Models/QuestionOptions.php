@@ -18,4 +18,8 @@ public function InsertQuestionsOptions($arr) {
     
     return $this->insertGetId($arr);
 }
+public function getQuestionsOptions($id) {
+    
+    return $this->where('questionid',$id)->get()->toArray();
+}
 }
