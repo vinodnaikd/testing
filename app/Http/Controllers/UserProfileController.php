@@ -661,6 +661,7 @@ class UserProfileController extends Controller
 //                $redirectionurl = "localhost:8000/api/v1/users/register";
 //            }
 //            
+ $redirectionurl = "localhost:8000/api/v1/users/register";
             return response()->json([
               'status' => 'Login Success',
               'userProfile' => $userData,
