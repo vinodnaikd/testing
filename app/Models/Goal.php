@@ -16,8 +16,12 @@ class Goal extends Model
     'goal_id',
 ];
   
-public function InsertCustomerGoals($arr) {
-    
-    return $this->insertGetId($arr);
-}
+	public function InsertCustomerGoals($arr) {
+	    
+	    return $this->insertGetId($arr);
+	}
+    public function getGoalsList($id)
+    {
+	return $this->where('customerid','=',$id)->get()->toArray();
+    }
 }

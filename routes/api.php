@@ -48,6 +48,7 @@ Route::post('/v1/users/signin', 'UserProfileController@signIn');
 
 //Route::group(['middleware' => 'jwt.verify'], function(){
     Route::post('/v1/users/register', 'UserProfileController@Register');
+    Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
 //Bank Routes
 Route::post('/v1/users/getbanklist', 'BankController@show');
@@ -87,7 +88,7 @@ Route::post('/v1/users/reports/checkoutorderlist', 'CheckoutSummarysController@c
 //Goal Routes
 Route::post('/v1/users/goals', 'GoalController@show');
 Route::post('/v1/users/addgoals', 'GoalController@store');
-Route::get('/v1/users/goalslist', 'GoalController@getGoalsList');
+Route::post('/v1/users/goalslist', 'GoalController@getGoalsList');
     //End Of Routes
 
 //ProductSelection Routes

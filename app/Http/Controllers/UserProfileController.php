@@ -747,6 +747,52 @@ class UserProfileController extends Controller
             'customernomineeData' => $customernominee,
         ], 200);
     }
+
+    public function RegisterData(Request $request)
+    {
+      $action = $request['action'];
+      $validator = Validator::make($request->all(), [
+             'customerid' => 'required|string|max:200'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+      if($action == "customerdetails")
+      {
+        $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($request['customerid']);
+          return response()->json([
+            'status' => 'Success',
+            'customerdetails' => $getCustomerDetailsData
+        ], 200);
+      }
+      elseif($action == "customerbank")
+      {
+        $getCustomerBankDetailsData = $this->customerbank->getCustomerBankDetails($request['customerid']);
+          return response()->json([
+            'status' => 'Success',
+            'customerBankdetails' => $getCustomerBankDetailsData
+        ], 200);
+      }
+      elseif($action == "customernominee")
+      {
+        $getCustomerNomineeDetails = $this->customernominee->getCustomerNomineeDetails($request['customerid']);
+          return response()->json([
+            'status' => 'Success',
+            'customernomineeData' => $getCustomerNomineeDetails
+        ], 200);
+      }
+      elseif($action == "customeraddress")
+      {
+        $getCustomerAddress = $this->customeraddress->getCustomerAddress($request['customerid']);
+          return response()->json([
+            'status' => 'Success',
+            'customerAddress' => $getCustomerAddress
+        ], 200);
+      }
+    }
     
     /**
      * Display the specified resource.

@@ -98,25 +98,19 @@ class GoalController extends Controller
  public function getGoalsList(Request $request)
     {
        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|string|max:255',
+            'customerid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'messages' => $validator->messages()
-            ], 200);
+            ], 400);
         }
         
-        $data = (object)Array(
-        "goal_name" => "marriage proposal",
-       "cost_goal" => "100000",
-       "time_frame" => "21/07/2019",
-       "future_cost" => "50000",
-       "goal_id" => "i");
+        $data = $this->goals->getGoalsList($request['customerid']);
 	   
 	   return response()->json([
-            $data
-            
+          "GoalsList" => $data
         ], 200);
     }
     /**
