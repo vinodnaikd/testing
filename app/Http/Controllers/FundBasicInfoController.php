@@ -2,11 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\FundBasicInfo;
+use App\Models\FundBasicInfo;
+use App\Models\FundInfo;
+use App\Models\FundPerformance;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
+use Session;
+use Auth;
+use Carbon\Carbon;
 class FundBasicInfoController extends Controller
 {
+    public function __construct(
+        FundBasicInfo $fundBasicInfo,
+        FundInfo $fundInfo,
+        FundPerformance $fundPerformance
+    )
+    {
+        $this->fundBasicInfo = $fundBasicInfo;
+        $this->fundInfo = $fundInfo;
+        $this->fundPerformance = $fundPerformance;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +50,168 @@ class FundBasicInfoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $validator = Validator::make($request->all(), [
+          'customerid' => 'required|string|max:100',
+          'customergoalid' => 'required|string|max:100',
+          'fundid' => 'required|string|max:255',
+          'orderno' => 'required|string|max:255',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+
+      $reqData['customerid'] = $request['customerid'];
+      $reqData['customergoalid'] = $request['customergoalid'];
+      $reqData['fundid'] = $request['fundid'];
+      $reqData['orderno'] = $request['orderno'];
+      $reqData['customerfundid'] = $request['customerfundid'];
+      $reqData['createdutcdatetime'] = Carbon::now();
+      $reqData['modifiedutcdatetime'] = Carbon::now();
+      if($request['customerfundid'])
+      {
+           $fundposttranData = $this->fundBasicInfo->UpdateCustomerFundPostTran($reqData,$request['customerfundid']);
+           $status="FundPostTran Updated Successfully";
+           $id = $request['customerfundid'];
+      }
+      else
+      {
+           $fundposttranData = $this->fundBasicInfo->InsertCustomerFundPostTran($reqData);
+           $status="FundPostTran Created Successfully";
+           $id = $fundposttranData;
+           
+      }
+      if($fundposttranData)
+      {
+         $fundPostTranData = $this->fundBasicInfo->getCustomerFundPostTran($id);
+       return response()->json([
+              'status' => $status,
+              'fundPostTranData' => $fundPostTranData
+          ], 200);
+      }
+    }
+    
+    public function funddataposttran(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+          'customerid' => 'required|string|max:100',
+          'startdate' => 'required|string|max:255',
+          'purchasetype' => 'required|string|max:255',
+           'customerfundid' => 'required|string|max:100',
+          'sipamount' => 'required|string|max:100',
+          'sipmonthlydate' => 'required|string|max:255',
+          'sipduration' => 'required|string|max:255',
+           'lumpsumamount' => 'required|string|max:100',
+          'nextsipdate' => 'required|string|max:100',
+           'enddate' => 'required|string|max:100',
+         
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+
+      $reqData['customerid'] = $request['customerid'];
+      $reqData['funddataid'] = $request['funddataid'];
+      $reqData['startdate'] = $request['startdate'];
+      $reqData['purchasetype'] = $request['purchasetype'];
+      $reqData['customerfundid'] = $request['customerfundid'];
+      $reqData['sipamount'] = $request['sipamount'];
+      $reqData['sipmonthlydate'] = $request['sipmonthlydate'];
+      $reqData['sipduration'] = $request['sipduration'];
+      $reqData['lumpsumamount'] = $request['lumpsumamount'];
+      $reqData['nextsipdate'] = $request['nextsipdate'];
+      $reqData['enddate'] = $request['enddate'];
+      $reqData['createdutcdatetime'] = Carbon::now();
+      $reqData['modifiedutcdatetime'] = Carbon::now();
+      if($request['funddataid'])
+      {
+           $funddataposttranData = $this->fundInfo->UpdateCustomerFundDataPostTran($reqData,$request['funddataid']);
+           $status="FundDataPostTran Updated Successfully";
+           $id = $request['funddataid'];
+      }
+      else
+      {
+           $funddataposttranData = $this->fundInfo->InsertCustomerFundDataPostTran($reqData);
+           $status="FundDataPostTran Created Successfully";
+           $id = $funddataposttranData;
+           
+      }
+      if($funddataposttranData)
+      {
+         $funddataPostTranData = $this->fundInfo->getCustomerFundDataPostTran($id);
+       return response()->json([
+              'status' => $status,
+              'FundDataPostTran' => $funddataPostTranData
+          ], 200);
+      }
+    }
+    
+    public function funddetailposttran(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+          'customerid' => 'required|string|max:100',
+          'funddataid' => 'required|string|max:255',
+          'fundid' => 'required|string|max:255',
+          'purchasetype' => 'required|string|max:255',
+           'customerfundid' => 'required|string|max:100',
+          'units' => 'required|string|max:100',
+          'purchasenavvalue' => 'required|string|max:255',
+          'purchasevalue' => 'required|string|max:255',
+           'investmentamount' => 'required|string|max:100',
+          'transactionstatus' => 'required|string|max:100',
+           'transactiondate' => 'required|string|max:100',
+           'transactionrefcode' => 'required|string|max:100',
+           'remarks' => 'required|string|max:100',
+         
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+
+      $reqData['customerid'] = $request['customerid'];
+      $reqData['funddataid'] = $request['funddataid'];
+      $reqData['fundid'] = $request['fundid'];
+      $reqData['purchasetype'] = $request['purchasetype'];
+      $reqData['customerfundid'] = $request['customerfundid'];
+      $reqData['transactiondate'] = $request['transactiondate'];
+      $reqData['units'] = $request['units'];
+      $reqData['purchasenavvalue'] = $request['purchasenavvalue'];
+      $reqData['purchasevalue'] = $request['purchasevalue'];
+      $reqData['investmentamount'] = $request['investmentamount'];
+      $reqData['transactionstatus'] = $request['transactionstatus'];
+      $reqData['transactionrefcode'] = $request['transactionrefcode'];
+      $reqData['remarks'] = $request['remarks'];
+      $reqData['createdutcdatetime'] = Carbon::now();
+      $reqData['modifiedutcdatetime'] = Carbon::now();
+      if($request['funddetailid'])
+      {
+           $funddetailposttranData = $this->fundPerformance->UpdateCustomerFundDetailPostTran($reqData,$request['funddataid']);
+           $status="FundDetailPostTran Updated Successfully";
+           $id = $request['funddetailid'];
+      }
+      else
+      {
+           $funddetailposttranData = $this->fundPerformance->InsertCustomerFundDetailPostTran($reqData);
+           $status="FundDetailPostTran Created Successfully";
+           $id = $funddetailposttranData;
+           
+      }
+      if($funddetailposttranData)
+      {
+         $funddetailPostTranData = $this->fundPerformance->getCustomerFundDetailPostTran($id);
+       return response()->json([
+              'status' => $status,
+              'FundDetailPostTran' => $funddetailPostTranData
+          ], 200);
+      }
     }
 
     /**

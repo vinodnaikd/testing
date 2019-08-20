@@ -141,7 +141,10 @@ Route::get('/v1/records/wealthdashboard', 'DashboardRecordsController@wealthDash
 //End Of Routes
 
 //Dashboard Routes
-Route::post('/v1/products/funddetails/fundsbasicinfo', 'FundBasicInfoController@show');
+Route::post('/v1/products/funddetails/customerfundposttran', 'FundBasicInfoController@store');
+Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoController@funddataposttran');
+Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
+
 //End Of Routes
 
 //Dashboard Routes
@@ -181,6 +184,7 @@ Route::get('/v1/products/getmutualfund', 'ProductController@getMutualFund');
 
 //Notification Routes
 Route::post('/v1/users/addnotification', 'NotificationController@store');
+Route::post('/v1/users/getusernotifications', 'NotificationController@show');
 Route::post('/v1/users/removenotification', 'NotificationController@removeNotification');
 Route::post('/v1/users/notificationstatus', 'NotificationController@notificationStatus');
     //End Of Routes

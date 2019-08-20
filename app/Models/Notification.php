@@ -20,4 +20,9 @@ class Notification extends Model
        return $this->insertGetId($arr);
         
     }
+    
+        public function getUserNotifications($userid)
+    {
+	return $this->where('userid','=',$userid)->get()->toArray();
+    }
 }

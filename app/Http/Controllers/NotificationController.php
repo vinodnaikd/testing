@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Notification;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 class NotificationController extends Controller
 {
+    public function __construct(
+        Notification $customernotifications
+    )
+    {
+
+        $this->customernotifications = $customernotifications;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -83,9 +90,23 @@ class NotificationController extends Controller
      * @param  \App\Notification  $notification
      * @return \Illuminate\Http\Response
      */
-    public function show(Notification $notification)
+    public function show(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'userid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $userid = $request['userid'];
+       $usernotifications = $this->customernotifications->getUserNotifications($userid);
+       return response()->json([
+                'status' => 'success',
+                'usernotifications' => $usernotifications
+            ], 200);
     }
 
     /**
