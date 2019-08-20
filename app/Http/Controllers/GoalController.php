@@ -49,7 +49,7 @@ class GoalController extends Controller
             'time_frame' => 'required|string|max:255',
             'customerid' => 'required|string|max:255',
             'future_cost' => 'required|string|max:255',
-            //'goal_id' => 'required|string|max:255',
+            //'goalpriority' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([

@@ -182,7 +182,7 @@ class UserProfileController extends Controller
     }
     public function Register(Request $request)
     {
-      dd($request->json());
+      //dd($request->json());
       if($request['action'] == "customer")
           {
           $validator = Validator::make($request->all(), [
@@ -361,7 +361,7 @@ class UserProfileController extends Controller
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
         $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
-        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo['customerid']);
+        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
 //        dd($customerBankData[0]['customerbankid']); 
         if($customerBankData)
          {

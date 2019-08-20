@@ -106,7 +106,11 @@ class QuestionController extends Controller
            
             $questionoptionsData1 = $this->questionoptions->getQuestionsOptions($value['questionid']);
             $queData['questionid'] = $value['questionid'];
-                $queData['questiontext'] = $value['questiontext'];
+            $queData['questiontext'] = $value['questiontext'];
+            if($queData['questionid'] == "10007")
+            {
+            $queData['imagepath'] = url('/portfolio.png');
+            }
                  $queOptnData1 = array();
             foreach ($questionoptionsData1 as $key1 => $value1) {
                 
