@@ -752,8 +752,9 @@ class UserProfileController extends Controller
     {
       $action = $request['action'];
       $validator = Validator::make($request->all(), [
-             'customerid' => 'required|string|max:200'
+             'userid' => 'required|string|max:200'
         ]);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         if($validator->fails()) {
             return response()->json([
                 'status' => 'error',
@@ -762,7 +763,7 @@ class UserProfileController extends Controller
         }
       if($action == "customerdetails")
       {
-        $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($request['customerid']);
+        $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo['customerid']);
           return response()->json([
             'status' => 'Success',
             'customerdetails' => $getCustomerDetailsData
@@ -770,7 +771,7 @@ class UserProfileController extends Controller
       }
       elseif($action == "customerbank")
       {
-        $getCustomerBankDetailsData = $this->customerbank->getCustomerBankDetails($request['customerid']);
+        $getCustomerBankDetailsData = $this->customerbank->getCustomerBankDetails($getCustomerInfo['customerid']);
           return response()->json([
             'status' => 'Success',
             'customerBankdetails' => $getCustomerBankDetailsData
@@ -778,7 +779,7 @@ class UserProfileController extends Controller
       }
       elseif($action == "customernominee")
       {
-        $getCustomerNomineeDetails = $this->customernominee->getCustomerNomineeDetails($request['customerid']);
+        $getCustomerNomineeDetails = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo['customerid']);
           return response()->json([
             'status' => 'Success',
             'customernomineeData' => $getCustomerNomineeDetails
@@ -786,7 +787,7 @@ class UserProfileController extends Controller
       }
       elseif($action == "customeraddress")
       {
-        $getCustomerAddress = $this->customeraddress->getCustomerAddress($request['customerid']);
+        $getCustomerAddress = $this->customeraddress->getCustomerAddress($getCustomerInfo['customerid']);
           return response()->json([
             'status' => 'Success',
             'customerAddress' => $getCustomerAddress
