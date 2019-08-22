@@ -43,7 +43,7 @@ class GoalController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->json()->all(), [
             'goal_name' => 'required|string|max:255',
             'cost_goal' => 'required|string|max:255',
             'time_frame' => 'required|string|max:255',
@@ -55,13 +55,13 @@ class GoalController extends Controller
             return response()->json([
                 'status' => 'error',
                 'messages' => $validator->messages()
-            ], 200);
+            ], 400);
         }
         $reqData['customerid'] = $request['customerid'];
         $reqData['goalname'] = $request['goal_name'];
         $reqData['goalcost'] = $request['cost_goal'];
         $reqData['timeframe'] = $request['time_frame'];
-        $reqData['futurecost'] = $request['futurecost'];
+        $reqData['futurecost'] = $request['future_cost'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
         $goalData = $this->goals->InsertCustomerGoals($reqData);
