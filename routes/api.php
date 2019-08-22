@@ -153,7 +153,7 @@ Route::post('/v1/products/funddetails/navdetails', 'FundBasicInfoController@show
 //End Of Routes
 
 //RiskDashboard Routes
-Route::post('/v1/users/reports/getriskprofile', 'RiskDashboardRecordController@getRiskDashboardRecords');
+//Route::post('/v1/users/reports/getriskprofile', 'RiskDashboardRecordController@getRiskDashboardRecords');
 //End Of Routes
 
 //RiskProfileDashboard Routes
