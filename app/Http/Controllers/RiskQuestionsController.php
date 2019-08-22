@@ -81,7 +81,7 @@ class RiskQuestionsController extends Controller
     public function getRiskProfileScore(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customerid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -89,7 +89,8 @@ class RiskQuestionsController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($request['customerid']);
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
                 return response()->json([
                 'status' => 'success',
                 'riskprofilescore' => $customerRiskProfileScore
@@ -100,7 +101,7 @@ class RiskQuestionsController extends Controller
     public function getRiskProfile(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'customerid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -108,8 +109,8 @@ class RiskQuestionsController extends Controller
                 'messages' => $validator->messages()
             ], 200);
         }
-        
-        $customerRiskProfile = $this->riskprofile->getCustomerRiskProfile($request['customerid']);
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $customerRiskProfile = $this->riskprofile->getCustomerRiskProfile($getCustomerInfo['customerid']);
                 return response()->json([
                 'status' => 'success',
                 'riskprofile' => $customerRiskProfile
