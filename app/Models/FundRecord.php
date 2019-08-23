@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class FundRecord extends Model
 {
+  protected $table = "customerorderpretran";
   protected $fillable =
    [
-       'fundsname',
-       'aasetsundermanagement',
-       'inceptiondate',
-       'currentnav',
-       'exitload',
-       '1/2yrreturn',
-       '1yrreturn',
-       '3yrreturn',
-       '5yrreturn',
-       'fund_description',
-       'fund_id',
+       'customerorderid',
+       'customerid',
+       'orderdate',
+       'orderno',
+       'orderstatus',
    ];
+
+   public function getCustomerSelectedProducts($customerid)
+   {
+    return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid',$customerid)->get()->toArray();
+   }
 }

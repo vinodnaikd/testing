@@ -141,10 +141,12 @@ Route::get('/v1/records/usergoals', 'DashboardRecordsController@userGoals');
 Route::get('/v1/records/wealthdashboard', 'DashboardRecordsController@wealthDashboard');
 //End Of Routes
 
-//Dashboard Routes
+//Fund Routes
 Route::post('/v1/products/funddetails/customerfundposttran', 'FundBasicInfoController@store');
 Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoController@funddataposttran');
 Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
+Route::get('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
+Route::get('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
 
 //End Of Routes
 

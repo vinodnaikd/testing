@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\FundBasicInfo;
 use App\Models\FundInfo;
 use App\Models\FundPerformance;
+use App\Models\FundRecord;
+use App\Models\FundClass;
+use App\Models\fundProducts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -15,12 +18,18 @@ class FundBasicInfoController extends Controller
     public function __construct(
         FundBasicInfo $fundBasicInfo,
         FundInfo $fundInfo,
-        FundPerformance $fundPerformance
+        FundPerformance $fundPerformance,
+        FundClass $fundclass,
+        FundProducts $fundproducts,
+        FundRecord $fundrecord
     )
     {
         $this->fundBasicInfo = $fundBasicInfo;
         $this->fundInfo = $fundInfo;
         $this->fundPerformance = $fundPerformance;
+        $this->fundclass = $fundclass;
+        $this->fundproducts = $fundproducts;
+        $this->fundrecord = $fundrecord;
     }
     /**
      * Display a listing of the resource.
@@ -232,24 +241,64 @@ class FundBasicInfoController extends Controller
     return response()->json($data);
     }
     
-//     public function getFundsBasicInfo(Request $request)
-//    {
-//         $validator = Validator::make($request->all(), [
-//            'category_id' => 'required|string|max:255|unique:users',
-//             'subcategory_id' => 'required|string|max:255|unique:users',
-//             'fundhouse_id' => 'required|string|max:255|unique:users',
-//        ]);
-//        if($validator->fails()) {
-//            return response()->json([
-//                'status' => 'error',
-//                'messages' => $validator->messages()
-//            ], 200);
-//        }
-//        
-//       $data['category_name'] ="string";
-//       $data['categoryname_id']="String";	
-//        return response()->json($data);
-//    }
+    public function getFundsDetails()
+   {
+        
+        //Get the nri elligbility and pass to getFundProducts
+      $nrielligble = "";
+      $fundclassassests = $this->fundclass->getFundClassAssestType();
+      $fundAssets = array();
+      foreach($fundclassassests as $key =>$value)
+      {
+         $assests['assettype'] = $value['assettype'];
+         $fundclassData = $this->fundclass->getFundClass($value['assettype']);
+
+         $fundClass = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['category'] = $value1['category'];
+            $fund['subcategory'] = $value1['subcategory'];
+
+            $fundProducts = array();
+           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid']);
+         foreach($fundprodcutsData as $key2 => $value2)
+         {
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['amccode'] = $value2['amccode'];
+              array_push($fundProducts, $products);
+         }
+              $fund['fundproducts'] = $fundProducts;
+            array_push($fundClass, $fund);
+         }
+         $assests['fundclass'] = $fundClass;
+         array_push($fundAssets, $assests);
+      }
+      return response()->json([
+              'funds' => $fundAssets
+          ], 200);
+   }
+
+   public function getCustomerSelectedProducts()
+   {
+        
+           $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts(16);
+           //dd($fundprodcutsData);
+        /* foreach($fundprodcutsData as $key2 => $value2)
+         {
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['amccode'] = $value2['amccode'];
+              array_push($fundProducts, $products);
+         }*/
+             
+      return response()->json([
+              'fundslist' => $fundprodcutsData
+          ], 200);
+   }
 
     /**
      * Show the form for editing the specified resource.

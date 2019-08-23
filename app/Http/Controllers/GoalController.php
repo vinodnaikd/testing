@@ -6,14 +6,16 @@ use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
+use App\Models\Customer;
 class GoalController extends Controller
 {
     public function __construct(
-        Goal $goals
+        Goal $goals,
+        Customer $customer
     )
     {
         $this->goals = $goals;
+        $this->customer = $customer;
     }
     /**
      * Display a listing of the resource.
@@ -98,7 +100,7 @@ class GoalController extends Controller
  public function getGoalsList(Request $request)
     {
        $validator = Validator::make($request->all(), [
-            'customerid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -106,8 +108,8 @@ class GoalController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-        
-        $data = $this->goals->getGoalsList($request['customerid']);
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $data = $this->goals->getGoalsList($getCustomerInfo['customerid']);
 	   
 	   return response()->json([
           "GoalsList" => $data
