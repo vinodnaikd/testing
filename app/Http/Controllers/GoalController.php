@@ -59,7 +59,8 @@ class GoalController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-        $reqData['customerid'] = $request['customerid'];
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['goalname'] = $request['goal_name'];
         $reqData['goalcost'] = $request['cost_goal'];
         $reqData['timeframe'] = $request['time_frame'];

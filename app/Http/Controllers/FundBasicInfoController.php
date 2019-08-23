@@ -284,8 +284,23 @@ class FundBasicInfoController extends Controller
 
    public function getCustomerSelectedProducts()
    {
-        
-           $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts(16);
+          $fundassestData = $this->fundclass->getCustomerSelectedAssests();
+          $assetsArray = array();
+          foreach($fundassestData as $key => $value)
+          {
+            $assets['assettype'] = $value['assettype'];
+            $selectedProductsArray = array();
+            $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts(16);
+            foreach ($fundprodcutsData as $key1 => $value1) {
+                    $fundproducts['fundid'] = $value1['fundid'];
+                    $fundproducts['fundname'] = $value1['fundname'];
+                    $fundproducts['amccode'] = $value1['amccode'];
+                    array_push($selectedProductsArray, $fundproducts);
+            }
+            $assets['fundslist'] = $selectedProductsArray;
+            array_push($assetsArray, $assets);
+          }
+           
            //dd($fundprodcutsData);
         /* foreach($fundprodcutsData as $key2 => $value2)
          {
@@ -296,7 +311,7 @@ class FundBasicInfoController extends Controller
          }*/
              
       return response()->json([
-              'fundslist' => $fundprodcutsData
+              'selectedProducts' => $assetsArray
           ], 200);
    }
 
