@@ -49,7 +49,7 @@ class GoalController extends Controller
             'goal_name' => 'required|string|max:255',
             'cost_goal' => 'required|string|max:255',
             'time_frame' => 'required|string|max:255',
-            'customerid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
             'future_cost' => 'required|string|max:255',
             //'goalpriority' => 'required|string|max:255',
         ]);
