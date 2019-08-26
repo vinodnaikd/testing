@@ -245,7 +245,7 @@ class FundBasicInfoController extends Controller
    {
         
         //Get the nri elligbility and pass to getFundProducts
-      $nrielligble = "";
+      $nrielligble = "1";
       $fundclassassests = $this->fundclass->getFundClassAssestType();
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
@@ -263,7 +263,7 @@ class FundBasicInfoController extends Controller
             $fund['subcategory'] = $value1['subcategory'];
 
             $fundProducts = array();
-           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid']);
+           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
          foreach($fundprodcutsData as $key2 => $value2)
          {
               $products['fundid'] = $value2['fundid'];
@@ -294,24 +294,65 @@ class FundBasicInfoController extends Controller
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
-                    $fundproducts['amccode'] = $value1['amccode'];
+                    $fundproducts['purchasetype'] = $value1['purchasetype'];
+                    $fundproducts['sipamount'] = $value1['sipamount'];
+                    $fundproducts['sipmonthlydate'] = $value1['sipmonthlydate'];
+                    $fundproducts['sipduration'] = $value1['sipduration'];
+                    $fundproducts['sipunits'] = $value1['sipunits'];
+                    $fundproducts['lumpsumamount'] = $value1['lumpsumamount'];
+                    $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
+                    $fundproducts['transactionstatus'] = $value1['transactionstatus'];
                     array_push($selectedProductsArray, $fundproducts);
             }
             $assets['fundslist'] = $selectedProductsArray;
             array_push($assetsArray, $assets);
           }
            
-           //dd($fundprodcutsData);
-        /* foreach($fundprodcutsData as $key2 => $value2)
-         {
-              $products['fundid'] = $value2['fundid'];
-              $products['fundname'] = $value2['fundname'];
-              $products['amccode'] = $value2['amccode'];
-              array_push($fundProducts, $products);
-         }*/
-             
       return response()->json([
               'selectedProducts' => $assetsArray
+          ], 200);
+   }
+
+   public function getCustomerOrderDetails()
+   {
+            $goalid = "61BDFA56-63F4-4F9E-AF31-C936970DB9DE";
+            // Lumpsum Amount 
+            $purchasetype = "L";
+            $selectedProductsArray = array();
+            $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary(16,$goalid,$purchasetype);
+            foreach ($fundprodcutsData as $key1 => $value1) {
+                    $fundproducts['fundid'] = $value1['fundid'];
+                    $fundproducts['fundname'] = $value1['fundname'];
+                    $fundproducts['purchasetype'] = $value1['purchasetype'];
+                    $fundproducts['lumpsumamount'] = $value1['lumpsumamount'];
+                    $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
+                    $fundproducts['transactionstatus'] = $value1['transactionstatus'];
+                    array_push($selectedProductsArray, $fundproducts);
+            }
+            $amount = array_sum(array_column($selectedProductsArray, 'lumpsumamount'));
+            $lumpsumamount['Lumpsum Amount'] = $amount;
+            $lumpsumamount['Lumpsum'] = $selectedProductsArray;
+
+            // Sip Amount 
+            $purchasetype = "s";
+            $selectedProductsArray1 = array();
+            $fundprodcutsData1 = $this->fundrecord->getCustomerOrderSummary(16,$goalid,$purchasetype);
+            foreach ($fundprodcutsData1 as $key1 => $value1) {
+                    $fundproducts1['fundid'] = $value1['fundid'];
+                    $fundproducts1['fundname'] = $value1['fundname'];
+                    $fundproducts1['purchasetype'] = $value1['purchasetype'];
+                    $fundproducts1['sipamount'] = $value1['sipamount'];
+                    $fundproducts1['sipmonthlydate'] = $value1['sipmonthlydate'];
+                    $fundproducts1['sipduration'] = $value1['sipduration'];
+                    $fundproducts1['sipunits'] = $value1['sipunits'];
+                    $fundproducts1['transactionstatus'] = $value1['transactionstatus'];
+                    array_push($selectedProductsArray1, $fundproducts1);
+            }
+            $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
+            $lumpsumamount['Sip Amount'] = $amount1;
+            $lumpsumamount['Sip'] = $selectedProductsArray1;
+      return response()->json([
+              'orderdetails' => $lumpsumamount
           ], 200);
    }
 

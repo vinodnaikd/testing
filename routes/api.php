@@ -147,6 +147,7 @@ Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoC
 Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
 Route::get('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
 Route::get('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
+Route::get('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
 
 //End Of Routes
 

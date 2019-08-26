@@ -19,6 +19,6 @@ class FundProducts extends Model
     public function getFundProducts($fundid,$isnrielligble)
     {
     	//Add query inactive = 1
-        return $this->where('fundclassid',$fundid)->get()->toArray();
+        return $this->where('fundclassid',$fundid)->orderby('rank')->get()->toArray();
     }
 }

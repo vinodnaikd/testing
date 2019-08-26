@@ -60,7 +60,18 @@ class RiskQuestionsController extends Controller
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
-      $riskProfile = $this->riskprofile->InsertCustomerRiskProfile($reqData);
+
+        if($request['riskprofileid'])
+        {
+            //update Risk Profile
+            $riskProfile = $this->riskprofile->UpdateCustomerRiskProfile($request['riskprofileid'],$reqData);
+        }
+        else
+        {
+            // Insert Risk Profile
+            $riskProfile = $this->riskprofile->InsertCustomerRiskProfile($reqData);
+        }
+        
       if($riskProfile)
       {
                 $customerRiskProfile = $this->riskprofile->getCustomerRiskProfile($getCustomerInfo['customerid']);

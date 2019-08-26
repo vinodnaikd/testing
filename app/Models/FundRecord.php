@@ -18,6 +18,12 @@ class FundRecord extends Model
 
    public function getCustomerSelectedProducts($customerid)
    {
-    return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid',$customerid)->get()->toArray();
+    return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')
+                ->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->where('customerid',$customerid)->get()->toArray();
+   }
+
+   public function getCustomerOrderSummary($customerid,$goal_id,$purchasetype)
+   {
+    return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.purchasetype',$purchasetype)->get()->toArray();
    }
 }

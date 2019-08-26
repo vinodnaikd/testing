@@ -13,10 +13,14 @@ class RiskQuestions extends Model
         'customerid',
         'optionid'
     ];
-  
+  public $timestamps = false;
     public function InsertCustomerRiskProfile($arr)
     {
       return $this->insertGetId($arr);
+    }
+    public function UpdateCustomerRiskProfile($Id,$arr)
+    {
+      return $this->where('riskprofileid','=',$Id)->update($arr);
     }
     public function getCustomerRiskProfileScore($customerId)
     {
