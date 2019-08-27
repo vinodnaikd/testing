@@ -7,7 +7,9 @@ use App\Models\FundInfo;
 use App\Models\FundPerformance;
 use App\Models\FundRecord;
 use App\Models\FundClass;
+use App\Models\Customer;
 use App\Models\fundProducts;
+use App\Models\Fundroi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -21,7 +23,9 @@ class FundBasicInfoController extends Controller
         FundPerformance $fundPerformance,
         FundClass $fundclass,
         FundProducts $fundproducts,
-        FundRecord $fundrecord
+        FundRecord $fundrecord,
+        Customer $customer,
+        Fundroi $fundroi
     )
     {
         $this->fundBasicInfo = $fundBasicInfo;
@@ -30,6 +34,8 @@ class FundBasicInfoController extends Controller
         $this->fundclass = $fundclass;
         $this->fundproducts = $fundproducts;
         $this->fundrecord = $fundrecord;
+        $this->customer = $customer;
+        $this->fundroi = $fundroi;
     }
     /**
      * Display a listing of the resource.
@@ -356,6 +362,69 @@ class FundBasicInfoController extends Controller
           ], 200);
    }
 
+    public function CustomerFundSelection(Request $request)
+   {
+      $fundselection = $request->json()->all();
+      foreach ($fundselection as $key => $value) {
+        $validator = Validator::make($value, [
+          'userid' => 'required|string|max:100',
+          'orderdate' => 'required|string|max:255',
+          'fundid' => 'required|string|max:255',
+          'orderstatus' => 'required|string|max:255',
+          'customergoalid' => 'required|string|max:100',
+          'purchasetype' => 'required|string|max:100',
+          'startdate' => 'required|string|max:255'
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+
+      $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+      if($orderstatus)
+      {
+        //dd($orderstatus);
+          $reqData1['fundid'] = $value['fundid'];
+          $reqData1['purchasetype'] = $value['purchasetype'];
+          $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+          $reqData1['customerorderid'] = $orderstatus['customerorderid'];
+          $reqData1['customergoalid'] = $value['customergoalid'];
+          $reqData1['startdate'] = $value['startdate'];
+          $reqData1['createdutcdatetime'] = Carbon::now();
+          $reqData1['modifiedutcdatetime'] = Carbon::now();
+          $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+      }
+      else
+      {
+
+      $reqData['customerid'] = $getCustomerInfo['customerid'];
+      $reqData['orderdate'] = $value['orderdate'];
+      $reqData['orderno'] = "65656565365";
+      $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-KJSDDF3575".mt_rand(10,100);
+      $reqData1['fundid'] = $value['fundid'];
+      $reqData1['purchasetype'] = $value['purchasetype'];
+      $reqData['orderstatus'] = $value['orderstatus'];
+      $reqData1['customergoalid'] = $value['customergoalid'];
+      $reqData1['startdate'] = $value['startdate'];
+      $reqData1['createdutcdatetime'] = Carbon::now();
+      $reqData1['modifiedutcdatetime'] = Carbon::now();
+
+      $fundselectionData = $this->fundrecord->InsertCustomerOrderPretran($reqData);
+      if($fundselectionData == 0)
+      {
+        
+          $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+          $reqData1['customerorderid'] = $reqData['customerorderid'];
+          $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+      }
+
+      }
+     }
+    }
     /**
      * Show the form for editing the specified resource.
      *

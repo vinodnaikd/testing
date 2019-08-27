@@ -26,4 +26,17 @@ class FundRecord extends Model
    {
     return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.purchasetype',$purchasetype)->get()->toArray();
    }
+   public function InsertCustomerOrderPretran($arr)
+    {
+      return $this->insertGetId($arr);
+    }
+   public function InsertCustomerOrderDetailsPretran($arr)
+    {
+      return $this->insertGetId($arr);
+    }
+   public function CheckCustomerOrderStatus($id)
+    {
+      return $this->where('customerid',$id)->where('orderstatus','Pending')->first();
+    }
+
 }

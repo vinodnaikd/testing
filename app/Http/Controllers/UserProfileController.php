@@ -240,7 +240,11 @@ class UserProfileController extends Controller
 //            'status' => 'success',
 //            'userprofile' => $data
 //        ], 200);
-         $validator = Validator::make($request->all(), [
+            $customerdetailsArray = $request->json()->all();
+            foreach ($customerdetailsArray as $key => $value) {
+              # code...
+            // print_r($value);
+         $validator = Validator::make($value, [
           'email' => 'required|email|max:255',
           'firstname' => 'required|string|max:100',
           'lastname' => 'required|string|max:100',
@@ -262,24 +266,25 @@ class UserProfileController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
-        $reqData['email'] = $request['email'];
-        $reqData['firstname'] = $request['firstname'];
-        $reqData['lastname'] = $request['lastname'];
-        $reqData['dateofbirth'] = $request['dob'];
+        $reqData['email'] = $value['email'];
+        $reqData['firstname'] = $value['firstname'];
+        $reqData['lastname'] = $value['lastname'];
+        $reqData['dateofbirth'] = $value['dob'];
         //$reqData['userid'] = $request['userid'];
-        $reqData['mobileno'] = $request['mobile_number'];
-        $reqData['occupation'] = $request['occupation'];
-        $reqData['pannumber'] = $request['pan_number'];
-        $reqData['residential_status'] = $request['residential_status'];
-        $reqData['income_group'] = $request['income_group'];
-        $reqData['political_affiliations'] = $request['political_affiliations'];
-        $reqData['country_birth'] = $request['country_birth'];
-        $reqData['salution'] = $request['salution'];
-        $reqData['marital_status'] = $request['marital_status'];
+        $reqData['mobileno'] = $value['mobile_number'];
+        $reqData['occupation'] = $value['occupation'];
+        $reqData['pannumber'] = $value['pan_number'];
+        $reqData['residential_status'] = $value['residential_status'];
+        $reqData['income_group'] = $value['income_group'];
+        $reqData['political_affiliations'] = $value['political_affiliations'];
+        $reqData['country_birth'] = $value['country_birth'];
+        $reqData['salution'] = $value['salution'];
+        $reqData['marital_status'] = $value['marital_status'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
-        $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
+        $getCustomerInfo = $this->customer->getUserDetails($value['userid']);
         $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+
         //dd($getUserInfo);
         if($getCustomerDetailsData)
         {
@@ -318,12 +323,12 @@ class UserProfileController extends Controller
         }
         }
         
-
+}
           }
    elseif($request['action'] == "customerbank")
           {
         // $request['account_num'] = "122";
-         $validator = Validator::make($request->all(), [
+         $validator = Validator::make($request->json()->all(), [
           'account_num' => 'required|string|max:255',
           'account_type' => 'required|string|max:100',
           'full_name' => 'required|string|max:100',
@@ -337,6 +342,7 @@ class UserProfileController extends Controller
           'bankname' => 'required|string|max:100',
           'branchname' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
+          'userid' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -360,7 +366,7 @@ class UserProfileController extends Controller
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
-        $getCustomerInfo = $this->customer->getUserDetails($request['userid']);
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
 //        dd($customerBankData[0]['customerbankid']); 
         if($customerBankData)
@@ -450,7 +456,7 @@ class UserProfileController extends Controller
 //            'nominee1' => $data3,
 //            'nominee2' => $data4
 //        ];
-              $validator = Validator::make($request->all(), [
+             /* $validator = Validator::make($request->all(), [
           'customernominee' => 'required|string',
            ]);
           if($validator->fails()) {
@@ -458,11 +464,12 @@ class UserProfileController extends Controller
               'status' => 'error',
               'messages' => $validator->messages()
           ], 400);
-          }
+          }*/
       // $request['customernominee'] = $nomineeData;
-       $nomineeData = json_decode($request['customernominee'],true);
+       //$nomineeData = json_decode($request['customernominee'],true);
+       $nomineeData = $request->json()->all();
 //       dd($nomineeData);
-       $getCustomerInfo = $this->customer->getUserDetails($nomineeData['nominee1']['userid']);
+       $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
          $value['customerid'] = $getCustomerInfo['customerid'];
          $value['addressline1'] = $value['nominee_address']['addressline1'];
@@ -536,7 +543,7 @@ class UserProfileController extends Controller
           
    elseif($request['action'] == "customeraddress")
           {
-       $validator = Validator::make($request->all(), [
+      /* $validator = Validator::make($request->all(), [
           'customeraddress' => 'required|string',
            ]);
           if($validator->fails()) {
@@ -544,14 +551,14 @@ class UserProfileController extends Controller
               'status' => 'error',
               'messages' => $validator->messages()
           ], 400);
-          }
+          }*/
           
-          $customerAddressData = json_decode($request['customeraddress'],true);
-          $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-          $customerid = $getCustomerInfo['customerid'];
+          // $customerAddressData = json_decode($request['customeraddress'],true);
+          $customerAddressData = $request->json()->all();
+          
            foreach ($customerAddressData['customeraddress'] as $key => $value) {
 
-               $value['customerid'] = $customerid;
+              // $value['customerid'] = $customerid;
          $validator = Validator::make($value, [
           'addressline1' => 'required|string|max:255',
           'addressline2' => 'required|string|max:100',
@@ -559,7 +566,7 @@ class UserProfileController extends Controller
           'country' => 'required|string|max:100',
           'state' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
-          'customerid' => 'required|integer|max:100',
+          'userid' => 'required|integer|max:100',
           'address_type' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
@@ -568,6 +575,9 @@ class UserProfileController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+          $customerid = $getCustomerInfo['customerid'];
+        $value['customerid'] = $customerid;
         $reqData['address1'] = $value['addressline1'];
         $reqData['address2'] = $value['addressline2'];
         $reqData['cityid_fk'] = $value['city'];

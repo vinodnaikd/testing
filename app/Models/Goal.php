@@ -13,7 +13,7 @@ class Goal extends Model
     'cost_goal',
     'time_frame',
     'future_cost',
-    'goal_id',
+    'customergoalid',
 ];
   
 	public function InsertCustomerGoals($arr) {
@@ -23,5 +23,9 @@ class Goal extends Model
     public function getGoalsList($id)
     {
 	return $this->where('customerid','=',$id)->get()->toArray();
+    }
+    public function getGoals($id)
+    {
+    return $this->where('customergoalid','=',$id)->get()->toArray();
     }
 }

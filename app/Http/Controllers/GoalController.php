@@ -45,13 +45,14 @@ class GoalController extends Controller
      */
     public function store(Request $request)
     {
+       // dd($request->json()->all());
         $validator = Validator::make($request->json()->all(), [
             'goal_name' => 'required|string|max:255',
             'cost_goal' => 'required|string|max:255',
             'time_frame' => 'required|string|max:255',
             'userid' => 'required|string|max:255',
             'future_cost' => 'required|string|max:255',
-            //'goalpriority' => 'required|string|max:255',
+            'goalpriority' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -60,19 +61,34 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $reqData['customergoalid'] = "GL456-SSD5-DDDD-FDGJ-DDSF-KJSDDF35".mt_rand(10,100);
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['goalname'] = $request['goal_name'];
         $reqData['goalcost'] = $request['cost_goal'];
         $reqData['timeframe'] = $request['time_frame'];
         $reqData['futurecost'] = $request['future_cost'];
+        $reqData['goalpriority'] = $request['goalpriority'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
-        $goalData = $this->goals->InsertCustomerGoals($reqData);
-        if($goalData)
+        if($request['customergoalid'])
         {
+            $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+            $goalId = $request['customergoalid'];
+            $status = "Goal Added Successfully";
+        }
+        else
+        {
+            $goalData = $this->goals->InsertCustomerGoals($reqData);
+             $goalId = $reqData['customergoalid'];
+             $status = "Goal Updated Successfully";
+        }
+        
+        if($goalId)
+        {
+            $goalListData = $this->goals->getGoals($goalId);
             return response()->json([
-              'status' => 'Goal Added Successfully',
-              //'goal_info' => $goalData
+              'status' => $status,
+              'goal_info' => $goalListData
           ], 200);
         }
     }

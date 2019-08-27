@@ -148,6 +148,7 @@ Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInf
 Route::get('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
 Route::get('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
 Route::get('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
+Route::post('/v1/products/funddetails/addfundselection', 'FundBasicInfoController@CustomerFundSelection');
 
 //End Of Routes
 
@@ -184,6 +185,11 @@ Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
 
 //Product Routes
 Route::get('/v1/products/getmutualfund', 'ProductController@getMutualFund');
+//End Of Routes
+
+//Surplus Calculation Routes
+Route::post('/v1/products/addsurplusamount', 'SurplusCalculationController@store');
+Route::post('/v1/products/getsurplusdetails', 'SurplusCalculationController@show');
 //End Of Routes
 
 //Notification Routes
