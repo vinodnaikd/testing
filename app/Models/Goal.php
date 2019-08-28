@@ -14,8 +14,9 @@ class Goal extends Model
     'time_frame',
     'future_cost',
     'customergoalid',
+    'goalpriority'
 ];
-  
+ public $timestamps = false;
 	public function InsertCustomerGoals($arr) {
 	    
 	    return $this->insertGetId($arr);
@@ -31,5 +32,13 @@ class Goal extends Model
     public function getGoals($id)
     {
     return $this->where('customergoalid','=',$id)->get()->toArray();
+    }
+    public function getGoalIdBasedOnPriority($id)
+    {
+    return $this->where('goalpriority','=',$id)->get()->first();
+    }
+    public function UpdateCustomerGoals($Id,$arr)
+    {
+      return $this->where('customergoalid','=',$Id)->update($arr);
     }
 }

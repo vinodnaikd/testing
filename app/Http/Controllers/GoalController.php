@@ -61,7 +61,7 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $reqData['customergoalid'] = "GL456-SSD5-DDDD-FDGJ-DDSF-KJSDDF35".mt_rand(10,100);
+       
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['goalname'] = $request['goal_name'];
         $reqData['goalcost'] = $request['cost_goal'];
@@ -72,7 +72,23 @@ class GoalController extends Controller
         $reqData['modifiedutcdatetime'] = Carbon::now();
         if($request['customergoalid'])
         {
-            $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+            $goalListData = $this->goals->getGoals($request['customergoalid']);
+            if($goalListData[0]['goalpriority'] == $request['goalpriority'])
+            {
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+            }
+            else
+            {
+                $goalId = $this->goals->getGoalIdBasedOnPriority($request['goalpriority']);
+                //dd($goalId['goalpriority'].''.$goalListData[0]['goalpriority']);
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+                  if($goalData)
+                  {
+                    $reqData['goalpriority'] = $goalListData[0]['goalpriority'];
+                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData);
+                  }
+            }
+           
             $goalId = $request['customergoalid'];
             $status = "Goal Updated Successfully";
         }
@@ -88,6 +104,7 @@ class GoalController extends Controller
             {
                 $reqData['goalpriority'] = 1;
             }
+             $reqData['customergoalid'] = "GL456-SSD5-DDDD-FDGJ-DDSF-KJSDDF35".mt_rand(10,100);
             $goalData = $this->goals->InsertCustomerGoals($reqData);
              $goalId = $reqData['customergoalid'];
              $status = "Goal Added Successfully";
