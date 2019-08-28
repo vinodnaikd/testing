@@ -8,7 +8,7 @@ use App\Models\FundPerformance;
 use App\Models\FundRecord;
 use App\Models\FundClass;
 use App\Models\Customer;
-use App\Models\fundProducts;
+use App\Models\FundProducts;
 use App\Models\Fundroi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -270,11 +270,19 @@ class FundBasicInfoController extends Controller
 
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
+
          foreach($fundprodcutsData as $key2 => $value2)
          {
+              //dd($value2);
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
+              $products['AUM'] = number_format($value2['incret'],2);
+              $products['1M'] = number_format($value2['1monthret'],2);
+              $products['6M'] = number_format($value2['6monthret'],2);
+              $products['1Y'] = number_format($value2['1yrret'],2);
+              $products['3Y'] = number_format($value2['3yearet'],2);
+              $products['5Y'] = number_format($value2['5yearret'],2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
