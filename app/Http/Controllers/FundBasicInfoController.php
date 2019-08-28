@@ -390,6 +390,7 @@ class FundBasicInfoController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
+      
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
 
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);

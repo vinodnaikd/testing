@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use App\Models\QuestionOptions;
+use App\Models\RiskQuestions;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -12,11 +14,15 @@ class QuestionController extends Controller
 {
     public function __construct(
         Question $questions,
-        QuestionOptions $questionsoptions
+        QuestionOptions $questionsoptions,
+        RiskQuestions $riskquestions,
+        Customer $customer
     )
     {
         $this->question = $questions;
         $this->questionoptions = $questionsoptions;
+        $this->riskquestions = $riskquestions;
+        $this->customer = $customer;
     }
     /**
      * Display a listing of the resource.
@@ -96,30 +102,35 @@ class QuestionController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
         $questionoptionsData = $this->question->getQuestions();
        
         $questionsData = array();
         foreach($questionoptionsData as $key =>$value)
         {
-           
+           $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
             $questionoptionsData1 = $this->questionoptions->getQuestionsOptions($value['questionid']);
             $queData['questionid'] = $value['questionid'];
             $queData['questiontext'] = $value['questiontext'];
-            if($queData['questionid'] == "10007")
-            {
-            $queData['imagepath'] = url('/portfolio.png');
-            }
+            
                  $queOptnData1 = array();
             foreach ($questionoptionsData1 as $key1 => $value1) {
                 
                 $queOptnData['optionid'] = $value1['optionid'];
                 $queOptnData['optionname'] = $value1['optionname'];
-                
                 array_push($queOptnData1,$queOptnData);
             }
+            $submittedoptionsData = $this->riskquestions->getSubmittedOptions($value['questionid'],$getCustomerInfo['customerid']);
             $queData['Options'] = $queOptnData1;
+            if($submittedoptionsData)
+            $queData['AnswerOption'] = $submittedoptionsData['optionid'];
+            else
+            $queData['AnswerOption'] = "";
+        if($value['questionid'] == "10007")
+            {
+            $queData['imagepath'] = url('/portfolio.png');
+            }
             //dd($queData);
            //array_push($questionsData,$queOptnData1);
             array_push($questionsData,$queData);

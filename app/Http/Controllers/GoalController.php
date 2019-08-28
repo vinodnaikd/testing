@@ -52,7 +52,7 @@ class GoalController extends Controller
             'time_frame' => 'required|string|max:255',
             'userid' => 'required|string|max:255',
             'future_cost' => 'required|string|max:255',
-            'goalpriority' => 'required|string|max:255',
+            //'goalpriority' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -74,15 +74,24 @@ class GoalController extends Controller
         {
             $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
             $goalId = $request['customergoalid'];
-            $status = "Goal Added Successfully";
+            $status = "Goal Updated Successfully";
         }
         else
         {
+            $priorityData = $this->goals->getGoalsPriorityLastRecord($getCustomerInfo['customerid']);
+           // dd($priorityData);
+            if(!empty($priorityData[0]))
+            {
+                $reqData['goalpriority'] = $priorityData[0]['goalpriority']+1;
+            }
+            else
+            {
+                $reqData['goalpriority'] = 1;
+            }
             $goalData = $this->goals->InsertCustomerGoals($reqData);
              $goalId = $reqData['customergoalid'];
-             $status = "Goal Updated Successfully";
+             $status = "Goal Added Successfully";
         }
-        
         if($goalId)
         {
             $goalListData = $this->goals->getGoals($goalId);

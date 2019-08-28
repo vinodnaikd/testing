@@ -32,4 +32,8 @@ class RiskQuestions extends Model
     {
       return $this->where('riskprofile.customerid',$customerId)->get()->toArray();
     }
+    public function getSubmittedOptions($qid,$customerid) {
+    
+    return $this->select('optionid')->where('customerid',$customerid)->where('questionid',$qid)->get()->first();
+    }
 }

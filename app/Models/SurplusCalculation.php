@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SurplusCalculation extends Model
 {
-  protected $table = "surplus_amount";
+  protected $table = "customer_surplus_amount";
   protected $fillable =
 [
     'yearly_income',
