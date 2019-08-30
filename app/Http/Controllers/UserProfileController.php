@@ -621,7 +621,7 @@ class UserProfileController extends Controller
     {
          $validator = Validator::make($request->all(), [
              'email' => 'required|email|max:200',
-             'password' => 'required|string|max:8',
+             'password' => 'required|string',
         ]);
         if($validator->fails()) {
             return response()->json([

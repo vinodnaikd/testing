@@ -247,7 +247,7 @@ class FundBasicInfoController extends Controller
     return response()->json($data);
     }
     
-    public function getFundsDetails()
+    public function getMutualFunds()
    {
         
         //Get the nri elligbility and pass to getFundProducts
@@ -256,10 +256,12 @@ class FundBasicInfoController extends Controller
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
-         $assests['assettype'] = $value['assettype'];
-         $fundclassData = $this->fundclass->getFundClass($value['assettype']);
-
+         //$assests['assettype'] = $value['assettype'];
+         $fundclassData = $this->fundclass->getFundClassData($value['assettype']);
+         
+          //print_r(count($fundclassData));
          $fundClass = array();
+         if($fundclassData)
          foreach($fundclassData as $key1 => $value1)
          {
             $fund['fundclassid'] = $value1['fundclassid'];
@@ -288,6 +290,7 @@ class FundBasicInfoController extends Controller
               $fund['fundproducts'] = $fundProducts;
             array_push($fundClass, $fund);
          }
+         //if($fundClass)
          $assests['fundclass'] = $fundClass;
          array_push($fundAssets, $assests);
       }
@@ -298,13 +301,23 @@ class FundBasicInfoController extends Controller
 
    public function getCustomerSelectedProducts()
    {
+      $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:255',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
           $fundassestData = $this->fundclass->getCustomerSelectedAssests();
           $assetsArray = array();
           foreach($fundassestData as $key => $value)
           {
             $assets['assettype'] = $value['assettype'];
             $selectedProductsArray = array();
-            $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts(16);
+            $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+            $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid']);
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
@@ -327,13 +340,25 @@ class FundBasicInfoController extends Controller
           ], 200);
    }
 
-   public function getCustomerOrderDetails()
+   public function getCustomerOrderDetails(Request $request)
    {
-            $goalid = "61BDFA56-63F4-4F9E-AF31-C936970DB9DE";
+
+          $validator = Validator::make($request->json()->all(), [
+          'goalid' => 'required|string|max:100',
+          'userid' => 'required|string|max:255',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+            $goalid = $request['goalid'];
             // Lumpsum Amount 
             $purchasetype = "L";
             $selectedProductsArray = array();
-            $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary(16,$goalid,$purchasetype);
+             $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+            $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
@@ -350,7 +375,7 @@ class FundBasicInfoController extends Controller
             // Sip Amount 
             $purchasetype = "s";
             $selectedProductsArray1 = array();
-            $fundprodcutsData1 = $this->fundrecord->getCustomerOrderSummary(16,$goalid,$purchasetype);
+            $fundprodcutsData1 = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
             foreach ($fundprodcutsData1 as $key1 => $value1) {
                     $fundproducts1['fundid'] = $value1['fundid'];
                     $fundproducts1['fundname'] = $value1['fundname'];
@@ -433,6 +458,85 @@ class FundBasicInfoController extends Controller
 
       }
      }
+    }
+
+    public function getFundProductsById(Request $request)
+    {
+        $fundDetails = array();
+
+
+        $basicArray = array();
+        $basicinfo['fund_name'] = "Birla SL Tax Plan (D)";
+        $basicinfo['scheme_name'] = "Scheme Name";
+        $basicinfo['category'] = "Category";
+        $basicinfo['fund_manager'] = "Fund manager";
+        $basicinfo['net_aum'] = "Net AUM";
+        $basicinfo['return_detail'] = "Return Detail";
+        array_push($basicArray,$basicinfo);
+        $basicinfoArray['Basic Info'] = $basicArray;
+        array_push($fundDetails,$basicinfoArray);
+
+
+        $returnArray = array();
+        $returndetails['fund_name'] = "YTD";
+        $returndetails['scheme_name'] = "6 months";
+        $returndetails['category'] = "1 year";
+        $returndetails['fund_manager'] = "3 year";
+        array_push($returnArray,$returndetails);
+        $returndetailsArray['Return Details'] = $returnArray;
+        array_push($fundDetails,$returndetailsArray);
+
+        $ratiosArray = array();
+        $ratios['standard_deviation'] = "YTD";
+        $ratios['beta'] = "Beta";
+        $ratios['alpha'] = "Alpha";
+        $ratios['r-squared'] = "R-Squared";
+        $ratios['shapre'] = "shapre";
+        $ratios['portfolio_turnover'] = "Portfolio Turnover";
+        $ratios['expense_ratio'] = "Expense Ratio";
+        array_push($ratiosArray,$ratios);
+        $ratiosdetailsArray['Ratios'] = $ratiosArray;
+        array_push($fundDetails,$ratiosdetailsArray);
+
+        $navDetailsArray = array();
+        $navdetails['nav_price'] = "Nav Price";
+        $navdetails['nav_date'] = "Nav Date";
+        $navdetails['max_entry_load'] = "Max Entry Load";
+        $navdetails['max_exit_load'] = "Max Exit Load";
+        $navdetails['52_week_high'] = "52 Week High";
+        $navdetails['52_week_low'] = "52 Week Low";
+        $navdetails['minimum_investment'] = "Minimum Investment";
+        $navdetails['minimum_topup'] = "Minimum Topup";
+        $navdetails['maximum_topup'] = "Maximum Topup";
+        $navdetails['SIP_(yes/no)'] = "SIP (yes/no)";
+        $navdetails['STP_(yes/no)'] = "STP (yes/no)";
+        $navdetails['SIP_dates'] = "SIP Dates";
+        array_push($navDetailsArray,$navdetails);
+        $navdetailsArray['Nav Details'] = $navDetailsArray;
+        array_push($fundDetails,$navdetailsArray);
+
+        $holdingstocksArray = array();
+        $holdingstock['#1'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#2'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#3'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#4'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#5'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#6'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#7'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#8'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#9'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['#10'] = "Reliance Income Fund - Direct (G)";
+        
+        array_push($holdingstocksArray,$holdingstock);
+        $holdingstockArray['10 Holding Stocks'] = $holdingstocksArray;
+        array_push($fundDetails,$holdingstockArray);
+
+
+
+         return response()->json([
+              'fundDetails' => $fundDetails
+          ], 200);
+
     }
     /**
      * Show the form for editing the specified resource.

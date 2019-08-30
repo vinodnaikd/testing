@@ -149,6 +149,8 @@ Route::get('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@
 Route::get('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
 Route::get('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
 Route::post('/v1/products/funddetails/addfundselection', 'FundBasicInfoController@CustomerFundSelection');
+Route::get('/v1/products/funddetails/getmutualfunds', 'FundBasicInfoController@getMutualFunds');
+Route::get('/v1/products/funddetails/getmutualfundsdetails', 'FundBasicInfoController@getFundProductsById');
 
 //End Of Routes
 
