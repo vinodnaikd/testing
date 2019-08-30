@@ -27,7 +27,7 @@ class FundClass extends Model
     }
     public function getFundClassData($assettype)
     {
-        return $this->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->get()->toArray();
+        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->get()->toArray();
     }
      public function getCustomerSelectedAssests()
    	{

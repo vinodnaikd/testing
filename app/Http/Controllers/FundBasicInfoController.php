@@ -280,11 +280,13 @@ class FundBasicInfoController extends Controller
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
               $products['AUM'] = number_format($value2['incret'],2);
-              $products['1M'] = number_format($value2['1monthret'],2);
-              $products['6M'] = number_format($value2['6monthret'],2);
-              $products['1Y'] = number_format($value2['1yrret'],2);
-              $products['3Y'] = number_format($value2['3yearet'],2);
-              $products['5Y'] = number_format($value2['5yearret'],2);
+              $products['onem'] = number_format($value2['1monthret'],2);
+              $products['sixm'] = number_format($value2['6monthret'],2);
+              $products['oney'] = number_format($value2['1yrret'],2);
+              $products['threey'] = number_format($value2['3yearet'],2);
+              $products['fivey'] = number_format($value2['5yearret'],2);
+              $products['c_nav'] = $value2['c_nav'];
+              $products['incdate'] = $value2['incdate'];
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;

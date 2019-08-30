@@ -648,6 +648,19 @@ class UserProfileController extends Controller
       $userData = $this->usersprofile->getUserDetails($email,$password);
         if($userData)
      {
+      $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
+      $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
+      $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+      $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+      $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
+    if(!empty($customerBankData) && !empty($customerDetailsData) && !empty($customerAddressData) && !empty($customernomineeData))
+    {
+       $status = "true";
+    }
+    else
+    {
+       $status = "false";
+    }
 //            //dd($userData[0]['userid']);
 //            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
 //            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
@@ -677,6 +690,8 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
+              'registerstatus' => $status,
+               
           ], 200); 
         }
         else
