@@ -505,13 +505,13 @@ class FundBasicInfoController extends Controller
         $navdetails['nav_date'] = "Nav Date";
         $navdetails['max_entry_load'] = "Max Entry Load";
         $navdetails['max_exit_load'] = "Max Exit Load";
-        $navdetails['52_week_high'] = "52 Week High";
-        $navdetails['52_week_low'] = "52 Week Low";
+        $navdetails['week_high'] = "52 Week High";
+        $navdetails['week_low'] = "52 Week Low";
         $navdetails['minimum_investment'] = "Minimum Investment";
         $navdetails['minimum_topup'] = "Minimum Topup";
         $navdetails['maximum_topup'] = "Maximum Topup";
-        $navdetails['SIP_(yes/no)'] = "SIP (yes/no)";
-        $navdetails['STP_(yes/no)'] = "STP (yes/no)";
+        $navdetails['SIP'] = "SIP (yes/no)";
+        $navdetails['STP'] = "STP (yes/no)";
         $navdetails['SIP_dates'] = "SIP Dates";
         array_push($navDetailsArray,$navdetails);
         $navdetailsArray['NavDetails'] = $navDetailsArray;
@@ -546,9 +546,9 @@ class FundBasicInfoController extends Controller
      * @param  \App\FundBasicInfo  $fundBasicInfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(FundBasicInfo $fundBasicInfo)
+    public function mutualfundsSearch(FundBasicInfo $fundBasicInfo)
     {
-        //
+        
     }
 
     /**
