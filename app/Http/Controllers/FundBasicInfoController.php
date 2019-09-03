@@ -530,7 +530,7 @@ class FundBasicInfoController extends Controller
         $holdingstock['#10'] = "Reliance Income Fund - Direct (G)";
         
         array_push($holdingstocksArray,$holdingstock);
-        $holdingstockArray['10HoldingStocks'] = $holdingstocksArray;
+        $holdingstockArray['HoldingStocks'] = $holdingstocksArray;
         array_push($fundDetails,$holdingstockArray);
 
 
