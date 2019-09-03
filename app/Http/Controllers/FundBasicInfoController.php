@@ -518,16 +518,16 @@ class FundBasicInfoController extends Controller
         array_push($fundDetails,$navdetailsArray);
 
         $holdingstocksArray = array();
-        $holdingstock['1'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['2'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['3'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['4'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['5'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['6'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['7'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['8'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['9'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['10'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['one'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['two'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['three'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['four'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['five'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['six'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['seven'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['eight'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['nine'] = "Reliance Income Fund - Direct (G)";
+        $holdingstock['ten'] = "Reliance Income Fund - Direct (G)";
         
         array_push($holdingstocksArray,$holdingstock);
         $holdingstockArray['HoldingStocks'] = $holdingstocksArray;
