@@ -475,7 +475,7 @@ class FundBasicInfoController extends Controller
         $basicinfo['net_aum'] = "Net AUM";
         $basicinfo['return_detail'] = "Return Detail";
         array_push($basicArray,$basicinfo);
-        $basicinfoArray['Basic Info'] = $basicArray;
+        $basicinfoArray['BasicInfo'] = $basicArray;
         array_push($fundDetails,$basicinfoArray);
 
 
@@ -485,14 +485,14 @@ class FundBasicInfoController extends Controller
         $returndetails['category'] = "1 year";
         $returndetails['fund_manager'] = "3 year";
         array_push($returnArray,$returndetails);
-        $returndetailsArray['Return Details'] = $returnArray;
+        $returndetailsArray['ReturnDetails'] = $returnArray;
         array_push($fundDetails,$returndetailsArray);
 
         $ratiosArray = array();
         $ratios['standard_deviation'] = "YTD";
         $ratios['beta'] = "Beta";
         $ratios['alpha'] = "Alpha";
-        $ratios['r-squared'] = "R-Squared";
+        $ratios['r_squared'] = "R-Squared";
         $ratios['shapre'] = "shapre";
         $ratios['portfolio_turnover'] = "Portfolio Turnover";
         $ratios['expense_ratio'] = "Expense Ratio";
@@ -514,7 +514,7 @@ class FundBasicInfoController extends Controller
         $navdetails['STP_(yes/no)'] = "STP (yes/no)";
         $navdetails['SIP_dates'] = "SIP Dates";
         array_push($navDetailsArray,$navdetails);
-        $navdetailsArray['Nav Details'] = $navDetailsArray;
+        $navdetailsArray['NavDetails'] = $navDetailsArray;
         array_push($fundDetails,$navdetailsArray);
 
         $holdingstocksArray = array();
@@ -530,7 +530,7 @@ class FundBasicInfoController extends Controller
         $holdingstock['#10'] = "Reliance Income Fund - Direct (G)";
         
         array_push($holdingstocksArray,$holdingstock);
-        $holdingstockArray['10 Holding Stocks'] = $holdingstocksArray;
+        $holdingstockArray['10HoldingStocks'] = $holdingstocksArray;
         array_push($fundDetails,$holdingstockArray);
 
 
