@@ -33,9 +33,9 @@ class Goal extends Model
     {
     return $this->where('customergoalid','=',$id)->get()->toArray();
     }
-    public function getGoalIdBasedOnPriority($id)
+    public function getGoalIdBasedOnPriority($id,$customerid)
     {
-    return $this->where('goalpriority','=',$id)->get()->first();
+    return $this->where('goalpriority','=',$id)->where('customerid','=',$customerid)->get()->first();
     }
     public function UpdateCustomerGoals($Id,$arr)
     {

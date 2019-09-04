@@ -76,21 +76,25 @@ class GoalController extends Controller
         if($request['customergoalid'])
         {
             $goalListData = $this->goals->getGoals($request['customergoalid']);
+
             if($goalListData[0]['goalpriority'] == $request['goalpriority'])
             {
+
                 $reqData1['goalpriority'] = $reqData['goalpriority'];
                  $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
             }
             else
             {
-                $goalId = $this->goals->getGoalIdBasedOnPriority($request['goalpriority']);
+                 //echo "sasad";
+                $goalId = $this->goals->getGoalIdBasedOnPriority($request['goalpriority'],$getCustomerInfo['customerid']);
+                // dd($goalId);
                 //dd($goalId['goalpriority'].''.$goalListData[0]['goalpriority']);
                 $reqData1['goalpriority'] = $reqData['goalpriority'];
                  $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
                   if($goalData)
                   {
-                    $reqData1['goalpriority'] = $goalListData[0]['goalpriority'];
-                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData1);
+                    echo $reqData2['goalpriority'] = $goalListData[0]['goalpriority'];
+                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData2);
                   }
             }
            
@@ -163,6 +167,24 @@ class GoalController extends Controller
           "GoalsList" => $data
         ], 200);
     }
+     /*public function getGoalsSummaryList(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+            'userid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $data = $this->goals->getGoalsList($getCustomerInfo['customerid']);
+       
+       return response()->json([
+          "GoalsList" => $data
+        ], 200);
+    }*/
     /**
      * Show the form for editing the specified resource.
      *
