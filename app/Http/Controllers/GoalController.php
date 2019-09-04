@@ -75,17 +75,19 @@ class GoalController extends Controller
             $goalListData = $this->goals->getGoals($request['customergoalid']);
             if($goalListData[0]['goalpriority'] == $request['goalpriority'])
             {
-                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+                $reqData1['goalpriority'] = $reqData['goalpriority'];
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
             }
             else
             {
                 $goalId = $this->goals->getGoalIdBasedOnPriority($request['goalpriority']);
                 //dd($goalId['goalpriority'].''.$goalListData[0]['goalpriority']);
-                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+                $reqData1['goalpriority'] = $reqData['goalpriority'];
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
                   if($goalData)
                   {
-                    $reqData['goalpriority'] = $goalListData[0]['goalpriority'];
-                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData);
+                    $reqData1['goalpriority'] = $goalListData[0]['goalpriority'];
+                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData1);
                   }
             }
            

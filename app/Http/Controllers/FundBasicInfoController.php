@@ -546,9 +546,34 @@ class FundBasicInfoController extends Controller
      * @param  \App\FundBasicInfo  $fundBasicInfo
      * @return \Illuminate\Http\Response
      */
-    public function mutualfundsSearch(FundBasicInfo $fundBasicInfo)
+    public function mutualfundsSearch(Request $request)
     {
-        
+        // dd($request->all());
+        $reqData['category'] = $request['category'];
+        $reqData['subcategory'] = $request['subcategory'];
+        $reqData['fundhouse'] = $request['fundhouse'];
+        $searchfundData = $this->fundclass->getSearchedMutualFundData($reqData);
+        $searchArray = array();
+        foreach ($searchfundData as $key => $value2) {
+              $products['fundclassid'] = $value2['fundclassid'];
+              $products['name'] = $value2['name'];
+              $products['fundname'] = $value2['fundname'];
+              $products['assettype'] = $value2['assettype'];
+              $products['fundid'] = $value2['fundid'];
+              $products['AUM'] = number_format($value2['AUM'],2);
+              $products['onem'] = number_format($value2['onem'],2);
+              $products['sixm'] = number_format($value2['sixm'],2);
+              $products['oney'] = number_format($value2['oney'],2);
+              $products['threey'] = number_format($value2['threey'],2);
+              $products['fivey'] = number_format($value2['fivey'],2);
+              $products['c_nav'] = $value2['c_nav'];
+              $products['incdate'] = $value2['incdate'];
+              array_push($searchArray, $products);
+        }
+        $searchResultArray = $searchArray;
+        return response()->json([
+              'fundDetails' => $searchResultArray
+          ], 200);
     }
 
     /**

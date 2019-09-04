@@ -151,6 +151,7 @@ Route::get('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoCon
 Route::post('/v1/products/funddetails/addfundselection', 'FundBasicInfoController@CustomerFundSelection');
 Route::get('/v1/products/funddetails/getmutualfunds', 'FundBasicInfoController@getMutualFunds');
 Route::get('/v1/products/funddetails/getmutualfundsdetails', 'FundBasicInfoController@getFundProductsById');
+Route::post('/v1/products/funddetails/searchmutualfunds', 'FundBasicInfoController@mutualfundsSearch');
 
 //End Of Routes
 
