@@ -44,7 +44,7 @@ class FundClass extends Model
       $a->orWhere('fundclass.subcategory','like', '%' . $searchData['subcategory'] . '%');
     if($searchData['fundhouse'])
       $a->orWhere('fundclass.name', 'like', '%' . $searchData['fundhouse'] . '%');
-     return $a->get()->toArray();
+     return $a->orderBy('fund.rank','asc')->get()->toArray();
 	   }
 
 }

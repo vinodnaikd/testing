@@ -549,6 +549,16 @@ class FundBasicInfoController extends Controller
     public function mutualfundsSearch(Request $request)
     {
         // dd($request->all());
+              $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100',
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
         $reqData['category'] = $request['category'];
         $reqData['subcategory'] = $request['subcategory'];
         $reqData['fundhouse'] = $request['fundhouse'];

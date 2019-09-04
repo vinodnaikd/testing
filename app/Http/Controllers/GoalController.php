@@ -46,6 +46,8 @@ class GoalController extends Controller
     public function store(Request $request)
     {
        // dd($request->json()->all());
+        if(empty($request['customergoalid']))
+        {
         $validator = Validator::make($request->json()->all(), [
             'goal_name' => 'required|string|max:255',
             'cost_goal' => 'required|string|max:255',
@@ -60,6 +62,7 @@ class GoalController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
+    }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
        
         $reqData['customerid'] = $getCustomerInfo['customerid'];
