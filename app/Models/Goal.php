@@ -23,7 +23,7 @@ class Goal extends Model
 	}
     public function getGoalsList($id)
     {
-	return $this->where('customerid','=',$id)->get()->toArray();
+	return $this->where('customerid','=',$id)->orderby('goalpriority')->get()->toArray();
     }
     public function getGoalsPriorityLastRecord($id)
     {

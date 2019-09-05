@@ -167,7 +167,7 @@ class GoalController extends Controller
           "GoalsList" => $data
         ], 200);
     }
-     /*public function getGoalsSummaryList(Request $request)
+     public function getGoalsSummaryList(Request $request)
     {
        $validator = Validator::make($request->all(), [
             'userid' => 'required|string|max:255',
@@ -184,7 +184,7 @@ class GoalController extends Controller
        return response()->json([
           "GoalsList" => $data
         ], 200);
-    }*/
+    }
     /**
      * Show the form for editing the specified resource.
      *
