@@ -1,21 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\RiskQuestions;
 use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Customer;
+use App\Models\FundPerformance;
 class GoalController extends Controller
 {
     public function __construct(
         Goal $goals,
-        Customer $customer
+        Customer $customer,
+        RiskQuestions $riskprofile,
+        FundPerformance $fundperformance
     )
     {
         $this->goals = $goals;
         $this->customer = $customer;
+        $this->riskprofile = $riskprofile;
+        $this->fundperformance = $fundperformance;
     }
     /**
      * Display a listing of the resource.
@@ -169,7 +174,7 @@ class GoalController extends Controller
     }
      public function getGoalsSummaryList(Request $request)
     {
-       $validator = Validator::make($request->all(), [
+       $validator = Validator::make($request->json()->all(), [
             'userid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
@@ -179,10 +184,15 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $data = $this->goals->getGoalsList($getCustomerInfo['customerid']);
-       
+        $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
+        $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
+        $customerTransLog = $this->fundperformance->getCustomerPostTransLogs($getCustomerInfo['customerid']);
+        
+       // dd($customerTransLog);
        return response()->json([
-          "GoalsList" => $data
+          "Savings_Summary" => $customerInvestAmnt,
+          "Risk_Score" => $customerRiskProfileScore,
+          "Transaction_Log" => $customerTransLog
         ], 200);
     }
     /**

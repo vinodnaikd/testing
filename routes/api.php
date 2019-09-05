@@ -89,6 +89,7 @@ Route::post('/v1/users/reports/checkoutorderlist', 'CheckoutSummarysController@c
 Route::post('/v1/users/goals', 'GoalController@show');
 Route::post('/v1/users/addgoals', 'GoalController@store');
 Route::post('/v1/users/goalslist', 'GoalController@getGoalsList');
+Route::post('/v1/users/goalssummary', 'GoalController@getGoalsSummaryList');
     //End Of Routes
 
 //ProductSelection Routes
