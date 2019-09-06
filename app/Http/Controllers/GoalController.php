@@ -185,12 +185,20 @@ class GoalController extends Controller
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
+        $savingsArray = array();
+        foreach ($customerInvestAmnt['purchase1'] as $key => $value) {
+            $currentSavings = $value['units'] * $value['nav'];
+            array_push($savingsArray, $currentSavings);
+        }
+        $customerInvestAmntArr['start_date'] = $value['startdate'];
+        $customerInvestAmntArr['purchase'] = $customerInvestAmnt['purchase'];
+        $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
         $customerTransLog = $this->fundperformance->getCustomerPostTransLogs($getCustomerInfo['customerid']);
         
        // dd($customerTransLog);
        return response()->json([
-          "Savings_Summary" => $customerInvestAmnt,
+          "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
           "Transaction_Log" => $customerTransLog
         ], 200);

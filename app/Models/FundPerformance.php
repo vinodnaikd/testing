@@ -44,7 +44,12 @@ class FundPerformance extends Model
    
     public function getCustomerSumInvestmentPostTran($customerId)
     {
-        return $this->where('customerid',$customerId)->sum('investmentamount');
+        $records['purchase'] = $this->where('customerid',$customerId)->sum('purchasevalue');
+        $records['purchase1'] = $this->select('customerfunddetailposttran.customerid','units','g.nav','c.startdate')
+        ->join('globalnavcurrvalue as g','g.fundid','=','customerfunddetailposttran.fundid')
+        ->join('customerfundposttran as c','c.customerfundid','=','customerfunddetailposttran.customerfundid')
+        ->where('customerfunddetailposttran.customerid',$customerId)->get()->toArray();
+        return $records;
     }
 
     public function getCustomerPostTransLogs($customerId)
