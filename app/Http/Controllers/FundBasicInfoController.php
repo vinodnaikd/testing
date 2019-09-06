@@ -465,14 +465,26 @@ class FundBasicInfoController extends Controller
 
     public function getFundProductsById(Request $request)
     {
+        $validator = Validator::make($request->json()->all(), [
+          'fundid' => 'required|string|max:100',
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+        $nrielligble = "1";
+$funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nrielligble);
+// dd($funddet);
         $fundDetails = array();
 
-
         $basicArray = array();
-        $basicinfo['fund_name'] = "Birla SL Tax Plan (D)";
-        $basicinfo['scheme_name'] = "Scheme Name";
-        $basicinfo['category'] = "Category";
-        $basicinfo['fund_manager'] = "Fund manager";
+        $basicinfo['fund_name'] = $funddet['fundname'];
+        $basicinfo['scheme_name'] = $funddet['schemecode'];
+        $basicinfo['category'] = $funddet['category'];
+        $basicinfo['fund_manager'] = $funddet['fund_mgr1'].','.$funddet['fund_mgr2'].','.$funddet['fund_mgr3'].','.$funddet['fund_mgr4'];
         $basicinfo['net_aum'] = "Net AUM";
         $basicinfo['return_detail'] = "Return Detail";
         array_push($basicArray,$basicinfo);
@@ -481,16 +493,16 @@ class FundBasicInfoController extends Controller
 
 
         $returnArray = array();
-        $returndetails['fund_name'] = "YTD";
-        $returndetails['scheme_name'] = "6 months";
-        $returndetails['category'] = "1 year";
-        $returndetails['fund_manager'] = "3 year";
+        $returndetails['YTD'] = "YTD";
+        $returndetails['sixmonths'] = number_format($funddet['6monthret'],2);
+        $returndetails['oneyear'] = number_format($funddet['1yrret'],2);
+        $returndetails['threeyear'] = number_format($funddet['3yearet'],2);
         array_push($returnArray,$returndetails);
         $returndetailsArray['ReturnDetails'] = $returnArray;
         array_push($fundDetails,$returndetailsArray);
 
         $ratiosArray = array();
-        $ratios['standard_deviation'] = "YTD";
+        $ratios['standard_deviation'] = "Standard Deviation";
         $ratios['beta'] = "Beta";
         $ratios['alpha'] = "Alpha";
         $ratios['r_squared'] = "R-Squared";
@@ -502,17 +514,17 @@ class FundBasicInfoController extends Controller
         array_push($fundDetails,$ratiosdetailsArray);
 
         $navDetailsArray = array();
-        $navdetails['nav_price'] = "Nav Price";
-        $navdetails['nav_date'] = "Nav Date";
+        $navdetails['nav_price'] = number_format($funddet['nav'],2);
+        $navdetails['nav_date'] = $funddet['currdate'];
         $navdetails['max_entry_load'] = "Max Entry Load";
         $navdetails['max_exit_load'] = "Max Exit Load";
         $navdetails['week_high'] = "52 Week High";
         $navdetails['week_low'] = "52 Week Low";
-        $navdetails['minimum_investment'] = "Minimum Investment";
+        $navdetails['minimum_investment'] = $funddet['mininvt'];
         $navdetails['minimum_topup'] = "Minimum Topup";
         $navdetails['maximum_topup'] = "Maximum Topup";
-        $navdetails['SIP'] = "SIP (yes/no)";
-        $navdetails['STP'] = "STP (yes/no)";
+        $navdetails['SIP'] = $funddet['sip'];
+        $navdetails['STP'] = $funddet['stp'];
         $navdetails['SIP_dates'] = "SIP Dates";
         array_push($navDetailsArray,$navdetails);
         $navdetailsArray['NavDetails'] = $navDetailsArray;
