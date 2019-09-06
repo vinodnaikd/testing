@@ -60,7 +60,11 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
-                    ->where('customerfunddetailposttran.customerid',$customerId)->get()->toArray();
+                    ->where('customerfunddetailposttran.customerid',$customerId)
+                    ->orderBy('customerfunddetailposttran.customerfundid','DESC')
+                    ->take(10)
+                    ->get()
+                    ->toArray();
 
     }
 }

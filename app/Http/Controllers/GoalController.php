@@ -8,19 +8,22 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Customer;
 use App\Models\FundPerformance;
+use App\Models\FundClass;
 class GoalController extends Controller
 {
     public function __construct(
         Goal $goals,
         Customer $customer,
         RiskQuestions $riskprofile,
-        FundPerformance $fundperformance
+        FundPerformance $fundperformance,
+        FundClass $fundclass
     )
     {
         $this->goals = $goals;
         $this->customer = $customer;
         $this->riskprofile = $riskprofile;
         $this->fundperformance = $fundperformance;
+        $this->fundclass = $fundclass;
     }
     /**
      * Display a listing of the resource.
@@ -172,6 +175,40 @@ class GoalController extends Controller
           "GoalsList" => $data
         ], 200);
     }
+
+     public function getGoalsDetailsList(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+            'userid' => 'required|string|max:255',
+            'goal_id' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $data = $this->goals->getGoalsById($request['goal_id'],$getCustomerInfo['customerid']);
+        $assests = $this->fundclass->getFundClassAssestType();
+        $assestsArray = array();
+        foreach ($assests as $key => $value) {
+            $assval[$value['assettype']] = $value['assettype'];
+           $assval[$value['assettype']] = "50%";
+        }
+        array_push($assestsArray,$assval);
+       $goaldetails['goalname'] = $data['goalname'];
+       $goaldetails['goalcost'] = $data['goalcost'];
+       $goaldetails['futurecost'] = $data['futurecost'];
+       $goaldetails['year'] = floor($data['timeframe']/12);
+       $goaldetails['month'] = $data['timeframe']%12;
+       $goaldetails['Lumpsum'] = $assestsArray;
+       $goaldetails['Sip'] = $assestsArray;
+       return response()->json([
+          "GoalsDetails" => $goaldetails
+        ], 200);
+    }
+
      public function getGoalsSummaryList(Request $request)
     {
        $validator = Validator::make($request->json()->all(), [
