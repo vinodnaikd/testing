@@ -223,10 +223,12 @@ class GoalController extends Controller
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
         $savingsArray = array();
+        //if($customerInvestAmnt['purchase1'])
         foreach ($customerInvestAmnt['purchase1'] as $key => $value) {
             $currentSavings = $value['units'] * $value['nav'];
             array_push($savingsArray, $currentSavings);
         }
+        if(!empty($value))
         $customerInvestAmntArr['start_date'] = $value['startdate'];
         $customerInvestAmntArr['purchase'] = $customerInvestAmnt['purchase'];
         $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
