@@ -88,7 +88,8 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','GC.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
-                    ->groupby('customerfunddetailposttran.customerid','CG.CustomerGoalId','CG.GoalName','CG.FutureCost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount','fc.assettype')->orderBy('CG.goalpriority','ASC')
+                    ->groupby('customerfunddetailposttran.customerid','CG.CustomerGoalId','CG.GoalName','CG.FutureCost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount','fc.assettype')
+                    //->orderBy('CG.goalpriority','ASC')
                     ->get()->first();
     }
 
@@ -101,7 +102,8 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','GC.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
-                    ->groupby('customerfunddetailposttran.customerid','fc.assettype')->orderBy('CG.goalpriority','ASC')
+                    ->groupby('customerfunddetailposttran.customerid','fc.assettype')
+                    //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
 
@@ -115,7 +117,8 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','GC.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
-                    ->groupby('customerfunddetailposttran.fundid','fc.assettype','fd.fundname','CFD.purchasetype','CFD.StartDate','GC.NAV')->orderBy('CG.goalpriority','ASC')
+                    ->groupby('customerfunddetailposttran.fundid','fc.assettype','fd.fundname','CFD.purchasetype','CFD.StartDate','GC.NAV')
+                    //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
 }
