@@ -101,7 +101,7 @@ class GoalController extends Controller
                  $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
                   if($goalData)
                   {
-                    echo $reqData2['goalpriority'] = $goalListData[0]['goalpriority'];
+                     $reqData2['goalpriority'] = $goalListData[0]['goalpriority'];
                     $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData2);
                   }
             }
@@ -198,6 +198,7 @@ class GoalController extends Controller
         }
         array_push($assestsArray,$assval);
        $goaldetails['goalname'] = $data['goalname'];
+       $goaldetails['goalpriority'] = $data['goalpriority'];
        $goaldetails['goalcost'] = $data['goalcost'];
        $goaldetails['futurecost'] = $data['futurecost'];
        $goaldetails['year'] = floor($data['timeframe']/12);
@@ -236,10 +237,33 @@ class GoalController extends Controller
         $customerTransLog = $this->fundperformance->getCustomerPostTransLogs($getCustomerInfo['customerid']);
         
        // dd($customerTransLog);
+        //Goals
+        $customerGoals = $this->fundperformance->getCustomerGoals($getCustomerInfo['customerid']);
+        //dd($customerGoals);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
-          "Transaction_Log" => $customerTransLog
+          "Transaction_Log" => $customerTransLog,
+          "Goals" => $customerGoals
+        ], 200);
+    }
+
+    public function getGoalsSummaryListWithGoalId(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
+        $customerGoalsDetails['goalsAssests'] = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+        $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);
+       return response()->json([
+          "GoalsSummaryDetails" => $customerGoalsDetails
         ], 200);
     }
     /**

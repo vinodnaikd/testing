@@ -10,6 +10,7 @@ use App\Models\FundClass;
 use App\Models\Customer;
 use App\Models\FundProducts;
 use App\Models\Fundroi;
+use App\Models\CustomerDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -25,7 +26,8 @@ class FundBasicInfoController extends Controller
         FundProducts $fundproducts,
         FundRecord $fundrecord,
         Customer $customer,
-        Fundroi $fundroi
+        Fundroi $fundroi,
+        CustomerDetails $customerdetails
     )
     {
         $this->fundBasicInfo = $fundBasicInfo;
@@ -36,6 +38,7 @@ class FundBasicInfoController extends Controller
         $this->fundrecord = $fundrecord;
         $this->customer = $customer;
         $this->fundroi = $fundroi;
+        $this->customerdetails = $customerdetails;
     }
     /**
      * Display a listing of the resource.
@@ -246,12 +249,78 @@ class FundBasicInfoController extends Controller
      $data['fund_id'] = "string";
     return response()->json($data);
     }
-    
-    public function getMutualFunds()
+     public function getFundsDetails(Request $request)
    {
         
         //Get the nri elligbility and pass to getFundProducts
-      $nrielligble = "1";
+      $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
+      if($customerDetails)
+      $nrielligble = $customerDetails['residential_status'];
+      else
+      $nrielligble = "";
+
+      $fundclassassests = $this->fundclass->getFundClassAssestType();
+      $fundAssets = array();
+      foreach($fundclassassests as $key =>$value)
+      {
+         $assests['assettype'] = $value['assettype'];
+         $fundclassData = $this->fundclass->getFundClassData($value['assettype']);
+
+         $fundClass = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['category'] = $value1['category'];
+            $fund['subcategory'] = $value1['subcategory'];
+
+            $fundProducts = array();
+           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
+
+         foreach($fundprodcutsData as $key2 => $value2)
+         {
+              //dd($value2);
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['amccode'] = $value2['amccode'];
+              $products['AUM'] = number_format($value2['incret'],2);
+              $products['1M'] = number_format($value2['1monthret'],2);
+              $products['6M'] = number_format($value2['6monthret'],2);
+              $products['1Y'] = number_format($value2['1yrret'],2);
+              $products['3Y'] = number_format($value2['3yearet'],2);
+              $products['5Y'] = number_format($value2['5yearret'],2);
+              array_push($fundProducts, $products);
+         }
+              $fund['fundproducts'] = $fundProducts;
+            array_push($fundClass, $fund);
+         }
+         $assests['fundclass'] = $fundClass;
+         array_push($fundAssets, $assests);
+      }
+      return response()->json([
+              'funds' => $fundAssets
+          ], 200);
+   }
+
+    public function getMutualFunds(Request $request)
+   {
+        $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+        //Get the nri elligbility and pass to getFundProducts
+      $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
+      if($customerDetails)
+      $nrielligble = $customerDetails['residential_status'];
+      else
+      $nrielligble = "";
+        
       $fundclassassests = $this->fundclass->getFundClassAssestType();
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
@@ -302,7 +371,7 @@ class FundBasicInfoController extends Controller
           ], 200);
    }
 
-   public function getCustomerSelectedProducts()
+   public function getCustomerSelectedProducts(Request $request)
    {
       $validator = Validator::make($request->json()->all(), [
           'userid' => 'required|string|max:255',
@@ -482,10 +551,10 @@ $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nriel
 
         $basicArray = array();
         $basicinfo['fund_name'] = $funddet['fundname'];
-        $basicinfo['scheme_name'] = $funddet['schemecode'];
+        $basicinfo['scheme_name'] = $funddet['s_name'];
         $basicinfo['category'] = $funddet['category'];
-        $basicinfo['fund_manager'] = $funddet['fund_mgr1'].','.$funddet['fund_mgr2'].','.$funddet['fund_mgr3'].','.$funddet['fund_mgr4'];
-        $basicinfo['net_aum'] = "Net AUM";
+        $basicinfo['fund_manager'] = $funddet['fundmanager'];
+        $basicinfo['net_aum'] = $funddet['aum'];
         $basicinfo['return_detail'] = "Return Detail";
         array_push($basicArray,$basicinfo);
         $basicinfoArray['BasicInfo'] = $basicArray;
@@ -515,13 +584,13 @@ $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nriel
 
         $navDetailsArray = array();
         $navdetails['nav_price'] = number_format($funddet['nav'],2);
-        $navdetails['nav_date'] = $funddet['currdate'];
-        $navdetails['max_entry_load'] = "Max Entry Load";
-        $navdetails['max_exit_load'] = "Max Exit Load";
-        $navdetails['week_high'] = "52 Week High";
-        $navdetails['week_low'] = "52 Week Low";
-        $navdetails['minimum_investment'] = $funddet['mininvt'];
-        $navdetails['minimum_topup'] = "Minimum Topup";
+        $navdetails['nav_date'] = $funddet['navdate'];
+        $navdetails['max_entry_load'] = $funddet['entryload'];
+        $navdetails['max_exit_load'] = $funddet['exitload'];
+        $navdetails['week_high'] = $funddet['52weekhhigh'];
+        $navdetails['week_low'] = $funddet['52weeklow'];
+        $navdetails['minimum_investment'] = $funddet['mininvestment'];
+        $navdetails['minimum_topup'] = $funddet['mintopup'];
         $navdetails['maximum_topup'] = "Maximum Topup";
         $navdetails['SIP'] = $funddet['sip'];
         $navdetails['STP'] = $funddet['stp'];

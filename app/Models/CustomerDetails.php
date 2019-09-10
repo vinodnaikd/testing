@@ -38,6 +38,11 @@ class CustomerDetails extends Model
     {
         return $this->select('customerid')->where('userid','=',$Id)->get()->toArray();
     }
+
+     public function getCustomerIsNRI($Id)
+    {
+        return $this->select('customerdetail.customerid','residential_status')->join('customer as c','c.customerid','=','customerdetail.customerid')->where('userid','=',$Id)->get()->first();
+    }
     
     public function UpdateCustomerDetails($arr,$Id)
     {

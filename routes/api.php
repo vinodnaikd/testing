@@ -91,6 +91,7 @@ Route::post('/v1/users/addgoals', 'GoalController@store');
 Route::post('/v1/users/goalslist', 'GoalController@getGoalsList');
 Route::post('/v1/users/goalssummary', 'GoalController@getGoalsSummaryList');
 Route::post('/v1/users/goalsdetails', 'GoalController@getGoalsDetailsList');
+Route::post('/v1/users/goalssummarydetails', 'GoalController@getGoalsSummaryListWithGoalId');
     //End Of Routes
 
 //ProductSelection Routes
@@ -147,12 +148,12 @@ Route::get('/v1/records/wealthdashboard', 'DashboardRecordsController@wealthDash
 Route::post('/v1/products/funddetails/customerfundposttran', 'FundBasicInfoController@store');
 Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoController@funddataposttran');
 Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
-Route::get('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
-Route::get('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
-Route::get('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
+Route::post('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
+Route::post('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
+Route::post('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
 Route::post('/v1/products/funddetails/addfundselection', 'FundBasicInfoController@CustomerFundSelection');
-Route::get('/v1/products/funddetails/getmutualfunds', 'FundBasicInfoController@getMutualFunds');
-Route::get('/v1/products/funddetails/getmutualfundsdetails', 'FundBasicInfoController@getFundProductsById');
+Route::post('/v1/products/funddetails/getmutualfunds', 'FundBasicInfoController@getMutualFunds');
+Route::post('/v1/products/funddetails/getmutualfundsdetails', 'FundBasicInfoController@getFundProductsById');
 Route::post('/v1/products/funddetails/searchmutualfunds', 'FundBasicInfoController@mutualfundsSearch');
 
 //End Of Routes

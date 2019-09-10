@@ -35,7 +35,7 @@ class Goal extends Model
     }
     public function getGoalsById($goalid,$customerid)
     {
-    return $this->where('customergoalid','=',$goalid)->where('customerid','=',$customerid)->get()->first();
+    return $this->where('customergoalid','=',$goalid)->where('customerid','=',$customerid)->orderby('goalpriority', 'asc')->get()->first();
     }
     public function getGoalIdBasedOnPriority($id,$customerid)
     {
