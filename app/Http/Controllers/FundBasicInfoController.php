@@ -251,7 +251,15 @@ class FundBasicInfoController extends Controller
     }
      public function getFundsDetails(Request $request)
    {
-        
+        $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
         //Get the nri elligbility and pass to getFundProducts
       $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
       if($customerDetails)
@@ -320,17 +328,15 @@ class FundBasicInfoController extends Controller
       $nrielligble = $customerDetails['residential_status'];
       else
       $nrielligble = "";
-        
+
       $fundclassassests = $this->fundclass->getFundClassAssestType();
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
-         //$assests['assettype'] = $value['assettype'];
+         $assests['assettype'] = $value['assettype'];
          $fundclassData = $this->fundclass->getFundClassData($value['assettype']);
-         
-          //print_r(count($fundclassData));
+
          $fundClass = array();
-         if($fundclassData)
          foreach($fundclassData as $key1 => $value1)
          {
             $fund['fundclassid'] = $value1['fundclassid'];
@@ -338,7 +344,6 @@ class FundBasicInfoController extends Controller
             $fund['assettype'] = $value1['assettype'];
             $fund['category'] = $value1['category'];
             $fund['subcategory'] = $value1['subcategory'];
-             $fund['limit'] = 2;
 
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
@@ -350,19 +355,16 @@ class FundBasicInfoController extends Controller
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
               $products['AUM'] = number_format($value2['incret'],2);
-              $products['onem'] = number_format($value2['1monthret'],2);
-              $products['sixm'] = number_format($value2['6monthret'],2);
-              $products['oney'] = number_format($value2['1yrret'],2);
-              $products['threey'] = number_format($value2['3yearet'],2);
-              $products['fivey'] = number_format($value2['5yearret'],2);
-              $products['c_nav'] = $value2['c_nav'];
-              $products['incdate'] = $value2['incdate'];
+              $products['1M'] = number_format($value2['1monthret'],2);
+              $products['6M'] = number_format($value2['6monthret'],2);
+              $products['1Y'] = number_format($value2['1yrret'],2);
+              $products['3Y'] = number_format($value2['3yearet'],2);
+              $products['5Y'] = number_format($value2['5yearret'],2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
             array_push($fundClass, $fund);
          }
-         //if($fundClass)
          $assests['fundclass'] = $fundClass;
          array_push($fundAssets, $assests);
       }
