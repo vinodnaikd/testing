@@ -282,7 +282,7 @@ class FundBasicInfoController extends Controller
             $fund['assettype'] = $value1['assettype'];
             $fund['category'] = $value1['category'];
             $fund['subcategory'] = $value1['subcategory'];
-
+            $fund['limit'] = "2";
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
 
@@ -293,11 +293,11 @@ class FundBasicInfoController extends Controller
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
               $products['AUM'] = number_format($value2['incret'],2);
-              $products['1M'] = number_format($value2['1monthret'],2);
-              $products['6M'] = number_format($value2['6monthret'],2);
-              $products['1Y'] = number_format($value2['1yrret'],2);
-              $products['3Y'] = number_format($value2['3yearet'],2);
-              $products['5Y'] = number_format($value2['5yearret'],2);
+              $products['oneM'] = number_format($value2['1monthret'],2);
+              $products['sixM'] = number_format($value2['6monthret'],2);
+              $products['oneY'] = number_format($value2['1yrret'],2);
+              $products['threeY'] = number_format($value2['3yearet'],2);
+              $products['fiveY'] = number_format($value2['5yearret'],2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
@@ -344,7 +344,7 @@ class FundBasicInfoController extends Controller
             $fund['assettype'] = $value1['assettype'];
             $fund['category'] = $value1['category'];
             $fund['subcategory'] = $value1['subcategory'];
-
+            $fund['limit'] = "2";
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
 
@@ -354,12 +354,14 @@ class FundBasicInfoController extends Controller
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
+              $products['incdate'] = $value2['incdate'];
+              $products['c_nav'] = $value2['c_nav'];
               $products['AUM'] = number_format($value2['incret'],2);
-              $products['1M'] = number_format($value2['1monthret'],2);
-              $products['6M'] = number_format($value2['6monthret'],2);
-              $products['1Y'] = number_format($value2['1yrret'],2);
-              $products['3Y'] = number_format($value2['3yearet'],2);
-              $products['5Y'] = number_format($value2['5yearret'],2);
+              $products['oneM'] = number_format($value2['1monthret'],2);
+              $products['sixM'] = number_format($value2['6monthret'],2);
+              $products['oneY'] = number_format($value2['1yrret'],2);
+              $products['threeY'] = number_format($value2['3yearet'],2);
+              $products['fiveY'] = number_format($value2['5yearret'],2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
