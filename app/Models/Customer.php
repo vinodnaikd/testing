@@ -32,7 +32,13 @@ class Customer extends Model
     {
         return $this->select('customerid')->where('userid','=',$Id)->get()->first();
     }
-    
+     public function getUserCustomerDetails($Id)
+    {
+        return $this->join('sso as s','s.userid','=','customer.userid')
+                    ->join('events_notify as e','e.userid','=','s.userid')
+                    ->where('customer.userid','=',$Id)->get()->first();
+    }
+
     public function UpdateCustomer($arr,$Id)
     {
         return $this->where('customerid','=',$Id)->update($arr);

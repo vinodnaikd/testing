@@ -206,7 +206,7 @@ Route::post('/v1/users/notificationstatus', 'NotificationController@notification
     //End Of Routes
 
 
-Route::post('/v1/users/phoneotpverify', 'UserProfileController@PhoneOTPVerify');
+Route::post('/v1/users/usereventsnotify', 'EmailController@UserEmailSMSNotifications');
 Route::post('/v1/users/emailotpverify', 'UserProfileController@EmailOTPVerify');
 Route::post('/v1/users/editcustomersettings', 'UserProfileController@editCustomerSettings');
 Route::post('/v1/users/profilestatus', 'UserProfileController@profileStatus');
