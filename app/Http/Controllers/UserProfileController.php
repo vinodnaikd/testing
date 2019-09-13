@@ -8,6 +8,7 @@ use App\Models\CustomerDetails;
 use App\Models\Nominee;
 use App\Models\CustomerAddress;
 use App\Models\Notification;
+use App\Models\EmailNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -24,7 +25,8 @@ class UserProfileController extends Controller
         Bank $customerbank,
         Nominee $customernominee,
         CustomerAddress $customeraddress,
-        Notification $customernotifications
+        Notification $customernotifications,
+        EmailNotification $emailnotification
     )
     {
         $this->usersprofile = $usersprofile;
@@ -34,6 +36,7 @@ class UserProfileController extends Controller
         $this->customernominee = $customernominee;
         $this->customeraddress = $customeraddress;
         $this->customernotifications = $customernotifications;
+        $this->eventsNotification = $emailnotification;
     }
     /**
      * Display a listing of the resource.
@@ -172,6 +175,9 @@ class UserProfileController extends Controller
          $reqData1['createdutcdatetime'] = Carbon::now();
          $reqData1['modifiedutcdatetime'] = Carbon::now();
          $customerData = $this->customer->InsertCustomer($reqData1);
+         $esn['userid'] = $reqData1['userid'];
+         $esn['type'] = "";
+         $customerESN = $this->eventsNotification->InsertCustomerEmailSmsNot($esn);
      }
      $data['success']="User Created Successfully";
         }
@@ -661,6 +667,7 @@ class UserProfileController extends Controller
     {
        $status = "false";
     }
+    $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData[0]['userid']);
 //            //dd($userData[0]['userid']);
 //            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
 //            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
@@ -690,6 +697,7 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
+              'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
                
           ], 200); 

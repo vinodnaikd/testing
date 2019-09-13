@@ -281,7 +281,10 @@ class FundBasicInfoController extends Controller
             $fund['name'] = $value1['name'];
             $fund['assettype'] = $value1['assettype'];
             $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
             $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
             $fund['limit'] = "2";
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
@@ -343,7 +346,10 @@ class FundBasicInfoController extends Controller
             $fund['name'] = $value1['name'];
             $fund['assettype'] = $value1['assettype'];
             $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
             $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
             $fund['limit'] = "2";
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
