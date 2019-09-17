@@ -121,4 +121,38 @@ class FundPerformance extends Model
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
+
+    //Reports Query
+    public function getCustomerAccountStatement($customerId)
+    {
+        return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
+                    ->join('customerfundposttran as f','f.customerid','=','d.customerid')
+                    ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
+                    ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
+                    ->where('customerfunddetailposttran.customerid',$customerId)
+                    ->orderBy('customerfunddetailposttran.customerfundid','DESC')
+                    ->take(10)
+                    ->get()
+                    ->toArray();
+
+    }
+
+    public function getCustomerSipSummary($customerId)
+    {
+        return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
+                    ->join('customerfundposttran as f','f.customerid','=','d.customerid')
+                    ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('mf_sip as ms','ms.schemecode','=','customerfunddetailposttran.fundid')
+                    ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
+                    ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
+                    ->where('customerfunddetailposttran.customerid',$customerId)
+                    ->where('customerfunddetailposttran.purchasetype','=','S')
+                    ->where('ms.frequency','=','Monthly')
+                    ->orderBy('customerfunddetailposttran.customerfundid','DESC')
+                    ->take(10)
+                    ->get()
+                    ->toArray();
+
+    }
 }

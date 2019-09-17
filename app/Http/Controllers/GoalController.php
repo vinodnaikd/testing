@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\Customer;
 use App\Models\FundPerformance;
 use App\Models\FundClass;
+use App\Models\DashboardRecordsInfo;
 class GoalController extends Controller
 {
     public function __construct(
@@ -16,7 +17,8 @@ class GoalController extends Controller
         Customer $customer,
         RiskQuestions $riskprofile,
         FundPerformance $fundperformance,
-        FundClass $fundclass
+        FundClass $fundclass,
+        DashboardRecordsInfo $dashboardrecordsinfo
     )
     {
         $this->goals = $goals;
@@ -24,6 +26,7 @@ class GoalController extends Controller
         $this->riskprofile = $riskprofile;
         $this->fundperformance = $fundperformance;
         $this->fundclass = $fundclass;
+        $this->dashboardrecordsinfo = $dashboardrecordsinfo;
     }
     /**
      * Display a listing of the resource.
@@ -192,9 +195,10 @@ class GoalController extends Controller
         $data = $this->goals->getGoalsById($request['goal_id'],$getCustomerInfo['customerid']);
         $assests = $this->fundclass->getFundClassAssestType();
         $assestsArray = array();
+        $assVal = 100/count($assests);
         foreach ($assests as $key => $value) {
             $assval[$value['assettype']] = $value['assettype'];
-           $assval[$value['assettype']] = "50%";
+           $assval[$value['assettype']] = $assVal;
         }
         array_push($assestsArray,$assval);
        $goaldetails['goalname'] = $data['goalname'];
@@ -266,6 +270,37 @@ class GoalController extends Controller
           "GoalsSummaryDetails" => $customerGoalsDetails
         ], 200);
     }
+
+    public function goalsAssestsAllocation(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'goalid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
+            'asset' => 'required|string|max:255',
+            'asset_value' => 'required|string|max:255',
+            'purchase_type' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $reqData['goalid'] = $request['goalid'];
+        $reqData['customerid'] = $getCustomerInfo['customerid'];
+        $reqData['asset'] = $request['asset'];
+        $reqData['asset_value'] = $request['asset_value'];
+        $reqData['purchase_type'] = $request['purchase_type'];
+        
+        $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
+       /* $customerGoalsDetails['goalsAssests'] = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+        $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);*/
+       return response()->json([
+          "GoalsSummaryDetails" => $customerGoalsDetails
+        ], 200);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -92,6 +92,8 @@ Route::post('/v1/users/goalslist', 'GoalController@getGoalsList');
 Route::post('/v1/users/goalssummary', 'GoalController@getGoalsSummaryList');
 Route::post('/v1/users/goalsdetails', 'GoalController@getGoalsDetailsList');
 Route::post('/v1/users/goalssummarydetails', 'GoalController@getGoalsSummaryListWithGoalId');
+Route::post('/v1/users/goalsassetsallocation', 'GoalController@goalsAssestsAllocation');
+
     //End Of Routes
 
 //ProductSelection Routes
@@ -211,6 +213,10 @@ Route::post('/v1/users/emailotpverify', 'UserProfileController@EmailOTPVerify');
 Route::post('/v1/users/editcustomersettings', 'UserProfileController@editCustomerSettings');
 Route::post('/v1/users/profilestatus', 'UserProfileController@profileStatus');
 Route::post('/v1/users/customersettings', 'UserProfileController@customerSettings');
+
+// Download Reports
+Route::post('/v1/users/customerreports', 'EmailController@customerReports');
+// End
 
 
 

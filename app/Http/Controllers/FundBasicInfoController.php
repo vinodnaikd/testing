@@ -11,6 +11,7 @@ use App\Models\Customer;
 use App\Models\FundProducts;
 use App\Models\Fundroi;
 use App\Models\CustomerDetails;
+use App\Models\FundHoldings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -27,7 +28,8 @@ class FundBasicInfoController extends Controller
         FundRecord $fundrecord,
         Customer $customer,
         Fundroi $fundroi,
-        CustomerDetails $customerdetails
+        CustomerDetails $customerdetails,
+        FundHoldings $fundholdings
     )
     {
         $this->fundBasicInfo = $fundBasicInfo;
@@ -39,6 +41,7 @@ class FundBasicInfoController extends Controller
         $this->customer = $customer;
         $this->fundroi = $fundroi;
         $this->customerdetails = $customerdetails;
+        $this->fundholdings = $fundholdings;
     }
     /**
      * Display a listing of the resource.
@@ -530,7 +533,8 @@ class FundBasicInfoController extends Controller
       $reqData1['modifiedutcdatetime'] = Carbon::now();
 
       $fundselectionData = $this->fundrecord->InsertCustomerOrderPretran($reqData);
-      if($fundselectionData == 0)
+      //dd($fundselectionData);
+      if($fundselectionData == 0 || $fundselectionData)
       {
         
           $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
@@ -539,6 +543,9 @@ class FundBasicInfoController extends Controller
       }
 
       }
+      return response()->json([
+              'fundselection' => "fund selection added Successfully"
+          ], 200);
      }
     }
 
@@ -556,6 +563,7 @@ class FundBasicInfoController extends Controller
       }
         $nrielligble = "1";
 $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nrielligble);
+$fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
 // dd($funddet);
         $fundDetails = array();
 
@@ -564,7 +572,7 @@ $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nriel
         $basicinfo['scheme_name'] = $funddet['s_name'];
         $basicinfo['category'] = $funddet['category'];
         $basicinfo['fund_manager'] = $funddet['fundmanager'];
-        $basicinfo['net_aum'] = $funddet['aum'];
+        $basicinfo['net_aum'] = $funddet['aum'].' Cr';
         $basicinfo['return_detail'] = "Return Detail";
         array_push($basicArray,$basicinfo);
         $basicinfoArray['BasicInfo'] = $basicArray;
@@ -573,9 +581,9 @@ $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nriel
 
         $returnArray = array();
         $returndetails['YTD'] = "YTD";
-        $returndetails['sixmonths'] = number_format($funddet['6monthret'],2);
-        $returndetails['oneyear'] = number_format($funddet['1yrret'],2);
-        $returndetails['threeyear'] = number_format($funddet['3yearet'],2);
+        $returndetails['sixmonths'] = number_format($funddet['6monthret'],2).' %';
+        $returndetails['oneyear'] = number_format($funddet['1yrret'],2).' %';
+        $returndetails['threeyear'] = number_format($funddet['3yearet'],2).' %';
         array_push($returnArray,$returndetails);
         $returndetailsArray['ReturnDetails'] = $returnArray;
         array_push($fundDetails,$returndetailsArray);
@@ -610,18 +618,13 @@ $funddet = $this->fundproducts->getFundProductsDetails($request['fundid'],$nriel
         array_push($fundDetails,$navdetailsArray);
 
         $holdingstocksArray = array();
-        $holdingstock['one'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['two'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['three'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['four'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['five'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['six'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['seven'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['eight'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['nine'] = "Reliance Income Fund - Direct (G)";
-        $holdingstock['ten'] = "Reliance Income Fund - Direct (G)";
-        
-        array_push($holdingstocksArray,$holdingstock);
+        $holdingsData = array("one","two","three","four","five","six","seven","eight","nine","ten");
+        foreach ($fundHoldings as $key => $value) {
+          $hold = $holdingsData[$key];
+           $holds[$hold] = $value['compname'];
+            
+        }  
+        array_push($holdingstocksArray,$holds);
         $holdingstockArray['HoldingStocks'] = $holdingstocksArray;
         array_push($fundDetails,$holdingstockArray);
 
