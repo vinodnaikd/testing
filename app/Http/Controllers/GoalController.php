@@ -273,12 +273,54 @@ class GoalController extends Controller
 
     public function goalsAssestsAllocation(Request $request)
     {
-       $validator = Validator::make($request->json()->all(), [
+        $allocationData = $request->json()->all();
+        foreach ($allocationData as $key => $value) {
+            
+       $validator = Validator::make($value, [
             'goalid' => 'required|string|max:255',
             'userid' => 'required|string|max:255',
             'asset' => 'required|string|max:255',
             'asset_value' => 'required|string|max:255',
             'purchase_type' => 'required|string|max:255',
+            'lum_sip'=> 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+        $reqData['goalid'] = $value['goalid'];
+        $reqData['customerid'] = $getCustomerInfo['customerid'];
+        $reqData['asset'] = $value['asset'];
+        $reqData['asset_value'] = $value['asset_value'];
+        $reqData['purchase_type'] = $value['purchase_type'];
+        $reqData['lumpsum_sip'] = $value['lum_sip'];
+        if($value['goal_ass_id'])
+        {
+            $customerGoalsDetails = $this->dashboardrecordsinfo->UpdateGoalsAssestsAllocation($reqData,$value['goal_ass_id']); 
+            $status = "Goals Allocation Updated Successfully";  
+        }
+        else
+        {
+            $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
+            $status = "Goals Allocation Added Successfully";
+        }
+        
+       
+    }
+       return response()->json([
+          "GoalsSummaryDetails" => $customerGoalsDetails,
+          "status" => $status
+        ], 200);
+    }
+
+    public function getgoalsAssestsAllocation(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'goalid' => 'required|string|max:255',
+            'userid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -287,17 +329,11 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $reqData['goalid'] = $request['goalid'];
-        $reqData['customerid'] = $getCustomerInfo['customerid'];
-        $reqData['asset'] = $request['asset'];
-        $reqData['asset_value'] = $request['asset_value'];
-        $reqData['purchase_type'] = $request['purchase_type'];
-        
-        $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
-       /* $customerGoalsDetails['goalsAssests'] = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
-        $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);*/
+
+            $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goalid']);
+       
        return response()->json([
-          "GoalsSummaryDetails" => $customerGoalsDetails
+          "GoalsSummaryDetails" => $customerGoalsDetails,
         ], 200);
     }
 

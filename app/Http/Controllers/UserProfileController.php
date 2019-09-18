@@ -668,30 +668,23 @@ class UserProfileController extends Controller
        $status = "false";
     }
     $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData[0]['userid']);
-//            //dd($userData[0]['userid']);
-//            $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
-//            $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
-//            $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
-//            $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
-//            $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
-//            if(empty($customerDetailsData))
-//            {
-//                $redirectionurl = "localhost:8000/api/v1/users/register";
-//            }
-//            elseif(empty($customerAddressData))
-//            {
-//                $redirectionurl = "localhost:8000/api/v1/users/register";
-//            }
-//            elseif(empty($customerBankData))
-//            {
-//                $redirectionurl = "localhost:8000/api/v1/users/register";
-//            }
-//            else
-//            {
-//                $redirectionurl = "localhost:8000/api/v1/users/register";
-//            }
-//            
- $redirectionurl = "localhost:8000/api/v1/users/register";
+
+           if(empty($customerDetailsData))
+           {
+               $redirectionurl = "customerdetails";
+           }
+           elseif(empty($customerAddressData))
+           {
+               $redirectionurl = "customeraddress";
+           }
+           elseif(empty($customerBankData))
+           {
+               $redirectionurl = "customerbank";
+           }
+           else
+           {
+               $redirectionurl = "customernominee";
+           }         
             return response()->json([
               'status' => 'Login Success',
               'userProfile' => $userData,

@@ -93,6 +93,7 @@ Route::post('/v1/users/goalssummary', 'GoalController@getGoalsSummaryList');
 Route::post('/v1/users/goalsdetails', 'GoalController@getGoalsDetailsList');
 Route::post('/v1/users/goalssummarydetails', 'GoalController@getGoalsSummaryListWithGoalId');
 Route::post('/v1/users/goalsassetsallocation', 'GoalController@goalsAssestsAllocation');
+Route::post('/v1/users/getgoalsassetsallocation', 'GoalController@getgoalsAssestsAllocation');
 
     //End Of Routes
 

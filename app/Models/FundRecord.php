@@ -16,14 +16,20 @@ class FundRecord extends Model
        'orderstatus',
    ];
 
-   public function getCustomerSelectedProducts($customerid)
+   public function getCustomerSelectedProducts($customerid,$goalid,$assettype)
    {
+    // echo $assettype;
     return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')
-                ->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->where('customerid',$customerid)->get()->toArray();
+                ->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')
+                ->join('fundclass as fc','fund.fundclassid','=','fc.fundclassid')
+                ->where('customerid',$customerid)
+                ->where('fc.assettype',$assettype)
+                ->where('customerorderdetailpretran.customergoalid',$goalid)->get()->toArray();
    }
 
    public function getCustomerOrderSummary($customerid,$goal_id,$purchasetype)
    {
+
     return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.purchasetype',$purchasetype)->get()->toArray();
    }
    public function InsertCustomerOrderPretran($arr)

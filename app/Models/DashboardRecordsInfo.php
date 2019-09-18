@@ -22,4 +22,13 @@ public $timestamps = false;
        return $this->insertGetId($arr);
         
     }
+    public function UpdateGoalsAssestsAllocation($arr,$goal_ass_id)
+    {
+       return $this->where('goal_ass_id',$goal_ass_id)->update($arr);;
+        
+    }
+    public function getGoalsAllocationDetails($customerid,$goalid)
+    {
+        return $this->where('customerid',$customerid)->where('goalid',$goalid)->get()->toArray();
+    }
 }

@@ -388,6 +388,7 @@ class FundBasicInfoController extends Controller
    {
       $validator = Validator::make($request->json()->all(), [
           'userid' => 'required|string|max:255',
+          'goalid' => 'required|string|max:255',
             ]);
       if($validator->fails()) {
           return response()->json([
@@ -395,33 +396,55 @@ class FundBasicInfoController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
-          $fundassestData = $this->fundclass->getCustomerSelectedAssests();
-          $assetsArray = array();
+         
+          $fundAssets = array();
+          $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+          $fundassestData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid']);
+          // dd($fundassestData);
           foreach($fundassestData as $key => $value)
           {
             $assets['assettype'] = $value['assettype'];
+            $fundclassData = $this->fundclass->getSelectedFundClassData($value['assettype']);
+           // print_r($fundclassData);
+         $fundClass = array();
+          $assetsArray = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
+            $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
+            $fund['limit'] = "2";
+            $fundProducts = array();
             $selectedProductsArray = array();
-            $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-            $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid']);
-            foreach ($fundprodcutsData as $key1 => $value1) {
-                    $fundproducts['fundid'] = $value1['fundid'];
-                    $fundproducts['fundname'] = $value1['fundname'];
-                    $fundproducts['purchasetype'] = $value1['purchasetype'];
-                    $fundproducts['sipamount'] = $value1['sipamount'];
-                    $fundproducts['sipmonthlydate'] = $value1['sipmonthlydate'];
-                    $fundproducts['sipduration'] = $value1['sipduration'];
-                    $fundproducts['sipunits'] = $value1['sipunits'];
-                    $fundproducts['lumpsumamount'] = $value1['lumpsumamount'];
-                    $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
-                    $fundproducts['transactionstatus'] = $value1['transactionstatus'];
+            $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            //dd($fundprodcutsData);
+            foreach ($fundprodcutsData as $key2 => $value2) {
+                    $fundproducts['fundid'] = $value2['fundid'];
+                    $fundproducts['fundname'] = $value2['fundname'];
+                    $fundproducts['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts['sipamount'] = $value2['sipamount'];
+                    $fundproducts['sipmonthlydate'] = $value2['sipmonthlydate'];
+                    $fundproducts['sipduration'] = $value2['sipduration'];
+                    $fundproducts['sipunits'] = $value2['sipunits'];
+                    $fundproducts['lumpsumamount'] = $value2['lumpsumamount'];
+                    $fundproducts['lumpsumunits'] = $value2['lumpsumunits'];
+                    $fundproducts['transactionstatus'] = $value2['transactionstatus'];
                     array_push($selectedProductsArray, $fundproducts);
             }
-            $assets['fundslist'] = $selectedProductsArray;
-            array_push($assetsArray, $assets);
+            $fund['fundslist'] = $selectedProductsArray;
+            array_push($assetsArray, $fund);
+          }
+          $assests['fundclass'] = $assetsArray;
+         array_push($fundAssets, $assests);
           }
            
       return response()->json([
-              'selectedProducts' => $assetsArray
+              'selectedProducts' => $fundAssets
           ], 200);
    }
 

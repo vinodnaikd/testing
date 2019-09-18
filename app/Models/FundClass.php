@@ -29,10 +29,18 @@ class FundClass extends Model
     {
         return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive)->get()->toArray();
     }
-     public function getCustomerSelectedAssests()
+     public function getSelectedFundClassData($assettype,$inactive=0)
+    {
+        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive)->groupBy('fundclass.assettype')->get()->toArray();
+    }
+    
+     public function getCustomerSelectedAssests($customerid)
    	{
-    return $this->select('fundclass.assettype')->join('fund','fund.fundclassid','=','fundclass.fundclassid')
-    			->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')->groupBy('fundclass.assettype')->get()->toArray();
+    return $this->select('fundclass.assettype','fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')
+    			->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')
+          ->join('customerorderpretran as cp','cp.customerorderid','=','customerorderdetailpretran.customerorderid')
+          ->where('cp.customerid',$customerid)
+          ->groupBy('fundclass.assettype')->get()->toArray();
 	}
 	    public function getSearchedMutualFundData($searchData)
    	{
