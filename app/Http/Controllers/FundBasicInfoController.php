@@ -12,6 +12,7 @@ use App\Models\FundProducts;
 use App\Models\Fundroi;
 use App\Models\CustomerDetails;
 use App\Models\FundHoldings;
+use App\Models\DashboardRecordsInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -29,7 +30,8 @@ class FundBasicInfoController extends Controller
         Customer $customer,
         Fundroi $fundroi,
         CustomerDetails $customerdetails,
-        FundHoldings $fundholdings
+        FundHoldings $fundholdings,
+        DashboardRecordsInfo $dashboardrecordsinfo
     )
     {
         $this->fundBasicInfo = $fundBasicInfo;
@@ -42,6 +44,7 @@ class FundBasicInfoController extends Controller
         $this->fundroi = $fundroi;
         $this->customerdetails = $customerdetails;
         $this->fundholdings = $fundholdings;
+        $this->dashboardrecordsinfo = $dashboardrecordsinfo;
     }
     /**
      * Display a listing of the resource.
@@ -422,10 +425,14 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-            //dd($fundprodcutsData);
+            $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            $fundprdtscount = count($fundprodcutsData);
+            $fundvalue = round(($goalsAssData['lumpsum_sip']/$fundprdtscount),2);
+            $fund['Lumpsum_sip'] = $goalsAssData['lumpsum_sip'];
             foreach ($fundprodcutsData as $key2 => $value2) {
                     $fundproducts['fundid'] = $value2['fundid'];
                     $fundproducts['fundname'] = $value2['fundname'];
+                    $fundproducts['fundvalue'] = $fundvalue;
                     $fundproducts['purchasetype'] = $value2['purchasetype'];
                     $fundproducts['sipamount'] = $value2['sipamount'];
                     $fundproducts['sipmonthlydate'] = $value2['sipmonthlydate'];
@@ -612,13 +619,13 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
         array_push($fundDetails,$returndetailsArray);
 
         $ratiosArray = array();
-        $ratios['standard_deviation'] = "Standard Deviation";
-        $ratios['beta'] = "Beta";
-        $ratios['alpha'] = "Alpha";
-        $ratios['r_squared'] = "R-Squared";
-        $ratios['shapre'] = "shapre";
-        $ratios['portfolio_turnover'] = "Portfolio Turnover";
-        $ratios['expense_ratio'] = "Expense Ratio";
+        $ratios['standard_deviation'] = $funddet['standarddeviation'];
+        $ratios['beta'] = $funddet['beta'];
+        $ratios['alpha'] = $funddet['alpha'];
+        $ratios['r_squared'] = $funddet['standarddeviation'];
+        $ratios['shapre'] = $funddet['sharpe'];
+        $ratios['portfolio_turnover'] = $funddet['portfolioratio'];
+        $ratios['expense_ratio'] = $funddet['expenseratio'];
         array_push($ratiosArray,$ratios);
         $ratiosdetailsArray['Ratios'] = $ratiosArray;
         array_push($fundDetails,$ratiosdetailsArray);

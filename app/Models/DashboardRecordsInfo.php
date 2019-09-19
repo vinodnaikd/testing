@@ -31,4 +31,10 @@ public $timestamps = false;
     {
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->get()->toArray();
     }
+
+    public function getGoalsAssetsAllocationDetails($customerid,$goalid,$asset)
+    {
+    	// dd($asset);
+        return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('asset',$asset)->get()->first();
+    }
 }
