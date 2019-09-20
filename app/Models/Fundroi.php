@@ -24,9 +24,18 @@ class Fundroi extends Model
        'lumpsumunits',
        'transactionstatus'
    ];
-
+public $timestamps = false;
    public function InsertCustomerOrderDetailsPretran($arr)
     {
       return $this->insertGetId($arr);
+    }
+    public function updateCustomerFundDetails($arr,$IdsArray)
+    {
+      return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->update($arr);
+    }
+
+    public function checkCustomerSelectedFund($IdsArray)
+    {
+      return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->get()->first();
     }
 }

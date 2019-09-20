@@ -331,9 +331,20 @@ class GoalController extends Controller
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
 
             $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goalid']);
-       
+       $goals['lumpsum_sip'] = $customerGoalsDetails[0]['lumpsum_sip'];
+       $goals['goalid'] = $customerGoalsDetails[0]['goalid'];
+       $goals['purchase_type'] = $customerGoalsDetails[0]['purchase_type'];
+       $goals['customerid'] = $customerGoalsDetails[0]['customerid'];
+       $goalsSumm = array();
+       foreach ($customerGoalsDetails as $key => $value) {
+           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet['asset'] = $value['asset'];
+           $goalsdet['asset_value'] = $value['asset_value'];
+           array_push($goalsSumm, $goalsdet);
+       }
+       $goals['GoalsSummaryDetails'] = $goalsSumm;
        return response()->json([
-          "GoalsSummaryDetails" => $customerGoalsDetails,
+           $goals,
         ], 200);
     }
 

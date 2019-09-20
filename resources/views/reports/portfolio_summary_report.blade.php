@@ -29,7 +29,7 @@
 </head>
 <body>
 <?php
-print_r($data);
+//print_r($data);
 ?>
 <table id="customers">
   <tr>

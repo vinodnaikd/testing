@@ -259,6 +259,7 @@ class FundBasicInfoController extends Controller
    {
         $validator = Validator::make($request->json()->all(), [
           'userid' => 'required|string|max:100',
+          'goalid' => 'required|string|max:100',
             ]);
       if($validator->fails()) {
           return response()->json([
@@ -268,6 +269,8 @@ class FundBasicInfoController extends Controller
       }
         //Get the nri elligbility and pass to getFundProducts
       $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($customerDetails)
       $nrielligble = $customerDetails['residential_status'];
       else
@@ -297,7 +300,14 @@ class FundBasicInfoController extends Controller
 
          foreach($fundprodcutsData as $key2 => $value2)
          {
-              //dd($value2);
+          $reqData['fundid'] = $value2['fundid'];
+          $reqData['goalid'] = $request['goalid'];
+          $reqData['customerorderid'] = $orderstatus['customerorderid'];
+         $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
+          if($checkFundStatus)
+          $products['fundstatus'] = "checked";
+          else
+          $products['fundstatus'] = "unchecked";
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
@@ -718,9 +728,44 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
      * @param  \App\FundBasicInfo  $fundBasicInfo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FundBasicInfo $fundBasicInfo)
+    public function customerFundsUpdate(Request $request)
     {
-        //
+      $fundsData = $request->json()->all();
+      foreach ($fundsData as $key => $value) {
+        
+         $validator = Validator::make($value, [
+          'userid' => 'required|string|max:100',
+          'goalid' => 'required|string|max:100',
+          'fundid' => 'required|string|max:100',
+          'purchasetype' => 'required|string|max:100',
+          'fundvalue' => 'required|max:100',
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+      $getCustomerOrder = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+        $reqData['customerorderid'] = $getCustomerOrder['customerorderid'];
+        $reqData['goalid'] = $value['goalid'];
+        $reqData['fundid'] = $value['fundid'];
+        if($value['purchasetype'] == "l" || $value['purchasetype'] == "L")
+        $reqData1['lumpsumamount'] = $value['fundvalue'];
+        else
+        $reqData1['sipamount'] = $value['fundvalue'];
+
+    $fundDetailsUpd = $this->fundroi->updateCustomerFundDetails($reqData1,$reqData);
+  }
+    if($fundDetailsUpd)
+    {
+      return response()->json([
+              'status' => "Fund Details Updated Successfully"
+          ], 200);
+    }
+
     }
 
     /**
