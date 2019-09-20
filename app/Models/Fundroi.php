@@ -31,7 +31,7 @@ public $timestamps = false;
     }
     public function updateCustomerFundDetails($arr,$IdsArray)
     {
-      return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->update($arr);
+      return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
     }
 
     public function checkCustomerSelectedFund($IdsArray)

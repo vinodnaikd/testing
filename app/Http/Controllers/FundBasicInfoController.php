@@ -488,13 +488,13 @@ class FundBasicInfoController extends Controller
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
                     $fundproducts['purchasetype'] = $value1['purchasetype'];
-                    $fundproducts['lumpsumamount'] = $value1['lumpsumamount'];
+                    $fundproducts['fundvalue'] = $value1['lumpsumamount'];
                     $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
                     $fundproducts['transactionstatus'] = $value1['transactionstatus'];
                     array_push($selectedProductsArray, $fundproducts);
             }
-            $amount = array_sum(array_column($selectedProductsArray, 'lumpsumamount'));
-            $lumpsumamount['Lumpsum Amount'] = $amount;
+            $amount = array_sum(array_column($selectedProductsArray, 'fundvalue'));
+            $lumpsumamount['Lumpsum_Amount'] = $amount;
             $lumpsumamount['Lumpsum'] = $selectedProductsArray;
 
             // Sip Amount 
@@ -752,6 +752,7 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
         $reqData['customerorderid'] = $getCustomerOrder['customerorderid'];
         $reqData['goalid'] = $value['goalid'];
         $reqData['fundid'] = $value['fundid'];
+        $reqData['purchasetype'] = $value['purchasetype'];
         if($value['purchasetype'] == "l" || $value['purchasetype'] == "L")
         $reqData1['lumpsumamount'] = $value['fundvalue'];
         else
