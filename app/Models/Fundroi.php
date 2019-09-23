@@ -38,4 +38,10 @@ public $timestamps = false;
     {
       return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->get()->first();
     }
+
+    public function updateCustomerFundValue($arr,$IdsArray)
+    {
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$IdsArray['customerid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
+    }
+
 }

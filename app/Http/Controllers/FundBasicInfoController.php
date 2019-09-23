@@ -439,20 +439,59 @@ class FundBasicInfoController extends Controller
             $fundprdtscount = count($fundprodcutsData);
             $fundvalue = round(($goalsAssData['lumpsum_sip']/$fundprdtscount),2);
             $fund['Lumpsum_sip'] = $goalsAssData['lumpsum_sip'];
+            $lumProductsArray = array();
+            $sipProductsArray = array();
             foreach ($fundprodcutsData as $key2 => $value2) {
-                    $fundproducts['fundid'] = $value2['fundid'];
-                    $fundproducts['fundname'] = $value2['fundname'];
-                    $fundproducts['fundvalue'] = $fundvalue;
-                    $fundproducts['purchasetype'] = $value2['purchasetype'];
-                    $fundproducts['sipamount'] = $value2['sipamount'];
-                    $fundproducts['sipmonthlydate'] = $value2['sipmonthlydate'];
-                    $fundproducts['sipduration'] = $value2['sipduration'];
-                    $fundproducts['sipunits'] = $value2['sipunits'];
-                    $fundproducts['lumpsumamount'] = $value2['lumpsumamount'];
-                    $fundproducts['lumpsumunits'] = $value2['lumpsumunits'];
-                    $fundproducts['transactionstatus'] = $value2['transactionstatus'];
-                    array_push($selectedProductsArray, $fundproducts);
+              if($value2['purchasetype'] == "L")
+              {
+                $fundproducts1['fundid'] = $value2['fundid'];
+                    $fundproducts1['fundname'] = $value2['fundname'];
+                    $fundproducts1['fundvalue'] = $fundvalue;
+                    $fundproducts1['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts1['sipamount'] = $value2['sipamount'];
+                    $fundproducts1['sipmonthlydate'] = $value2['sipmonthlydate'];
+                    $fundproducts1['sipduration'] = $value2['sipduration'];
+                    $fundproducts1['sipunits'] = $value2['sipunits'];
+                    $fundproducts1['lumpsumamount'] = $value2['lumpsumamount'];
+                    $fundproducts1['lumpsumunits'] = $value2['lumpsumunits'];
+                    $fundproducts1['transactionstatus'] = $value2['transactionstatus'];
+               
+                array_push($lumProductsArray, $fundproducts1);
+                $reqData['lumpsumamount'] = $fundvalue;
+                $reqData1['fundid'] = $value2['fundid'];
+                $reqData1['goalid'] = $request['goalid'];
+                $reqData1['purchasetype'] = $value2['purchasetype'];
+                $reqData1['customerid'] = $getCustomerInfo['customerid'];
+                if(empty($value2['lumpsumamount']))
+               $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData,$reqData1);
+              }
+              else
+              {
+                $fundproducts2['fundid'] = $value2['fundid'];
+                    $fundproducts2['fundname'] = $value2['fundname'];
+                    $fundproducts2['fundvalue'] = $fundvalue;
+                    $fundproducts2['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts2['sipamount'] = $value2['sipamount'];
+                    $fundproducts2['sipmonthlydate'] = $value2['sipmonthlydate'];
+                    $fundproducts2['sipduration'] = $value2['sipduration'];
+                    $fundproducts2['sipunits'] = $value2['sipunits'];
+                    $fundproducts2['lumpsumamount'] = $value2['lumpsumamount'];
+                    $fundproducts2['lumpsumunits'] = $value2['lumpsumunits'];
+                    $fundproducts2['transactionstatus'] = $value2['transactionstatus'];
+                    array_push($sipProductsArray, $fundproducts2);
+                    $reqData2['sipamount'] = $fundvalue;
+                $reqData3['fundid'] = $value2['fundid'];
+                $reqData3['goalid'] = $request['goalid'];
+                $reqData3['purchasetype'] = $value2['purchasetype'];
+                $reqData3['customerid'] = $getCustomerInfo['customerid'];
+                if(empty($value2['sipamount']))
+               $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData2,$reqData3);
+              }
+                     $fundproductsArr['Lumpsum'] = $lumProductsArray;
+                      $fundproductsArr['Sip'] = $sipProductsArray;
+                    
             }
+            array_push($selectedProductsArray, $fundproductsArr);
             $fund['fundslist'] = $selectedProductsArray;
             array_push($assetsArray, $fund);
           }
@@ -544,6 +583,7 @@ class FundBasicInfoController extends Controller
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
       $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
       // dd($checkFund);
+        $purchaseArr = array("L","S");
       if($checkFund)
       {
         return response()->json([
@@ -558,13 +598,16 @@ class FundBasicInfoController extends Controller
         //dd($orderstatus);
           $reqData1['fundid'] = $value['fundid'];
           $reqData1['purchasetype'] = $value['purchasetype'];
-          $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
-          $reqData1['customerorderid'] = $orderstatus['customerorderid'];
           $reqData1['customergoalid'] = $value['customergoalid'];
           $reqData1['startdate'] = $value['startdate'];
           $reqData1['createdutcdatetime'] = Carbon::now();
           $reqData1['modifiedutcdatetime'] = Carbon::now();
+          foreach ($purchaseArr as $key1 => $value1) {
+         $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+         $reqData1['customerorderid'] = $orderstatus['customerorderid'];
+         $reqData1['purchasetype'] = $value1;
           $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+        }
       }
       else
       {
@@ -574,21 +617,25 @@ class FundBasicInfoController extends Controller
       $reqData['orderno'] = "3658663575".mt_rand(10,100);
       $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-KJSDDF3575".mt_rand(10,100);
       $reqData1['fundid'] = $value['fundid'];
-      $reqData1['purchasetype'] = $value['purchasetype'];
+      
       $reqData['orderstatus'] = $value['orderstatus'];
       $reqData1['customergoalid'] = $value['customergoalid'];
       $reqData1['startdate'] = $value['startdate'];
       $reqData1['createdutcdatetime'] = Carbon::now();
       $reqData1['modifiedutcdatetime'] = Carbon::now();
-
+     
       $fundselectionData = $this->fundrecord->InsertCustomerOrderPretran($reqData);
       //dd($fundselectionData);
       if($fundselectionData == 0 || $fundselectionData)
       {
         
-          $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+          
           $reqData1['customerorderid'] = $reqData['customerorderid'];
+           foreach ($purchaseArr as $key1 => $value1) {
+$reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+          $reqData1['purchasetype'] = $value1;
           $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+        }
       }
 
       }
