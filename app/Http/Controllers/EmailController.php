@@ -90,7 +90,22 @@ class EmailController extends Controller
         	return $pdf->download('portfolio_detailed.pdf');
     	}
     	elseif ($request['report_type'] == "account_statement") {
-    		$accountData = $this->fundperformance->getCustomerAccountStatement($getCustomerInfo['customerid']);
+
+    		$validator = Validator::make($request->json()->all(), [
+            'from_date' => 'required|string|max:100',
+            'to_date' => 'required|string|',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        	$from_date = $request['from_date'];
+        	$to_date = $request['to_date'];
+
+    		$accountData = $this->fundperformance->getCustomerAccountStatement($getCustomerInfo['customerid'],$from_date,$to_date);
     		// dd($accountData);
     		view()->share('accountData',$accountData);
         	$pdf = PDF::loadView('reports.account_statement');
@@ -103,8 +118,21 @@ class EmailController extends Controller
         	return $pdf->download('portfolio_summary_report.pdf');
     	}
     	elseif ($request['report_type'] == "sip_summary") {
+    		$validator = Validator::make($request->json()->all(), [
+            'from_date' => 'required|string|max:100',
+            'to_date' => 'required|string|',
+        ]);
 
-    		$sipsummaryData = $this->fundperformance->getCustomerSipSummary($getCustomerInfo['customerid']);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        	$from_date = $request['from_date'];
+        	$to_date = $request['to_date'];
+
+    		$sipsummaryData = $this->fundperformance->getCustomerSipSummary($getCustomerInfo['customerid'],$from_date,$to_date);
     		// dd($sipsummaryData);
     		view()->share('sipsummaryData',$sipsummaryData);
         	$pdf = PDF::loadView('reports.sip_summary');

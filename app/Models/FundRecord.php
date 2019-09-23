@@ -44,5 +44,10 @@ class FundRecord extends Model
     {
       return $this->where('customerid',$id)->where('orderstatus','Pending')->first();
     }
+    public function CheckFundExists($customerid,$goalid,$fundid)
+    {
+      return $this->join('customerorderdetailpretran as cd','customerorderpretran.customerorderid','=','cd.customerorderid')
+      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->first();
+    }
 
 }

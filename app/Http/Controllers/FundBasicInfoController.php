@@ -542,7 +542,16 @@ class FundBasicInfoController extends Controller
       }
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
-
+      $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
+      // dd($checkFund);
+      if($checkFund)
+      {
+        return response()->json([
+              'fundselection' => "Fund Already Added"
+          ], 400);
+      }
+      else
+      {
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($orderstatus)
       {
@@ -562,7 +571,7 @@ class FundBasicInfoController extends Controller
 
       $reqData['customerid'] = $getCustomerInfo['customerid'];
       $reqData['orderdate'] = $value['orderdate'];
-      $reqData['orderno'] = "65656565365";
+      $reqData['orderno'] = "3658663575".mt_rand(10,100);
       $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-KJSDDF3575".mt_rand(10,100);
       $reqData1['fundid'] = $value['fundid'];
       $reqData1['purchasetype'] = $value['purchasetype'];
@@ -587,6 +596,7 @@ class FundBasicInfoController extends Controller
               'fundselection' => "fund selection added Successfully"
           ], 200);
      }
+   }
     }
 
     public function getFundProductsById(Request $request)

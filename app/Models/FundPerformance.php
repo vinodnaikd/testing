@@ -123,7 +123,7 @@ class FundPerformance extends Model
     }
 
     //Reports Query
-    public function getCustomerAccountStatement($customerId)
+    public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
     {
         return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
                     ->join('customerfundposttran as f','f.customerid','=','d.customerid')
@@ -131,6 +131,7 @@ class FundPerformance extends Model
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
                     ->where('customerfunddetailposttran.customerid',$customerId)
+                    ->whereBetween('customerfunddetailposttran.transactiondate', [$fromDate, $toDate])
                     ->orderBy('customerfunddetailposttran.customerfundid','DESC')
                     ->take(10)
                     ->get()
@@ -138,7 +139,7 @@ class FundPerformance extends Model
 
     }
 
-    public function getCustomerSipSummary($customerId)
+    public function getCustomerSipSummary($customerId,$fromDate,$toDate)
     {
         return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
                     ->join('customerfundposttran as f','f.customerid','=','d.customerid')
@@ -149,6 +150,7 @@ class FundPerformance extends Model
                     ->where('customerfunddetailposttran.customerid',$customerId)
                     ->where('customerfunddetailposttran.purchasetype','=','S')
                     ->where('ms.frequency','=','Monthly')
+                    ->whereBetween('customerfunddetailposttran.transactiondate', [$fromDate, $toDate])
                     ->orderBy('customerfunddetailposttran.customerfundid','DESC')
                     ->take(10)
                     ->get()
