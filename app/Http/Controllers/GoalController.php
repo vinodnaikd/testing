@@ -205,8 +205,8 @@ class GoalController extends Controller
        $goaldetails['goalpriority'] = $data['goalpriority'];
        $goaldetails['goalcost'] = $data['goalcost'];
        $goaldetails['futurecost'] = $data['futurecost'];
-       $goaldetails['year'] = floor($data['timeframe']/12);
-       $goaldetails['month'] = $data['timeframe']%12;
+       $goaldetails['year'] = ($data['futurecost']/$data['timeframe']);
+       $goaldetails['month'] = round($goaldetails['year']/12);
        $goaldetails['Lumpsum'] = $assestsArray;
        $goaldetails['Sip'] = $assestsArray;
        return response()->json([
@@ -264,7 +264,15 @@ class GoalController extends Controller
             ], 400);
         }
         $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
-        $customerGoalsDetails['goalsAssests'] = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+       $newArr = array();
+       foreach ($assetsData as $key => $value) {
+        $d = array(['TotalInvestmentValue'.':'.$value['TotalInvestmentValue']],['TotalCurrentValue'.':'.$value['TotalCurrentValue']],['AssetType'.':'.$value['AssetType']],['Growth'.':'.$value['Growth']]);
+        array_push($newArr, $d);
+        // array_push($newArr, $v1);
+       }
+      // return $newArr;
+        $customerGoalsDetails['goalsAssests'] = $newArr;
         $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);
        return response()->json([
           "GoalsSummaryDetails" => $customerGoalsDetails

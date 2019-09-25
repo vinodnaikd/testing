@@ -1231,6 +1231,35 @@ class UserProfileController extends Controller
             ], 200);
         }
     }
+
+     public function getBankInfoWithIFSC(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+            'ifsc' => 'required|string|max:255',
+        ]);
+      if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        
+        $bankData = json_decode(file_get_contents("https://ifsc.razorpay.com/".$request['ifsc']),true);
+//catch exception
+       
+        if($bankData)
+        {
+          return $bankData;
+        }
+        else
+        {
+          return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 404);
+        }
+    }
+
    
     /**
      * Update the specified resource in storage.

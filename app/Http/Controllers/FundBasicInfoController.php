@@ -348,12 +348,14 @@ class FundBasicInfoController extends Controller
       else
       $nrielligble = "";
 
-      $fundclassassests = $this->fundclass->getFundClassAssestType();
+      $fundclassassests = $this->fundclass->getFundClassSubcategory();
       $fundAssets = array();
+      // dd($fundclassassests);
       foreach($fundclassassests as $key =>$value)
       {
          $assests['assettype'] = $value['assettype'];
-         $fundclassData = $this->fundclass->getFundClassData($value['assettype']);
+         $assests['assetname'] = $value['subcategory'];
+         $fundclassData = $this->fundclass->getFundClassSubcategoryData($value['subcategory']);
 
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)

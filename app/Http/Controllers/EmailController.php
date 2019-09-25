@@ -135,8 +135,11 @@ class EmailController extends Controller
     		$sipsummaryData = $this->fundperformance->getCustomerSipSummary($getCustomerInfo['customerid'],$from_date,$to_date);
     		// dd($sipsummaryData);
     		view()->share('sipsummaryData',$sipsummaryData);
-        	$pdf = PDF::loadView('reports.sip_summary');
-        	return $pdf->download('sip_summary.pdf');
+    		$customPaper = array(0,0,567.00,283.80);
+        	$pdf = PDF::loadView('reports.portfolio_summary');
+        	// return $pdf->download('sip_summary.pdf');
+        	$pdf->setPaper('A4', 'landscape');
+        	return $pdf->download('portfolio_summary.pdf');
     	}
     	elseif ($request['report_type'] == "redemption_report") {
 

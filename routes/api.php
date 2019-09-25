@@ -68,12 +68,10 @@ Route::get('/v1/users/signout', 'UserProfileController@signOut');
 Route::post('/v1/users/forgotpassword', 'UserProfileController@forgotPassword');
 Route::post('/v1/users/resetpassword', 'UserProfileController@resetPassword');
 Route::post('/v1/users/changepassword', 'UserProfileController@changePassword');
-
 Route::post('/v1/users/settranscationpassword', 'UserProfileController@setTranscationPassword');
 Route::get('/v1/users/gettranscationpassword', 'UserProfileController@getTranscationPassword');
-
-
 Route::post('/v1/users/editprofile', 'UserProfileController@edit');
+Route::get('/v1/users/getbankdetails', 'UserProfileController@getBankInfoWithIFSC');
 
 
 
@@ -146,6 +144,11 @@ Route::post('/v1/records/dashboardrisks', 'DashboardRecordsController@show');
 Route::get('/v1/records/usergoals', 'DashboardRecordsController@userGoals');
 Route::get('/v1/records/wealthdashboard', 'DashboardRecordsController@wealthDashboard');
 //End Of Routes
+
+//Wealth Dashboard
+Route::post('/v1/records/addwealthallocation', 'WealthAllocationController@store');
+Route::post('/v1/records/getwealthallocation', 'WealthAllocationController@show');
+//End
 
 //Fund Routes
 Route::post('/v1/products/funddetails/customerfundposttran', 'FundBasicInfoController@store');
