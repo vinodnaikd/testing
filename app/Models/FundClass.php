@@ -63,4 +63,9 @@ class FundClass extends Model
      return $a->orderBy('fund.rank','asc')->get()->toArray();
 	   }
 
+      public function getAssetTypeBySubcategory($search)
+    {
+     return $this->Where('fundclass.subcategory', 'like', '%' . $search . '%')->get()->first();
+     }
+
 }

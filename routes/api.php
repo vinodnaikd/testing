@@ -148,6 +148,9 @@ Route::get('/v1/records/wealthdashboard', 'DashboardRecordsController@wealthDash
 //Wealth Dashboard
 Route::post('/v1/records/addwealthallocation', 'WealthAllocationController@store');
 Route::post('/v1/records/getwealthallocation', 'WealthAllocationController@show');
+Route::post('/v1/records/getwealthassets','WealthAllocationController@getWealthAssestType');
+Route::post('/v1/records/getcustomerwealthallocation','WealthAllocationController@getCustomerWealthAllocation');
+
 //End
 
 //Fund Routes

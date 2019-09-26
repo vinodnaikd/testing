@@ -419,84 +419,31 @@ class UserProfileController extends Controller
           }
    elseif($request['action'] == "customernominee")
           {
-          
-//        $data3['Name'] = "string";
-//        $data3['guardian_name'] = "raj";
-//        $data3['relationship'] = "string";
-//        $data3['customerid'] = "1";
-//        $data3['nominee_address'] = (object)array(
-//            'addressline1' => "string",
-//            'addressline2' => "string",
-//            'city' => "string",
-//            'country' => "string",
-//            'state' => "string",
-//            'pincode' => "string",
-//            'address_id' => "string"
-//        );
-//        $data3['nominee_dob'] = "24";
-//        $data3['nominee_share'] = "string";
-//        $data3['nominee_id'] = "string";
-//        $data3['userid'] = "3";
-//        $data3['customernomineeid'] = "24";
-//        
-//        $data4['Name'] = "string";
-//        $data4['guardian_name'] = "ram";
-//        $data4['relationship'] = "string";
-//        $data4['customerid'] = "1";
-//        $data4['nominee_address'] = (object)array(
-//            'addressline1' => "string",
-//            'addressline2' => "string",
-//            'city' => "string",
-//            'country' => "string",
-//            'state' => "string",
-//            'pincode' => "string",
-//            'address_id' => "string"
-//        );
-//        $data4['nominee_dob'] = "24";
-//        $data4['nominee_share'] = "string";
-//        $data4['nominee_id'] = "string";
-//        $data4['userid'] = "3";
-//        $data4['customernomineeid'] = "25";
-//        
-//       $nomineeData = [
-//            'nominee1' => $data3,
-//            'nominee2' => $data4
-//        ];
-             /* $validator = Validator::make($request->all(), [
-          'customernominee' => 'required|string',
-           ]);
-          if($validator->fails()) {
-          return response()->json([
-              'status' => 'error',
-              'messages' => $validator->messages()
-          ], 400);
-          }*/
-      // $request['customernominee'] = $nomineeData;
-       //$nomineeData = json_decode($request['customernominee'],true);
+       
        $nomineeData = $request->json()->all();
 //       dd($nomineeData);
        $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
          $value['customerid'] = $getCustomerInfo['customerid'];
-         $value['addressline1'] = $value['nominee_address']['addressline1'];
+        /* $value['addressline1'] = $value['nominee_address']['addressline1'];
          $value['addressline2'] = $value['nominee_address']['addressline2'];
          $value['city'] = $value['nominee_address']['city'];
          $value['country'] = $value['nominee_address']['country'];
          $value['state'] = $value['nominee_address']['state'];
-         $value['pincode'] = $value['nominee_address']['pincode'];
+         $value['pincode'] = $value['nominee_address']['pincode'];*/
          //$value['customerid'] = 1;
          $validator = Validator::make($value, [
           'Name' => 'required|string|max:255',
-          'guardian_name' => 'required|string|max:100',
+          //'guardian_name' => 'required|string|max:100',
           'relationship' => 'required|string|max:100',
-          'addressline1' => 'required|string|max:255',
-          'addressline2' => 'required|string|max:100',
+          'percentage' => 'required|string|max:255',
+          /*'addressline2' => 'required|string|max:100',
           'city' => 'required|string|max:100',
           'country' => 'required|string|max:100',
           'state' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
           'nominee_dob'=> 'required|string|max:100',
-          'nominee_share'=> 'required|string|max:100',
+          'nominee_share'=> 'required|string|max:100',*/
           'customerid' => 'required|integer|max:100',
           ]);
           if($validator->fails()) {
@@ -508,13 +455,13 @@ class UserProfileController extends Controller
         $reqData['name'] = $value['Name'];
         $reqData['guardianname'] = $value['guardian_name'];
         $reqData['relation'] = $value['relationship'];
-        $reqData['address1'] = $value['addressline1'];
-        $reqData['address2'] = $value['addressline2'];
+        $reqData['allottedpercent'] = $value['percentage'];
+        /*$reqData['address2'] = $value['addressline2'];
         $reqData['city'] = $value['city'];
         $reqData['country'] = $value['country'];
         $reqData['state'] = $value['state'];
         $reqData['pincode'] = $value['pincode'];
-        $reqData['dateofbirth'] = $value['nominee_dob'];
+        $reqData['dateofbirth'] = $value['nominee_dob'];*/
         //$reqData['nominee_share'] = $request['nominee_share'];
         $reqData['customerid'] = $value['customerid'];
         $reqData['createdutcdatetime'] = Carbon::now();
@@ -540,9 +487,20 @@ class UserProfileController extends Controller
           if($nomineeData)
           {
               $customerBankData = $this->customernominee->getCustomerNomineeDetails($value['customerid']);
+              $nomineeArr = array();
+              foreach ($customerBankData as $key => $value) {
+                $nominee['customernomineeid'] = $value['customernomineeid'];
+                $nominee['name'] = $value['name'];
+                $nominee['guardianname'] = $value['guardianname'];
+                $nominee['relation'] = $value['relation'];
+                $nominee['allottedpercent'] = $value['allottedpercent'];
+                $nominee['customerid'] = $value['customerid'];
+                array_push($nomineeArr, $nominee);
+              }
+
           return response()->json([
             'status' => $status,
-            'customernomineedetails' => $customerBankData
+            'customernomineedetails' => $nomineeArr
             ], 200);
           }
           }
@@ -805,10 +763,21 @@ class UserProfileController extends Controller
       }
       elseif($action == "customernominee")
       {
+
         $getCustomerNomineeDetails = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo['customerid']);
+         $nomineeArr = array();
+              foreach ($getCustomerNomineeDetails as $key => $value) {
+                $nominee['customernomineeid'] = $value['customernomineeid'];
+                $nominee['name'] = $value['name'];
+                $nominee['guardianname'] = $value['guardianname'];
+                $nominee['relation'] = $value['relation'];
+                $nominee['allottedpercent'] = $value['allottedpercent'];
+                $nominee['customerid'] = $value['customerid'];
+                array_push($nomineeArr, $nominee);
+              }
           return response()->json([
             'status' => 'Success',
-            'customernomineeData' => $getCustomerNomineeDetails
+            'customernomineeData' => $nomineeArr
         ], 200);
       }
       elseif($action == "customeraddress")

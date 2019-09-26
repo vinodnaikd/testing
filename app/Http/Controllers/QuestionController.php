@@ -127,16 +127,18 @@ class QuestionController extends Controller
             $queData['AnswerOption'] = $submittedoptionsData['optionid'];
             else
             $queData['AnswerOption'] = "";
-        if($value['questionid'] == "10007")
-            {
-            $queData['imagepath'] = url('/portfolio.png');
-            }
+        
+
             //dd($queData);
            //array_push($questionsData,$queOptnData1);
             array_push($questionsData,$queData);
              //dd($queOptnData);
         }
-        //dd($queOptnData);
+       /* if($value['questionid'] == "10007")
+            {
+            $queData['imagepath'] = url('/portfolio.png');
+            }*/
+        $questionsData[7]['imagepath'] = url('/portfolio.png');
          return response()->json([
               'questions' => $questionsData
           ], 200);
