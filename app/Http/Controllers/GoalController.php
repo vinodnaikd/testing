@@ -422,11 +422,17 @@ class GoalController extends Controller
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
        $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid']);
-       //dd($customerGoals);
+       // dd($customerGoals);
        $goalsFunds = array();
        foreach($customerGoals as $gkey =>$gvalue)
        {
-        $goals['goals'] = $gvalue['goalname'];
+        $goals['goalname'] = $gvalue['goalname'];
+           $goals['goalid'] = $gvalue['customergoalId'];
+           $goals['futurecost'] = $gvalue['futurecost'];
+           $goals['totalcurrentvalue'] = $gvalue['totalcurrentvalue'];
+           $goals['goalpriority'] = $gvalue['goalpriority'];
+           $goals['year'] = floor($gvalue['timeframe']/12);
+           $goals['month'] = $gvalue['timeframe']%12;
     $customerGoalsAssets = $this->fundperformance->getCustomerGoalsFundsAssets($getCustomerInfo['customerid'],$gvalue['customergoalId']);
       $fundAssets = array();
       foreach($customerGoalsAssets as $key =>$value)
