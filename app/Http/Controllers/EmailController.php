@@ -52,8 +52,185 @@ class EmailController extends Controller
     		# code...
     	}
     }
+public function customerReports(Request $request)
+{
+	ini_set('max_execution_time', 300);
+	$validator = Validator::make($request->json()->all(), [
+				'report_type' => 'required|string|max:100',
+				'userid' => 'required|string|',
+		]);
 
-    public function customerReports(Request $request)
+		if($validator->fails()) {
+				return response()->json([
+						'status' => 'error',
+						'messages' => $validator->messages()
+				], 400);
+		}
+
+		$getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+//Taxation Report
+if($request['report_type'] == "taxation_report") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+	$TaxationData = $this->fundperformance->getCustomerTaxationReport($getCustomerInfo['customerid'],$from_date,$to_date);
+	view()->share('TaxationData',$TaxationData);
+		$pdf = PDF::loadView('reports.taxation_report')->setPaper('a3','landscape');
+		return $pdf->download('taxation_report.pdf');
+}
+
+
+//Portfolio detailed
+elseif ($request['report_type'] == "portfolio_detailed") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+	$PortfolioData = $this->fundperformance->getCustomerPortfolioDetailed($getCustomerInfo['customerid'],$from_date,$to_date);
+	dd($PortfolioData);
+	view()->share('PortfolioData',$PortfolioData);
+		$pdf = PDF::loadView('reports.portfolio_detailed')->setPaper('a3', 'landscape');
+		return $pdf->download('portfolio_detailed.pdf');
+}
+
+//Account Statement
+elseif ($request['report_type'] == "account_statement") {
+
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+	$accountData = $this->fundperformance->getCustomerAccountStatement($getCustomerInfo['customerid'],$from_date,$to_date);
+
+	view()->share('accountData',$accountData);
+		$pdf = PDF::loadView('reports.account_statement')->setPaper('a3', 'landscape');
+		return $pdf->download('account_statement.pdf');
+}
+
+//Portfolio Summary Report
+elseif ($request['report_type'] == "portfolio_summary_report") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+		
+	$portfoliosummaryData = $this->fundperformance->getCustomerPortfolioSummaryReport($getCustomerInfo['fundid'],$from_date,$to_date);
+// dd($portfoliosummaryData);
+	view()->share('portfoliosummaryData',$portfoliosummaryData);
+		$pdf = PDF::loadView('reports.portfolio_summary ')->setPaper('a3','landscape');
+		return $pdf->download('portfolio_summary_report.pdf');
+}
+
+//SIP summary
+elseif ($request['report_type'] == "sip_summary") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+	$sipsummaryData = $this->fundperformance->getCustomerSipSummary($getCustomerInfo['customerid'],$from_date,$to_date);
+	view()->share('sipsummaryData',$sipsummaryData);
+		$pdf = PDF::loadView('reports.sip_summary')->setPaper('a3', 'landscape');
+		return $pdf->download('sip_summary.pdf');
+}
+
+//Redemption report
+elseif ($request['report_type'] == "redemption_report") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+ $redemptionreportData = $this->fundperformance->getCustomerRedemptionReport($getCustomerInfo['customerid'],$from_date,$to_date);
+
+	view()->share('redemptionreportData',$redemptionreportData);
+		$pdf = PDF::loadView('reports.redemption_report')->setPaper('a3', 'landscape');
+		return $pdf->download('redemptionreport.pdf');
+}
+
+//Rebalancing report
+
+elseif ($request['report_type'] == "rebalancing_report") {
+	$validator = Validator::make($request->json()->all(), [
+			'from_date' => 'required|string|max:100',
+			'to_date' => 'required|string|',
+	]);
+
+	if($validator->fails()) {
+			return response()->json([
+					'status' => 'error',
+					'messages' => $validator->messages()
+			], 400);
+	}
+		$from_date = $request['from_date'];
+		$to_date = $request['to_date'];
+
+	$rebalancingreport = $this->fundperformance->getCustomerRebalancingReport($getCustomerInfo['customerid'],$from_date,$to_date);
+	view()->share('rebalancingreport',$rebalancingreport);
+		$pdf = PDF::loadView('reports.rebalancing_report')->setPaper('a3', 'landscape');
+		return $pdf->download('rebalancingreport.pdf');
+}
+
+    }
+    /*public function customerReports(Request $request)
     {
     	ini_set('max_execution_time', 300);
     	$validator = Validator::make($request->json()->all(), [
@@ -148,5 +325,5 @@ class EmailController extends Controller
         	return $pdf->download('redemption_report.pdf');
     	}
     	
-    }
+    }*/
 }

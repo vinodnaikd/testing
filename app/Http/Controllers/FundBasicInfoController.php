@@ -437,7 +437,9 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            // dd($fundprodcutsData);
             $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            
             $fundprdtscount = count($fundprodcutsData);
             $fundvalue = round(($goalsAssData['lumpsum_sip']/$fundprdtscount),2);
             $fund['Lumpsum_sip'] = $goalsAssData['lumpsum_sip'];
@@ -586,13 +588,7 @@ class FundBasicInfoController extends Controller
       $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
       // dd($checkFund);
         $purchaseArr = array("L","S");
-      if($checkFund)
-      {
-        return response()->json([
-              'fundselection' => "Fund Already Added"
-          ], 400);
-      }
-      else
+      if(!$checkFund)
       {
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($orderstatus)

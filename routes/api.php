@@ -38,15 +38,17 @@ use Illuminate\Http\Request;
 Route::post('/v1/users/signup', 'UserProfileController@signUp');
 //Route::post('/v1/users/register', 'UserProfileController@Register');
 Route::post('/v1/users/signin', 'UserProfileController@signIn');
+Route::post('/v1/users/login', 'JWTAuthController@login');
 
-//Route::get('unauthorized', function() {
-//    return response()->json([
-//        'status' => 'error',
-//        'message' => 'Unauthorized'
-//    ], 401);
-//})->name('api.jwt.unauthorized');
 
-//Route::group(['middleware' => 'jwt.verify'], function(){
+/*Route::get('unauthorized', function() {
+    return response()->json([
+        'status' => 'error',
+        'message' => 'Unauthorized'
+    ], 401);
+})->name('api.jwt.unauthorized');*/
+// Route::middleware('jwt.auth')->get('users', function(Request $request) {
+// Route::group(['middleware' => 'jwt.auth'], function(){
     Route::post('/v1/users/register', 'UserProfileController@Register');
     Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
@@ -92,6 +94,9 @@ Route::post('/v1/users/goalsdetails', 'GoalController@getGoalsDetailsList');
 Route::post('/v1/users/goalssummarydetails', 'GoalController@getGoalsSummaryListWithGoalId');
 Route::post('/v1/users/goalsassetsallocation', 'GoalController@goalsAssestsAllocation');
 Route::post('/v1/users/getgoalsassetsallocation', 'GoalController@getgoalsAssestsAllocation');
+Route::post('/v1/users/allocateinvest', 'GoalController@getGoalsWealthList');
+Route::post('/v1/users/allocateuserfunds', 'GoalController@getGoalsWealthListWithId');
+Route::post('/v1/users/customeraddfund', 'GoalController@CustomerNewFundSelection');
 
     //End Of Routes
 
@@ -245,5 +250,5 @@ Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-//});
+// });
 

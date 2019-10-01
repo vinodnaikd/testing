@@ -50,4 +50,10 @@ class FundRecord extends Model
       ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->first();
     }
 
+    public function CheckFundExistsInvest($customerid,$goalid,$fundid)
+    {
+      return $this->join('customerorderdetailpretran as cd','customerorderpretran.customerorderid','=','cd.customerorderid')
+      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.transactionstatus','=','pending')->first();
+    }
+
 }

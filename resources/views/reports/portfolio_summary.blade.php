@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +47,7 @@ label{
 <?php
 //print_r($data);
 ?>
-<h1 >Redemption Report</h1>
+<h1 >Portfolio Summary Report</h1>
 <center><h3 style="color:#4281f5;padding: 1%;margin-top:-6%;">Report as on 31-Mar-2015</h3></center>
 <img style="float:right;margin-top:-6%;"  style="padding-top:10px" src="http://dev-app.savingsmanager.co.in/assets/images/savings-manager-logo.png" />
 <hr style="clear:both;height:3px;background-color:black;">
@@ -99,166 +100,21 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 	<table id="customers">
 
 	  <tr>
-		<th>Transaction Type</th>
-		<th>Transaction Date</th>
-		<th>Purchase Price(INR)</th>
-		<th>Units</th>
-		<th>Purchase Amount (INR)</th>
-		<th>Sell Date</th>
-		<th>Sell Type</th>
-		<th>Sell Rate(INR)</th>
-		<th>Sell Amount(INR)</th>
-		<th>Days</th>
-		<th>Gain/Loss</th>
-		<th>STT(INR)</th>
-		<th>CAGR</th>
-		<th>XIRR</th>
+		<th>Name of Scheme</th>
+		<th>Folio Number</th>
+    <th>Unit Balance</th>
+    <th>Current Value</th>
+		<th>Purchase Cost(INR)</th>
+		<th>Dividend Reinvest</th>
+    <th>Dividend Payout</th>
+    <th>Profit/Loss</th>
+		<th>Weighted Average Days</th>
+		<th>Absolute Return(%)</th>
+		<th>Annual Return(%)</th>
+		<th>CAGR(%)</th>
+		<th>XIRR(%)</th>
+    <th>Net Gain</th>
 
-	  </tr>
-
-	  <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
-	  </tr>
-    <tr>
-		<td>PURCHASE</td>
-		<td>01 Jun 2010</td>
-		<td>10.6200</td>
-		<td>94.162</td>
-		<td>1000.00</td>
-		<td>16 Jul 2014</td>
-		<td>REDEMPTIO N</td>
-		<td>16.3900</td>
-		<td>1543.30</td>
-		<td>1507</td>
-		<td>543.31</td>
-		<td>0.02</td>
-		<td>0.11</td>
-		<td>0.11</td>
 	  </tr>
 
 	 <tr>

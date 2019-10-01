@@ -38,7 +38,7 @@ class UserProfile extends Model
     public function getUserDetails($email,$password)
     {
 //        dd($password);
-        return $this->select('userid','username','email','usertype','mobileno','applicationid','remember_token')->where('email',$email)->where('password',$password)->get()->toArray();
+        return $this->where('email',$email)->where('password',$password)->get()->toArray();
     }
     public function checkDuplicateMailExists($email)
     {

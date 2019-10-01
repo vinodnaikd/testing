@@ -15,6 +15,8 @@ use Session;
 use Auth;
 use Carbon\Carbon;
 use App\User;
+use JWTFactory;
+use JWTAuth;
 
 class UserProfileController extends Controller
 {
@@ -596,20 +598,11 @@ class UserProfileController extends Controller
         
         $email = $request['email'];
         $password = $request['password'];
-         /*if (! $token = Auth::guard('api')->attempt(['email' => $request->email, 'password' => $request->password])) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        $signInData = $this->respondWithToken($token);*/
-       
-       
-        //$password = bcrypt($request->password);
-        //$userData['userProfile'] = Auth::user();
-//        $userData['userProfile'] = $this->usersprofile->getUserDetails($email,$password);
-        //dd($currentUser);
-        //$userData['usertoken'] =$signInData->original;
-       // return $userData;
+        /* $user = User::first();
+         print_r($user);
+         die;*/
       $userData = $this->usersprofile->getUserDetails($email,$password);
+      // print_r($userData);die;
         if($userData)
      {
       $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
@@ -643,6 +636,9 @@ class UserProfileController extends Controller
            {
                $redirectionurl = "customernominee";
            }         
+           
+        // $token = JWTAuth::fromUser($userData);
+        // dd($token);
             return response()->json([
               'status' => 'Login Success',
               'userProfile' => $userData,
@@ -650,6 +646,7 @@ class UserProfileController extends Controller
               //'inflationvalue' => $inflation,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
+              // 'jwtToken' => $token,
                
           ], 200); 
         }
