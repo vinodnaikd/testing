@@ -42,12 +42,13 @@ class FundClass extends Model
         return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive)->groupBy('fundclass.assettype')->get()->toArray();
     }
     
-     public function getCustomerSelectedAssests($customerid)
+     public function getCustomerSelectedAssests($customerid,$goalId)
    	{
     return $this->select('fundclass.assettype','fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')
     			->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')
           ->join('customerorderpretran as cp','cp.customerorderid','=','customerorderdetailpretran.customerorderid')
           ->where('cp.customerid',$customerid)
+          ->where('customerorderdetailpretran.customergoalid',$goalId)
           ->groupBy('fundclass.assettype')->get()->toArray();
 	}
 	    public function getSearchedMutualFundData($searchData)

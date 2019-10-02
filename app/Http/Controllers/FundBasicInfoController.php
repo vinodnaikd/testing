@@ -414,11 +414,11 @@ class FundBasicInfoController extends Controller
          
           $fundAssets = array();
           $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-          $fundassestData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid']);
-          // dd($fundassestData);
-          foreach($fundassestData as $key => $value)
+          $fundassestsData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
+          if($fundassestsData)
+          foreach($fundassestsData as $key => $value)
           {
-            $assets['assettype'] = $value['assettype'];
+             $assets['assettype'] = $value['assettype'];
             $fundclassData = $this->fundclass->getSelectedFundClassData($value['assettype']);
            // print_r($fundclassData);
          $fundClass = array();

@@ -93,7 +93,7 @@ class FundPerformance extends Model
 
     public function getGoalsSummaryListWithGoalId($goalId)
     {
-        return $this->select('CG.customergoalId','CG.goalname','CG.futurecost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount')
+        return $this->select('CG.customergoalIds','CG.goalname','CG.futurecost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount')
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
                     ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
