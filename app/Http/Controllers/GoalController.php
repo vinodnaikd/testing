@@ -410,8 +410,14 @@ class GoalController extends Controller
 
     public function getGoalsWealthListWithId(Request $request)
     {
-       $validator = Validator::make($request->json()->all(), [
+        // dd($request->json()->all());
+        $goalsFundsArr = array();
+        $customerGoals = $request->json()->all();
+    foreach ($customerGoals as $keys => $values) {
+       
+       $validator = Validator::make($values, [
             'userid' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -419,9 +425,10 @@ class GoalController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
-       $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid']);
+       $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
        // dd($customerGoals);
        $goalsFunds = array();
        foreach($customerGoals as $gkey =>$gvalue)
@@ -477,9 +484,13 @@ class GoalController extends Controller
       $goals['goalproducts'] = $fundAssets;
          array_push($goalsFunds, $goals);
   }
-      return response()->json([
-              'funds' => $goalsFunds
+  // print_r($goalsFunds);
+   array_push($goalsFundsArr, $goalsFunds);
+}
+return response()->json([
+              'funds' => $goalsFundsArr
           ], 200);
+      
     }
 
         public function CustomerNewFundSelection(Request $request)
@@ -505,6 +516,7 @@ class GoalController extends Controller
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
       $checkFund = $this->fundrecord->CheckFundExistsInvest($getCustomerInfo['customerid'],$request['customergoalid'],$request['fundid']);
+      // dd($checkFund);
         $purchaseArr = array("L","S");
       if($checkFund)
       {
@@ -530,7 +542,7 @@ class GoalController extends Controller
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($orderstatus)
       {
-        //dd($orderstatus);
+        // dd($orderstatus);
           $reqData1['fundid'] = $request['fundid'];
           $reqData1['purchasetype'] = $request['purchasetype'];
           $reqData1['customergoalid'] = $request['customergoalid'];

@@ -165,6 +165,7 @@ Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInf
 Route::post('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
 Route::post('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
 Route::post('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
+Route::post('/v1/products/funddetails/getcustomergoalsordersummary', 'FundBasicInfoController@getCustomerGoalsOrderDetails');
 Route::post('/v1/products/funddetails/addfundselection', 'FundBasicInfoController@CustomerFundSelection');
 Route::post('/v1/products/funddetails/customerfundsupdate', 'FundBasicInfoController@customerFundsUpdate');
 Route::post('/v1/products/funddetails/getmutualfunds', 'FundBasicInfoController@getMutualFunds');

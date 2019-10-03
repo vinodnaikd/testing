@@ -563,6 +563,72 @@ class FundBasicInfoController extends Controller
           ], 200);
    }
 
+public function getCustomerGoalsOrderDetails(Request $request)
+   {
+    $goalsFundsArr = array();
+        $customerGoals = $request->json()->all();
+    foreach ($customerGoals as $keys => $values) {
+          $validator = Validator::make($values, [
+          'userid' => 'required|string|max:255',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+       $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
+      $GoalsData = $this->fundrecord->getCustomerGoalsList($getCustomerInfo['customerid'],$values['goalid']);
+      // dd($GoalsData);
+      $goalsArr = array();
+        foreach ($GoalsData as $key => $value) {
+            $goals['goalid'] = $value['customergoalid'];
+            $goalid = $value['customergoalid'];
+            // Lumpsum Amount 
+            $purchasetype = "L";
+            $selectedProductsArray = array();
+            $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
+            foreach ($fundprodcutsData as $key1 => $value1) {
+                    $fundproducts['fundid'] = $value1['fundid'];
+                    $fundproducts['fundname'] = $value1['fundname'];
+                    $fundproducts['purchasetype'] = $value1['purchasetype'];
+                    $fundproducts['fundvalue'] = $value1['lumpsumamount'];
+                    $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
+                    $fundproducts['transactionstatus'] = $value1['transactionstatus'];
+                    array_push($selectedProductsArray, $fundproducts);
+            }
+            $amount = array_sum(array_column($selectedProductsArray, 'fundvalue'));
+            $lumpsumamount['Lumpsum_Amount'] = $amount;
+            $lumpsumamount['Lumpsum'] = $selectedProductsArray;
+
+            // Sip Amount 
+            $purchasetype = "s";
+            $selectedProductsArray1 = array();
+            $fundprodcutsData1 = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
+            foreach ($fundprodcutsData1 as $key1 => $value1) {
+                    $fundproducts1['fundid'] = $value1['fundid'];
+                    $fundproducts1['fundname'] = $value1['fundname'];
+                    $fundproducts1['purchasetype'] = $value1['purchasetype'];
+                    $fundproducts1['sipamount'] = $value1['sipamount'];
+                    $fundproducts1['sipmonthlydate'] = $value1['sipmonthlydate'];
+                    $fundproducts1['sipduration'] = $value1['sipduration'];
+                    $fundproducts1['sipunits'] = $value1['sipunits'];
+                    $fundproducts1['transactionstatus'] = $value1['transactionstatus'];
+                    array_push($selectedProductsArray1, $fundproducts1);
+            }
+            $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
+            $lumpsumamount['Sip Amount'] = $amount1;
+            $lumpsumamount['Sip'] = $selectedProductsArray1;
+            $goals['Goals'] = $lumpsumamount;
+         array_push($goalsArr, $goals);
+          }
+          array_push($goalsFundsArr, $goalsArr);
+        }
+      return response()->json([
+              'orderdetails' => $goalsFundsArr
+          ], 200);
+   }
+
     public function CustomerFundSelection(Request $request)
    {
       $fundselection = $request->json()->all();
