@@ -389,7 +389,7 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid']);
+        $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
