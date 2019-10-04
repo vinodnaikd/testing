@@ -107,8 +107,12 @@ label{
 	</ul>
 	</div>
 <hr style="height:1.5px;background-color:black;">
-<h2><?php echo $sipsummaryData['user']['0']['firstname'];?></h2>
-<p>  <?php echo $sipsummaryData['port']['0']['fundname'];?><br><br>
+<h2><?php  if (isset($sipsummaryData['user']['0']['firstname'])) {
+    echo $sipsummaryData['user']['0']['firstname'];
+  }?></h2>
+<p> <?php  if (isset($sipsummaryData['user']['0']['fundname'])) {
+    echo $sipsummaryData['port']['0']['fundname'];
+  } ?><br><br>
 Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 	<table id="customers">
 
