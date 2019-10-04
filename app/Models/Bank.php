@@ -52,4 +52,13 @@ class Bank extends Model
     {
 	return $this->where('email','=',$email)->get()->toArray();
     }
+    public function getUserinfo($customerId,$fromDate,$toDate)
+    {
+      return $this->join('customerdetail as x','x.customerid','=','customerbank.customerid')
+
+      ->where('customerbank.customerid',$customerId)
+      ->get()
+      ->toArray();
+
+    }
 }

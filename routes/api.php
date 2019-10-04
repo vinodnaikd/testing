@@ -97,13 +97,13 @@ Route::post('/v1/users/getgoalsassetsallocation', 'GoalController@getgoalsAssest
 Route::post('/v1/users/allocateinvest', 'GoalController@getGoalsWealthList');
 Route::post('/v1/users/allocateuserfunds', 'GoalController@getGoalsWealthListWithId');
 Route::post('/v1/users/customeraddfund', 'GoalController@CustomerNewFundSelection');
-
+Route::post('/v1/users/getredeemcurrentinvest', 'GoalController@getGoalsWealthCurrInvest');
+Route::post('/v1/users/userpartialredemption', 'GoalController@getGoalsWealthPartialFunds');
     //End Of Routes
 
 //ProductSelection Routes
 Route::post('/v1/rebalancing/productselection', 'ProductSelectionController@show');
     //End Of Routes
-
 //AssestsRebalancing Routes
 Route::post('/v1/rebalancing/assetrebalancing', 'AssetRebalancingController@show');
     //End Of Routes

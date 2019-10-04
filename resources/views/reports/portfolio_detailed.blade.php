@@ -47,7 +47,7 @@ label{
 //print_r($data);
 ?>
 <h1 >Portfolio Detailed</h1>
-<center><h3 style="color:#4281f5;padding: 1%;margin-top:-6%;">Report as on 31-Mar-2015</h3></center>
+<center><h3 style="color:#4281f5;padding: 1%;margin-top:-6%;">Report as on<?=date("j F, Y");?></h3></center>
 <img style="float:right;margin-top:-6%;"  style="padding-top:10px" src="http://dev-app.savingsmanager.co.in/assets/images/savings-manager-logo.png" />
 <hr style="clear:both;height:3px;background-color:black;">
 <div style="flex-grow: 0;">
@@ -58,45 +58,45 @@ label{
 		<li><label>Mobile </label></li>
 		<li><label>Address </label></li>
 
-	</ul>
-	</div>
+  </ul>
+  </div>
   <div class="list2">
 <ul style="list-style-type:none">
-		<li>: Ashok Mhatre</li>
-		<li>: AONPM8194A</li>
-		<li>: mhatreashok47@gmail.com</li>
-		<li>: (+91) 9870308936</li>
-		<li>: LO-48 LIGI ST, SECTOR-3, KALAMBOLI, <br>RAIGAD- 410218SECTOR-3KALAMBOLI</li>
+    <li>: <?php echo $PortfolioData['user']['0']['firstname'];?></li>
+    <li>: <?php echo $PortfolioData['user']['0']['pannumber'];?></li>
+    <li>:<?php echo $PortfolioData['user']['0']['email'];?></li>
+    <li>:<?php echo $PortfolioData['user']['0']['mobileno'];?></li>
+    <li>: <?php echo $PortfolioData['user']['0']['address1'];?></li>
 
-	</ul>
-	</div>
+  </ul>
+  </div>
   <div class="list1">
     <ul style="list-style-type:none">
-		<li><label>Broker Name </label></li>
-		<li><label>ARN</label></li>
-		<li><label>Contact Person </label></li>
-		<li><label>Contact Number </label></li>
-		<li><label>E-mail ID </label></li>
+    <li><label>Broker Name </label></li>
+    <li><label>ARN</label></li>
+    <li><label>Contact Person </label></li>
+    <li><label>Contact Number </label></li>
+    <li><label>E-mail ID </label></li>
 
 
-	</ul>
+  </ul>
 </div>
 
   <div class="list3">
-	<ul style="list-style-type:none">
-		<li>: Ventura Securities Ltd.</li>
-		<li>: ARN-20936</li>
-		<li>: Punit Kothari</li>
-		<li>: 8766030958</li>
-		<li>: punit.kothari@ventura1.com</li>
+  <ul style="list-style-type:none">
+    <li>: </li>
+    <li>: </li>
+    <li>:</li>
+    <li>:</li>
+    <li>: </li>
 
-	</ul>
-	</div>
+  </ul>
+  </div>
 <hr style="height:1.5px;background-color:black;">
-<h2>Ashok Mhatre</h2>
-<p>  Birla Sun Life Mutual Fund<br><br>
+<h2><?php echo $PortfolioData['user']['0']['firstname'];?></h2>
 Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
-	<table id="customers">
+  <table id="customers">
+
 <thead>
 	  <tr>
 		<th>Transaction Type</th>
@@ -117,26 +117,27 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   </tr>
   <?php
   $total_sum=[];
-  foreach ($PortfolioData as $key => $value) {
+  foreach ($PortfolioData['port'] as $key => $value) {
      $total_sum[]=$value['purchasevalue'];
     // if($value['frequency'] == "Monthly")
     //   $frequency = "M";
     ?>
     <tr>
-      <td></td>
+      <td> <?=$value['purchasetype']?></td>
       <td><?=$value['transactiondate']?></td>
       <td><?=$value['purchasevalue']?></td>
       <td><?=$value['units']?></td>
+      <td><?=$value['purchasevalue']?></td>
       <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-            <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
      <?php
     }
@@ -159,23 +160,24 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
       <td></td>
       <td></td>
       <td></td>
+      <td></td>
   	  </tr>
   	  <tr>
   	  <td>Grand Total</td>
-  	  <td></td>
-  		<td></td>
       <td></td>
-  		<td></td>
-  		<td></td>
-  		<td></td>
-  		<td></td>
-  		<td></td>
-  		<td></td>
+      <td><?php echo array_sum ($total_sum ); ?></td>
       <td></td>
       <td></td>
       <td></td>
-
-      <td></td></tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>></tr>
 
 </table>
 

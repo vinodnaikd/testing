@@ -13,6 +13,7 @@ use App\Models\DashboardRecordsInfo;
 use App\Models\FundRecord;
 use App\Models\FundProducts;
 use App\Models\Fundroi;
+use App\Models\WealthAllocation;
 class GoalController extends Controller
 {
     public function __construct(
@@ -24,7 +25,8 @@ class GoalController extends Controller
         DashboardRecordsInfo $dashboardrecordsinfo,
         FundRecord $fundrecord,
         FundProducts $fundproducts,
-        Fundroi $fundroi
+        Fundroi $fundroi,
+        WealthAllocation $wealthallocation
     )
     {
         $this->goals = $goals;
@@ -36,6 +38,7 @@ class GoalController extends Controller
         $this->fundrecord = $fundrecord;
         $this->fundproducts = $fundproducts;
         $this->fundroi = $fundroi;
+        $this->wealthallocation = $wealthallocation;
     }
     /**
      * Display a listing of the resource.
@@ -599,6 +602,127 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
      return response()->json([
               'fundselection' => $status
           ], 200);
+    }
+
+
+     public function getGoalsWealthCurrInvest(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
+         $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+         if($wealthData)
+         $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+         // dd($wealthAllocateData);
+        $goalwealth = array();
+        foreach ($customerGoals as $key => $value) {
+           $gw['goalname'] = $value['goalname'];
+           $gw['goalid'] = $value['customergoalId'];
+           $gw['futurecost'] = $value['futurecost'];
+           $gw['totalcurrentvalue'] = $value['totalcurrentvalue'];
+           $gw['investmentvalue'] = $value['investmentvalue'];
+           $gw['goalcost'] = $value['goalcost'];
+           $gw['goalpriority'] = $value['goalpriority'];
+           $gw['year'] = floor($value['timeframe']/12);
+           $gw['month'] = $value['timeframe']%12;
+           $gw['sipamount'] = $value['sipamount'];
+           $gw['lumpsumamount'] = $value['lumpsumamount'];
+           array_push($goalwealth, $gw);
+        }
+       return response()->json([
+          "Goals" => $goalwealth,
+          "Wealth" => $wealthAllocateData
+        ], 200);
+    }
+
+
+    public function getGoalsWealthPartialFunds(Request $request)
+    {
+        // dd($request->json()->all());
+        $redeemFunds = array();
+        $customerGoals = $request->json()->all();
+    foreach ($customerGoals as $keys => $values) {
+       
+       $validator = Validator::make($values, [
+            'userid' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
+       /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
+       $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
+       // dd($customerGoals);
+       $goalsFunds = array();
+       foreach($customerGoals as $gkey =>$gvalue)
+       {
+        $goals['goalname'] = $gvalue['goalname'];
+           $goals['goalid'] = $gvalue['customergoalId'];
+            $fundProducts = array();
+           $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalId']);
+           // dd($fundprodcutsData);
+           $lumProductsArray = array();
+            $sipProductsArray = array();
+         foreach($fundprodcutsData as $key2 => $value2)
+         {          
+            if($value2['purchasetype'] == "L")
+              {
+                    $fundproducts1['fundid'] = $value2['fundid'];
+                    $fundproducts1['fundname'] = $value2['fundname'];
+                    $fundproducts1['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts1['units'] = $value2['units'];
+                    $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
+                    $fundproducts1['currentvalue'] = $value2['currentvalue'];
+                array_push($lumProductsArray, $fundproducts1);
+/*                $reqData['lumpsumamount'] = $fundvalue;
+                $reqData1['fundid'] = $value2['fundid'];
+                $reqData1['goalid'] = $request['goalid'];
+                $reqData1['purchasetype'] = $value2['purchasetype'];
+                $reqData1['customerid'] = $getCustomerInfo['customerid'];
+                if(empty($value2['lumpsumamount']))
+               $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData,$reqData1);*/
+              }
+              else
+              {
+                    $fundproducts2['fundid'] = $value2['fundid'];
+                    $fundproducts2['fundname'] = $value2['fundname'];
+                    $fundproducts2['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts2['sipamount'] = $value2['sipamount'];
+                    $fundproducts2['units'] = $value2['units'];
+                    array_push($sipProductsArray, $fundproducts2);
+                /*$reqData2['sipamount'] = $fundvalue;
+                $reqData3['fundid'] = $value2['fundid'];
+                $reqData3['goalid'] = $request['goalid'];
+                $reqData3['purchasetype'] = $value2['purchasetype'];
+                $reqData3['customerid'] = $getCustomerInfo['customerid'];
+                if(empty($value2['sipamount']))
+               $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData2,$reqData3);*/
+              }
+              $fundproductsArr['Lumpsum'] = $lumProductsArray;
+                      $fundproductsArr['Sip'] = $sipProductsArray;
+         }
+              $goals['fundproducts'] = $fundproductsArr;
+            array_push($goalsFunds, $goals);
+         }
+         array_push($redeemFunds, $goalsFunds);
+}
+return response()->json([
+              'funds' => $redeemFunds
+          ], 200);
+      
     }
 
     /**

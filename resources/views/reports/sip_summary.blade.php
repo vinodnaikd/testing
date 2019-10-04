@@ -49,7 +49,7 @@ label{
 //print_r($data);
 ?>
 <h1 >SIP Summary</h1>
-<center><h3 style="color:#4281f5;padding: 1%;margin-top:-6%;">Report as on 31-Mar-2015</h3></center>
+<center><h3 style="color:#4281f5;padding: 1%;margin-top:-6%;">Report as on <?=date("j F, Y");?></h3></center>
 <img style="float:right;margin-top:-6%;"  style="padding-top:10px" src="http://dev-app.savingsmanager.co.in/assets/images/savings-manager-logo.png" />
 <hr style="clear:both;height:3px;background-color:black;">
 <div style="flex-grow: 0;">
@@ -60,15 +60,15 @@ label{
 		<li><label>Mobile </label></li>
 		<li><label>Address </label></li>
 
-	</ul>
+  </ul>
 	</div>
   <div class="list2">
 <ul style="list-style-type:none">
-		<li>: Ashok Mhatre</li>
-		<li>: AONPM8194A</li>
-		<li>: mhatreashok47@gmail.com</li>
-		<li>: (+91) 9870308936</li>
-		<li>: LO-48 LIGI ST, SECTOR-3, KALAMBOLI, <br>RAIGAD- 410218SECTOR-3KALAMBOLI</li>
+		<li>: <?php echo $sipsummaryData['user']['0']['firstname'];?></li>
+		<li>: <?php echo $sipsummaryData['user']['0']['pannumber'];?></li>
+		<li>:<?php echo $sipsummaryData['user']['0']['email'];?></li>
+		<li>:<?php echo $sipsummaryData['user']['0']['mobileno'];?></li>
+		<li>: <?php echo $sipsummaryData['user']['0']['address1'];?></li>
 
 	</ul>
 	</div>
@@ -86,19 +86,20 @@ label{
 
   <div class="list3">
 	<ul style="list-style-type:none">
-		<li>: Ventura Securities Ltd.</li>
-		<li>: ARN-20936</li>
-		<li>: Punit Kothari</li>
-		<li>: 8766030958</li>
-		<li>: punit.kothari@ventura1.com</li>
+		<li>: </li>
+		<li>: </li>
+		<li>:</li>
+		<li>:</li>
+		<li>: </li>
 
 	</ul>
 	</div>
 <hr style="height:1.5px;background-color:black;">
-<h2>Ashok Mhatre</h2>
-<p>  Birla Sun Life Mutual Fund<br><br>
+<h2><?php echo $sipsummaryData['user']['0']['firstname'];?></h2>
+<p>  <?php echo $sipsummaryData['port']['0']['fundname'];?><br><br>
 Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 	<table id="customers">
+
 <thead>
   <tr>
     <th>Scheme Name</th>
@@ -114,9 +115,8 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     <th>Latest Installment Date</th>
   </tr>
   <?php
-  foreach ($sipsummaryData as $key => $value) {
-    if($value['frequency'] == "Monthly")
-      $frequency = "M";
+  foreach ($sipsummaryData['port'] as $key => $value) {
+
     ?>
   <tr>
     <td><?=$value['fundname']?></td>
@@ -124,7 +124,7 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     <td><?=$value['startdate']?></td>
     <td><?=$value['enddate']?></td>
     <td></td>
-    <td><?=$frequency?></td>
+    <td></td>
     <td></td>
     <td></td>
     <td></td>
@@ -134,6 +134,37 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   <?php
   }
   ?>
+  <tr style="background:skyblue;
+      color: blue;"
+  }>
+      <td>Total</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      </tr>
+      <tr>
+      <td>Grand Total</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      </tr>
+
+      <td></td></tr>
+
 </table>
 
 	<h3>Disclaimer :</h3>
