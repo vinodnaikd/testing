@@ -6,17 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Customer;
 use App\Models\FundPerformance;
+use App\Models\Bank;
 use PDF;
 
 class EmailController extends Controller
 {
 	public function __construct(
         Customer $customer,
-        FundPerformance $fundperformance
+        FundPerformance $fundperformance,
+        Bank $bank
     )
     {
         $this->customer = $customer;
         $this->fundperformance = $fundperformance;
+        $this->bank = $bank;
     }
 
     public function UserEmailSMSNotifications(Request $request)
