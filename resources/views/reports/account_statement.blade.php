@@ -62,11 +62,22 @@ label{
   </div>
   <div class="list2">
 <ul style="list-style-type:none">
-    <li>: <?php echo $accountData['user']['0']['firstname'];?></li>
-    <li>: <?php echo $accountData['user']['0']['pannumber'];?></li>
-    <li>:<?php echo $accountData['user']['0']['email'];?></li>
-    <li>:<?php echo $accountData['user']['0']['mobileno'];?></li>
-    <li>: <?php echo $accountData['user']['0']['address1'];?></li>
+    <li>: <?php  if (isset($accountData['user']['0']['firstname'])) {
+      echo $accountData['user']['0']['firstname'];
+    } ?></li>
+    <li>: <?php  if (isset($accountData['user']['0']['pannumber'])) {
+      echo $accountData['user']['0']['pannumber'];
+    } ?></li>
+    <li>: <?php  if (isset($accountData['user']['0']['email'])) {
+      echo $accountData['user']['0']['email'];
+    } ?></li>
+    <li>: <?php  if (isset($accountData['user']['0']['mobileno'])) {
+      echo $accountData['user']['0']['mobileno'];
+    } ?></li>
+    <li>: <?php  if (isset($accountData['user']['0']['address1'])) {
+      echo $accountData['user']['0']['address1'];
+    } ?></li>
+  
 
   </ul>
   </div>

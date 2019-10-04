@@ -63,12 +63,22 @@ label{
 	</div>
   <div class="list2">
 <ul style="list-style-type:none">
-		<li>: <?php echo $portfoliosummaryData['user']['0']['firstname'];?></li>
-		<li>: <?php echo $portfoliosummaryData['user']['0']['pannumber'];?></li>
-		<li>:<?php echo $portfoliosummaryData['user']['0']['email'];?></li>
-		<li>:<?php echo $portfoliosummaryData['user']['0']['mobileno'];?></li>
-		<li>: <?php echo $portfoliosummaryData['user']['0']['address1'];?></li>
-
+  <li>: <?php  if (isset($portfoliosummaryData['user']['0']['firstname'])) {
+    echo $portfoliosummaryData['user']['0']['firstname'];
+  } ?></li>
+  <li>: <?php  if (isset($portfoliosummaryData['user']['0']['pannumber'])) {
+    echo $portfoliosummaryData['user']['0']['pannumber'];
+  } ?></li>
+  <li>: <?php  if (isset($portfoliosummaryData['user']['0']['email'])) {
+    echo $portfoliosummaryData['user']['0']['email'];
+  } ?></li>
+  <li>: <?php  if (isset($portfoliosummaryData['user']['0']['mobileno'])) {
+    echo $portfoliosummaryData['user']['0']['mobileno'];
+  } ?></li>
+  <li>: <?php  if (isset($portfoliosummaryData['user']['0']['address1'])) {
+    echo $portfoliosummaryData['user']['0']['address1'];
+  } ?></li>
+	
 	</ul>
 	</div>
   <div class="list1">

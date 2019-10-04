@@ -64,11 +64,23 @@ label{
 	</div>
   <div class="list2">
 <ul style="list-style-type:none">
-		<li>: <?php echo $sipsummaryData['user']['0']['firstname'];?></li>
-		<li>: <?php echo $sipsummaryData['user']['0']['pannumber'];?></li>
-		<li>:<?php echo $sipsummaryData['user']['0']['email'];?></li>
-		<li>:<?php echo $sipsummaryData['user']['0']['mobileno'];?></li>
-		<li>: <?php echo $sipsummaryData['user']['0']['address1'];?></li>
+  <li>: <?php  if (isset($sipsummaryData['user']['0']['firstname'])) {
+    echo $sipsummaryData['user']['0']['firstname'];
+  } ?></li>
+  <li>: <?php  if (isset($sipsummaryData['user']['0']['pannumber'])) {
+    echo $sipsummaryData['user']['0']['pannumber'];
+  } ?></li>
+  <li>: <?php  if (isset($sipsummaryData['user']['0']['email'])) {
+    echo $sipsummaryData['user']['0']['email'];
+  } ?></li>
+  <li>: <?php  if (isset($sipsummaryData['user']['0']['mobileno'])) {
+    echo $sipsummaryData['user']['0']['mobileno'];
+  } ?></li>
+  <li>: <?php  if (isset($sipsummaryData['user']['0']['address1'])) {
+    echo $sipsummaryData['user']['0']['address1'];
+  } ?></li>
+
+		
 
 	</ul>
 	</div>

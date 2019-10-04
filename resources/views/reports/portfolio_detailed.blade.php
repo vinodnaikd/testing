@@ -62,11 +62,22 @@ label{
   </div>
   <div class="list2">
 <ul style="list-style-type:none">
-    <li>: <?php echo $PortfolioData['user']['0']['firstname'];?></li>
-    <li>: <?php echo $PortfolioData['user']['0']['pannumber'];?></li>
-    <li>:<?php echo $PortfolioData['user']['0']['email'];?></li>
-    <li>:<?php echo $PortfolioData['user']['0']['mobileno'];?></li>
-    <li>: <?php echo $PortfolioData['user']['0']['address1'];?></li>
+  <li>: <?php  if (isset($PortfolioData['user']['0']['firstname'])) {
+    echo $PortfolioData['user']['0']['firstname'];
+  } ?></li>
+  <li>: <?php  if (isset($PortfolioData['user']['0']['pannumber'])) {
+    echo $PortfolioData['user']['0']['pannumber'];
+  } ?></li>
+  <li>: <?php  if (isset($PortfolioData['user']['0']['email'])) {
+    echo $PortfolioData['user']['0']['email'];
+  } ?></li>
+  <li>: <?php  if (isset($PortfolioData['user']['0']['mobileno'])) {
+    echo $PortfolioData['user']['0']['mobileno'];
+  } ?></li>
+  <li>: <?php  if (isset($PortfolioData['user']['0']['address1'])) {
+    echo $PortfolioData['user']['0']['address1'];
+  } ?></li>
+
 
   </ul>
   </div>

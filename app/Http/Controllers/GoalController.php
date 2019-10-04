@@ -665,7 +665,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
       $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
        $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
-       // dd($customerGoals);
+       // print_r($customerGoals);
        $goalsFunds = array();
        foreach($customerGoals as $gkey =>$gvalue)
        {
