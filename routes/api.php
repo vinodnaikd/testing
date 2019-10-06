@@ -99,6 +99,8 @@ Route::post('/v1/users/allocateuserfunds', 'GoalController@getGoalsWealthListWit
 Route::post('/v1/users/customeraddfund', 'GoalController@CustomerNewFundSelection');
 Route::post('/v1/users/getredeemcurrentinvest', 'GoalController@getGoalsWealthCurrInvest');
 Route::post('/v1/users/userpartialredemption', 'GoalController@getGoalsWealthPartialFunds');
+Route::post('/v1/users/adduserredemption', 'GoalController@customerFundsRedemption');
+
     //End Of Routes
 
 //ProductSelection Routes

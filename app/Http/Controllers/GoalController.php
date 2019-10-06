@@ -680,12 +680,21 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
          {          
             if($value2['purchasetype'] == "L")
               {
+                $fundredemData1 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalId']);
+                // dd($fundredemData1);
+                if(!empty($fundredemData1['amount']))
+                $redmvalue1 = $value2['purchasevalue']-$fundredemData1['amount'];
+            else
+                $redmvalue1 = 0;
+
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
                     $fundproducts1['units'] = $value2['units'];
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
                     $fundproducts1['currentvalue'] = $value2['currentvalue'];
+                    $fundproducts1['fundredamount'] = $redmvalue1;
+                    $fundproducts1['balamount'] = $value2['purchasevalue']-$redmvalue1;
                 array_push($lumProductsArray, $fundproducts1);
 /*                $reqData['lumpsumamount'] = $fundvalue;
                 $reqData1['fundid'] = $value2['fundid'];
@@ -697,11 +706,21 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
               }
               else
               {
+            $fundredemData = $this->fundroi->getFundSipRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalId']);
+            if(!empty($fundredemData['amount']))
+                $redmvalue = $fundredemData['amount'];
+            else
+                $redmvalue = 0;
+
                     $fundproducts2['fundid'] = $value2['fundid'];
                     $fundproducts2['fundname'] = $value2['fundname'];
                     $fundproducts2['purchasetype'] = $value2['purchasetype'];
                     $fundproducts2['sipamount'] = $value2['sipamount'];
+                    $fundproducts2['purchasevalue'] = $value2['purchasevalue'];
+                    $fundproducts2['currentvalue'] = $value2['currentvalue'];
                     $fundproducts2['units'] = $value2['units'];
+                    $fundproducts2['fundredamount'] = $redmvalue;
+                    $fundproducts2['balamount'] = $value2['purchasevalue']-$redmvalue;
                     array_push($sipProductsArray, $fundproducts2);
                 /*$reqData2['sipamount'] = $fundvalue;
                 $reqData3['fundid'] = $value2['fundid'];
@@ -723,6 +742,50 @@ return response()->json([
               'funds' => $redeemFunds
           ], 200);
       
+    }
+
+    public function customerFundsRedemption(Request $request)
+    {
+      $fundsData = $request->json()->all();
+      foreach ($fundsData as $key => $value) {
+        
+         $validator = Validator::make($value, [
+          'userid' => 'required|string|max:100',
+          'goalid' => 'required|string|max:100',
+          'fundid' => 'required|string|max:100',
+          'purchasetype' => 'required|string|max:100',
+          'fundvalue' => 'required|max:100',
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+      $getCustomerOrder = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+      $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,10000);
+        $reqData['customerorderid'] = $getCustomerOrder['customerorderid'];
+        $reqData['customergoalid'] = $value['goalid'];
+        $reqData['fundid'] = $value['fundid'];
+        $reqData['purchasetype'] = $value['purchasetype'];
+        $reqData['paymenttype'] = "Redemption";
+        if($value['purchasetype'] == "l" || $value['purchasetype'] == "L")
+        $reqData['lumpsumamount'] = $value['fundvalue'];
+        else
+        $reqData['sipamount'] = $value['fundvalue'];
+
+    $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
+  }
+  // dd($fundDetailsUpd);
+    if($fundDetailsUpd == 0)
+    {
+      return response()->json([
+              'status' => "Fund Redemption Successfully"
+          ], 200);
+    }
+
     }
 
     /**
