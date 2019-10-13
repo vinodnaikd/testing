@@ -59,4 +59,9 @@ public $timestamps = false;
     {
       return $this->insertGetId($arr);
     }
+
+    public function getRedemptionSummaryDetails($customerid)
+    {
+      return $this->select('customerorderdetailpretran.orderdetailid','customerorderdetailpretran.customergoalid','op.customerid')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('paymenttype',"Redemption")->get()->toArray();
+    }
 }

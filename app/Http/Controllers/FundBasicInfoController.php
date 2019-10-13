@@ -583,7 +583,9 @@ public function getCustomerGoalsOrderDetails(Request $request)
       $goalsArr = array();
         foreach ($GoalsData as $key => $value) {
             $goals['goalid'] = $value['customergoalid'];
+            $goals['goalpriority'] = $value['goalpriority'];
             $goalid = $value['customergoalid'];
+
             // Lumpsum Amount 
             $purchasetype = "L";
             $selectedProductsArray = array();
@@ -617,7 +619,7 @@ public function getCustomerGoalsOrderDetails(Request $request)
                     array_push($selectedProductsArray1, $fundproducts1);
             }
             $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
-            $lumpsumamount['Sip Amount'] = $amount1;
+            $lumpsumamount['Sip_Amount'] = $amount1;
             $lumpsumamount['Sip'] = $selectedProductsArray1;
             $goals['Goals'] = $lumpsumamount;
          array_push($goalsArr, $goals);

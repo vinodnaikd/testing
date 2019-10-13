@@ -36,7 +36,7 @@ class FundRecord extends Model
    public function getCustomerGoalsList($customerid,$goalid)
    {
 
-    return $this->select('customerorderdetailpretran.customergoalid')
+    return $this->select('customerorderdetailpretran.customergoalid','g.goalpriority')
       ->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')
        ->join('customergoal as g','g.customergoalid','=','customerorderdetailpretran.customergoalid')
       ->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')

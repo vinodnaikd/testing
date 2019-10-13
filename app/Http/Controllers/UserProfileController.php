@@ -351,6 +351,9 @@ class UserProfileController extends Controller
           'branchname' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
           'userid' => 'required|string|max:100',
+          'effective_date' => 'required|string|max:100',
+          'expiry_date' => 'required|string|max:100',
+          'maximum_limit' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -371,6 +374,9 @@ class UserProfileController extends Controller
         $reqData['cityid'] = $request['city'];
         $reqData['countryid'] = $request['country'];
         $reqData['pincode'] = $request['pincode'];
+         $reqData['effective_date'] = $request['effective_date'];
+        $reqData['expiry_date'] = $request['expiry_date'];
+        $reqData['maximum_limit'] = $request['maximum_limit'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
@@ -423,7 +429,7 @@ class UserProfileController extends Controller
           {
        
        $nomineeData = $request->json()->all();
-//       dd($nomineeData);
+      // dd(count($nomineeData));
        $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee1']['userid']);
           foreach ($nomineeData as $key => $value) {
          $value['customerid'] = $getCustomerInfo['customerid'];
@@ -434,18 +440,13 @@ class UserProfileController extends Controller
          $value['state'] = $value['nominee_address']['state'];
          $value['pincode'] = $value['nominee_address']['pincode'];*/
          //$value['customerid'] = 1;
+         if($value['Name'])
+         {
          $validator = Validator::make($value, [
           'Name' => 'required|string|max:255',
           //'guardian_name' => 'required|string|max:100',
           'relationship' => 'required|string|max:100',
           'percentage' => 'required|string|max:255',
-          /*'addressline2' => 'required|string|max:100',
-          'city' => 'required|string|max:100',
-          'country' => 'required|string|max:100',
-          'state' => 'required|string|max:100',
-          'pincode' => 'required|string|max:100',
-          'nominee_dob'=> 'required|string|max:100',
-          'nominee_share'=> 'required|string|max:100',*/
           'customerid' => 'required|integer|max:100',
           ]);
           if($validator->fails()) {
@@ -499,7 +500,7 @@ class UserProfileController extends Controller
                 $nominee['customerid'] = $value['customerid'];
                 array_push($nomineeArr, $nominee);
               }
-
+            }
           return response()->json([
             'status' => $status,
             'customernomineedetails' => $nomineeArr

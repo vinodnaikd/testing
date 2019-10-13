@@ -765,7 +765,7 @@ return response()->json([
       }
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
       $getCustomerOrder = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
-      $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,10000);
+      $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF88675".mt_rand(10,10000);
         $reqData['customerorderid'] = $getCustomerOrder['customerorderid'];
         $reqData['customergoalid'] = $value['goalid'];
         $reqData['fundid'] = $value['fundid'];
@@ -787,6 +787,123 @@ return response()->json([
     }
 
     }
+
+public function getRedemptionSummary(Request $request)
+    {
+        // dd($request->json()->all());
+        $redeemFunds = array();
+        $customerGoals = $request->json()->all();
+    //foreach ($customerGoals as $keys => $values) {
+       
+       $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+            //'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+       $fundredem = $this->fundroi->getRedemptionSummaryDetails($getCustomerInfo['customerid']);
+       // dd($fundredem);
+       /*$customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);*/
+       // print_r($customerGoals);
+       $goalsFunds = array();
+       foreach($fundredem as $gkey =>$gvalue)
+       {
+        //$goals['goalname'] = $gvalue['goalname'];
+           //$goals['goalid'] = $gvalue['customergoalid'];
+            $fundProducts = array();
+           $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalid']);
+           // dd($fundprodcutsData);
+           $lumProductsArray = array();
+            $sipProductsArray = array();
+         foreach($fundprodcutsData as $key2 => $value2)
+         {          
+            if($value2['purchasetype'] == "L")
+              {
+                $fundredemData1 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
+                // dd($fundredemData1);
+                if(!empty($fundredemData1['amount']))
+                $redmvalue1 = $fundredemData1['amount'];
+            else
+                $redmvalue1 = 0;
+
+                    $fundproducts1['fundid'] = $value2['fundid'];
+                    $fundproducts1['fundname'] = $value2['fundname'];
+                    $fundproducts1['purchasetype'] = $value2['purchasetype'];
+                   /* $fundproducts1['units'] = $value2['units'];
+                    $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
+                    $fundproducts1['currentvalue'] = $value2['currentvalue'];*/
+                    $fundproducts1['existingamount'] = $value2['purchasevalue'];
+                    $fundproducts1['amounttoredeem'] = $redmvalue1;
+                    $fundproducts1['balanceamount'] = $value2['purchasevalue']-$redmvalue1;
+                array_push($lumProductsArray, $fundproducts1);
+              }
+              else
+              {
+            $fundredemData = $this->fundroi->getFundSipRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
+            if(!empty($fundredemData['amount']))
+                $redmvalue = $fundredemData['amount'];
+            else
+                $redmvalue = 0;
+
+                    $fundproducts2['fundid'] = $value2['fundid'];
+                    $fundproducts2['fundname'] = $value2['fundname'];
+                    $fundproducts2['purchasetype'] = $value2['purchasetype'];
+                    /*$fundproducts2['sipamount'] = $value2['sipamount'];
+                    $fundproducts2['purchasevalue'] = $value2['purchasevalue'];
+                    $fundproducts2['currentvalue'] = $value2['currentvalue'];
+                    $fundproducts2['units'] = $value2['units'];
+                    $fundproducts2['fundredamount'] = $redmvalue;*/
+                    $fundproducts2['existingamount'] = $value2['purchasevalue'];
+                    $fundproducts2['amounttoredeem'] = $redmvalue;
+                    $fundproducts2['balanceamount'] = $value2['purchasevalue']-$redmvalue;
+                    array_push($lumProductsArray, $fundproducts2);
+              }
+              $fundproductsArr['Lumpsum'] = $lumProductsArray;
+                      $fundproductsArr['Sip'] = $sipProductsArray;
+         }
+             // $goals['fundproducts'] = $lumProductsArray;
+            
+         }
+         $totalinstantredeem = array_sum(array_column($lumProductsArray, 'amounttoredeem'));
+         array_push($goalsFunds, $lumProductsArray);
+        // array_push($redeemFunds, $goalsFunds);
+//}
+return response()->json([
+              'fundproducts' => $goalsFunds,
+              'totalinstantredeem' => $totalinstantredeem
+          ], 200);
+      
+    }
+
+    public function getSipRedemptionSummary(Request $request)
+       {
+         $data  = array(array(
+           'mutualfundname' => "IDFC Bond Fund - LTP - D (G)",
+           'purchasetype' => "Lumpsum",
+           'balanceamount' => "1,10,000",
+           'amounttoberedeemed' => "11,000",
+           'balanceamount' => "99,000"
+       ), array(
+            'mutualfundname' => "IDFC Bond Fund - LTP - D (G)",
+            'purchasetype' => "Lumpsum",
+            'balanceamount' => "1,10,000",
+            'amounttoberedeemed' => "11,000",
+            'balanceamount' => "99,000"
+        ));  //dd($data1);
+        return response()->json(array([
+              'status' => 'success',
+              'sip_summary' => $data
+          ], 200)
+        );
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.
