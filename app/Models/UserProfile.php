@@ -45,4 +45,9 @@ class UserProfile extends Model
 	return $this->where('email','=',$email)->get()->toArray();
     }
 
+    public function OTPVerify($email,$otp)
+    {
+    return $this->where('email','=',$email)->where('otp','=',$otp)->get()->first();
+    }
+
 }

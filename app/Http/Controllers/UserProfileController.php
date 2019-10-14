@@ -98,7 +98,11 @@ class UserProfileController extends Controller
             'data' => $user
         ], 200);
     }
-    
+    public function generateOTP(){
+      $otp = mt_rand(1000,9999);
+      return $otp;
+  }
+
     public function signUp(Request $request)
     {
         //$reqData = $request->all();
@@ -108,7 +112,8 @@ class UserProfileController extends Controller
           'email' => 'required|email|max:255',
           'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
           'password_confirmation' => 'min:6',
-          'mobile_number' => 'required|string|max:100',
+          'mobile_number' => 'required|string|max:11',
+          'pannumber' => 'required|string|max:100'
             ]);
       if($validator->fails()) {
           return response()->json([
@@ -116,13 +121,16 @@ class UserProfileController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
-
+      $otp = $this->generateOTP();
+      // dd($otp);
       $reqData['username'] = $request['first_name'].$request['last_name'];
       $reqData['email'] = $request['email'];
       //$reqData['password'] = bcrypt($request['password']);
       $reqData['password'] = $request['password'];
       $reqData['mobileno'] = $request['mobile_number'];
+      $reqData['pannumber'] = $request['pannumber'];
       $reqData['applicationid'] = 1;
+      $reqData['otp'] = $otp;
       $reqData['createdutcdatetime'] = Carbon::now();
       $reqData['modifiedutcdatetime'] = Carbon::now();
       if($request['userid'])
@@ -179,7 +187,9 @@ class UserProfileController extends Controller
          $customerData = $this->customer->InsertCustomer($reqData1);
          $esn['userid'] = $reqData1['userid'];
          $esn['type'] = "";
-         $customerESN = $this->eventsNotification->InsertCustomerEmailSmsNot($esn);
+        // 
+         /* $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
+    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");*/
      }
      $data['success']="User Created Successfully";
         }
@@ -188,6 +198,33 @@ class UserProfileController extends Controller
       }
 
     }
+
+    public function otpVerify(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+          'email' => 'required|email|max:255',
+          'otp' => 'required|string|max:100',
+          ]);
+          if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $checkotp=$this->usersprofile->OTPVerify($request['email'],$request['otp']);
+      if($checkotp)
+      {
+          $status = "otp matched successfully";
+      }
+      else
+      {
+          $status = "Invalid otp details";
+      }
+       return response()->json([
+              'status' => $status,
+               ], 200);
+    }
+
     public function Register(Request $request)
     {
       //dd($request->json());
@@ -267,6 +304,7 @@ class UserProfileController extends Controller
           'country_birth' => 'required|string|max:100',
           'salution' => 'required|string|max:100',
           'marital_status' => 'required|string|max:100',
+          'adharnum' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
@@ -288,6 +326,7 @@ class UserProfileController extends Controller
         $reqData['country_birth'] = $value['country_birth'];
         $reqData['salution'] = $value['salution'];
         $reqData['marital_status'] = $value['marital_status'];
+        $reqData['adharnum'] = $value['adharnum'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
         $getCustomerInfo = $this->customer->getUserDetails($value['userid']);
