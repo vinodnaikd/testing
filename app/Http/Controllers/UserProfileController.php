@@ -108,7 +108,7 @@ class UserProfileController extends Controller
         //$reqData = $request->all();
         $validator = Validator::make($request->all(), [
           'first_name' => 'required|string|max:100',
-          'last_name' => 'required|string|max:100',
+          //'last_name' => 'required|string|max:100',
           'email' => 'required|email|max:255',
           'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
           'password_confirmation' => 'min:6',
@@ -123,7 +123,7 @@ class UserProfileController extends Controller
       }
       $otp = $this->generateOTP();
       // dd($otp);
-      $reqData['username'] = $request['first_name'].$request['last_name'];
+      $reqData['username'] = $request['first_name'];
       $reqData['email'] = $request['email'];
       //$reqData['password'] = bcrypt($request['password']);
       $reqData['password'] = $request['password'];

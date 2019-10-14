@@ -298,6 +298,25 @@ public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
                     ->toArray();
 
     }
+ public function getModifiedCustomerSipSummary($customerId)
+    {
+        return $this->select('customerfunddetailposttran.purchasetype','fd.fundid','fd.fundname',DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'g.customergoalid','g.goalname','g.goalpriority')
+                    ->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
+                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('customerfundposttran as f','f.customerid','=','d.customerid')
+                    ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('mf_sip as ms','ms.schemecode','=','customerfunddetailposttran.fundid')
+                    ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
+                    ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
+                    ->where('customerfunddetailposttran.customerid',$customerId)
+                    ->where('customerfunddetailposttran.purchasetype','=','S')
+                    ->where('ms.frequency','=','Monthly')
+                    ->orderBy('customerfunddetailposttran.customerfundid','DESC')
+                    ->take(10)
+                    ->get()
+                    ->toArray();
+
+    }
 
     //Redemption report
     public function getCustomerRedemptionReport($customerId,$fromDate,$toDate)

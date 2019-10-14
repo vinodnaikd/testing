@@ -620,8 +620,11 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
         $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
          $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
          if($wealthData)
+         {
          $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
          // dd($wealthAllocateData);
+       $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
+     }
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
@@ -671,6 +674,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
        {
         $goals['goalname'] = $gvalue['goalname'];
            $goals['goalid'] = $gvalue['customergoalId'];
+           $goals['goalpriority'] = $gvalue['goalpriority'];
             $fundProducts = array();
            $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalId']);
            // dd($fundprodcutsData);
@@ -883,6 +887,33 @@ return response()->json([
 
     public function getSipRedemptionSummary(Request $request)
        {
+
+        $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+            //'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+       $sipSummary = $this->fundperformance->getModifiedCustomerSipSummary($getCustomerInfo['customerid']);
+       $sipArray = array();
+       foreach ($sipSummary as $key => $value) {
+         $sip['fundid'] = $value['fundid'];
+         $sip['fundname'] = $value['fundname'];
+         $sip['purchasetype'] = $value['purchasetype'];
+         $sip['currentvalue'] = round($value['currentvalue']);
+         $sip['customergoalid'] = $value['customergoalid'];
+         $sip['goalname'] = $value['goalname'];
+         $sip['goalpriority'] = $value['goalpriority'];
+         array_push($sipArray, $sip);
+       }
+       /*dd($sipSummary);
+        
          $data  = array(array(
            'mutualfundname' => "IDFC Bond Fund - LTP - D (G)",
            'purchasetype' => "Lumpsum",
@@ -895,12 +926,11 @@ return response()->json([
             'balanceamount' => "1,10,000",
             'amounttoberedeemed' => "11,000",
             'balanceamount' => "99,000"
-        ));  //dd($data1);
-        return response()->json(array([
+        ));  //dd($data1);*/
+        return response()->json([
               'status' => 'success',
-              'sip_summary' => $data
-          ], 200)
-        );
+              'sip_summary' => $sipArray
+          ],200);
     }
 
 
