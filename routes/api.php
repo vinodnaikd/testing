@@ -230,6 +230,7 @@ Route::post('/v1/users/notificationstatus', 'NotificationController@notification
 Route::post('/v1/users/usereventsnotify', 'EmailController@UserEmailSMSNotifications');
 Route::post('/v1/users/emailotpverify', 'UserProfileController@EmailOTPVerify');
 Route::post('/v1/users/otpverify', 'UserProfileController@otpVerify');
+Route::post('/v1/users/resendotp', 'UserProfileController@resendOTP');
 Route::post('/v1/users/editcustomersettings', 'UserProfileController@editCustomerSettings');
 Route::post('/v1/users/profilestatus', 'UserProfileController@profileStatus');
 Route::post('/v1/users/customersettings', 'UserProfileController@customerSettings');

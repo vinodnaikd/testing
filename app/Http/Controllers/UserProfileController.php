@@ -131,6 +131,7 @@ class UserProfileController extends Controller
       $reqData['pannumber'] = $request['pannumber'];
       $reqData['applicationid'] = 1;
       $reqData['otp'] = $otp;
+      $reqData['otp_expiry'] = Carbon::now();
       $reqData['createdutcdatetime'] = Carbon::now();
       $reqData['modifiedutcdatetime'] = Carbon::now();
       if($request['userid'])
@@ -188,8 +189,8 @@ class UserProfileController extends Controller
          $esn['userid'] = $reqData1['userid'];
          $esn['type'] = "";
         // 
-         /* $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
-    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");*/
+          $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
+    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");
      }
      $data['success']="User Created Successfully";
         }
@@ -197,6 +198,39 @@ class UserProfileController extends Controller
             return $data;
       }
 
+    }
+
+    public function resendOTP(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+          'email' => 'required|email|max:255',
+          ]);
+          if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $otp = $this->generateOTP();
+      $reqData['otp'] = $otp;
+      $reqData['otp_expiry'] = Carbon::now();
+      $userData = $this->usersprofile->checkDuplicateMailExists($request['email']);
+      if($userData)
+      {
+        $mobileno = $userData[0]['mobileno'];
+        $userid = $userData[0]['userid'];
+        $otpData = $this->usersprofile->UpdateUser($reqData,$userid);
+         $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
+    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$mobileno."&text=".$msg."&priority=ndnd&stype=normal");
+        $status = "otp was successfully sent";
+      }
+      else
+      {
+        $status = "otp sending failed";
+      }
+      return response()->json([
+              'status' => $status,
+               ], 200);
     }
 
     public function otpVerify(Request $request)
@@ -214,7 +248,28 @@ class UserProfileController extends Controller
       $checkotp=$this->usersprofile->OTPVerify($request['email'],$request['otp']);
       if($checkotp)
       {
-          $status = "otp matched successfully";
+        $otpexpiry = $checkotp['otp_expiry'];
+        $mytime = Carbon::now();
+        $currenttime = $mytime->toDateTimeString();
+        $cexpdate = $mytime->toDateString();
+        $cdate = date('Y-m-d',strtotime($otpexpiry));
+        if($cexpdate == $cdate)
+        {
+          $exptimehour = (new Carbon($otpexpiry))->diff(new Carbon($currenttime))->format('%h');
+          $exptimeminutes = (new Carbon($otpexpiry))->diff(new Carbon($currenttime))->format('%I');
+          if($exptimehour == 0 && $exptimeminutes <= 30)
+          {
+             $status = "otp matched successfully";
+          }
+          else
+          {
+            $status = "otp time expired";
+          }
+        }
+        else
+        {
+          $status = "otp time expired";
+        }
       }
       else
       {
@@ -292,7 +347,7 @@ class UserProfileController extends Controller
          $validator = Validator::make($value, [
           'email' => 'required|email|max:255',
           'firstname' => 'required|string|max:100',
-          'lastname' => 'required|string|max:100',
+          //'lastname' => 'required|string|max:100',
           'dob' => 'required|string|max:100',
           'userid' => 'required|string|max:100',
           'mobile_number' => 'required|string|max:255',
@@ -314,7 +369,7 @@ class UserProfileController extends Controller
       }
         $reqData['email'] = $value['email'];
         $reqData['firstname'] = $value['firstname'];
-        $reqData['lastname'] = $value['lastname'];
+       // $reqData['lastname'] = $value['lastname'];
         $reqData['dateofbirth'] = $value['dob'];
         //$reqData['userid'] = $request['userid'];
         $reqData['mobileno'] = $value['mobile_number'];

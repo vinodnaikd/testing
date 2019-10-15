@@ -217,8 +217,10 @@ class GoalController extends Controller
        $goaldetails['goalpriority'] = $data['goalpriority'];
        $goaldetails['goalcost'] = $data['goalcost'];
        $goaldetails['futurecost'] = $data['futurecost'];
-       $goaldetails['year'] = ($data['futurecost']/$data['timeframe']);
-       $goaldetails['month'] = round($goaldetails['year']/12);
+       $goaldetails['yearcommitment'] = ($data['futurecost']/$data['timeframe']);
+       $goaldetails['monthcommitment'] = round($goaldetails['yearcommitment']/12);
+       $goaldetails['year'] = floor($data['timeframe']/12);
+       $goaldetails['month'] = $data['timeframe']%12;
        $goaldetails['Lumpsum'] = $assestsArray;
        $goaldetails['Sip'] = $assestsArray;
        return response()->json([
