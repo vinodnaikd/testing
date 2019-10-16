@@ -1297,7 +1297,7 @@ class UserProfileController extends Controller
 
      public function getBankInfoWithIFSC(Request $request)
     {
-      /*$validator = Validator::make($request->all(), [
+      $validator = Validator::make($request->all(), [
             'ifsc' => 'required|string|max:255',
         ]);
       if($validator->fails()) {
@@ -1305,8 +1305,8 @@ class UserProfileController extends Controller
                 'status' => 'error',
                 'messages' => $validator->messages()
             ], 400);
-        }*/
-        $request['ifsc'] = "INDB0000226";
+        }
+        
         $bankData = json_decode(file_get_contents("https://ifsc.razorpay.com/".$request['ifsc']),true);
 //catch exception
        
