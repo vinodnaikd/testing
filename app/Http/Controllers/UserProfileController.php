@@ -838,6 +838,7 @@ class UserProfileController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
+        $action = $request['action'];
       if($action == "customerdetails")
       {
         $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo['customerid']);
