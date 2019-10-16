@@ -828,7 +828,7 @@ class UserProfileController extends Controller
     {
       //$action = $request['action'];
       $validator = Validator::make($request->all(), [
-             'userid' => 'required|string|max:200'
+             'userid' => 'required|string|max:200',
              'action' => 'required|string|max:200'
         ]);
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
