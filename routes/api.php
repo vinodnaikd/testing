@@ -102,7 +102,7 @@ Route::post('/v1/users/userpartialredemption', 'GoalController@getGoalsWealthPar
 Route::post('/v1/users/adduserredemption', 'GoalController@customerFundsRedemption');
 Route::post('/v1/users/userredemptionsummary', 'GoalController@getRedemptionSummary');
 Route::post('/v1/users/usersipredemptionsummary', 'GoalController@getSipRedemptionSummary');
-
+Route::post('/v1/users/usersipmodifysummary', 'GoalController@getSipModifiedSummary');
 
     //End Of Routes
 

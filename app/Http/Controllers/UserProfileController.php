@@ -826,9 +826,10 @@ class UserProfileController extends Controller
 
     public function RegisterData(Request $request)
     {
-      $action = $request['action'];
+      //$action = $request['action'];
       $validator = Validator::make($request->all(), [
              'userid' => 'required|string|max:200'
+             'action' => 'required|string|max:200'
         ]);
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         if($validator->fails()) {

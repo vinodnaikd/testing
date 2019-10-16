@@ -626,7 +626,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
          $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
          // dd($wealthAllocateData);
        $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
-     }
+         }
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
@@ -889,7 +889,6 @@ return response()->json([
 
     public function getSipRedemptionSummary(Request $request)
        {
-
         $validator = Validator::make($request->json()->all(), [
             'userid' => 'required|string|max:255',
             //'goalid' => 'required|string|max:255',
@@ -914,25 +913,91 @@ return response()->json([
          $sip['goalpriority'] = $value['goalpriority'];
          array_push($sipArray, $sip);
        }
-       /*dd($sipSummary);
-        
-         $data  = array(array(
-           'mutualfundname' => "IDFC Bond Fund - LTP - D (G)",
-           'purchasetype' => "Lumpsum",
-           'balanceamount' => "1,10,000",
-           'amounttoberedeemed' => "11,000",
-           'balanceamount' => "99,000"
-       ), array(
-            'mutualfundname' => "IDFC Bond Fund - LTP - D (G)",
-            'purchasetype' => "Lumpsum",
-            'balanceamount' => "1,10,000",
-            'amounttoberedeemed' => "11,000",
-            'balanceamount' => "99,000"
-        ));  //dd($data1);*/
         return response()->json([
               'status' => 'success',
               'sip_summary' => $sipArray
           ],200);
+    }
+
+
+public function getSipModifiedSummary(Request $request)
+       {
+        $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+            'modify_type' => 'required|string|max:255',
+            'fundid' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+      if($request['modify_type'] == "change_amount")
+      {
+        $validator = Validator::make($request->json()->all(), [
+            'amount' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        if($fundSipData)
+        {
+          $arr['transactionstatus'] = "cancelled";
+          $idsArr['fundid'] = $request['fundid'];
+          $idsArr['goalid'] = $request['goalid'];
+          $idsArr['customerorderid'] = $fundSipData['customerorderid'];
+          $updateSipData = $this->fundroi->updateSipModifiedData($arr,$idsArr);
+          if($updateSipData)
+          {
+            $reqData['fundid'] = $request['fundid'];
+            $reqData['customergoalid'] = $request['goalid'];
+            $reqData['purchasetype'] = "S";
+            $reqData['sipamount'] = $request['amount'];
+            $reqData['customerorderid'] = $fundSipData['customerorderid'];
+            $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF88675".mt_rand(10,10000);
+            $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
+            if($fundDetailsUpd)
+            {
+              return response()->json([
+              'status' => 'success',
+             // 'sip_summary' => $sipArray
+          ],200);
+            }
+            
+          }
+          else
+          {
+            return response()->json([
+              'status' => 'failed',
+              //'sip_summary' => $sipArray
+          ],200);
+          }
+          
+        }
+      }
+      elseif ($request['modify_type'] == "cancel") {
+        
+      }
+      elseif ($request['modify_type'] == "change_date") {
+        $validator = Validator::make($request->json()->all(), [
+            'date' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+      }
+        
     }
 
 
