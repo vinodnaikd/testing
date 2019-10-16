@@ -217,7 +217,7 @@ class GoalController extends Controller
        $goaldetails['goalpriority'] = $data['goalpriority'];
        $goaldetails['goalcost'] = $data['goalcost'];
        $goaldetails['futurecost'] = $data['futurecost'];
-       $goaldetails['yearcommitment'] = ($data['futurecost']/$data['timeframe']);
+       $goaldetails['yearcommitment'] = (($data['futurecost']/$data['timeframe'])*12);
        $goaldetails['monthcommitment'] = round($goaldetails['yearcommitment']/12);
        $goaldetails['year'] = floor($data['timeframe']/12);
        $goaldetails['month'] = $data['timeframe']%12;
@@ -280,6 +280,13 @@ class GoalController extends Controller
         $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
        $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
        $newArr = array();
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
+       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth;
        foreach ($assetsData as $key => $value) {
         $d = array(['TotalInvestmentValue'.':'.$value['TotalInvestmentValue']],['TotalCurrentValue'.':'.$value['TotalCurrentValue']],['AssetType'.':'.$value['AssetType']],['Growth'.':'.$value['Growth']]);
         array_push($newArr, $d);
@@ -978,13 +985,36 @@ public function getSipModifiedSummary(Request $request)
             return response()->json([
               'status' => 'failed',
               //'sip_summary' => $sipArray
-          ],200);
+          ],400);
           }
           
         }
       }
       elseif ($request['modify_type'] == "cancel") {
-        
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        if($fundSipData)
+        {
+          $arr['transactionstatus'] = "cancelled";
+          $idsArr['fundid'] = $request['fundid'];
+          $idsArr['goalid'] = $request['goalid'];
+          $idsArr['customerorderid'] = $fundSipData['customerorderid'];
+          $updateSipData = $this->fundroi->updateSipModifiedData($arr,$idsArr);
+          if($updateSipData)
+          {
+              return response()->json([
+              'status' => 'success',
+             // 'sip_summary' => $sipArray
+          ],200);            
+          }
+          else
+          {
+            return response()->json([
+              'status' => 'failed',
+              //'sip_summary' => $sipArray
+          ],400);
+          }
+          
+        }
       }
       elseif ($request['modify_type'] == "change_date") {
         $validator = Validator::make($request->json()->all(), [
@@ -995,6 +1025,42 @@ public function getSipModifiedSummary(Request $request)
                 'status' => 'error',
                 'messages' => $validator->messages()
             ], 400);
+        }
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        if($fundSipData)
+        {
+          $arr['transactionstatus'] = "cancelled";
+          $idsArr['fundid'] = $request['fundid'];
+          $idsArr['goalid'] = $request['goalid'];
+          $idsArr['customerorderid'] = $fundSipData['customerorderid'];
+          $updateSipData = $this->fundroi->updateSipModifiedData($arr,$idsArr);
+          if($updateSipData)
+          {
+            $reqData['fundid'] = $request['fundid'];
+            $reqData['customergoalid'] = $request['goalid'];
+            $reqData['purchasetype'] = "S";
+            $reqData['startdate'] = $request['date'];
+            $reqData['customerorderid'] = $fundSipData['customerorderid'];
+             $reqData['sipamount'] = $fundSipData['sipamount'];
+            $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF88675".mt_rand(10,10000);
+            $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
+            if($fundDetailsUpd == 0)
+            {
+              return response()->json([
+              'status' => 'success',
+             // 'sip_summary' => $sipArray
+          ],200);
+            }
+            
+          }
+          else
+          {
+            return response()->json([
+              'status' => 'failed',
+              //'sip_summary' => $sipArray
+          ],400);
+          }
+          
         }
       }
         

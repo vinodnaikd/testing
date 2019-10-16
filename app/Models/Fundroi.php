@@ -57,7 +57,7 @@ public $timestamps = false;
 
     public function checkSipModified($customerid)
     {
-      return $this->select('op.customerorderid')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->get()->first();
+      return $this->select('op.customerorderid','customerorderdetailpretran.sipamount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->get()->first();
     }
 
      public function InsertCustomerFundRedemption($arr)
