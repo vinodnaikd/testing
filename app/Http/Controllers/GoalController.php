@@ -278,6 +278,15 @@ class GoalController extends Controller
             ], 400);
         }
         $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
+        $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $customerGoalsDetails['yearmonth'] = "months";
+        }
+        else
+        {
+          $customerGoalsDetails['yearmonth'] = "year";
+        }
        $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
        $newArr = array();
        $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));

@@ -260,24 +260,85 @@ class UserProfileController extends Controller
           if($exptimehour == 0 && $exptimeminutes <= 30)
           {
              $status = "otp matched successfully";
+
+             //User Information...
+             $userData = $this->usersprofile->getUserDetails($request['email'],$checkotp['password']);
+      // print_r($userData);die;
+        if($userData)
+     {
+      $arr['mobileverified'] = 1;
+      $updatemblotp = $this->usersprofile->UpdateUser($arr,$userData[0]['userid']);
+      $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
+      $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
+      $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+      $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
+      $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
+    if(!empty($customerBankData) && !empty($customerDetailsData) && !empty($customerAddressData) && !empty($customernomineeData))
+    {
+       $status = "true";
+    }
+    else
+    {
+       $status = "false";
+    }
+    $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData[0]['userid']);
+
+           if(empty($customerDetailsData))
+           {
+               $redirectionurl = "personalinfo";
+           }
+           elseif(empty($customerAddressData))
+           {
+               $redirectionurl = "address";
+           }
+           elseif(empty($customerBankData))
+           {
+               $redirectionurl = "bankdetails";
+           }
+           else
+           {
+               $redirectionurl = "nominee";
+           }         
+           
+        // $token = JWTAuth::fromUser($userData);
+        // dd($token);
+           if($userData[0]['mobileverified'] == 0)
+            $otpstatus = "false";
+          else
+            $otpstatus = "true";
+            return response()->json([
+              'status' => $status,
+              'userProfile' => $userData,
+              'redirection_url' => $redirectionurl,
+              //'inflationvalue' => $inflation,
+              'eventsInfo' => $getCustomereventsInfo,
+              'registerstatus' => $status,
+              'otpstatus' => $otpstatus
+              // 'jwtToken' => $token,
+               
+          ], 200);
           }
+        }
           else
           {
             $status = "otp time expired";
+            $code = 400;
           }
         }
         else
         {
           $status = "otp time expired";
+          $code = 400;
         }
       }
       else
       {
           $status = "Invalid otp details";
+          $code = 400;
       }
        return response()->json([
               'status' => $status,
-               ], 200);
+               ], $code);
     }
 
     public function Register(Request $request)
@@ -697,7 +758,7 @@ class UserProfileController extends Controller
          print_r($user);
          die;*/
       $userData = $this->usersprofile->getUserDetails($email,$password);
-      // print_r($userData);die;
+      // print_r($userData[0]['mobileverified']);die;
         if($userData)
      {
       $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
@@ -717,23 +778,27 @@ class UserProfileController extends Controller
 
            if(empty($customerDetailsData))
            {
-               $redirectionurl = "customerdetails";
+               $redirectionurl = "personalinfo";
            }
            elseif(empty($customerAddressData))
            {
-               $redirectionurl = "customeraddress";
+               $redirectionurl = "address";
            }
            elseif(empty($customerBankData))
            {
-               $redirectionurl = "customerbank";
+               $redirectionurl = "bankdetails";
            }
            else
            {
-               $redirectionurl = "customernominee";
+               $redirectionurl = "nominee";
            }         
            
         // $token = JWTAuth::fromUser($userData);
         // dd($token);
+           if($userData[0]['mobileverified'] == 0)
+            $otpstatus = "false";
+          else
+            $otpstatus = "true";
             return response()->json([
               'status' => 'Login Success',
               'userProfile' => $userData,
@@ -741,6 +806,7 @@ class UserProfileController extends Controller
               //'inflationvalue' => $inflation,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
+              'otpstatus' => $otpstatus
               // 'jwtToken' => $token,
                
           ], 200); 
