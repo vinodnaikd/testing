@@ -208,11 +208,25 @@ class GoalController extends Controller
         $assests = $this->fundclass->getFundClassAssestType();
         $assestsArray = array();
         $assVal = 100/count($assests);
+
         foreach ($assests as $key => $value) {
             $assval[$value['assettype']] = $value['assettype'];
            $assval[$value['assettype']] = $assVal;
         }
         array_push($assestsArray,$assval);
+        $mytime = Carbon::now();
+         $goaldate = $data['createdutcdatetime'];
+        $ts1 = strtotime($data['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+
        $goaldetails['goalname'] = $data['goalname'];
        $goaldetails['goalpriority'] = $data['goalpriority'];
        $goaldetails['goalcost'] = $data['goalcost'];
@@ -221,6 +235,17 @@ class GoalController extends Controller
        $goaldetails['monthcommitment'] = round($goaldetails['yearcommitment']/12);
        $goaldetails['year'] = floor($data['timeframe']/12);
        $goaldetails['month'] = $data['timeframe']%12;
+       $goaldetails['timetaken'] = $diff;
+       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goal_id']);
+       // dd($assetsData);
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$data['futurecost']);
+       $goaldetails['growth'] = $growth;
+       $goaldetails['bargrowth'] = $bargrowth;
+
        $goaldetails['Lumpsum'] = $assestsArray;
        $goaldetails['Sip'] = $assestsArray;
        return response()->json([
@@ -296,6 +321,19 @@ class GoalController extends Controller
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
        $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $mytime = Carbon::now();
+         $goaldate = $data['createdutcdatetime'];
+        $ts1 = strtotime($data['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $customerGoalsDetails['timetaken'] = $diff;
        foreach ($assetsData as $key => $value) {
         $d = array(['TotalInvestmentValue'.':'.$value['TotalInvestmentValue']],['TotalCurrentValue'.':'.$value['TotalCurrentValue']],['AssetType'.':'.$value['AssetType']],['Growth'.':'.$value['Growth']]);
         array_push($newArr, $d);
@@ -935,6 +973,37 @@ return response()->json([
           ],200);
     }
 
+public function getSipRedemptionSummaryAfterAmountChange(Request $request)
+       {
+        $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+            //'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        // dd($value['goalid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+       $sipSummary = $this->fundperformance->getModifiedCustomerSipSummary($getCustomerInfo['customerid']);
+       $sipArray = array();
+       foreach ($sipSummary as $key => $value) {
+         $sip['fundid'] = $value['fundid'];
+         $sip['fundname'] = $value['fundname'];
+         $sip['purchasetype'] = $value['purchasetype'];
+         $sip['currentvalue'] = round($value['currentvalue']);
+         $sip['customergoalid'] = $value['customergoalid'];
+         $sip['goalname'] = $value['goalname'];
+         $sip['goalpriority'] = $value['goalpriority'];
+         array_push($sipArray, $sip);
+       }
+        return response()->json([
+              'status' => 'success',
+              'sip_summary' => $sipArray
+          ],200);
+    }
 
 public function getSipModifiedSummary(Request $request)
        {
