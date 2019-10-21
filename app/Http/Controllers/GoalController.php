@@ -237,12 +237,27 @@ class GoalController extends Controller
        $goaldetails['month'] = $data['timeframe']%12;
        $goaldetails['timetaken'] = $diff;
        $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goal_id']);
-       // dd($assetsData);
+
+       if($assetsData)
+       {
        $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
        $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
-       //dd($totInv);
+     }
+     else
+     {
+      $totInv = "";
+      $totCur = "";
+     }
+       if($totInv)
+       {
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$data['futurecost']);
+       }
+       else
+       {
+        $growth = 0;
+       $bargrowth = 0;
+       }
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
 
@@ -322,8 +337,8 @@ class GoalController extends Controller
        $customerGoalsDetails['growth'] = $growth;
        $customerGoalsDetails['bargrowth'] = $bargrowth;
        $mytime = Carbon::now();
-         $goaldate = $data['createdutcdatetime'];
-        $ts1 = strtotime($data['createdutcdatetime']);
+       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
         $ts2 = strtotime($mytime);
 
         $year1 = date('Y', $ts1);
