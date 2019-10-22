@@ -306,6 +306,26 @@ class GoalController extends Controller
         ], 200);
     }
 
+    public function getUserGoalsSummaryList(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        //Goals
+        $customerGoals = $this->fundperformance->getCustomerGoals($getCustomerInfo['customerid']);
+        //dd($customerGoals);
+       return response()->json([
+          "Goals" => $customerGoals
+        ], 200);
+    }
+
     public function getGoalsSummaryListWithGoalId(Request $request)
     {
        $validator = Validator::make($request->json()->all(), [
@@ -1157,6 +1177,32 @@ public function getSipModifiedSummary(Request $request)
         }
       }
         
+    }
+
+    public function getAssetRebalancing(Request $request)
+       {
+         $data = "1st Goal (Mayras postgraduation in US)";
+         $data1  = array(
+           'Debt' => "3,50,000",
+           'Equity' => "2,00,000",
+           'Gold' => "1,50,000",
+           'Liquid' => "3,00,000",
+
+            'Current Allocation' => "3,00,000",
+       );//
+          $data2 = 'Amount for Rebalancing: INR 10,00,000';
+          $data3 = array(
+            'Our Recommendation' => "3,00,000",
+            'Your Allocation' => "1,10,000"
+        );  //dd($data1);
+          // array_push($data2, $data3);
+        return response()->json([
+              'status' => 'success',
+              'goals' => $data,
+              'Assets' => $data1,
+              'rebalanceAmnt' => $data2,
+              'rebalance' => $data3
+          ],200);
     }
 
 

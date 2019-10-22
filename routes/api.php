@@ -91,6 +91,7 @@ Route::post('/v1/users/addgoals', 'GoalController@store');
 Route::post('/v1/users/goalslist', 'GoalController@getGoalsList');
 Route::post('/v1/users/goalssummary', 'GoalController@getGoalsSummaryList');
 Route::post('/v1/users/goalsdetails', 'GoalController@getGoalsDetailsList');
+Route::post('/v1/users/usergoalslist', 'GoalController@getUserGoalsSummaryList');
 Route::post('/v1/users/goalssummarydetails', 'GoalController@getGoalsSummaryListWithGoalId');
 Route::post('/v1/users/goalsassetsallocation', 'GoalController@goalsAssestsAllocation');
 Route::post('/v1/users/getgoalsassetsallocation', 'GoalController@getgoalsAssestsAllocation');
@@ -104,6 +105,7 @@ Route::post('/v1/users/userredemptionsummary', 'GoalController@getRedemptionSumm
 Route::post('/v1/users/usersipredemptionsummary', 'GoalController@getSipRedemptionSummary');
 Route::post('/v1/users/usersipmodifysummary', 'GoalController@getSipModifiedSummary');
 Route::post('/v1/users/userchangesipredemptionsummary', 'GoalController@getSipRedemptionSummaryAfterAmountChange');
+Route::post('/v1/users/getassetrebalancing', 'GoalController@getAssetRebalancing');
 
     //End Of Routes
 
