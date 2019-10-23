@@ -1182,27 +1182,26 @@ public function getSipModifiedSummary(Request $request)
     public function getAssetRebalancing(Request $request)
        {
          $data = "1st Goal (Mayras postgraduation in US)";
-         $data1  = array(
+         $data1  = array(array(
            'Debt' => "3,50,000",
            'Equity' => "2,00,000",
            'Gold' => "1,50,000",
            'Liquid' => "3,00,000",
-
             'Current Allocation' => "3,00,000",
-       );//
+       ));//
           $data2 = 'Amount for Rebalancing: INR 10,00,000';
-          $data3 = array(
+          $data3 = array(array(
             'Our Recommendation' => "3,00,000",
             'Your Allocation' => "1,10,000"
-        );  //dd($data1);
+        ));  //dd($data1);
           // array_push($data2, $data3);
-        return response()->json([
+        return response()->json(array([
               'status' => 'success',
               'goals' => $data,
               'Assets' => $data1,
               'rebalanceAmnt' => $data2,
               'rebalance' => $data3
-          ],200);
+          ],200));
     }
 
 
