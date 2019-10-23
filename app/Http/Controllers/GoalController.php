@@ -86,6 +86,7 @@ class GoalController extends Controller
             ], 400);
         }
     }
+    // dd($request['customergoalid']);
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
        
         $reqData['customerid'] = $getCustomerInfo['customerid'];
@@ -99,12 +100,18 @@ class GoalController extends Controller
         if($request['customergoalid'])
         {
             $goalListData = $this->goals->getGoals($request['customergoalid']);
-
+            // dd($goalListData);
             if($goalListData[0]['goalpriority'] == $request['goalpriority'])
             {
 
                 $reqData1['goalpriority'] = $reqData['goalpriority'];
                  $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
+                 if($goalData == 0)
+                 {
+                  $reqData1['goalpriority'] = $reqData['goalpriority'];
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
+                 }
+                /* $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);*/
             }
             else
             {
@@ -1181,6 +1188,7 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
+
          $data = "1st Goal (Mayras postgraduation in US)";
          $data1  = array(array(
            'Debt' => "3,50,000",

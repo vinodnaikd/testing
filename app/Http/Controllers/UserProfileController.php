@@ -502,9 +502,10 @@ class UserProfileController extends Controller
           'address3' => 'required|string|max:100',
           'city' => 'required|string|max:100',
           'country' => 'required|string|max:100',
+          'state' => 'required|string|max:100',
           'bankname' => 'required|string|max:100',
           'branchname' => 'required|string|max:100',
-          'pincode' => 'required|string|max:100',
+          //'pincode' => 'required|string|max:100',
           'userid' => 'required|string|max:100',
           'effective_date' => 'required|string|max:100',
           'expiry_date' => 'required|string|max:100',
@@ -526,8 +527,9 @@ class UserProfileController extends Controller
         $reqData['address1'] = $request['addressline1'];
         $reqData['address2'] = $request['addressline2'];
         $reqData['address3'] = $request['address3'];
-        $reqData['cityid'] = $request['city'];
-        $reqData['countryid'] = $request['country'];
+        $reqData['city'] = $request['city'];
+        $reqData['country'] = $request['country'];
+        $reqData['state'] = $request['state'];
         $reqData['pincode'] = $request['pincode'];
          $reqData['effective_date'] = $request['effective_date'];
         $reqData['expiry_date'] = $request['expiry_date'];
@@ -702,9 +704,9 @@ class UserProfileController extends Controller
         $value['customerid'] = $customerid;
         $reqData['address1'] = $value['addressline1'];
         $reqData['address2'] = $value['addressline2'];
-        $reqData['cityid_fk'] = $value['city'];
-        $reqData['countryid_fk'] = $value['country'];
-        $reqData['stateid_fk'] = $value['state'];
+        $reqData['city'] = $value['city'];
+        $reqData['country'] = $value['country'];
+        $reqData['state'] = $value['state'];
         $reqData['pincode'] = $value['pincode'];
         $reqData['address_type'] = $value['address_type'];
         $reqData['createdutcdatetime'] = Carbon::now();
