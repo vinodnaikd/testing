@@ -15,7 +15,7 @@ class FundRecord extends Model
        'orderno',
        'orderstatus',
    ];
-
+public $timestamps = false;
    public function getCustomerSelectedProducts($customerid,$goalid,$assettype)
    {
     // echo $assettype;
@@ -58,6 +58,13 @@ class FundRecord extends Model
     {
       return $this->where('customerid',$id)->where('orderstatus','Pending')->first();
     }
+
+     public function CheckoutCustomerOrderStatus($id)
+    {
+      $arr['orderstatus'] = "confirmed";
+      return $this->where('customerid',$id)->update($arr);
+    }
+
     public function CheckFundExists($customerid,$goalid,$fundid)
     {
       return $this->join('customerorderdetailpretran as cd','customerorderpretran.customerorderid','=','cd.customerorderid')

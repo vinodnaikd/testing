@@ -28,6 +28,9 @@ class Fundroi extends Model
 public $timestamps = false;
    public function InsertCustomerOrderDetailsPretran($arr)
     {
+      // dd($arr);
+      $arr['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-".rand()."KJSDF35675".rand();
+      // dd($arr);
       return $this->insertGetId($arr);
     }
     public function updateCustomerFundDetails($arr,$IdsArray)

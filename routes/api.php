@@ -168,6 +168,7 @@ Route::post('/v1/records/getcustomerwealthallocation','WealthAllocationControlle
 
 //Fund Routes
 Route::post('/v1/products/funddetails/customerfundposttran', 'FundBasicInfoController@store');
+Route::post('/v1/products/funddetails/customercheckoutsummary', 'FundBasicInfoController@UserCheckoutSummary');
 Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoController@funddataposttran');
 Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
 Route::post('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');

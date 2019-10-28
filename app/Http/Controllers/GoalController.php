@@ -415,6 +415,12 @@ class GoalController extends Controller
         $reqData['asset_value'] = $value['asset_value'];
         $reqData['purchase_type'] = $value['purchase_type'];
         $reqData['lumpsum_sip'] = $value['lum_sip'];
+        if($reqData['purchase_type'] == "S")
+        {
+        $reqData['start_date'] = $value['start_date'];
+        $reqData['end_date'] = $value['end_date'];
+        }
+        
         if($value['goal_ass_id'])
         {
             $customerGoalsDetails = $this->dashboardrecordsinfo->UpdateGoalsAssestsAllocation($reqData,$value['goal_ass_id']); 
@@ -449,11 +455,10 @@ class GoalController extends Controller
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
 
             $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goalid']);
-    if($customerGoalsDetails)
+        if($customerGoalsDetails)
     {
-       $goals['lumpsum_sip'] = $customerGoalsDetails[0]['lumpsum_sip'];
+       
        $goals['goalid'] = $customerGoalsDetails[0]['goalid'];
-       $goals['purchase_type'] = $customerGoalsDetails[0]['purchase_type'];
        $goals['customerid'] = $customerGoalsDetails[0]['customerid'];
     }
     else
@@ -464,14 +469,30 @@ class GoalController extends Controller
        $goals['customerid'] = "";
     }
        
-       $goalsSumm = array();
+       $goalsLumSumm = array();
+       $goalsSipSumm = array();
        foreach ($customerGoalsDetails as $key => $value) {
-           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
+        if($value['purchase_type'] == "L")
+        {
+          $goals['lumpsum_amount'] = $value['lumpsum_sip'];
+          $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet1['asset'] = $value['asset'];
+           $goalsdet1['asset_value'] = $value['asset_value'];
+           array_push($goalsLumSumm, $goalsdet1);
+        }
+        else
+        {
+          $goals['sip_amount'] = $value['lumpsum_sip'];
+          $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet['asset'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
-           array_push($goalsSumm, $goalsdet);
+           array_push($goalsSipSumm, $goalsdet);
+        }
+           
        }
-       $goals['GoalsSummaryDetails'] = $goalsSumm;
+       $goals['Lumpsum'] = $goalsLumSumm;
+       $goals['Sip'] = $goalsSipSumm;
+      // $goals['GoalsSummaryDetails'] = $goalsSumm;
        return response()->json([
            $goals,
         ], 200);

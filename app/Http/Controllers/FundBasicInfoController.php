@@ -634,7 +634,9 @@ public function getCustomerGoalsOrderDetails(Request $request)
     public function CustomerFundSelection(Request $request)
    {
       $fundselection = $request->json()->all();
+      // dd($fundselection);
       foreach ($fundselection as $key => $value) {
+        // print_r($value);
         $validator = Validator::make($value, [
           'userid' => 'required|string|max:100',
           'orderdate' => 'required|string|max:255',
@@ -654,10 +656,13 @@ public function getCustomerGoalsOrderDetails(Request $request)
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
       $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
-      // dd($checkFund);
+     // print_r($checkFund);
         $purchaseArr = array("L","S");
-      if(!$checkFund)
+      if(empty($checkFund))
       {
+        // echo 1;
+        // dd($checkFund);
+        // echo $getCustomerInfo['customerid'];
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($orderstatus)
       {
@@ -669,7 +674,7 @@ public function getCustomerGoalsOrderDetails(Request $request)
           $reqData1['createdutcdatetime'] = Carbon::now();
           $reqData1['modifiedutcdatetime'] = Carbon::now();
           foreach ($purchaseArr as $key1 => $value1) {
-         $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+         /*$reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);*/
          $reqData1['customerorderid'] = $orderstatus['customerorderid'];
          $reqData1['purchasetype'] = $value1;
           $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
@@ -677,7 +682,7 @@ public function getCustomerGoalsOrderDetails(Request $request)
       }
       else
       {
-
+        // dd(223);
       $reqData['customerid'] = $getCustomerInfo['customerid'];
       $reqData['orderdate'] = $value['orderdate'];
       $reqData['orderno'] = "3658663575".mt_rand(10,100);
@@ -697,19 +702,28 @@ public function getCustomerGoalsOrderDetails(Request $request)
         
           
           $reqData1['customerorderid'] = $reqData['customerorderid'];
+          // dd($purchaseArr);
            foreach ($purchaseArr as $key1 => $value1) {
-$reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+            // echo $value1;
+           //$reqData2['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100000);
           $reqData1['purchasetype'] = $value1;
+          // $reqData1['orderdetailid'] = $reqData2['orderdetailid'];
           $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
         }
       }
 
       }
-      return response()->json([
-              'fundselection' => "fund selection added Successfully"
-          ], 200);
+     $status = "fund selection added Successfully";
      }
+     /*else
+     {
+      $status = "Fund Already Exists";
+     }*/
+
    }
+   return response()->json([
+              'fundselection' => $status
+          ], 200);
     }
 
     public function getFundProductsById(Request $request)
@@ -898,8 +912,30 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
      * @param  \App\FundBasicInfo  $fundBasicInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FundBasicInfo $fundBasicInfo)
+    public function UserCheckoutSummary(Request $request)
     {
-        //
+      $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100'
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+      $getCustomerOrder = $this->fundrecord->CheckoutCustomerOrderStatus($getCustomerInfo['customerid']);
+      if($getCustomerOrder)
+      {
+        $status = "Checkout Summary Successfully";
+      }
+      else
+      {
+        $status = "Checkout Summary Failed";
+      }
+      return response()->json([
+              'status' => $status
+          ], 200);
     }
 }
