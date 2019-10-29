@@ -38,7 +38,8 @@ use Illuminate\Http\Request;
 Route::post('/v1/users/signup', 'UserProfileController@signUp');
 //Route::post('/v1/users/register', 'UserProfileController@Register');
 Route::post('/v1/users/signin', 'UserProfileController@signIn');
-Route::post('/v1/users/login', 'JWTAuthController@login');
+Route::post('/v1/users/register_new', 'UserController@signup');
+Route::post('/v1/users/login', 'UserController@login');
 
 
 /*Route::get('unauthorized', function() {
@@ -52,7 +53,10 @@ Route::post('/v1/users/login', 'JWTAuthController@login');
     Route::post('/v1/users/register', 'UserProfileController@Register');
     Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
+ Route::group(['middleware' => ['jwt.verify']], function() {
 //Bank Routes
+    Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
+});
 Route::post('/v1/users/getbanklist', 'BankController@show');
 Route::post('/v1/users/addbank', 'BankController@store');
 Route::post('/v1/users/editbank', 'BankController@edit');
@@ -209,7 +213,7 @@ Route::get('/v1/users/document/getdocuments', 'DocumentsController@show');
 //Question Routes
 Route::post('/v1/users/reports/addquestions', 'QuestionController@store');
 Route::post('/v1/users/reports/addquestionsoptions', 'QuestionController@QuestionOptions');
-Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
+// Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
 
 //End Of Routes
 

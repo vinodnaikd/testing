@@ -7,10 +7,14 @@
  */
 
 namespace App\Http\Controllers;
+use App\User;
 use Illuminate\Http\Request;
-use JWTFactory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use JWTAuth;
-use Response;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Http\Response;
+use Carbon\Carbon;
 /**
  * Description of UserController
  *
@@ -19,16 +23,27 @@ use Response;
 class UserController extends ApiController {
     //put your code here
     public function signup(Request $request) {
-//        dd($request->all());
-//        $request->validate([
-//            'firstname' => 'required',
-//            'lastname' => 'required',
-//            'email' => 'required',
-//        ]);
-        $data['firstname'] = "vinod";
-        $data['lastname'] = "naik";
+        // $user = new User;
+        $user['email'] = $request->email;
+        $user['password'] = bcrypt($request->password);
+        // dd($user);
+        // $user->save();
+        $users=User::insertGetId($user);
         
-        return $data;
+        return $users;
+    }
+    public function login(Request $request){
+    	 $credentials = $request->only('email', 'password');
+    	 // $details=array('email'=>$request->email,'password'=>bcrypt($request->password));
+            try {
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+
+            return response()->json(compact('token'));
     }
     
 }
