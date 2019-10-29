@@ -1209,29 +1209,106 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
+         $datas = array();
+         $datasArray = array();
+        foreach ($request->json()->all() as $key => $value) {
+          
+        $validator = Validator::make($value, [
+            'userid' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
 
-         $data = "1st Goal (Mayras postgraduation in US)";
-         $data1  = array(array(
+        $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+        $goalsAssests = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForRebalancing($getCustomerInfo['customerid'],$value['goalid']);
+        $data = array();
+       
+        if($goalsAssests)
+        {
+        $data['userid'] = $value['userid'];
+        $data['goalname'] = $goalsAssests[0]['goalname'];
+        $assdata = array();
+      foreach ($goalsAssests as $key1 => $value1) {
+        if($value1['asset'] == "Equity")
+        $data1['Equity'] = $value1['asset_value'];
+        if($value1['asset'] == "Debt")
+        $data1['Debt'] = $value1['asset_value'];
+        if($value1['asset'] == "Liquid")
+        $data1['Liquid'] = $value1['asset_value'];
+        if($value1['asset'] == "Gold")
+        $data1['Gold'] = $value1['asset_value'];
+      
+      }
+      array_push($datas,$data1);
+      $data['Assets'] = $datas;
+    }
+    // $datasArray['Rebalancing'] = $data;
+    return response()->json([
+              'status' => 'success',
+              'Rebalancing' => $data,
+            //'Our Recommendation'=> $data3
+          ],200);
+    //$goalsAssetData['Rebalancing'] = $datas;
+    //array_push($data,$goalsAssetData);
+      /*
+          $data = "1";
+         $data1 = "1st Goal (Mayras postgraduation in US)";
+         $data2 = array(array(
            'Debt' => "3,50,000",
            'Equity' => "2,00,000",
            'Gold' => "1,50,000",
            'Liquid' => "3,00,000",
             'Current Allocation' => "3,00,000",
        ));//
-          $data2 = 'Amount for Rebalancing: INR 10,00,000';
+
           $data3 = array(array(
-            'Our Recommendation' => "3,00,000",
-            'Your Allocation' => "1,10,000"
-        ));  //dd($data1);
-          // array_push($data2, $data3);
-        return response()->json(array([
-              'status' => 'success',
-              'goals' => $data,
-              'Assets' => $data1,
-              'rebalanceAmnt' => $data2,
-              'rebalance' => $data3
-          ],200));
+            'Debt' => "3,50,000",
+            'Equity' => "2,00,000",
+            'Gold' => "1,50,000",
+            'Liquid' => "3,00,000",
+             'Current Allocation' => "3,00,000",
+        ));//*/
+        }
+        
     }
+
+     public function getProductSelection(Request $request)
+    {
+     $data = "1";
+      $data1 = "1st Goal Product Selection";
+      $data2 = array(array(
+        'Equity' => "3(40%)INR 4,00,000'",
+        'Debt' => "Debt(30%)INR 3,00,000",
+        'Gold' => "Gold(10%)INR 1,00,000",
+        'Liquid' => "Liquid(20%)INR 2,00,000",
+    ));//
+$data3 = "AMOUNT(₹)";
+       $data4 = array(array(
+         'Franklin prima plus Fund' => "+50,000",
+         'DSP Blackrock Income Opp Fund' => "+1,00,000",
+         'HDFC Gold Fund' => "-50,000",
+         'Franklin USB Fund' => "-50,000",
+          'HDFC Cash Management Fund' => "+50,000",
+          'DSP Equity Fund' => "+1,00,000",
+     ));//
+     $data5 = array(array(
+       'DSP Equity Fund' => "+1,00,000",
+   ));//
+     return response()->json(array([
+           'status' => 'success',
+           'user id' => $data,
+           'goals' => $data1,
+           'goals' => $data2,
+           'scenarioonrproduct'=> $data3,
+           'scenarioonrproduct'=> $data4,
+          'AmountforRebalancing: INR 10,00,000'=> $data5
+       ],200));
+   }
 
 
 

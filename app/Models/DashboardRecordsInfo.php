@@ -32,6 +32,11 @@ public $timestamps = false;
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->get()->toArray();
     }
 
+    public function getGoalsAllocationDetailsForRebalancing($customerid,$goalid)
+    {
+        return $this->join('customergoal as g','g.customergoalid','=','goals_assets_allocation.goalid')->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->groupby('goals_assets_allocation.asset')->get()->toArray();
+    }
+
     public function getGoalsAssetsAllocationDetails($customerid,$goalid,$asset)
     {
     	// dd($asset);

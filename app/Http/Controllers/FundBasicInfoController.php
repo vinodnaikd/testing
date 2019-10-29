@@ -271,6 +271,7 @@ class FundBasicInfoController extends Controller
       $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
        $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+
       if($customerDetails)
       $nrielligble = $customerDetails['residential_status'];
       else
@@ -280,6 +281,8 @@ class FundBasicInfoController extends Controller
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
+        $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+        dd($goalsAssData);
          $assests['assettype'] = $value['assettype'];
          $fundclassData = $this->fundclass->getFundClassData($value['assettype']);
 
@@ -556,7 +559,7 @@ class FundBasicInfoController extends Controller
                     array_push($selectedProductsArray1, $fundproducts1);
             }
             $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
-            $lumpsumamount['Sip Amount'] = $amount1;
+            $lumpsumamount['Sip_Amount'] = $amount1;
             $lumpsumamount['Sip'] = $selectedProductsArray1;
       return response()->json([
               'orderdetails' => $lumpsumamount
