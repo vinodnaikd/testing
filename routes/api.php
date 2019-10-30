@@ -213,7 +213,7 @@ Route::get('/v1/users/document/getdocuments', 'DocumentsController@show');
 //Question Routes
 Route::post('/v1/users/reports/addquestions', 'QuestionController@store');
 Route::post('/v1/users/reports/addquestionsoptions', 'QuestionController@QuestionOptions');
-// Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
+Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
 
 //End Of Routes
 
