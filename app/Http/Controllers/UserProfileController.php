@@ -530,8 +530,8 @@ class UserProfileController extends Controller
         $reqData['city'] = $request['city'];
         $reqData['country'] = $request['country'];
         $reqData['state'] = $request['state'];
-        $reqData['pincode'] = $request['pincode'];
-         $reqData['effective_date'] = $request['effective_date'];
+        $reqData['pincode'] = substr($reqData['address1'], -7);
+        $reqData['effective_date'] = $request['effective_date'];
         $reqData['expiry_date'] = $request['expiry_date'];
         $reqData['maximum_limit'] = $request['maximum_limit'];
         $reqData['createdutcdatetime'] = Carbon::now();

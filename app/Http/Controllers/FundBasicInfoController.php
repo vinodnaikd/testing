@@ -299,20 +299,36 @@ class FundBasicInfoController extends Controller
             $fund['limit'] = "2";
             $fundProducts = array();
            $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
-
+           // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {
+          
+          //$reqData['defaultfund'] = $value2['fundid'];
           $reqData['fundid'] = $value2['fundid'];
           $reqData['goalid'] = $request['goalid'];
           $reqData['customerorderid'] = $orderstatus['customerorderid'];
          $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
           if($checkFundStatus)
-          $products['fundstatus'] = "checked";
+          {
+            $products['fundstatus'] = "checked";
+          }
           else
-          $products['fundstatus'] = "unchecked";
+          {
+            if($key2 == 0)
+            {
+              $products['fundstatus'] = "checked";
+            }
+            else
+            {
+              $products['fundstatus'] = "unchecked";
+            }
+          
+          }
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
+              $products['mininvestment'] = $value2['mininvt'];
+              $products['sipmininvest'] = $value2['sipmininvest'];
               $products['AUM'] = number_format($value2['incret'],2);
               $products['oneM'] = number_format($value2['1monthret'],2);
               $products['sixM'] = number_format($value2['6monthret'],2);
@@ -439,10 +455,9 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-            // dd($fundprodcutsData);
             $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
             
-            $fundprdtscount = count($fundprodcutsData);
+            $fundprdtscount = (count($fundprodcutsData)/2);
             $fundvalue = round(($goalsAssData['asset_value']/$fundprdtscount),2);
             $fund['Lumpsum_sip'] = $goalsAssData['asset_value'];
             $lumProductsArray = array();

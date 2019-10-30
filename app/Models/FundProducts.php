@@ -21,12 +21,12 @@ class FundProducts extends Model
     	//Add query inactive = 1
         if($isnrielligble == 1)
         {
-            $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')
+            $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->leftJoin('scheme_details AS sd','sd.schemecode','=','fund.fundid')
             ->where('fundclassid',$fundclsid)->where('fund.isnrieligible',$isnrielligble)->orderby('rank')->get()->toArray();
         }
         else
         {
-            $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->where('fundclassid',$fundclsid)->orderby('rank')->get()->toArray();
+            $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('fundclassid',$fundclsid)->orderby('rank')->get()->toArray();
         }
 
         return $fundData;
