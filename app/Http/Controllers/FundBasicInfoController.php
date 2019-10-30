@@ -443,8 +443,8 @@ class FundBasicInfoController extends Controller
             $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
             
             $fundprdtscount = count($fundprodcutsData);
-            $fundvalue = round(($goalsAssData['lumpsum_sip']/$fundprdtscount),2);
-            $fund['Lumpsum_sip'] = $goalsAssData['lumpsum_sip'];
+            $fundvalue = round(($goalsAssData['asset_value']/$fundprdtscount),2);
+            $fund['Lumpsum_sip'] = $goalsAssData['asset_value'];
             $lumProductsArray = array();
             $sipProductsArray = array();
             foreach ($fundprodcutsData as $key2 => $value2) {
