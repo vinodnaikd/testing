@@ -31,9 +31,9 @@ class UserProfile extends Model
     {
         return $this->where('userid','=',$Id)->update($arr);
     }
-    public function UpdateUserPassword($arr,$Id)
+    public function UpdateUserPassword($arr,$email)
     {
-        return $this->where('userid','=',$Id)->update($arr);
+        return $this->where('email','=',$email)->update($arr);
     }
     public function getUserDetails($email,$password)
     {

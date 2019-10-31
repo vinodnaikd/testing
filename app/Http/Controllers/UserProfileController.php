@@ -1187,27 +1187,44 @@ class UserProfileController extends Controller
     
     public function changePassword(Request $request)
     {
-//        $data = (object)array(
-//            'addressline1' => "string",
-//            'addressline2' => "string",
-//            'city' => "string",
-//            'country' => "string",
-//            'state' => "string",
-//            'pincode' => "string",
-//            'address_id' => "string"
-//        );
-//        
-//         return response()->json($data);
-        
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|string|max:8',
+         $validator = Validator::make($request->json()->all(), [
+            'email' => 'required|email|max:255',
+            'old_password' => 'required|string|max:255',
+            'new_password' => 'min:6|required_with:conform_password|same:conform_password',
+            'conform_password' => 'min:6',
         ]);
         if($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'messages' => $validator->messages()
-            ], 200);
+            ], 400);
         }
+        $reqData['email'] = $request['email'];
+        $reqData['password'] = $request['new_password'];
+        $userData = $this->usersprofile->getUserDetails($request['email'],$request['old_password']);
+        if($userData)
+     {
+        $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['email']);
+        if($updateUserPwd)
+        {
+           $status = 'Password Updated Successfully';
+           $code = "200";
+        }
+        else
+        {
+          $status = 'Password Updation Failed';
+          $code = "400";
+        }
+     }
+     else
+     {
+        $status = 'Invalid Credentials';
+        $code = "400";
+     }
+        
+         return response()->json([
+                'status' => $status
+            ], $code);
     }
     public function forgotPassword(Request $request)
     {
@@ -1231,8 +1248,8 @@ class UserProfileController extends Controller
         public function resetPassword(Request $request)
     {
         
-        $validator = Validator::make($request->all(), [
-            'userid' => 'required|string|max:255',
+        $validator = Validator::make($request->json()->all(), [
+            'email' => 'required|email|max:255',
             'new_password' => 'min:6|required_with:conform_password|same:conform_password',
             'conform_password' => 'min:6',
         ]);
@@ -1242,15 +1259,20 @@ class UserProfileController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-        $reqData['userid'] = $request['userid'];
+        $reqData['email'] = $request['email'];
         $reqData['password'] = $request['new_password'];
-        $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['userid']);
+        $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['email']);
         if($updateUserPwd)
         {
-            return response()->json([
-                'status' => 'Password Updated Successfully'
-            ], 200);
+           $status = 'Password Updated Successfully';
         }
+        else
+        {
+          $status = 'Password Updation Failed';
+        }
+         return response()->json([
+                'status' => $status
+            ], 200);
         //ToDo Email 
         //dd($checkUser);
     }
