@@ -456,7 +456,9 @@ class FundBasicInfoController extends Controller
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
             $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-            
+            $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
+            $lumsiptype = array_column($goalsAssType, 'purchase_type');
+            // dd(array_column($goalsAssType, 'purchase_type'));
             $fundprdtscount = (count($fundprodcutsData)/2);
             $fundvalue = round(($goalsAssData['asset_value']/$fundprdtscount),2);
             $fund['Lumpsum_sip'] = $goalsAssData['asset_value'];
@@ -508,9 +510,23 @@ class FundBasicInfoController extends Controller
                 if(empty($value2['sipamount']))
                $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData2,$reqData3);
               }
-                     $fundproductsArr['Lumpsum'] = $lumProductsArray;
-                      $fundproductsArr['Sip'] = $sipProductsArray;
-                    
+               if(in_array("L", $lumsiptype))
+              {
+                $fundproductsArr['Lumpsum'] = $lumProductsArray;
+              }
+              else
+              {
+                $fundproductsArr['Lumpsum'] = array();
+              }
+              if(in_array("S", $lumsiptype))
+              {
+                $fundproductsArr['Sip'] = $sipProductsArray;
+              }
+              else
+              {
+                $fundproductsArr['Sip'] = array();
+              }
+           
             }
             array_push($selectedProductsArray, $fundproductsArr);
             $fund['fundslist'] = $selectedProductsArray;
