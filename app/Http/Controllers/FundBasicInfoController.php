@@ -559,6 +559,8 @@ class FundBasicInfoController extends Controller
             $purchasetype = "L";
             $selectedProductsArray = array();
              $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+              $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
+            $lumsiptype = array_column($goalsAssType, 'purchase_type');
             $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
@@ -570,9 +572,18 @@ class FundBasicInfoController extends Controller
                     array_push($selectedProductsArray, $fundproducts);
             }
             $amount = array_sum(array_column($selectedProductsArray, 'fundvalue'));
-            $lumpsumamount['Lumpsum_Amount'] = $amount;
-            $lumpsumamount['Lumpsum'] = $selectedProductsArray;
-
+            
+            if(in_array("L", $lumsiptype))
+              {
+                $lumpsumamount['Lumpsum_Amount'] = $amount;
+                $lumpsumamount['Lumpsum'] = $selectedProductsArray;
+              }
+              else
+              {
+                $lumpsumamount['Lumpsum_Amount'] = [];
+                $lumpsumamount['Lumpsum'] = [];
+              }
+              
             // Sip Amount 
             $purchasetype = "s";
             $selectedProductsArray1 = array();
@@ -589,8 +600,17 @@ class FundBasicInfoController extends Controller
                     array_push($selectedProductsArray1, $fundproducts1);
             }
             $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
-            $lumpsumamount['Sip_Amount'] = $amount1;
-            $lumpsumamount['Sip'] = $selectedProductsArray1;
+            
+            if(in_array("S", $lumsiptype))
+              {
+                $lumpsumamount['Sip_Amount'] = $amount1;
+                $lumpsumamount['Sip'] = $selectedProductsArray1;
+              }
+              else
+              {
+                $lumpsumamount['Sip_Amount'] = [];
+                $lumpsumamount['Sip'] = [];
+              }
       return response()->json([
               'orderdetails' => $lumpsumamount
           ], 200);
