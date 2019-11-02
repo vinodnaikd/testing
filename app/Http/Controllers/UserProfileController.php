@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Session;
 use Auth;
 use Carbon\Carbon;
-use App\Models\User;
+use App\User;
 // use JWTFactory;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
