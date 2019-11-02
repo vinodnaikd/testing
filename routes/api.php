@@ -53,10 +53,10 @@ Route::post('/v1/users/login', 'UserController@login');
     Route::post('/v1/users/register', 'UserProfileController@Register');
     Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
-/* Route::group(['middleware' => ['jwt.verify']], function() {
+ Route::group(['middleware' => ['jwt.verify']], function() {
 //Bank Routes
-    Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
-});*/
+   // Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
+
 Route::post('/v1/users/getbanklist', 'BankController@show');
 Route::post('/v1/users/addbank', 'BankController@store');
 Route::post('/v1/users/editbank', 'BankController@edit');
@@ -263,6 +263,7 @@ Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 //{
 //    Route::post('/signup', 'UserController@signup');
 //});
+});
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

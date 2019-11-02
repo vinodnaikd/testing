@@ -15,8 +15,10 @@ use Session;
 use Auth;
 use Carbon\Carbon;
 use App\User;
-use JWTFactory;
+// use JWTFactory;
 use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Hash;
 
 class UserProfileController extends Controller
 {
@@ -125,8 +127,8 @@ class UserProfileController extends Controller
       // dd($otp);
       $reqData['username'] = $request['first_name'];
       $reqData['email'] = $request['email'];
-      //$reqData['password'] = bcrypt($request['password']);
-      $reqData['password'] = $request['password'];
+      $reqData['password'] = bcrypt($request['password']);
+      //$reqData['password'] = $request['password'];
       $reqData['mobileno'] = $request['mobile_number'];
       $reqData['pannumber'] = $request['pannumber'];
       $reqData['applicationid'] = 1;
@@ -189,8 +191,8 @@ class UserProfileController extends Controller
          $esn['userid'] = $reqData1['userid'];
          $esn['type'] = "";
         // 
-          $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
-    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");
+          /*$msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
+    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");*/
      }
      $data['success']="User Created Successfully";
         }
@@ -497,9 +499,9 @@ class UserProfileController extends Controller
           'full_name' => 'required|string|max:100',
           'ifsc_code' => 'required|string|max:100',
           'micr_code' => 'required|string|max:100',
-          'addressline1' => 'required|string|max:255',
-          'addressline2' => 'required|string|max:100',
-          'address3' => 'required|string|max:100',
+          'addressline1' => 'required|string|max:500',
+          'addressline2' => 'required|string|max:500',
+          'address3' => 'required|string|max:500',
           'city' => 'required|string|max:100',
           'country' => 'required|string|max:100',
           'state' => 'required|string|max:100',
@@ -754,16 +756,31 @@ class UserProfileController extends Controller
             ], 200);
         }
         
-        $email = $request['email'];
-        $password = $request['password'];
+       // $email = $request['email'];
+       // $password = $request['password'];
+
+         $credentials = $request->only('email', 'password');
+       // $details=array('email'=>$request->email,'password'=>bcrypt($request->password));
+            try {
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+              // $currentUser = Auth::user();
+// print_r($currentUser);exit;
+            $token = response()->json(compact('token'));
         /* $user = User::first();
          print_r($user);
          die;*/
-      $userData = $this->usersprofile->getUserDetails($email,$password);
+      // $userData = $this->usersprofile->getUserDetails($email,$password);
+       $userData = Auth::user();
+       // print_r($userData['userid']);
       // print_r($userData[0]['mobileverified']);die;
         if($userData)
      {
-      $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
+      $getCustomerInfo = $this->customer->getUserDetails($userData['userid']);
       $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
       $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
       $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
@@ -776,7 +793,7 @@ class UserProfileController extends Controller
     {
        $status = "false";
     }
-    $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData[0]['userid']);
+    $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData['userid']);
 
            if(empty($customerDetailsData))
            {
@@ -797,7 +814,7 @@ class UserProfileController extends Controller
            
         // $token = JWTAuth::fromUser($userData);
         // dd($token);
-           if($userData[0]['mobileverified'] == 0)
+           if($userData['mobileverified'] == 0)
             $otpstatus = "false";
           else
             $otpstatus = "true";
@@ -808,8 +825,8 @@ class UserProfileController extends Controller
               //'inflationvalue' => $inflation,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
-              'otpstatus' => $otpstatus
-              // 'jwtToken' => $token,
+              'otpstatus' => $otpstatus,
+                'jwtToken' => $token,
                
           ], 200); 
         }

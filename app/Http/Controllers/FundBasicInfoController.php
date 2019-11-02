@@ -34,6 +34,7 @@ class FundBasicInfoController extends Controller
         DashboardRecordsInfo $dashboardrecordsinfo
     )
     {
+      
         $this->fundBasicInfo = $fundBasicInfo;
         $this->fundInfo = $fundInfo;
         $this->fundPerformance = $fundPerformance;
@@ -687,7 +688,7 @@ public function getCustomerGoalsOrderDetails(Request $request)
     public function CustomerFundSelection(Request $request)
    {
       $fundselection = $request->json()->all();
-      // dd($fundselection);
+
       foreach ($fundselection as $key => $value) {
         // print_r($value);
         $validator = Validator::make($value, [
@@ -708,8 +709,18 @@ public function getCustomerGoalsOrderDetails(Request $request)
       }
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+
+      $newFunds = array_column($fundselection, 'fundid');
+     $fundaddedData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$value['customergoalid']);
+     $addedFunds = array_column($fundaddedData, 'fundid');
+    $removeFundsArr = array_diff($addedFunds,$newFunds);
+    if($removeFundsArr)
+    {
+      // dd($removeFundsArr);
+      $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$value['customergoalid'],$removeFundsArr);
+    }
       $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
-     // print_r($checkFund);
+     // dd($checkFund);
         $purchaseArr = array("L","S");
       if(empty($checkFund))
       {
@@ -719,7 +730,6 @@ public function getCustomerGoalsOrderDetails(Request $request)
       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
       if($orderstatus)
       {
-        //dd($orderstatus);
           $reqData1['fundid'] = $value['fundid'];
           $reqData1['purchasetype'] = $value['purchasetype'];
           $reqData1['customergoalid'] = $value['customergoalid'];
@@ -772,7 +782,10 @@ public function getCustomerGoalsOrderDetails(Request $request)
      {
       $status = "Fund Already Exists";
      }*/
-
+   }
+   if(empty($status))
+   {
+     $status = "fund selection added Successfully";
    }
    return response()->json([
               'fundselection' => $status

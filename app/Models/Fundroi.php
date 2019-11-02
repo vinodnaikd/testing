@@ -48,9 +48,14 @@ public $timestamps = false;
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$IdsArray['customerid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
     }
 
- public function getFundLumpsumRedemption($customerid,$fundid,$goalid)
+    public function getFundLumpsumRedemption($customerid,$fundid,$goalid)
     {
       return $this->select(DB::raw('SUM(customerorderdetailpretran.lumpsumamount) as amount'))->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('purchasetype',"L")->get()->first();
+    }
+
+    public function getAddedFunds($customerid,$goalid)
+    {
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('customergoalid',$goalid)->groupby('fundid')->get()->toArray();
     }
 
     public function getFundSipRedemption($customerid,$fundid,$goalid)
@@ -76,5 +81,11 @@ public $timestamps = false;
     public function updateSipModifiedData($arr,$IdsArray)
     {
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype','=','S')->update($arr);
+    }
+
+    public function RemoveCustomerFunds($customerid,$customergoalid,$fundid)
+    {
+      // dd($fundid);
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid','=',$customerid)->where('customergoalid','=',$customergoalid)->whereIn('fundid',$fundid)->delete();
     }
 }
