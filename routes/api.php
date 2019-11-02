@@ -53,7 +53,8 @@ Route::post('/v1/users/login', 'UserController@login');
     Route::post('/v1/users/register', 'UserProfileController@Register');
     Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
- Route::group(['middleware' => ['jwt.verify']], function() {
+     // Jwt Authentication
+ // Route::group(['middleware' => ['jwt.verify']], function() {
 //Bank Routes
    // Route::get('/v1/users/reports/getquestions', 'QuestionController@show');
 
@@ -263,7 +264,9 @@ Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 //{
 //    Route::post('/signup', 'UserController@signup');
 //});
-});
+// Jwt Authentication
+// });
+// End
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/

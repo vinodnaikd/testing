@@ -215,12 +215,8 @@ class GoalController extends Controller
         $assests = $this->fundclass->getFundClassAssestType();
         $assestsArray = array();
         $assVal = 100/count($assests);
-
-        foreach ($assests as $key => $value) {
-            $assval[$value['assettype']] = $value['assettype'];
-           $assval[$value['assettype']] = $assVal;
-        }
-        array_push($assestsArray,$assval);
+        //print_r($assests);exit();
+        
         $mytime = Carbon::now();
          $goaldate = $data['createdutcdatetime'];
         $ts1 = strtotime($data['createdutcdatetime']);
@@ -265,6 +261,38 @@ class GoalController extends Controller
         $growth = 0;
        $bargrowth = 0;
        }
+
+       foreach ($assests as $key => $value) {
+          if($value['assettype'] == "Debt")
+          {
+            $assval1[$value['assettype']] = $value['assettype'];
+           $assval1[$value['assettype']] = $assVal;
+           $assval1[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           array_push($assestsArray,$assval1);
+          }
+            if($value['assettype'] == "Equity")
+          {
+            $assval2[$value['assettype']] = $value['assettype'];
+           $assval2[$value['assettype']] = $assVal;
+           $assval2[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           array_push($assestsArray,$assval2);
+          }
+          if($value['assettype'] == "Liquid")
+          {
+            $assval3[$value['assettype']] = $value['assettype'];
+           $assval3[$value['assettype']] = $assVal;
+           $assval3[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           array_push($assestsArray,$assval3);
+          }
+          if($value['assettype'] == "Gold")
+          {
+            $assval4[$value['assettype']] = $value['assettype'];
+           $assval4[$value['assettype']] = $assVal;
+           $assval4[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           array_push($assestsArray,$assval4);
+          }
+        }
+
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
 
