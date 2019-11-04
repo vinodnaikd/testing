@@ -105,6 +105,7 @@ Route::post('/v1/users/allocateuserfunds', 'GoalController@getGoalsWealthListWit
 Route::post('/v1/users/customeraddfund', 'GoalController@CustomerNewFundSelection');
 Route::post('/v1/users/getredeemcurrentinvest', 'GoalController@getGoalsWealthCurrInvest');
 Route::post('/v1/users/userpartialredemption', 'GoalController@getGoalsWealthPartialFunds');
+Route::post('/v1/users/usernewgoals', 'GoalController@getNewUserAddedGoals');
 Route::post('/v1/users/adduserredemption', 'GoalController@customerFundsRedemption');
 Route::post('/v1/users/userredemptionsummary', 'GoalController@getRedemptionSummary');
 Route::post('/v1/users/usersipredemptionsummary', 'GoalController@getSipRedemptionSummary');

@@ -580,6 +580,40 @@ class GoalController extends Controller
         ], 200);
     }
 
+
+    public function getNewUserAddedGoals(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
+        dd(array_column($customerGoals,'customergoalId'));
+        $goalwealth = array();
+        foreach ($customerGoals as $key => $value) {
+           $gw['goalname'] = $value['goalname'];
+           $gw['goalid'] = $value['customergoalId'];
+           $gw['futurecost'] = $value['futurecost'];
+           $gw['totalcurrentvalue'] = $value['totalcurrentvalue'];
+           $gw['goalpriority'] = $value['goalpriority'];
+           $gw['year'] = floor($value['timeframe']/12);
+           $gw['month'] = $value['timeframe']%12;
+           $gw['sipamount'] = $value['sipamount'];
+           $gw['lumpsumamount'] = $value['lumpsumamount'];
+           array_push($goalwealth, $gw);
+        }
+       return response()->json([
+          "Goals" => $goalwealth
+        ], 200);
+    }
+
+
     public function getGoalsWealthListWithId(Request $request)
     {
         // dd($request->json()->all());
