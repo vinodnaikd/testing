@@ -86,7 +86,6 @@ class GoalController extends Controller
             ], 400);
         }
     }
-    // dd($request['customergoalid']);
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
        
         $reqData['customerid'] = $getCustomerInfo['customerid'];
@@ -97,6 +96,28 @@ class GoalController extends Controller
         $reqData['goalpriority'] = $request['goalpriority'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
+        if($request['priority'] == "priority")
+        {
+          $goalListData = $this->goals->getGoals($request['customergoalid']);
+           $goalId = $this->goals->getGoalIdBasedOnPriority($request['goalpriority'],$getCustomerInfo['customerid']);
+                // dd($goalId);
+                //dd($goalId['goalpriority'].''.$goalListData[0]['goalpriority']);
+                $reqData1['goalpriority'] = $reqData['goalpriority'];
+                // dd($reqData1['goalpriority']);
+                 $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);
+                  if($goalData)
+                  {
+                     $reqData2['goalpriority'] = $goalListData[0]['goalpriority'];
+                    $goalData = $this->goals->UpdateCustomerGoals($goalId['customergoalid'],$reqData2);
+                    $goalId = $request['customergoalid'];
+                    $status = "Goal Updated Successfully";
+                  }
+                  $goalId = $request['customergoalid'];
+                    $status = "Goal Updated Successfully";
+                  // $status = "Goal Updated Successfully";
+        }
+        else
+        {
         if($request['customergoalid'])
         {
             $goalListData = $this->goals->getGoals($request['customergoalid']);
@@ -148,7 +169,8 @@ class GoalController extends Controller
              $goalId = $reqData['customergoalid'];
              $status = "Goal Added Successfully";
         }
-        if($goalId)
+      }
+      if($goalId)
         {
             $goalListData = $this->goals->getGoals($goalId);
             return response()->json([
@@ -594,7 +616,14 @@ class GoalController extends Controller
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
-        dd(array_column($customerGoals,'customergoalId'));
+        $customerNewGoals = $this->fundroi->getUserNewGoals($getCustomerInfo['customerid']);
+        
+        $goalsNew = array_column($customerNewGoals,'customergoalid');
+        $goalsExisted = array_column($customerGoals,'customergoalId');
+        $userNewGoals = array_diff($goalsNew,$goalsExisted);
+        // dd($userNewGoals);
+       /* $GoalsData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$);*/
+        
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];

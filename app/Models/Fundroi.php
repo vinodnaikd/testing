@@ -58,6 +58,16 @@ public $timestamps = false;
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('customergoalid',$goalid)->groupby('fundid')->get()->toArray();
     }
 
+    public function getUserNewGoalsList($customerid,$goalid)
+    {
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('customergoalid',$goalid)->groupby('fundid')->get()->toArray();
+    }
+
+    public function getUserNewGoals($customerid)
+    {
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->groupby('customerorderdetailpretran.customergoalid')->get()->toArray();
+    }
+
     public function getFundSipRedemption($customerid,$fundid,$goalid)
     {
       return $this->select(DB::raw('SUM(customerorderdetailpretran.sipamount) as amount'))->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('purchasetype',"S")->get()->first();
