@@ -214,6 +214,7 @@ class GoalController extends Controller
         $data = $this->goals->getGoalsById($request['goal_id'],$getCustomerInfo['customerid']);
         $assests = $this->fundclass->getFundClassAssestType();
         $assestsArray = array();
+        $assestsArray2 = array();
         $assVal = 100/count($assests);
         //print_r($assests);exit();
         
@@ -268,36 +269,57 @@ class GoalController extends Controller
             $assval1[$value['assettype']] = $value['assettype'];
            $assval1[$value['assettype']] = $assVal;
            $assval1[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           //Sip
+           $assval22[$value['assettype']] = $value['assettype'];
+           $assval22[$value['assettype']] = $assVal;
+           $assval22[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval1);
+           array_push($assestsArray2,$assval22);
           }
             if($value['assettype'] == "Equity")
           {
             $assval2[$value['assettype']] = $value['assettype'];
            $assval2[$value['assettype']] = $assVal;
            $assval2[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           //Sip
+           $assval23[$value['assettype']] = $value['assettype'];
+           $assval23[$value['assettype']] = $assVal;
+           $assval23[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval2);
+           array_push($assestsArray2,$assval23);
           }
           if($value['assettype'] == "Liquid")
           {
             $assval3[$value['assettype']] = $value['assettype'];
            $assval3[$value['assettype']] = $assVal;
            $assval3[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           //Sip
+           $assval24[$value['assettype']] = $value['assettype'];
+           $assval24[$value['assettype']] = $assVal;
+           $assval24[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval3);
+           array_push($assestsArray2,$assval24);
           }
           if($value['assettype'] == "Gold")
           {
             $assval4[$value['assettype']] = $value['assettype'];
            $assval4[$value['assettype']] = $assVal;
            $assval4[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           //Sip
+           $assval25[$value['assettype']] = $value['assettype'];
+           $assval25[$value['assettype']] = $assVal;
+           $assval25[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval4);
+           array_push($assestsArray2,$assval25);
           }
+
         }
 
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
 
        $goaldetails['Lumpsum'] = $assestsArray;
-       $goaldetails['Sip'] = $assestsArray;
+       $goaldetails['Sip'] = $assestsArray2;
        return response()->json([
           "GoalsDetails" => $goaldetails
         ], 200);
