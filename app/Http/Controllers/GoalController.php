@@ -622,14 +622,19 @@ class GoalController extends Controller
         $goalsExisted = array_column($customerGoals,'customergoalId');
         $userNewGoals = array_diff($goalsNew,$goalsExisted);
         // dd($userNewGoals);
-       /* $GoalsData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$);*/
-        
+        $GoalsData = $this->fundroi->getUserNewGoalsList($getCustomerInfo['customerid'],$userNewGoals);
+        // dd($GoalsData);
         $goalwealth = array();
-        foreach ($customerGoals as $key => $value) {
+        if($GoalsData)
+        {
+        foreach ($GoalsData as $key => $value) {
            $gw['goalname'] = $value['goalname'];
-           $gw['goalid'] = $value['customergoalId'];
+           $gw['goalid'] = $value['customergoalid'];
            $gw['futurecost'] = $value['futurecost'];
+           if(isset($value['totalcurrentvalue']))
            $gw['totalcurrentvalue'] = $value['totalcurrentvalue'];
+           else
+           $gw['totalcurrentvalue'] = "";
            $gw['goalpriority'] = $value['goalpriority'];
            $gw['year'] = floor($value['timeframe']/12);
            $gw['month'] = $value['timeframe']%12;
@@ -637,6 +642,11 @@ class GoalController extends Controller
            $gw['lumpsumamount'] = $value['lumpsumamount'];
            array_push($goalwealth, $gw);
         }
+      }
+      else
+      {
+        $goalwealth = [];
+      }
        return response()->json([
           "Goals" => $goalwealth
         ], 200);

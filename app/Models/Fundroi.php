@@ -60,7 +60,7 @@ public $timestamps = false;
 
     public function getUserNewGoalsList($customerid,$goalid)
     {
-      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('customergoalid',$goalid)->groupby('fundid')->get()->toArray();
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->join('customergoal as g','g.customergoalid','=','customerorderdetailpretran.customergoalid')->where('op.customerid',$customerid)->whereIn('customerorderdetailpretran.customergoalid',$goalid)->groupby('fundid')->get()->toArray();
     }
 
     public function getUserNewGoals($customerid)
