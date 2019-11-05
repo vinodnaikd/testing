@@ -191,8 +191,12 @@ class UserProfileController extends Controller
          $esn['userid'] = $reqData1['userid'];
          $esn['type'] = "";
         // 
+         if($customerData)
+         {
+         $reqData['mobileno'];
           $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
     $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");
+         }
      }
      $data['success']="User Created Successfully";
         }
