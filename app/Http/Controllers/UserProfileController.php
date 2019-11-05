@@ -593,8 +593,9 @@ class UserProfileController extends Controller
           {
        
        $nomineeData = $request->json()->all();
-      // dd(count($nomineeData));
+      
        $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee']['userid']);
+       // dd($getCustomerInfo['customerid']);
           foreach ($nomineeData as $key => $value) {
          $value['customerid'] = $getCustomerInfo['customerid'];
         /* $value['addressline1'] = $value['nominee_address']['addressline1'];
@@ -606,12 +607,13 @@ class UserProfileController extends Controller
          //$value['customerid'] = 1;
          if($value['Name'])
          {
+          // dd($value);
          $validator = Validator::make($value, [
           'Name' => 'required|string|max:255',
           //'guardian_name' => 'required|string|max:100',
           'relationship' => 'required|string|max:100',
           'percentage' => 'required|string|max:255',
-          'customerid' => 'required|integer|max:100',
+          //'customerid' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
