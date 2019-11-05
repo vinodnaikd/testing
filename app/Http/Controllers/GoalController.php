@@ -132,6 +132,8 @@ class GoalController extends Controller
                   $reqData1['goalpriority'] = $reqData['goalpriority'];
                  $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData);
                  }
+                 $goalId = $request['customergoalid'];
+                 $status = "Goal Updated Successfully";
                 /* $goalData = $this->goals->UpdateCustomerGoals($request['customergoalid'],$reqData1);*/
             }
             else
@@ -164,7 +166,7 @@ class GoalController extends Controller
             {
                 $reqData['goalpriority'] = 1;
             }
-             $reqData['customergoalid'] = "GL456-SSD5-DDDD-FDGJ-DDSF-KJSDDF35".mt_rand(10,100);
+             $reqData['customergoalid'] = "GL456-SSD5-DDDD-FDGJ-DDSF-".rand()."KJSDF35675".rand();
             $goalData = $this->goals->InsertCustomerGoals($reqData);
              $goalId = $reqData['customergoalid'];
              $status = "Goal Added Successfully";
