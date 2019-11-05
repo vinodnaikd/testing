@@ -191,8 +191,8 @@ class UserProfileController extends Controller
          $esn['userid'] = $reqData1['userid'];
          $esn['type'] = "";
         // 
-          /*$msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
-    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");*/
+          $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
+    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");
      }
      $data['success']="User Created Successfully";
         }
@@ -265,12 +265,13 @@ class UserProfileController extends Controller
 
              //User Information...
              $userData = $this->usersprofile->getUserDetails($request['email'],$checkotp['password']);
+
       // print_r($userData);die;
         if($userData)
      {
       $arr['mobileverified'] = 1;
-      $updatemblotp = $this->usersprofile->UpdateUser($arr,$userData[0]['userid']);
-      $getCustomerInfo = $this->customer->getUserDetails($userData[0]['userid']);
+      $updatemblotp = $this->usersprofile->UpdateUser($arr,$userData['userid']);
+      $getCustomerInfo = $this->customer->getUserDetails($userData['userid']);
       $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
       $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
       $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
@@ -299,12 +300,12 @@ class UserProfileController extends Controller
            }
            else
            {
-               $redirectionurl = "nominee";
+               $redirectionurl = "addnominee";
            }         
            
         // $token = JWTAuth::fromUser($userData);
         // dd($token);
-           if($userData[0]['mobileverified'] == 0)
+           if($userData['mobileverified'] == 0)
             $otpstatus = "false";
           else
             $otpstatus = "true";
@@ -768,16 +769,9 @@ class UserProfileController extends Controller
             } catch (JWTException $e) {
                 return response()->json(['error' => 'could_not_create_token'], 500);
             }
-              // $currentUser = Auth::user();
-// print_r($currentUser);exit;
             $token = response()->json(compact('token'));
-        /* $user = User::first();
-         print_r($user);
-         die;*/
-      // $userData = $this->usersprofile->getUserDetails($email,$password);
+       
        $userData = Auth::user();
-       // print_r($userData['userid']);
-      // print_r($userData[0]['mobileverified']);die;
         if($userData)
      {
       $getCustomerInfo = $this->customer->getUserDetails($userData['userid']);
@@ -1206,7 +1200,7 @@ class UserProfileController extends Controller
     {
          $validator = Validator::make($request->json()->all(), [
             'email' => 'required|email|max:255',
-            'old_password' => 'required|string|max:255',
+            'password' => 'required|string|max:255',
             'new_password' => 'min:6|required_with:conform_password|same:conform_password',
             'conform_password' => 'min:6',
         ]);
@@ -1218,7 +1212,19 @@ class UserProfileController extends Controller
         }
         $reqData['email'] = $request['email'];
         $reqData['password'] = $request['new_password'];
-        $userData = $this->usersprofile->getUserDetails($request['email'],$request['old_password']);
+
+            $credentials = $request->only('email', 'password');
+            try {
+                if (! $token = JWTAuth::attempt($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
+            $token = response()->json(compact('token'));
+       $userData = Auth::user();
+       // dd($userData);
+        /*$userData = $this->usersprofile->getUserDetails($request['email'],$request['old_password']);*/
         if($userData)
      {
         $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['email']);

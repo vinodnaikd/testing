@@ -289,10 +289,12 @@ class GoalController extends Controller
           if($value['assettype'] == "Debt")
           {
             $assval1[$value['assettype']] = $value['assettype'];
+            $assval1['assettype'] = "Debt";
            $assval1[$value['assettype']] = $assVal;
            $assval1[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
            $assval22[$value['assettype']] = $value['assettype'];
+           $assval22['assettype'] = "Debt";
            $assval22[$value['assettype']] = $assVal;
            $assval22[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval1);
@@ -300,11 +302,13 @@ class GoalController extends Controller
           }
             if($value['assettype'] == "Equity")
           {
-            $assval2[$value['assettype']] = $value['assettype'];
+           $assval2['assettype'] = "Equity";
+           $assval2[$value['assettype']] = $value['assettype'];
            $assval2[$value['assettype']] = $assVal;
            $assval2[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
            $assval23[$value['assettype']] = $value['assettype'];
+           $assval23['assettype'] = "Equity";
            $assval23[$value['assettype']] = $assVal;
            $assval23[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval2);
@@ -312,11 +316,13 @@ class GoalController extends Controller
           }
           if($value['assettype'] == "Liquid")
           {
-            $assval3[$value['assettype']] = $value['assettype'];
+           $assval3[$value['assettype']] = $value['assettype'];
+           $assval3['assettype'] = "Liquid";
            $assval3[$value['assettype']] = $assVal;
            $assval3[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
            $assval24[$value['assettype']] = $value['assettype'];
+           $assval24['assettype'] = "Liquid";
            $assval24[$value['assettype']] = $assVal;
            $assval24[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval3);
@@ -325,10 +331,12 @@ class GoalController extends Controller
           if($value['assettype'] == "Gold")
           {
             $assval4[$value['assettype']] = $value['assettype'];
+            $assval4['assettype'] = "Gold";
            $assval4[$value['assettype']] = $assVal;
            $assval4[$value['assettype'].'_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
            $assval25[$value['assettype']] = $value['assettype'];
+           $assval25['assettype'] = "Gold";
            $assval25[$value['assettype']] = $assVal;
            $assval25[$value['assettype'].'_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval4);
