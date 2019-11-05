@@ -590,7 +590,7 @@ class UserProfileController extends Controller
        
        $nomineeData = $request->json()->all();
       // dd(count($nomineeData));
-       $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee1']['userid']);
+       $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee']['userid']);
           foreach ($nomineeData as $key => $value) {
          $value['customerid'] = $getCustomerInfo['customerid'];
         /* $value['addressline1'] = $value['nominee_address']['addressline1'];
