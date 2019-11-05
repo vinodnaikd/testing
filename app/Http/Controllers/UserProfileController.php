@@ -803,7 +803,7 @@ class UserProfileController extends Controller
            }
            else
            {
-               $redirectionurl = "nominee";
+               $redirectionurl = "addnominee";
            }         
            
         // $token = JWTAuth::fromUser($userData);
