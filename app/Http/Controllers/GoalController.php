@@ -288,7 +288,8 @@ class GoalController extends Controller
        }
 
        foreach ($assests as $key => $value) {
-          if($value['assettype'] == "Debt")
+          $assval[$value['assettype']] = $value['assettype'];
+-           $assval[$value['assettype']] = $assVal;          /*if($value['assettype'] == "Debt")
           {
             $assval1['assettype'] = "Debt";
            $assval1['value'] = $assVal;
@@ -335,15 +336,15 @@ class GoalController extends Controller
            $assval25['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval4);
            array_push($assestsArray2,$assval25);
-          }
+          }*/
 
         }
-
+array_push($assestsArray,$assval);
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
 
        $goaldetails['Lumpsum'] = $assestsArray;
-       $goaldetails['Sip'] = $assestsArray2;
+       $goaldetails['Sip'] = $assestsArray;
        return response()->json([
           "GoalsDetails" => $goaldetails
         ], 200);
