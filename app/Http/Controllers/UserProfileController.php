@@ -826,7 +826,7 @@ class UserProfileController extends Controller
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
               'otpstatus' => $otpstatus,
-                //'jwtToken' => $token,
+                'jwtToken' => $token,
                
           ], 200); 
         }
