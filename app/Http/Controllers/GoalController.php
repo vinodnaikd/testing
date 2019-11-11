@@ -233,16 +233,18 @@ class GoalController extends Controller
           $goalAmount += $value['goalcost'];
           if($goalAmount <= $surplusData['total_surplus'])
           {
-            array_push($GoalsAchArr,$value);
+            $value['goaltype'] = "Achievable";
+            array_push($GoalsArr,$value);
           }
           else
           {
-            array_push($GoalsFutureArr,$value);
+            $value['goaltype'] = "Future";
+            array_push($GoalsArr,$value);
           }
           
         }
-        $GoalsArr['Achievable'] = $GoalsAchArr;
-        $GoalsArr['Future'] = $GoalsFutureArr;
+       // $GoalsArr['Achievable'] = $GoalsAchArr;
+       // $GoalsArr['Future'] = $GoalsFutureArr;
         // print_r($goalAmount);
 	   return response()->json([
           "GoalsList" => $GoalsArr
