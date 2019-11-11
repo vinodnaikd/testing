@@ -30,7 +30,7 @@ public $timestamps = false;
     }
     public function getCustomerSurplusCalculationDetails($customerId)
     {
-      return $this->where('customerid',$customerId)->get()->toArray();
+      return $this->where('customerid',$customerId)->get()->first();
     }
     
 }

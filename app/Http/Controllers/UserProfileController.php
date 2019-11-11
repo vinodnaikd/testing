@@ -699,7 +699,7 @@ class UserProfileController extends Controller
           'country' => 'required|string|max:100',
           'state' => 'required|string|max:100',
           'pincode' => 'required|string|max:100',
-          'userid' => 'required|integer|max:100',
+          'userid' => 'required|string|max:100',
           'address_type' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
@@ -1217,7 +1217,7 @@ class UserProfileController extends Controller
             ], 400);
         }
         $reqData['email'] = $request['email'];
-        $reqData['password'] = $request['new_password'];
+        $reqData['password'] = bcrypt($request['new_password']);
 
             $credentials = $request->only('email', 'password');
             try {
@@ -1279,8 +1279,8 @@ class UserProfileController extends Controller
         
         $validator = Validator::make($request->json()->all(), [
             'email' => 'required|email|max:255',
-            'new_password' => 'min:6|required_with:conform_password|same:conform_password',
-            'conform_password' => 'min:6',
+            'new_password' => 'min:8|required_with:conform_password|same:conform_password',
+            'conform_password' => 'min:8',
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -1289,7 +1289,7 @@ class UserProfileController extends Controller
             ], 400);
         }
         $reqData['email'] = $request['email'];
-        $reqData['password'] = $request['new_password'];
+        $reqData['password'] = bcrypt($request['new_password']);
         $updateUserPwd = $this->usersprofile->UpdateUserPassword($reqData,$request['email']);
         if($updateUserPwd)
         {

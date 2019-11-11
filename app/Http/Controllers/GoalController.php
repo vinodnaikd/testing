@@ -14,6 +14,7 @@ use App\Models\FundRecord;
 use App\Models\FundProducts;
 use App\Models\Fundroi;
 use App\Models\WealthAllocation;
+use App\Models\SurplusCalculation;
 class GoalController extends Controller
 {
     public function __construct(
@@ -26,7 +27,8 @@ class GoalController extends Controller
         FundRecord $fundrecord,
         FundProducts $fundproducts,
         Fundroi $fundroi,
-        WealthAllocation $wealthallocation
+        WealthAllocation $wealthallocation,
+        SurplusCalculation $surpluscalculation
     )
     {
         $this->goals = $goals;
@@ -39,6 +41,7 @@ class GoalController extends Controller
         $this->fundproducts = $fundproducts;
         $this->fundroi = $fundroi;
         $this->wealthallocation = $wealthallocation;
+        $this->surpluscalculation = $surpluscalculation;
     }
     /**
      * Display a listing of the resource.
@@ -215,10 +218,34 @@ class GoalController extends Controller
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $data = $this->goals->getGoalsList($getCustomerInfo['customerid']);
-	   
+        $Goalsdata = $this->goals->getGoalsList($getCustomerInfo['customerid']);
+        $surplusData = $this->surpluscalculation->getCustomerSurplusCalculationDetails($getCustomerInfo['customerid']);
+        // dd($surplusData['total_surplus']);
+         $price = array_column($Goalsdata, 'goalcost');
+         array_multisort($price, SORT_ASC, $Goalsdata);
+        $GoalsArr = array();
+        $GoalsAchArr = array();
+        $GoalsFutureArr = array();
+        $goalAmount = "0";
+        foreach ($Goalsdata as $key => $value) {
+          //echo $value['goalcost'];
+          // if()
+          $goalAmount += $value['goalcost'];
+          if($goalAmount <= $surplusData['total_surplus'])
+          {
+            array_push($GoalsAchArr,$value);
+          }
+          else
+          {
+            array_push($GoalsFutureArr,$value);
+          }
+          
+        }
+        $GoalsArr['Achievable'] = $GoalsAchArr;
+        $GoalsArr['Future'] = $GoalsFutureArr;
+        // print_r($goalAmount);
 	   return response()->json([
-          "GoalsList" => $data
+          "GoalsList" => $GoalsArr
         ], 200);
     }
 
