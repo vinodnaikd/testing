@@ -19,7 +19,7 @@ class FundClass extends Model
    
     public function getFundClassAssestType()
     {
-        return $this->select('assettype')->groupBy('assettype')->get()->toArray();
+        return $this->select('assettype')->where('assettype','!=','Hybrid')->where('assettype','!=','Other')->groupBy('assettype')->get()->toArray();
     }
     public function getFundClassSubcategory()
     {
