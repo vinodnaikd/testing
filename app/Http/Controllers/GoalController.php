@@ -371,12 +371,85 @@ class GoalController extends Controller
 
         }
        //array_push($assestsArray,$assval);
-       $goaldetails['growth'] = $growth;
-       $goaldetails['bargrowth'] = $bargrowth;
-       $goaldetails['Lumpsum_Amount'] = "0";
+        //dd($assestsArray);
+        //$allocationData = $request->json()->all();
+        $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
+        if(!$goalsData)
+        {
+        for($i=1;$i<=2;$i++)
+        {
+          // echo $i;
+        foreach ($assestsArray as $key => $value) {
+           
+        //$getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
+        $reqData['goalid'] = $request['goal_id'];
+        $reqData['customerid'] = $getCustomerInfo['customerid'];
+        if($i == 1)
+        {
+          $reqData['asset'] = $value['assettype'];
+        $reqData['asset_value'] = 0;
+        $reqData['asset_percentage'] = $value['value'];
+        $reqData['lumpsum_sip'] = 0;
+          $reqData['purchase_type'] = "L";
+         
+        }
+        else
+        {
+          $reqData['asset'] = $value['assettype'];
+        $reqData['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
+        $reqData['asset_percentage'] = $value['value'];
+        $reqData['lumpsum_sip'] = $goaldetails['monthcommitment'];
+          $reqData['purchase_type'] = "S";
+           $reqData['duration'] = $goaldetails['timeframe'];
+        }
+        
+            $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
+           // $status = "Goals Allocation Added Successfully";
+    }
+ }
        $goaldetails['Lumpsum'] = $assestsArray;
        $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
+       $goaldetails['Lumpsum_Amount'] = "0";
        $goaldetails['Sip'] = $assestsArray2;
+}
+else
+{
+  $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
+  $goalsLumSumm = array();
+       $goalsSipSumm = array();
+       foreach ($customerGoalsDetails as $key => $value) {
+        if($value['purchase_type'] == "L")
+        {
+          $goals['lumpsum_amount'] = $value['lumpsum_sip'];
+          $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet1['asset'] = $value['asset'];
+           $goalsdet1['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           array_push($goalsLumSumm, $goalsdet1);
+        }
+        else
+        {
+          $goals['sip_amount'] = $value['lumpsum_sip'];
+          $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet['asset'] = $value['asset'];
+           $goalsdet['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           array_push($goalsSipSumm, $goalsdet);
+        }
+           
+       }
+       /*$goals['Lumpsum'] = $goalsLumSumm;
+       $goals['Sip'] = $goalsSipSumm;*/
+
+       $goaldetails['Lumpsum'] = $goalsLumSumm;
+       $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
+       $goaldetails['Lumpsum_Amount'] = "0";
+       $goaldetails['Sip'] = $goalsSipSumm;
+       
+}
+       $goaldetails['growth'] = $growth;
+       $goaldetails['bargrowth'] = $bargrowth;
+       
        return response()->json([
           "GoalsDetails" => $goaldetails
         ], 200);
@@ -506,6 +579,7 @@ class GoalController extends Controller
             'userid' => 'required|string|max:255',
             'asset' => 'required|string|max:255',
             'asset_value' => 'required|string|max:255',
+            'asset_percentage' => 'required|string|max:255',
             'purchase_type' => 'required|string|max:255',
             'lum_sip'=> 'required|string|max:255',
         ]);
@@ -520,12 +594,13 @@ class GoalController extends Controller
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['asset'] = $value['asset'];
         $reqData['asset_value'] = $value['asset_value'];
+        $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['purchase_type'] = $value['purchase_type'];
         $reqData['lumpsum_sip'] = $value['lum_sip'];
         if($reqData['purchase_type'] == "S")
         {
-        $reqData['start_date'] = $value['start_date'];
-        $reqData['end_date'] = $value['end_date'];
+        $reqData['duration'] = $value['duration'];
+        //$reqData['end_date'] = $value['end_date'];
         }
         
         if($value['goal_ass_id'])
@@ -562,6 +637,7 @@ class GoalController extends Controller
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
 
             $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goalid']);
+            // dd($customerGoalsDetails);
         if($customerGoalsDetails)
     {
        
@@ -585,6 +661,7 @@ class GoalController extends Controller
           $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet1['asset'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
            array_push($goalsLumSumm, $goalsdet1);
         }
         else
@@ -593,6 +670,7 @@ class GoalController extends Controller
           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet['asset'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
            array_push($goalsSipSumm, $goalsdet);
         }
            
