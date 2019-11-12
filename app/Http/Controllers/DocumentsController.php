@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Documents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Customer;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
 class DocumentsController extends Controller
 {
-    function __construct(Documents $documents) {
+    function __construct(Documents $documents,Customer $customer) {
         $this->documents = $documents;
+        $this->customer = $customer;
+
     }
     /**
      * Display a listing of the resource.
@@ -43,10 +46,11 @@ class DocumentsController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'document' => 'mimes:jpeg,jpg,png',
-            'customerid' => 'required | integer',
+            //'document' => 'mimes:jpeg,jpg,png',
+            'userid' => 'required | string',
             'documenttypeid' => 'required | integer',
-            'documentname' => 'required | string '
+            'documentname' => 'required | string',
+            'document' => 'required | string'
         );
          $validator = Validator::make($request->all(),$rules);
         if($validator->fails()) {
@@ -55,15 +59,31 @@ class DocumentsController extends Controller
                 'messages' => $validator->messages()
             ], 400);
         }
-        
-        $file = $request->file('document');
-        $fileName = $file->getClientOriginalName();
-        $destinationPath = public_path().'/'.$request['customerid'];
-        $file->move($destinationPath,$fileName);
-        chmod($destinationPath,0777);
-        $reqData['documentpath']=$destinationPath.'/'.$fileName;
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $image_parts = explode(";base64,", $request['document']);
+          $image_type_aux = explode("image/", $image_parts[0]);
+          $image_type = $image_type_aux[0];
+          $image_base64 = base64_decode($image_parts[0]);
+          //Image Name
+          $fileName=uniqid().'.png';
+
+        // $file = $request->file('document');
+        // $fileName = $file->getClientOriginalName();
+          // $fileName = $file;
+        // dd($file);
+        $file_pointer = public_path().'/usersdocuments/'.$request['userid'];
+           if (!file_exists($file_pointer)) {
+              $folder=mkdir($file_pointer, 0777,true);
+          }
+          //Image Path with name
+          $file = $file_pointer.'/'.$fileName;
+          //Save file in path
+          file_put_contents($file, $image_base64);
+     /*   $file->move($destinationPath,$fileName);
+        chmod($destinationPath,0777);*/
+        $reqData['documentpath']=$file;
         $reqData['documentname'] = $request['documentname'];
-        $reqData['customerid'] = $request['customerid'];
+        $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['documenttypeid'] = $request['documenttypeid'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();

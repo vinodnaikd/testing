@@ -293,6 +293,7 @@ class GoalController extends Controller
        $goaldetails['year'] = floor($data['timeframe']/12);
        $goaldetails['month'] = $data['timeframe']%12;
        $goaldetails['timetaken'] = $diff;
+       $goaldetails['timeframe'] = $data['timeframe'];
        $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goal_id']);
 
        if($assetsData)
@@ -318,7 +319,8 @@ class GoalController extends Controller
 
        foreach ($assests as $key => $value) {
           $assval[$value['assettype']] = $value['assettype'];
--           $assval[$value['assettype']] = $assVal;          /*if($value['assettype'] == "Debt")
+           $assval[$value['assettype']] = $assVal;          
+        if($value['assettype'] == "Debt")
           {
             $assval1['assettype'] = "Debt";
            $assval1['value'] = $assVal;
@@ -365,15 +367,16 @@ class GoalController extends Controller
            $assval25['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval4);
            array_push($assestsArray2,$assval25);
-          }*/
+          }
 
         }
-array_push($assestsArray,$assval);
+       //array_push($assestsArray,$assval);
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
-
+       $goaldetails['Lumpsum_Amount'] = "0";
        $goaldetails['Lumpsum'] = $assestsArray;
-       $goaldetails['Sip'] = $assestsArray;
+       $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
+       $goaldetails['Sip'] = $assestsArray2;
        return response()->json([
           "GoalsDetails" => $goaldetails
         ], 200);
