@@ -322,49 +322,57 @@ class GoalController extends Controller
            $assval[$value['assettype']] = $assVal;          
         if($value['assettype'] == "Debt")
           {
-            $assval1['assettype'] = "Debt";
-           $assval1['value'] = $assVal;
-           $assval1['asset_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           $assval1['goal_ass_id'] = "";
+           $assval1['assettype'] = "Debt";
+           $assval1['asset_value'] = $assVal;
+           $assval1['asset_percentage'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
+           $assval22['goal_ass_id'] = "";
            $assval22['assettype'] = "Debt";
-           $assval22['value'] = $assVal;
-           $assval22['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval22['asset_value'] = $assVal;
+           $assval22['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval1);
            array_push($assestsArray2,$assval22);
           }
             if($value['assettype'] == "Equity")
           {
+           $assval2['goal_ass_id'] = "";
            $assval2['assettype'] = "Equity";
-           $assval2['value'] = $assVal;
-           $assval2['asset_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           $assval2['asset_value'] = $assVal;
+           $assval2['asset_percentage'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
+           $assval23['goal_ass_id'] = "";
            $assval23['assettype'] = "Equity";
-           $assval23['value'] = $assVal;
-           $assval23['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval23['asset_value'] = $assVal;
+           $assval23['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval2);
            array_push($assestsArray2,$assval23);
           }
           if($value['assettype'] == "Liquid")
           {
+            $assval3['goal_ass_id'] = "";
            $assval3['assettype'] = "Liquid";
-           $assval3['value'] = $assVal;
-           $assval3['asset_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           $assval3['asset_value'] = $assVal;
+           $assval3['asset_percentage'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
+           $assval24['goal_ass_id'] = "";
            $assval24['assettype'] = "Liquid";
-           $assval24['value'] = $assVal;
-           $assval24['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval24['asset_value'] = $assVal;
+           $assval24['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval3);
            array_push($assestsArray2,$assval24);
           }
           if($value['assettype'] == "Gold")
           {
+            $assval4['goal_ass_id'] = "";
             $assval4['assettype'] = "Gold";
-           $assval4['value'] = $assVal;
-           $assval4['asset_value'] = (($goaldetails['yearcommitment']*$assVal)/100);
+           $assval4['asset_value'] = $assVal;
+           $assval4['asset_percentage'] = (($goaldetails['yearcommitment']*$assVal)/100);
            //Sip
+           $assval25['goal_ass_id'] = "";
            $assval25['assettype'] = "Gold";
-           $assval25['value'] = $assVal;
-           $assval25['asset_value'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval25['asset_value'] = $assVal;
+           $assval25['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
            array_push($assestsArray,$assval4);
            array_push($assestsArray2,$assval25);
           }
@@ -422,7 +430,7 @@ else
         {
           $goals['lumpsum_amount'] = $value['lumpsum_sip'];
           $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
-           $goalsdet1['asset'] = $value['asset'];
+           $goalsdet1['assettype'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
            $goalsdet1['asset_percentage'] = $value['asset_percentage'];
            array_push($goalsLumSumm, $goalsdet1);
@@ -431,9 +439,9 @@ else
         {
           $goals['sip_amount'] = $value['lumpsum_sip'];
           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
-           $goalsdet['asset'] = $value['asset'];
+           $goalsdet['assettype'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
-           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['asset_percentage'] = $value['asset_percentage'];
            array_push($goalsSipSumm, $goalsdet);
         }
            
