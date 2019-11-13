@@ -221,23 +221,37 @@ class GoalController extends Controller
         $Goalsdata = $this->goals->getGoalsList($getCustomerInfo['customerid']);
         $surplusData = $this->surpluscalculation->getCustomerSurplusCalculationDetails($getCustomerInfo['customerid']);
         // dd($surplusData['total_surplus']);
-         $price = array_column($Goalsdata, 'goalcost');
-         array_multisort($price, SORT_ASC, $Goalsdata);
+         /*$price = array_column($Goalsdata, 'goalcost');
+         array_multisort($price, SORT_ASC, $Goalsdata);*/
         $GoalsArr = array();
         $GoalsAchArr = array();
         $GoalsFutureArr = array();
         $goalAmount = "0";
         foreach ($Goalsdata as $key => $value) {
           //echo $value['goalcost'];
-          // if()
-          $goalAmount += $value['goalcost'];
+           if($key == 0)
+          {
+            $goalAmount = $value['goalcost'];
+          }
+          else
+          {
+            $goalAmount += $value['goalcost'];
+          }
+
           if($goalAmount <= $surplusData['total_surplus'])
           {
+
+           /* if($key != 1)
+          {
+          }*/
+            //$goalAmount += $value['goalcost'];
             $value['goaltype'] = "Achievable";
             array_push($GoalsArr,$value);
           }
           else
           {
+            // unset($goalAmount);
+            $goalAmount = $goalAmount-$value['goalcost'];
             $value['goaltype'] = "Future";
             array_push($GoalsArr,$value);
           }
