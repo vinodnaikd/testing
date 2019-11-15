@@ -470,8 +470,8 @@ else
        $goals['Sip'] = $goalsSipSumm;*/
 
        $goaldetails['Lumpsum'] = $goalsLumSumm;
-       $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
-       $goaldetails['Lumpsum_Amount'] = "0";
+       $goaldetails['Sip_Amount'] = $goals['sip_amount'];
+       $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
        $goaldetails['Sip'] = $goalsSipSumm;
        
 }
