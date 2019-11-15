@@ -606,10 +606,10 @@ else
             'goalid' => 'required|string|max:255',
             'userid' => 'required|string|max:255',
             'asset' => 'required|string|max:255',
-            'asset_value' => 'required|string|max:255',
-            'asset_percentage' => 'required|string|max:255',
+            //'asset_value' => 'required|in|max:255',
+            //'asset_percentage' => 'required|string|max:255',
             'purchase_type' => 'required|string|max:255',
-            'lum_sip'=> 'required|string|max:255',
+           // 'lum_sip'=> 'required|string|max:255',
         ]);
         if($validator->fails()) {
             return response()->json([
