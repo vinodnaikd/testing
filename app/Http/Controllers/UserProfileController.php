@@ -503,7 +503,7 @@ class UserProfileController extends Controller
           'account_type' => 'required|string|max:100',
           'full_name' => 'required|string|max:100',
           'ifsc_code' => 'required|string|max:100',
-          'micr_code' => 'required|string|max:100',
+          //'micr_code' => 'required|string|max:100',
           'addressline1' => 'required|string|max:500',
           'addressline2' => 'required|string|max:500',
           'address3' => 'required|string|max:500',

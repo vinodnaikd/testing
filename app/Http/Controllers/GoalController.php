@@ -345,6 +345,7 @@ class GoalController extends Controller
            $assval22['assettype'] = "Debt";
            $assval22['asset_value'] = $assVal;
            $assval22['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval22['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval1);
            array_push($assestsArray2,$assval22);
           }
@@ -359,6 +360,7 @@ class GoalController extends Controller
            $assval23['assettype'] = "Equity";
            $assval23['asset_value'] = $assVal;
            $assval23['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval23['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval2);
            array_push($assestsArray2,$assval23);
           }
@@ -373,6 +375,7 @@ class GoalController extends Controller
            $assval24['assettype'] = "Liquid";
            $assval24['asset_value'] = $assVal;
            $assval24['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval24['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval3);
            array_push($assestsArray2,$assval24);
           }
@@ -387,6 +390,7 @@ class GoalController extends Controller
            $assval25['assettype'] = "Gold";
            $assval25['asset_value'] = $assVal;
            $assval25['asset_percentage'] = (($goaldetails['monthcommitment']*$assVal)/100);
+           $assval25['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval4);
            array_push($assestsArray2,$assval25);
           }
@@ -396,11 +400,12 @@ class GoalController extends Controller
         //dd($assestsArray);
         //$allocationData = $request->json()->all();
         $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
+        // $goalCount = count($g)
         if(!$goalsData)
         {
         for($i=1;$i<=2;$i++)
         {
-          // echo $i;
+           // echo $i;
         foreach ($assestsArray as $key => $value) {
            
         //$getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
@@ -410,7 +415,7 @@ class GoalController extends Controller
         {
           $reqData['asset'] = $value['assettype'];
         $reqData['asset_value'] = 0;
-        $reqData['asset_percentage'] = $value['value'];
+        $reqData['asset_percentage'] = $value['asset_value'];
         $reqData['lumpsum_sip'] = 0;
           $reqData['purchase_type'] = "L";
          
@@ -419,7 +424,7 @@ class GoalController extends Controller
         {
           $reqData['asset'] = $value['assettype'];
         $reqData['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
-        $reqData['asset_percentage'] = $value['value'];
+        $reqData['asset_percentage'] = $value['asset_value'];
         $reqData['lumpsum_sip'] = $goaldetails['monthcommitment'];
           $reqData['purchase_type'] = "S";
            $reqData['duration'] = $goaldetails['timeframe'];
@@ -456,6 +461,7 @@ else
            $goalsdet['assettype'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
            $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['duration'] = $value['duration'];
            array_push($goalsSipSumm, $goalsdet);
         }
            

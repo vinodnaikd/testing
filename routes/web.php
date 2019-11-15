@@ -18,3 +18,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('Forgetpasswordemail','MailController@Forgetpasswordemail');
+Route::get('resendotpemail','MailController@resendotpemail');
+Route::get('successfullyloginemail','MailController@successfullyloginemail');
+
+Route::get('changeaddress','MailController@changeaddress');
+Route::get('changemobileno','MailController@changemobileno');
+Route::get('changepassword','MailController@changepassword');
+Route::get('customersupport','MailController@customersupport');
+Route::get('kycstatus','MailController@kycstatus');
+Route::get('NACHmandate','MailController@NACHmandate');
+Route::get('newbank','MailController@newbank');
+Route::get('orderplacement','MailController@orderplacement');
+Route::get('orderstatus','MailController@orderstatus');
+Route::get('rebalancetrigger','MailController@rebalancetrigger');
+Route::get('sigupemail','MailController@sigupemail');
