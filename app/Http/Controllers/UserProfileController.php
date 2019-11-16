@@ -530,7 +530,14 @@ class UserProfileController extends Controller
         $reqData['acctype'] = $request['account_type'];
         $reqData['full_name'] = $request['full_name'];
         $reqData['ifsccode'] = $request['ifsc_code'];
+        if($request['micr_code'])
+        {
         $reqData['micr_code'] = $request['micr_code'];
+        }
+        else
+        {
+        $reqData['micr_code'] = "0";
+        }
         $reqData['address1'] = $request['addressline1'];
         $reqData['address2'] = $request['addressline2'];
         $reqData['address3'] = $request['address3'];
@@ -545,8 +552,8 @@ class UserProfileController extends Controller
         $reqData['modifiedutcdatetime'] = Carbon::now();
        
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
-//        dd($customerBankData[0]['customerbankid']); 
+        $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo['customerid']);
+       // dd($customerBankData); 
         if($customerBankData)
          {
          $bankData = $this->customerbank->UpdateCustomerBankDetails($reqData,$customerBankData[0]['customerbankid']);
