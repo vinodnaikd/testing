@@ -71,7 +71,7 @@ class DocumentsController extends Controller
         // $fileName = $file->getClientOriginalName();
           // $fileName = $file;
         // dd($file);
-        $file_pointer = public_path().'/usersdocuments/'.$request['userid'];
+        $file_pointer = public_path();//.'/usersdocuments/'.$request['userid'];
            if (!file_exists($file_pointer)) {
               $folder=mkdir($file_pointer, 777,true);
           }
