@@ -73,7 +73,7 @@ class DocumentsController extends Controller
         // dd($file);
         $file_pointer = public_path().'/usersdocuments/'.$request['userid'];
            if (!file_exists($file_pointer)) {
-              $folder=mkdir($file_pointer, 0777,true);
+              $folder=mkdir($file_pointer, 777,true);
           }
           //Image Path with name
           $file = $file_pointer.'/'.$fileName;
