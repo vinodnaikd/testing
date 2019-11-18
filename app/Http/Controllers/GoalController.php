@@ -435,10 +435,50 @@ class GoalController extends Controller
            // $status = "Goals Allocation Added Successfully";
     }
  }
-       $goaldetails['Lumpsum'] = $assestsArray;
+    if($customerGoalsDetails)
+          {
+            $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
+            $goalsLumSumm = array();
+       $goalsSipSumm = array();
+       foreach ($goalsData as $key => $value) {
+        if($value['purchase_type'] == "L")
+        {
+          $goals['lumpsum_amount'] = $value['lumpsum_sip'];
+          $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet1['assettype'] = $value['asset'];
+           $goalsdet1['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           array_push($goalsLumSumm, $goalsdet1);
+        }
+        else
+        {
+          $goals['sip_amount'] = $value['lumpsum_sip'];
+          $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet['assettype'] = $value['asset'];
+           $goalsdet['asset_value'] = $value['asset_value'];
+           $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['duration'] = $value['duration'];
+           array_push($goalsSipSumm, $goalsdet);
+        }
+           
+       }
+       /*$goals['Lumpsum'] = $goalsLumSumm;
+       $goals['Sip'] = $goalsSipSumm;*/
+
+       $goaldetails['Lumpsum'] = $goalsLumSumm;
+       $goaldetails['Sip_Amount'] = $goals['sip_amount'];
+       $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
+       $goaldetails['Sip'] = $goalsSipSumm;
+       
+          }
+       $goaldetails['Lumpsum'] = $goalsLumSumm;
+       $goaldetails['Sip_Amount'] = $goals['sip_amount'];
+       $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
+       $goaldetails['Sip'] = $goalsSipSumm;
+       /*$goaldetails['Lumpsum'] = $assestsArray;
        $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
        $goaldetails['Lumpsum_Amount'] = "0";
-       $goaldetails['Sip'] = $assestsArray2;
+       $goaldetails['Sip'] = $assestsArray2;*/
 }
 else
 {
