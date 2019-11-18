@@ -279,6 +279,7 @@ class GoalController extends Controller
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $data = $this->goals->getGoalsById($request['goal_id'],$getCustomerInfo['customerid']);
+        // dd($data);
         $assests = $this->fundclass->getFundClassAssestType();
         $assestsArray = array();
         $assestsArray2 = array();
