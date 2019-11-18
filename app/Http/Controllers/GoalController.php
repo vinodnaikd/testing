@@ -339,12 +339,12 @@ class GoalController extends Controller
            $assval1['goal_ass_id'] = "";
            $assval1['assettype'] = "Debt";
            $assval1['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval1['asset_percentage'] = $assVal;
+           $assval1['asset_percentage'] = 25;
            //Sip
            $assval22['goal_ass_id'] = "";
            $assval22['assettype'] = "Debt";
-           $assval22['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval22['asset_percentage'] = $assVal;
+           $assval22['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
+           $assval22['asset_percentage'] = 25;
            $assval22['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval1);
            array_push($assestsArray2,$assval22);
@@ -354,12 +354,12 @@ class GoalController extends Controller
            $assval2['goal_ass_id'] = "";
            $assval2['assettype'] = "Equity";
            $assval2['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval2['asset_percentage'] = $assVal;
+           $assval2['asset_percentage'] = 25;
            //Sip
            $assval23['goal_ass_id'] = "";
            $assval23['assettype'] = "Equity";
-           $assval23['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval23['asset_percentage'] = $assVal;
+           $assval23['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
+           $assval23['asset_percentage'] = 25;
            $assval23['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval2);
            array_push($assestsArray2,$assval23);
@@ -369,12 +369,12 @@ class GoalController extends Controller
             $assval3['goal_ass_id'] = "";
            $assval3['assettype'] = "Liquid";
            $assval3['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval3['asset_percentage'] = $assVal;
+           $assval3['asset_percentage'] = 25;
            //Sip
            $assval24['goal_ass_id'] = "";
            $assval24['assettype'] = "Liquid";
-           $assval24['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval24['asset_percentage'] = $assVal;
+           $assval24['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
+           $assval24['asset_percentage'] = 25;
            $assval24['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval3);
            array_push($assestsArray2,$assval24);
@@ -384,12 +384,12 @@ class GoalController extends Controller
             $assval4['goal_ass_id'] = "";
             $assval4['assettype'] = "Gold";
            $assval4['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval4['asset_percentage'] = $assVal;
+           $assval4['asset_percentage'] = 25;
            //Sip
            $assval25['goal_ass_id'] = "";
            $assval25['assettype'] = "Gold";
-           $assval25['asset_value'] = 0;//(($goaldetails['yearcommitment']*$assVal)/100);
-           $assval25['asset_percentage'] = $assVal;
+           $assval25['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
+           $assval25['asset_percentage'] = 25;
            $assval25['duration'] = $goaldetails['timeframe'];
            array_push($assestsArray,$assval4);
            array_push($assestsArray2,$assval25);
@@ -415,7 +415,7 @@ class GoalController extends Controller
         {
           $reqData['asset'] = $value['assettype'];
         $reqData['asset_value'] = 0;
-        $reqData['asset_percentage'] = $value['asset_value'];
+        $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['lumpsum_sip'] = 0;
           $reqData['purchase_type'] = "L";
          
@@ -424,7 +424,7 @@ class GoalController extends Controller
         {
           $reqData['asset'] = $value['assettype'];
         $reqData['asset_value'] = (($goaldetails['monthcommitment']*25)/100);
-        $reqData['asset_percentage'] = $value['asset_value'];
+        $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['lumpsum_sip'] = $goaldetails['monthcommitment'];
           $reqData['purchase_type'] = "S";
            $reqData['duration'] = $goaldetails['timeframe'];
