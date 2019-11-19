@@ -300,7 +300,29 @@ class FundBasicInfoController extends Controller
             $fund['limit'] = "2";
             $fundProducts = array();
             $limit = 5;
-           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble,$limit);
+            if(!empty($request['fundclassid']))
+            {
+              if($request['fundclassid'] == $value1['fundclassid'])
+              {
+                $viewmore = "loadmore";
+              $fundclassid = $request['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+              }
+              else
+              {
+                $viewmore = "";
+              $fundclassid = $value1['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+              }
+              
+            }
+            else
+            {
+              $viewmore = "";
+              $fundclassid = $value1['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+            }
+           
            // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {
@@ -466,6 +488,7 @@ class FundBasicInfoController extends Controller
             $fund['Lumpsum_sip'] = $goalsAssData['asset_value'];
             $lumProductsArray = array();
             $sipProductsArray = array();
+            dd($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
               if($value2['purchasetype'] == "L")
               {
@@ -863,12 +886,20 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
 
         $holdingstocksArray = array();
         $holdingsData = array("one","two","three","four","five","six","seven","eight","nine","ten");
+        if($fundHoldings)
+        {
         foreach ($fundHoldings as $key => $value) {
           $hold = $holdingsData[$key];
            $holds[$hold] = $value['compname'];
             
-        }  
+        }
         array_push($holdingstocksArray,$holds);
+      }
+      else
+      {
+        $holdingstocksArray = array();
+      }
+        
         $holdingstockArray['HoldingStocks'] = $holdingstocksArray;
         array_push($fundDetails,$holdingstockArray);
 
