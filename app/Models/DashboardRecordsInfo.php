@@ -52,4 +52,10 @@ public $timestamps = false;
     	// dd($asset);
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('asset',$asset)->get()->first();
     }
+
+    public function getGoalsAssetsAllocationDetailsSipLum($customerid,$goalid,$asset,$type)
+    {
+      // dd($asset);
+        return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('asset',$asset)->where('purchase_type',$type)->get()->first();
+    }
 }

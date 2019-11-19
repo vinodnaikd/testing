@@ -479,22 +479,25 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-            $goalsAssData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetails($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            $goalsAssLumData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+            $goalsAssSipData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
             $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
             $lumsiptype = array_column($goalsAssType, 'purchase_type');
             // dd(array_column($goalsAssType, 'purchase_type'));
             $fundprdtscount = (count($fundprodcutsData)/2);
-            $fundvalue = round(($goalsAssData['asset_value']/$fundprdtscount),2);
-            $fund['Lumpsum_sip'] = $goalsAssData['asset_value'];
+            $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+            $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+            $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
+            $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
             $lumProductsArray = array();
             $sipProductsArray = array();
-            dd($fundprodcutsData);
+            // dd($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
               if($value2['purchasetype'] == "L")
               {
                 $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
-                    $fundproducts1['fundvalue'] = $fundvalue;
+                    $fundproducts1['fundvalue'] = $fundlumvalue;
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
                     $fundproducts1['sipamount'] = $value2['sipamount'];
                     $fundproducts1['sipmonthlydate'] = $value2['sipmonthlydate'];
@@ -505,7 +508,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts1['transactionstatus'] = $value2['transactionstatus'];
                
                 array_push($lumProductsArray, $fundproducts1);
-                $reqData['lumpsumamount'] = $fundvalue;
+                $reqData['lumpsumamount'] = $fundlumvalue;
                 $reqData1['fundid'] = $value2['fundid'];
                 $reqData1['goalid'] = $request['goalid'];
                 $reqData1['purchasetype'] = $value2['purchasetype'];
@@ -517,7 +520,7 @@ class FundBasicInfoController extends Controller
               {
                 $fundproducts2['fundid'] = $value2['fundid'];
                     $fundproducts2['fundname'] = $value2['fundname'];
-                    $fundproducts2['fundvalue'] = $fundvalue;
+                    $fundproducts2['fundvalue'] = $fundsipvalue;
                     $fundproducts2['purchasetype'] = $value2['purchasetype'];
                     $fundproducts2['sipamount'] = $value2['sipamount'];
                     $fundproducts2['sipmonthlydate'] = $value2['sipmonthlydate'];
@@ -527,7 +530,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts2['lumpsumunits'] = $value2['lumpsumunits'];
                     $fundproducts2['transactionstatus'] = $value2['transactionstatus'];
                     array_push($sipProductsArray, $fundproducts2);
-                    $reqData2['sipamount'] = $fundvalue;
+                    $reqData2['sipamount'] = $fundsipvalue;
                 $reqData3['fundid'] = $value2['fundid'];
                 $reqData3['goalid'] = $request['goalid'];
                 $reqData3['purchasetype'] = $value2['purchasetype'];
