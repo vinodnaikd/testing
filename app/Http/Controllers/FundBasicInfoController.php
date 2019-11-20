@@ -332,21 +332,23 @@ class FundBasicInfoController extends Controller
           $reqData['goalid'] = $request['goalid'];
           $reqData['customerorderid'] = $orderstatus['customerorderid'];
          $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
+         $checkData = $this->fundroi->checkCustomerFund($reqData);
+         // dd($checkData);
           if($checkFundStatus)
           {
             $products['fundstatus'] = "checked";
           }
           else
           {
-            if($key2 == 0)
-            {
-              $products['fundstatus'] = "checked";
-            }
-            else
-            {
-              $products['fundstatus'] = "unchecked";
-            }
-          
+            if($checkData == "empty" && $key2 == 0)
+         {
+          // echo "hai";
+          $products['fundstatus'] = "checked";
+         }
+         else
+         {
+              $products['fundstatus'] = "unchecked";          
+         }
           }
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];

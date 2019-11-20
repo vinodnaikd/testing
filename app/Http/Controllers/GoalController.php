@@ -666,6 +666,7 @@ else
         $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['purchase_type'] = $value['purchase_type'];
         $reqData['lumpsum_sip'] = $value['lum_sip'];
+        $reqData['lum_sip_type'] = $value['lum_sip_type'];
         if($reqData['purchase_type'] == "S")
         {
         $reqData['duration'] = $value['duration'];
