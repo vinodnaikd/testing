@@ -307,13 +307,13 @@ class FundBasicInfoController extends Controller
                 $viewmore = "loadmore";
               $fundclassid = $request['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }
+              }/*
               else
               {
                 $viewmore = "";
               $fundclassid = $value1['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }
+              }*/
               
             }
             else
@@ -493,11 +493,23 @@ class FundBasicInfoController extends Controller
             $sipProductsArray = array();
             // dd($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
-              if($value2['purchasetype'] == "L")
+              if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
               {
-                $fundproducts1['fundid'] = $value2['fundid'];
+                $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
+                     if($fundvalueData)
+                    {
+                      if($fundvalueData['lumpsumamount'] != '0')
+                      $fundlumvalue1 = $fundvalueData['lumpsumamount'];
+                      else
+                       $fundlumvalue1 = $fundlumvalue;
+                    }
+                    else
+                    {
+                      $fundlumvalue1 = $fundlumvalue;
+                    }
+                    $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
-                    $fundproducts1['fundvalue'] = $fundlumvalue;
+                    $fundproducts1['fundvalue'] = $fundlumvalue1;
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
                     $fundproducts1['sipamount'] = $value2['sipamount'];
                     $fundproducts1['sipmonthlydate'] = $value2['sipmonthlydate'];
@@ -516,11 +528,23 @@ class FundBasicInfoController extends Controller
                 if(empty($value2['lumpsumamount']))
                $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData,$reqData1);
               }
-              else
+              elseif($value2['purchasetype'] == "S" && $goalsAssSipData['lum_sip_type'] == "checked")
               {
-                $fundproducts2['fundid'] = $value2['fundid'];
+                $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
+                    if($fundvalueData)
+                    {
+                      if($fundvalueData['sipamount'] != '0')
+                      $fundsipvalue1 = $fundvalueData['sipamount'];
+                      else
+                      $fundsipvalue1 = $fundsipvalue;
+                    }
+                    else
+                    {
+                      $fundsipvalue1 = $fundsipvalue;
+                    }
+                    $fundproducts2['fundid'] = $value2['fundid'];
                     $fundproducts2['fundname'] = $value2['fundname'];
-                    $fundproducts2['fundvalue'] = $fundsipvalue;
+                    $fundproducts2['fundvalue'] = $fundsipvalue1;
                     $fundproducts2['purchasetype'] = $value2['purchasetype'];
                     $fundproducts2['sipamount'] = $value2['sipamount'];
                     $fundproducts2['sipmonthlydate'] = $value2['sipmonthlydate'];

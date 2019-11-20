@@ -450,6 +450,7 @@ class UserProfileController extends Controller
         $reqData['salution'] = $value['salution'];
         $reqData['marital_status'] = $value['marital_status'];
         $reqData['adharnum'] = $value['adharnum'];
+        // $reqData['customertype'] = $value['customertype'];
         $reqData['createdutcdatetime'] = Carbon::now();
         $reqData['modifiedutcdatetime'] = Carbon::now();
         $getCustomerInfo = $this->customer->getUserDetails($value['userid']);
