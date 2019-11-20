@@ -629,8 +629,16 @@ class FundBasicInfoController extends Controller
             
             if(in_array("L", $lumsiptype))
               {
+                if($goalsAssType[0]['lum_sip_type'] != "")
+                {  
                 $lumpsumamount['Lumpsum_Amount'] = $amount;
                 $lumpsumamount['Lumpsum'] = $selectedProductsArray;
+                }
+                else
+                {
+                  $lumpsumamount['Lumpsum_Amount'] = [];
+                  $lumpsumamount['Lumpsum'] = [];
+                }
               }
               else
               {
@@ -657,8 +665,16 @@ class FundBasicInfoController extends Controller
             
             if(in_array("S", $lumsiptype))
               {
-                $lumpsumamount['Sip_Amount'] = $amount1;
-                $lumpsumamount['Sip'] = $selectedProductsArray1;
+                if($goalsAssType[1]['lum_sip_type'] != "")
+                {
+                  $lumpsumamount['Sip_Amount'] = $amount1;
+                  $lumpsumamount['Sip'] = $selectedProductsArray1;
+                }
+                else
+                {  
+                $lumpsumamount['Sip_Amount'] = [];
+                $lumpsumamount['Sip'] = [];
+                }
               }
               else
               {
