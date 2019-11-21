@@ -641,6 +641,8 @@ else
     public function goalsAssestsAllocation(Request $request)
     {
         $allocationData = $request->json()->all();
+        $purtype = array_unique(array_column($allocationData, 'purchase_type'));
+        // dd($purtype);
         foreach ($allocationData as $key => $value) {
             
        $validator = Validator::make($value, [
@@ -658,6 +660,7 @@ else
                 'messages' => $validator->messages()
             ], 400);
         }
+
         $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
         $reqData['goalid'] = $value['goalid'];
         $reqData['customerid'] = $getCustomerInfo['customerid'];
@@ -666,7 +669,14 @@ else
         $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['purchase_type'] = $value['purchase_type'];
         $reqData['lumpsum_sip'] = $value['lum_sip'];
+        if(in_array($reqData['purchase_type'], $purtype))
+        {
+          $reqData['lum_sip_type'] = "checked";
+        }
+        /*else
+        {
         $reqData['lum_sip_type'] = $value['lum_sip_type'];
+        }*/
         if($reqData['purchase_type'] == "S")
         {
         $reqData['duration'] = $value['duration'];
