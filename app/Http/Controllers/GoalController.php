@@ -742,6 +742,7 @@ else
            $goalsdet1['asset'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
            $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
            array_push($goalsLumSumm, $goalsdet1);
         }
         else
@@ -750,11 +751,22 @@ else
           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet['asset'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
-           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['lum_sip_type'] = $value['lum_sip_type'];
            array_push($goalsSipSumm, $goalsdet);
         }
            
        }
+       if($goalsLumSumm[0]['lum_sip_type'] == "checked")
+       $goals['lumpsum_check'] = "true";
+       else
+       $goals['lumpsum_check'] = "false";
+
+       if($goalsSipSumm[0]['lum_sip_type'] == "checked")
+       $goals['sip_check'] = "true";
+       else
+       $goals['sip_check'] = "false";
+
        $goals['Lumpsum'] = $goalsLumSumm;
        $goals['Sip'] = $goalsSipSumm;
       // $goals['GoalsSummaryDetails'] = $goalsSumm;
