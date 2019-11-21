@@ -489,8 +489,10 @@ class FundBasicInfoController extends Controller
             $fundprdtscount = (count($fundprodcutsData)/2);
             $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
             $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+            // dd($fundsipvalue);
             $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
             $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
+            // dd($fund['Sip_Amount']);
             $lumProductsArray = array();
             $sipProductsArray = array();
             // dd($fundprodcutsData);
@@ -498,9 +500,10 @@ class FundBasicInfoController extends Controller
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
+                // dd($fundvalueData);
                      if($fundvalueData)
                     {
-                      if($fundvalueData['lumpsumamount'] != '0')
+                      if($fundvalueData['lumpsumamount'] != '0' && $fundvalueData['sipamount'] != null)
                       $fundlumvalue1 = $fundvalueData['lumpsumamount'];
                       else
                        $fundlumvalue1 = $fundlumvalue;
@@ -522,7 +525,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts1['transactionstatus'] = $value2['transactionstatus'];
                
                 array_push($lumProductsArray, $fundproducts1);
-                $reqData['lumpsumamount'] = $fundlumvalue;
+                $reqData['lumpsumamount'] = $fundlumvalue1;
                 $reqData1['fundid'] = $value2['fundid'];
                 $reqData1['goalid'] = $request['goalid'];
                 $reqData1['purchasetype'] = $value2['purchasetype'];
@@ -535,10 +538,11 @@ class FundBasicInfoController extends Controller
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
                     if($fundvalueData)
                     {
-                      if($fundvalueData['sipamount'] != '0')
+                      // dd($fundvalueData);
+                      if($fundvalueData['sipamount'] != '0' && $fundvalueData['sipamount'] != null)
                       $fundsipvalue1 = $fundvalueData['sipamount'];
                       else
-                      $fundsipvalue1 = $fundsipvalue;
+                       $fundsipvalue1 = $fundsipvalue;
                     }
                     else
                     {
@@ -556,7 +560,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts2['lumpsumunits'] = $value2['lumpsumunits'];
                     $fundproducts2['transactionstatus'] = $value2['transactionstatus'];
                     array_push($sipProductsArray, $fundproducts2);
-                    $reqData2['sipamount'] = $fundsipvalue;
+                    $reqData2['sipamount'] = $fundsipvalue1;
                 $reqData3['fundid'] = $value2['fundid'];
                 $reqData3['goalid'] = $request['goalid'];
                 $reqData3['purchasetype'] = $value2['purchasetype'];
@@ -831,8 +835,6 @@ public function getCustomerGoalsOrderDetails(Request $request)
       //dd($fundselectionData);
       if($fundselectionData == 0 || $fundselectionData)
       {
-        
-          
           $reqData1['customerorderid'] = $reqData['customerorderid'];
           // dd($purchaseArr);
            foreach ($purchaseArr as $key1 => $value1) {
