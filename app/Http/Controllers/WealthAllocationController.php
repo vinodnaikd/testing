@@ -308,6 +308,7 @@ public function getCustomerWealthAllocation(Request $request)
             $reqdata['asset_percentage'] = $value['asset_percentage'];
             $reqdata['lumpsum_sip'] = $wealthData[0]['lumpsum_amount'];
             $reqdata['purchase_type'] = "L";
+            $reqdata['duration'] = $wealthData[0]['timeframe'];
             $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
         }
         foreach($wealthSipSumm as $key =>$value)
@@ -319,6 +320,7 @@ public function getCustomerWealthAllocation(Request $request)
             $reqdata['asset_percentage'] = $value['asset_percentage'];
             $reqdata['lumpsum_sip'] = $wealthData[0]['sip_amount'];
             $reqdata['purchase_type'] = "S";
+            $reqdata['duration'] = $wealthData[0]['timeframe'];
             $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
         }
     }
@@ -335,6 +337,7 @@ public function getCustomerWealthAllocation(Request $request)
            $goalsdet1['asset_value'] = $value['asset_value'];
            $goalsdet1['asset_percentage'] = $value['asset_percentage'];
            $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
+           $goalsdet1['duration'] = $value['duration'];
            array_push($goalsLumSumm, $goalsdet1);
         }
         else

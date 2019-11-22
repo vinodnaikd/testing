@@ -1039,10 +1039,11 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
         $reqData1['lumpsumamount'] = $value['fundvalue'];
         else
         $reqData1['sipamount'] = $value['fundvalue'];
-
+      // dd($reqData1);
     $fundDetailsUpd = $this->fundroi->updateCustomerFundDetails($reqData1,$reqData);
+    // dd($fundDetailsUpd);
   }
-    if($fundDetailsUpd)
+    if($fundDetailsUpd || $fundDetailsUpd == 0)
     {
       return response()->json([
               'status' => "Fund Details Updated Successfully"

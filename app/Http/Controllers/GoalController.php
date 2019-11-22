@@ -526,7 +526,7 @@ else
        $goaldetails['Sip_Amount'] = $goals['sip_amount'];
        $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
        $goaldetails['Sip'] = $goalsSipSumm;
-       
+
       if($goalsLumSumm[0]['lum_sip_type'] == "" && $goalsSipSumm[0]['lum_sip_type'] == "")
        {
             $goaldetails['lumpsum_check'] = "true";
@@ -672,7 +672,16 @@ else
     {
         $allocationData = $request->json()->all();
         $purtype = array_unique(array_column($allocationData, 'purchase_type'));
-        // dd($purtype);
+        // dd($purtype); 
+        $getCustomerInfo = $this->customer->getUserDetailsrow($allocationData[0]['userid']);
+     /*   $GoalAssetDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$allocationData[0]['goalid']);
+        // dd($goalsAssData);
+        $goalsLumSip = array_unique(array_column($allocationData, 'purchase_type'));
+        dd($goalsLumSip);
+        foreach ($goalsLumSip as $key => $value) {
+          # code...
+        }*/
+        // dd($assetscount);
         foreach ($allocationData as $key => $value) {
             
        $validator = Validator::make($value, [
@@ -690,8 +699,6 @@ else
                 'messages' => $validator->messages()
             ], 400);
         }
-
-        $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
         $reqData['goalid'] = $value['goalid'];
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['asset'] = $value['asset'];
@@ -723,8 +730,6 @@ else
             $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
             $status = "Goals Allocation Added Successfully";
         }
-        
-       
     }
        return response()->json([
           "GoalsSummaryDetails" => $customerGoalsDetails,
