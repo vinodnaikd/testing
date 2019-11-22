@@ -526,14 +526,24 @@ else
        $goaldetails['Sip_Amount'] = $goals['sip_amount'];
        $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
        $goaldetails['Sip'] = $goalsSipSumm;
-       if($goalsLumSumm[0]['lum_sip_type'] == "checked")
-       $goaldetails['lumpsum_check'] = "true";
+       
+      if($goalsLumSumm[0]['lum_sip_type'] == "" && $goalsSipSumm[0]['lum_sip_type'] == "")
+       {
+            $goaldetails['lumpsum_check'] = "true";
+            $goaldetails['sip_check'] = "true";
+       }
        else
-       $goaldetails['lumpsum_check'] = "false";
-     if($goalsSipSumm[0]['lum_sip_type'] == "checked")
-       $goaldetails['sip_check'] = "true";
-       else
-       $goaldetails['sip_check'] = "false";
+       {
+            if($goalsLumSumm[0]['lum_sip_type'] == "checked")
+           $goaldetails['lumpsum_check'] = "true";
+           else
+           $goaldetails['lumpsum_check'] = "false";
+            if($goalsSipSumm[0]['lum_sip_type'] == "checked")
+           $goaldetails['sip_check'] = "true";
+           else
+           $goaldetails['sip_check'] = "false";
+       }
+
        
 }
        $goaldetails['growth'] = $growth;

@@ -7,6 +7,7 @@ use App\Models\RiskQuestions;
 use App\Models\GoalsAllocation;
 use App\Models\Customer;
 use App\Models\FundClass;
+use App\Models\DashboardRecordsInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,13 +15,14 @@ use Illuminate\Support\Facades\Validator;
 class WealthAllocationController extends Controller
 {
     public function __construct(WealthAllocation $wealthallocation,
-        Customer $customer,RiskQuestions $riskquestions,GoalsAllocation $goalsallocation,FundClass $fundclass)
+        Customer $customer,RiskQuestions $riskquestions,GoalsAllocation $goalsallocation,FundClass $fundclass,DashboardRecordsInfo $dashboardrecordsinfo)
     {
         $this->wealthallocation = $wealthallocation;
         $this->customer = $customer;
         $this->riskquestions = $riskquestions;
         $this->goalsallocation = $goalsallocation;
         $this->fundclass = $fundclass;
+        $this->dashboardrecordsinfo = $dashboardrecordsinfo;
 
     }
     /**
@@ -165,85 +167,217 @@ public function getCustomerWealthAllocation(Request $request)
           $lumpsum_amount = $wealthData[0]['lumpsum_amount'];
          $sip_amount = $wealthData[0]['sip_amount'];
         $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end);
-
+        
+        $lumsipArray['Lumpsum_Amount'] = $wealthData[0]['lumpsum_amount'];
+        $lumsipArray['Sip_Amount'] = $wealthData[0]['sip_amount'];
+        $wealthAssetsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+        if(!$wealthAssetsData)
+        {
+        $wealthLumSumm = array();
+        $wealthSipSumm = array();
         if($wealthAssets['largecap'] != '0')
         {
-            $lumpsumArr['largecap'] = (($wealthAssets['largecap'] * $lumpsum_amount)/100);
-            $sipArr['largecap'] = (($wealthAssets['largecap'] * $sip_amount)/100);
-            $assetsArr['largecap'] = $wealthAssets['largecap'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'largecap';
+           $wealthlum['asset_value'] = (($wealthAssets['largecap'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['largecap'];
+           $wealthlum['lum_sip_type'] = "";
+
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'largecap';
+           $wealthsip['asset_value'] = (($wealthAssets['largecap'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['largecap'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+
         }
         if($wealthAssets['midcap'] != '0')
         {
-            $lumpsumArr['midcap'] = (($wealthAssets['midcap'] * $lumpsum_amount)/100);
+             $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'midcap';
+           $wealthlum['asset_value'] = (($wealthAssets['midcap'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['midcap'];
+           $wealthlum['lum_sip_type'] = "";
 
-        $sipArr['midcap'] = (($wealthAssets['midcap'] * $sip_amount)/100);
-            $assetsArr['midcap'] = $wealthAssets['midcap'];
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'midcap';
+           $wealthsip['asset_value'] = (($wealthAssets['midcap'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['midcap'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
         }
         if($wealthAssets['smallcap'] != '0')
         {
-            $lumpsumArr['smallcap'] = (($wealthAssets['smallcap'] * $lumpsum_amount)/100);
-            $sipArr['smallcap'] = (($wealthAssets['smallcap'] * $sip_amount)/100);
-            $assetsArr['smallcap'] = $wealthAssets['smallcap'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'smallcap';
+           $wealthlum['asset_value'] = (($wealthAssets['smallcap'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['smallcap'];
+           $wealthlum['lum_sip_type'] = "";
+          
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'smallcap';
+           $wealthsip['asset_value'] = (($wealthAssets['smallcap'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['smallcap'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
         }
-
-
         if($wealthAssets['longterm'] != '0')
         {
-            $lumpsumArr1['longterm'] = (($wealthAssets['longterm'] * $lumpsum_amount)/100);
-        $sipArr1['longterm'] = (($wealthAssets['longterm'] * $sip_amount)/100);
-            $assetsArr1['longterm'] = $wealthAssets['longterm'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'longterm';
+           $wealthlum['asset_value'] = (($wealthAssets['longterm'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['longterm'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'longterm';
+           $wealthsip['asset_value'] = (($wealthAssets['longterm'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['longterm'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
         }
         if($wealthAssets['midterm'] != '0')
         {
-            $lumpsumArr1['midterm'] = (($wealthAssets['midterm'] * $lumpsum_amount)/100);
-            $sipArr1['midterm'] = (($wealthAssets['midterm'] * $sip_amount)/100);
-            $assetsArr1['midterm'] = $wealthAssets['midterm'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'midterm';
+           $wealthlum['asset_value'] = (($wealthAssets['midterm'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['midterm'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'midterm';
+           $wealthsip['asset_value'] = (($wealthAssets['midterm'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['midterm'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
         }
 
 
         if($wealthAssets['liquid'] != '0')
         {
-            $lumpsumArr1['liquid'] = (($wealthAssets['liquid'] * $lumpsum_amount)/100);
-            $sipArr1['liquid'] = (($wealthAssets['liquid'] * $sip_amount)/100);
-            $assetsArr3['liquid'] = $wealthAssets['liquid'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'liquid';
+           $wealthlum['asset_value'] = (($wealthAssets['liquid'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['liquid'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'liquid';
+           $wealthsip['asset_value'] = (($wealthAssets['liquid'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['liquid'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
         }
-
-
         if($wealthAssets['gold'] != '0')
         {
-            $lumpsumArr1['gold'] = (($wealthAssets['gold'] * $lumpsum_amount)/100);
-            $sipArr1['gold'] = (($wealthAssets['gold'] * $sip_amount)/100);
-            $assetsArr2['gold'] = $wealthAssets['gold'];
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'gold';
+           $wealthlum['asset_value'] = (($wealthAssets['gold'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['gold'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'gold';
+           $wealthsip['asset_value'] = (($wealthAssets['gold'] * $sip_amount)/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['gold'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+
         }
-        if(!empty($assetsArr))
+
+        foreach($wealthLumSumm as $key =>$value)
         {
-            // dd(array_sum($assetsArr));
-        $assettypeArr['Equity_percentage'] = array_sum($assetsArr);
-        
-        $assetsArr['lumpsum'] = $lumpsumArr;
-        $assetsArr['sip'] = $sipArr;
-        $assettypeArr['Equity'] = $assetsArr;
+            $reqdata['customerid'] = $getCustomerInfo['customerid'];
+            $reqdata['goalid'] = $wealthData[0]['cust_wel_all'];
+            $reqdata['asset'] = $value['assettype'];
+            $reqdata['asset_value'] = $value['asset_value'];
+            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['lumpsum_sip'] = $wealthData[0]['lumpsum_amount'];
+            $reqdata['purchase_type'] = "L";
+            $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
         }
-        if(!empty($assetsArr1))
+        foreach($wealthSipSumm as $key =>$value)
         {
-        $assettypeArr['Debt_percentage'] = array_sum($assetsArr1);
-        $assetsArr1['lumpsum'] = $lumpsumArr1;
-        $assetsArr1['sip'] = $sipArr1;
-            $assettypeArr['Debt'] = $assetsArr1;
+            $reqdata['customerid'] = $getCustomerInfo['customerid'];
+            $reqdata['goalid'] = $wealthData[0]['cust_wel_all'];
+            $reqdata['asset'] = $value['assettype'];
+            $reqdata['asset_value'] = $value['asset_value'];
+            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['lumpsum_sip'] = $wealthData[0]['sip_amount'];
+            $reqdata['purchase_type'] = "S";
+            $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
         }
-        if(!empty($assetsArr2))
+    }
+
+    $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+  $goalsLumSumm = array();
+       $goalsSipSumm = array();
+       foreach ($customerGoalsDetails as $key => $value) {
+        if($value['purchase_type'] == "L")
         {
-            $assettypeArr['Gold_percentage'] = array_sum($assetsArr2);
-            $assettypeArr['Gold'] = $assetsArr2;
+           $goals['lumpsum_amount'] = $value['lumpsum_sip'];
+           $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet1['assettype'] = $value['asset'];
+           $goalsdet1['asset_value'] = $value['asset_value'];
+           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
+           array_push($goalsLumSumm, $goalsdet1);
         }
-        if(!empty($assetsArr3))
+        else
         {
-            $assettypeArr['Liquid_percentage'] = array_sum($assetsArr3);
-            $assettypeArr['Liquid'] = $assetsArr3;
+           $goals['sip_amount'] = $value['lumpsum_sip'];
+           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
+           $goalsdet['assettype'] = $value['asset'];
+           $goalsdet['asset_value'] = $value['asset_value'];
+           $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['lum_sip_type'] = $value['lum_sip_type'];
+           $goalsdet['duration'] = $value['duration'];
+           array_push($goalsSipSumm, $goalsdet);
         }
+           
+       }
+
+        $goaldetails['Lumpsum'] = $goalsLumSumm;
+       $goaldetails['Sip_Amount'] = $goals['sip_amount'];
+       $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
+       $goaldetails['Sip'] = $goalsSipSumm;
+
+       if($goalsLumSumm[0]['lum_sip_type'] == "" && $goalsSipSumm[0]['lum_sip_type'] == "")
+       {
+            $goaldetails['lumpsum_check'] = "true";
+            $goaldetails['sip_check'] = "true";
+       }
+       else
+       {
+            if($goalsLumSumm[0]['lum_sip_type'] == "checked")
+           $goaldetails['lumpsum_check'] = "true";
+           else
+           $goaldetails['lumpsum_check'] = "false";
+            if($goalsSipSumm[0]['lum_sip_type'] == "checked")
+           $goaldetails['sip_check'] = "true";
+           else
+           $goaldetails['sip_check'] = "false";
+       }
+
+        /*$lumsipArray['Lumpsum'] = $wealthLumSumm;
+        $lumsipArray['Sip'] = $wealthSipSumm;*/
          return response()->json([
               'status' => 'success',
-              'wealthAssets' => $assettypeArr
+              'wealthAssets' => $goaldetails
           ], 200);
     }
     /**
