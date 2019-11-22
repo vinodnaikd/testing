@@ -448,6 +448,7 @@ class GoalController extends Controller
            $goalsdet1['assettype'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
            $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
            array_push($goalsLumSumm, $goalsdet1);
         }
         else
@@ -457,6 +458,7 @@ class GoalController extends Controller
            $goalsdet['assettype'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
            $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['lum_sip_type'] = $value['lum_sip_type'];
            $goalsdet['duration'] = $value['duration'];
            array_push($goalsSipSumm, $goalsdet);
         }
@@ -479,6 +481,14 @@ class GoalController extends Controller
        $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
        $goaldetails['Lumpsum_Amount'] = "0";
        $goaldetails['Sip'] = $assestsArray2;*/
+        if($goalsLumSumm[0]['lum_sip_type'] == "checked")
+       $goaldetails['lumpsum_check'] = "true";
+       else
+       $goaldetails['lumpsum_check'] = "false";
+     if($goalsSipSumm[0]['lum_sip_type'] == "checked")
+       $goaldetails['sip_check'] = "true";
+       else
+       $goaldetails['sip_check'] = "false";
 }
 else
 {
@@ -493,6 +503,7 @@ else
            $goalsdet1['assettype'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
            $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
            array_push($goalsLumSumm, $goalsdet1);
         }
         else
@@ -502,6 +513,7 @@ else
            $goalsdet['assettype'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
            $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['lum_sip_type'] = $value['lum_sip_type'];
            $goalsdet['duration'] = $value['duration'];
            array_push($goalsSipSumm, $goalsdet);
         }
@@ -514,6 +526,14 @@ else
        $goaldetails['Sip_Amount'] = $goals['sip_amount'];
        $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
        $goaldetails['Sip'] = $goalsSipSumm;
+       if($goalsLumSumm[0]['lum_sip_type'] == "checked")
+       $goaldetails['lumpsum_check'] = "true";
+       else
+       $goaldetails['lumpsum_check'] = "false";
+     if($goalsSipSumm[0]['lum_sip_type'] == "checked")
+       $goaldetails['sip_check'] = "true";
+       else
+       $goaldetails['sip_check'] = "false";
        
 }
        $goaldetails['growth'] = $growth;
