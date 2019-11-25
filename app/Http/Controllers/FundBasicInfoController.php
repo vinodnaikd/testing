@@ -636,6 +636,7 @@ class FundBasicInfoController extends Controller
               $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
             $lumsiptype = array_column($goalsAssType, 'purchase_type');
             $fundprodcutsData = $this->fundrecord->getCustomerOrderSummary($getCustomerInfo['customerid'],$goalid,$purchasetype);
+            // dd($fundprodcutsData);
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
@@ -643,6 +644,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts['fundvalue'] = $value1['lumpsumamount'];
                     $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
                     $fundproducts['transactionstatus'] = $value1['transactionstatus'];
+                    $fundproducts['assettype'] = $value1['assettype'];
                     array_push($selectedProductsArray, $fundproducts);
             }
             $amount = array_sum(array_column($selectedProductsArray, 'fundvalue'));
@@ -679,6 +681,7 @@ class FundBasicInfoController extends Controller
                     $fundproducts1['sipduration'] = $value1['sipduration'];
                     $fundproducts1['sipunits'] = $value1['sipunits'];
                     $fundproducts1['transactionstatus'] = $value1['transactionstatus'];
+                    $fundproducts1['assettype'] = $value1['assettype'];
                     array_push($selectedProductsArray1, $fundproducts1);
             }
             $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
