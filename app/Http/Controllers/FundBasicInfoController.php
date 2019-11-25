@@ -277,15 +277,31 @@ class FundBasicInfoController extends Controller
       $nrielligble = $customerDetails['residential_status'];
       else
       $nrielligble = "";
-
+      if($request['goal_wealth_type'] == "goal")
+      {
       $fundclassassests = $this->fundclass->getFundClassAssestType();
+      }
+      else
+      {
+      $fundclassassests = $this->dashboardrecordsinfo->getWealthAllocationAssets($getCustomerInfo['customerid'],$request['goalid']);
+      // dd($fundclassassests);
+      }
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
         // dd($goalsAssData['asset']);
-         $assests['assettype'] = $value['assettype'];
-         $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
+         
+      /*   if($request['goal_wealth_type'] == "goal")
+      {*/
+      $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
+     /* }
+      else
+      {
+      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['asset']);
+      }*/
+         if($fundclassData)
+          $assests['assettype'] = $value['assettype'];
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
          {
@@ -503,7 +519,7 @@ class FundBasicInfoController extends Controller
                 // dd($fundvalueData);
                      if($fundvalueData)
                     {
-                      if($fundvalueData['lumpsumamount'] != '0' && $fundvalueData['sipamount'] != null)
+                      if($fundvalueData['lumpsumamount'] != '0' && $fundvalueData['lumpsumamount'] != null)
                       $fundlumvalue1 = $fundvalueData['lumpsumamount'];
                       else
                        $fundlumvalue1 = $fundlumvalue;

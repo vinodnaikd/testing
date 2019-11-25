@@ -39,12 +39,18 @@ public $timestamps = false;
 
     public function getGoalsAllocationTypesDetails($customerid,$goalid)
     {
-        return $this->join('customergoal as g','g.customergoalid','=','goals_assets_allocation.goalid')->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->groupby('goals_assets_allocation.purchase_type')->get()->toArray();
+        return $this/*->join('customergoal as g','g.customergoalid','=','goals_assets_allocation.goalid')*/->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->groupby('goals_assets_allocation.purchase_type')->get()->toArray();
+    }
+
+    
+    public function getWealthAllocationAssets($customerid,$goalid)
+    {
+        return $this->select('goals_assets_allocation.asset as assettype')->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->groupby('goals_assets_allocation.asset')->get()->toArray();
     }
 
      public function getGoalsAllocationDetailsForFunds($customerid,$goalid,$asset)
     {
-        return $this->join('customergoal as g','g.customergoalid','=','goals_assets_allocation.goalid')->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('goals_assets_allocation.asset',$asset)->where('goals_assets_allocation.asset_value','!=','0')->groupby('goals_assets_allocation.asset')->get()->first();
+        return $this/*->join('customergoal as g','g.customergoalid','=','goals_assets_allocation.goalid')*/->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('goals_assets_allocation.asset',$asset)->where('goals_assets_allocation.asset_value','!=','0')->groupby('goals_assets_allocation.asset')->get()->first();
     }
 
     public function getGoalsAssetsAllocationDetails($customerid,$goalid,$asset)
