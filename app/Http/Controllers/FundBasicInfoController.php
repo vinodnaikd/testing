@@ -261,7 +261,7 @@ class FundBasicInfoController extends Controller
    {
         $validator = Validator::make($request->json()->all(), [
           'userid' => 'required|string|max:100',
-          'wealthid' => 'required|string|max:100',
+          'goalid' => 'required|string|max:100',
             ]);
       if($validator->fails()) {
           return response()->json([
@@ -279,12 +279,12 @@ class FundBasicInfoController extends Controller
       else
       $nrielligble = "";
       
-      $fundclassassests = $this->dashboardrecordsinfo->getWealthAllocationAssets($getCustomerInfo['customerid'],$request['wealthid']);
+      $fundclassassests = $this->dashboardrecordsinfo->getWealthAllocationAssets($getCustomerInfo['customerid'],$request['goalid']);
       // dd($fundclassassests);
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
-        $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['wealthid'],$value['asset']);
+        $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['asset']);
      // dd($goalsAssData);
       $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype']);
          // if($fundclassData)
@@ -333,7 +333,7 @@ class FundBasicInfoController extends Controller
           
           //$reqData['defaultfund'] = $value2['fundid'];
           $reqData['fundid'] = $value2['fundid'];
-          $reqData['goalid'] = $request['wealthid'];
+          $reqData['goalid'] = $request['goalid'];
           $reqData['customerorderid'] = $orderstatus['customerorderid'];
          $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
          $checkData = $this->fundroi->checkCustomerFund($reqData);
