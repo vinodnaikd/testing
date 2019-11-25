@@ -31,12 +31,33 @@ class FundClass extends Model
     }
     public function getFundClassData($assettype,$inactive=0)
     {
-        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive)->groupBy('assettype')->get()->toArray();
+        if($assettype == "Equity")
+          $assetcategory = "Equity Largecap";
+        if($assettype == "Debt")
+          $assetcategory = "Debt Medium";
+
+         $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype);
+         if(isset($assetcategory))
+         {
+            $query->where('asset_category',$assetcategory);
+         }
+         return $query->where('fundclass.inactive',$inactive)->groupBy('assettype')->get()->toArray();
     }
 
      public function getFundClassDataForWealth($assettype,$inactive=0)
     {
-        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('asset',$assettype)->where('fundclass.inactive',$inactive)->groupBy('asset')->get()->toArray();
+
+
+        $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset_category')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive);
+         if($assettype == "Equity")
+        {
+            $query->where('asset_category',"Equity Largecap")->orwhere('asset_category',"Equity Midcap")->orwhere('asset_category',"Equity Smallcap");
+        }
+        if($assettype == "Debt")
+        {
+          $query->where('asset_category',"Debt Long")->orwhere('asset_category',"Debt Medium");
+        }
+        return $query->groupBy('asset_category')->get()->toArray();//->groupBy('asset')->get()->toArray();
     }
 
     public function getFundClassSubcategoryData($subcategory,$inactive=0)

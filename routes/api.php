@@ -178,6 +178,7 @@ Route::post('/v1/products/funddetails/customercheckoutsummary', 'FundBasicInfoCo
 Route::post('/v1/products/funddetails/customerfunddataposttran', 'FundBasicInfoController@funddataposttran');
 Route::post('/v1/products/funddetails/customerfunddetailposttran', 'FundBasicInfoController@funddetailposttran');
 Route::post('/v1/products/funddetails/getfundproducts', 'FundBasicInfoController@getFundsDetails');
+Route::post('/v1/products/funddetails/getwealthfundproducts', 'FundBasicInfoController@getWealthFundsDetails');
 Route::post('/v1/products/funddetails/getselectedfundproducts', 'FundBasicInfoController@getCustomerSelectedProducts');
 Route::post('/v1/products/funddetails/getcustomerordersummary', 'FundBasicInfoController@getCustomerOrderDetails');
 Route::post('/v1/products/funddetails/getcustomergoalsordersummary', 'FundBasicInfoController@getCustomerGoalsOrderDetails');

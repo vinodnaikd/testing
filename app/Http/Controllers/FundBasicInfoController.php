@@ -256,6 +256,129 @@ class FundBasicInfoController extends Controller
      $data['fund_id'] = "string";
     return response()->json($data);
     }
+
+      public function getWealthFundsDetails(Request $request)
+   {
+        $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100',
+          'wealthid' => 'required|string|max:100',
+            ]);
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+        //Get the nri elligbility and pass to getFundProducts
+      $customerDetails = $this->customerdetails->getCustomerIsNRI($request['userid']);
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+       $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+
+      if($customerDetails)
+      $nrielligble = $customerDetails['residential_status'];
+      else
+      $nrielligble = "";
+      
+      $fundclassassests = $this->dashboardrecordsinfo->getWealthAllocationAssets($getCustomerInfo['customerid'],$request['wealthid']);
+      // dd($fundclassassests);
+      $fundAssets = array();
+      foreach($fundclassassests as $key =>$value)
+      {
+        $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['wealthid'],$value['asset']);
+     // dd($goalsAssData);
+      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype']);
+         // if($fundclassData)
+          $assests['assettype'] = $value['assettype'];
+         $fundClass = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['assetcategory'] = $value1['asset_category'];
+            $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
+            $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
+            $fund['limit'] = "2";
+            $fundProducts = array();
+            $limit = 5;
+            if(!empty($request['fundclassid']))
+            {
+              if($request['fundclassid'] == $value1['fundclassid'])
+              {
+                $viewmore = "loadmore";
+              $fundclassid = $request['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+              }/*
+              else
+              {
+                $viewmore = "";
+              $fundclassid = $value1['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+              }*/
+              
+            }
+            else
+            {
+              $viewmore = "";
+              $fundclassid = $value1['fundclassid'];
+              $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
+            }
+           
+           // dd($fundprodcutsData);
+         foreach($fundprodcutsData as $key2 => $value2)
+         {
+          
+          //$reqData['defaultfund'] = $value2['fundid'];
+          $reqData['fundid'] = $value2['fundid'];
+          $reqData['goalid'] = $request['wealthid'];
+          $reqData['customerorderid'] = $orderstatus['customerorderid'];
+         $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
+         $checkData = $this->fundroi->checkCustomerFund($reqData);
+         // dd($checkData);
+          if($checkFundStatus)
+          {
+            $products['fundstatus'] = "checked";
+          }
+          else
+          {
+            if($checkData == "empty" && $key2 == 0)
+         {
+          // echo "hai";
+          $products['fundstatus'] = "checked";
+         }
+         else
+         {
+              $products['fundstatus'] = "unchecked";          
+         }
+          }
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['amccode'] = $value2['amccode'];
+              $products['mininvestment'] = $value2['mininvt'];
+              $products['sipmininvest'] = $value2['sipmininvest'];
+              $products['AUM'] = number_format($value2['incret'],2);
+              $products['oneM'] = number_format($value2['1monthret'],2);
+              $products['sixM'] = number_format($value2['6monthret'],2);
+              $products['oneY'] = number_format($value2['1yrret'],2);
+              $products['threeY'] = number_format($value2['3yearet'],2);
+              $products['fiveY'] = number_format($value2['5yearret'],2);
+              array_push($fundProducts, $products);
+         }
+              $fund['fundproducts'] = $fundProducts;
+            array_push($fundClass, $fund);
+         }
+         $assests['fundclass'] = $fundClass;
+         // dd($assests);
+         array_push($fundAssets, $assests);
+      }
+      return response()->json([
+              'funds' => $fundAssets
+          ], 200);
+   }
+
      public function getFundsDetails(Request $request)
    {
         $validator = Validator::make($request->json()->all(), [
@@ -277,22 +400,22 @@ class FundBasicInfoController extends Controller
       $nrielligble = $customerDetails['residential_status'];
       else
       $nrielligble = "";
-      if($request['goal_wealth_type'] == "goal")
-      {
+      /*if($request['goal_wealth_type'] == "goal")
+      {*/
       $fundclassassests = $this->fundclass->getFundClassAssestType();
-      }
+     /* }
       else
       {
       $fundclassassests = $this->dashboardrecordsinfo->getWealthAllocationAssets($getCustomerInfo['customerid'],$request['goalid']);
       // dd($fundclassassests);
-      }
+      }*/
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-        // dd($goalsAssData['asset']);
+        // print_r($goalsAssData['asset']);
          
-      /*   if($request['goal_wealth_type'] == "goal")
+        /*if($request['goal_wealth_type'] == "goal")
       {*/
       $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
      /* }
@@ -300,7 +423,7 @@ class FundBasicInfoController extends Controller
       {
       $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['asset']);
       }*/
-         if($fundclassData)
+         // if($fundclassData)
           $assests['assettype'] = $value['assettype'];
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
