@@ -68,7 +68,11 @@ public $timestamps = false;
 
     public function getGoalsAssetsAllocationDetailsSipLum($customerid,$goalid,$asset,$type)
     {
-      // dd($asset);
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('asset',$asset)->where('purchase_type',$type)->get()->first();
+    }
+
+       public function getWealthAssetsAllocationDetailsSipLum($customerid,$goalid,$asset,$type)
+    {
+        return $this->join('fundclass as c','c.asset','=','goals_assets_allocation.asset')->where('customerid',$customerid)->where('goalid',$goalid)->where('c.assettype',$asset)->where('purchase_type',$type)->get()->first();
     }
 }

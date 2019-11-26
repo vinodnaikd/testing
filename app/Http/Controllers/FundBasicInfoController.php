@@ -601,6 +601,7 @@ class FundBasicInfoController extends Controller
           $fundAssets = array();
           $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
           $fundassestsData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
+          // dd($fundassestsData);
           if($fundassestsData)
           foreach($fundassestsData as $key => $value)
           {
@@ -623,8 +624,24 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+            // dd($request['goal_wealth_type']);
+            if(isset($request['goal_wealth_type']))
+            {
+              if($request['goal_wealth_type'] == "goal")
+              {
+                // echo 1;
             $goalsAssLumData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+            // dd($goalsAssLumData);
             $goalsAssSipData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
+              }
+              else
+              {
+            $goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+            // dd($goalsAssLumData);
+            $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
+              }
+            }
+
             $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
             $lumsiptype = array_column($goalsAssType, 'purchase_type');
             // dd(array_column($goalsAssType, 'purchase_type'));
@@ -637,8 +654,9 @@ class FundBasicInfoController extends Controller
             // dd($fund['Sip_Amount']);
             $lumProductsArray = array();
             $sipProductsArray = array();
-            // dd($fundprodcutsData);
+            // dd($goalsAssLumData);
             foreach ($fundprodcutsData as $key2 => $value2) {
+              // dd($value2);
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
