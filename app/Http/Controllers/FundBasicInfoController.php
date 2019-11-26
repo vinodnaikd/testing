@@ -286,7 +286,9 @@ class FundBasicInfoController extends Controller
       {
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['asset']);
      // dd($goalsAssData);
-      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype']);
+        $goalsAssetstypesData = $this->dashboardrecordsinfo->getWealthAllocationAssetstypes($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
+        // dd($goalsAssetstypesData);
+      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype'],$goalsAssetstypesData);
          // if($fundclassData)
           $assests['assettype'] = $value['assettype'];
          $fundClass = array();

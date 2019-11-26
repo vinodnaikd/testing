@@ -45,9 +45,17 @@ public $timestamps = false;
     
     public function getWealthAllocationAssets($customerid,$goalid)
     {
+        // dd($assetscat);
         return $this->select('c.assettype','goals_assets_allocation.asset')
         ->join('fundclass as c','goals_assets_allocation.asset','=','c.asset')
          ->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->groupby('c.assettype')->get()->toArray();
+    }
+
+        public function getWealthAllocationAssetstypes($customerid,$goalid,$asset)
+    {
+        return $this->select('c.assettype','goals_assets_allocation.asset')
+        ->join('fundclass as c','goals_assets_allocation.asset','=','c.asset')
+         ->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('c.assettype',$asset)->groupby('c.asset')->get()->toArray();
     }
 
      public function getGoalsAllocationDetailsForFunds($customerid,$goalid,$asset)

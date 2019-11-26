@@ -44,20 +44,32 @@ class FundClass extends Model
          return $query->where('fundclass.inactive',$inactive)->groupBy('assettype')->get()->toArray();
     }
 
-     public function getFundClassDataForWealth($assettype,$inactive=0)
+     public function getFundClassDataForWealth($assettype,$asset,$inactive=0)
     {
 
-
+      // print_r($asset);
         $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset_category')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive);
          if($assettype == "Equity")
         {
-            $query->where('asset_category',"Equity Largecap")->orwhere('asset_category',"Equity Midcap")->orwhere('asset_category',"Equity Smallcap");
+          foreach ($asset as $key => $value) {
+            if($key == 0)
+            $query->where('asset',$value['asset']);
+            else
+            $query->orwhere('asset',$value['asset']);
+          }
+            /*$query->where('asset_category',"Equity Largecap")->orwhere('asset_category',"Equity Midcap")->orwhere('asset_category',"Equity Smallcap");*/
         }
         if($assettype == "Debt")
         {
-          $query->where('asset_category',"Debt Long")->orwhere('asset_category',"Debt Medium");
+          foreach ($asset as $key => $value) {
+            if($key == 0)
+            $query->where('asset',$value['asset']);
+            else
+            $query->orwhere('asset',$value['asset']);
+          }
+          /*$query->where('asset_category',"Debt Long")->orwhere('asset_category',"Debt Medium");*/
         }
-        return $query->groupBy('asset_category')->get()->toArray();//->groupBy('asset')->get()->toArray();
+        return $query->groupBy('asset')->get()->toArray();//->groupBy('asset')->get()->toArray();
     }
 
     public function getFundClassSubcategoryData($subcategory,$inactive=0)
