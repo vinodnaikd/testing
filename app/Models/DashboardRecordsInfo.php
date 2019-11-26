@@ -55,6 +55,11 @@ public $timestamps = false;
         return $this->join('fundclass as c','c.asset','=','goals_assets_allocation.asset')->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('goals_assets_allocation.asset',$asset)->where('goals_assets_allocation.asset_value','!=','0')->groupby('goals_assets_allocation.asset')->get()->first();
     }
 
+    public function getGoalsAllocationForFunds($customerid,$goalid,$asset)
+    {
+        return $this/*->join('fundclass as c','c.asset','=','goals_assets_allocation.asset')*/->where('goals_assets_allocation.customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('goals_assets_allocation.asset',$asset)->where('goals_assets_allocation.asset_value','!=','0')->groupby('goals_assets_allocation.asset')->get()->first();
+    }
+
     public function getGoalsAssetsAllocationDetails($customerid,$goalid,$asset)
     {
     	// dd($asset);
