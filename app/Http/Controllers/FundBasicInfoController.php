@@ -678,8 +678,8 @@ class FundBasicInfoController extends Controller
             $goalsAssSipData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
             $goalsAssSipData = array_sum(array_column($goalsAssSipData1, 'asset_value'));
 
-            /*$fund['Lumpsum_Amount'] = $goalsAssLumData;
-            $fund['Sip_Amount'] = $goalsAssSipData;*/
+            $fund['Lumpsum_Amount'] = $goalsAssLumData;
+            $fund['Sip_Amount'] = $goalsAssSipData;
               }
             }
 
@@ -690,7 +690,7 @@ class FundBasicInfoController extends Controller
             // print_r($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
               // dd($value2);
-              if($request['goal_wealth_type'] == "wealth")
+              if($request['goal_wealth_type'] != "goal")
                 {
                   $ProdData = $this->fundroi->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value2['asset'],'L');
                   $prdtcount = count($ProdData);
@@ -792,8 +792,7 @@ class FundBasicInfoController extends Controller
               }
            
             }
-            $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
-            $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
+            
             array_push($selectedProductsArray, $fundproductsArr);
             $fund['fundslist'] = $selectedProductsArray;
             array_push($assetsArray, $fund);
