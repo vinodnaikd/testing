@@ -690,7 +690,7 @@ class FundBasicInfoController extends Controller
             // print_r($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
               // dd($value2);
-              if($request['goal_wealth_type'] != "goal")
+              if($request['goal_wealth_type'] == "wealth")
                 {
                   $ProdData = $this->fundroi->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value2['asset'],'L');
                   $prdtcount = count($ProdData);

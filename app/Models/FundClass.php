@@ -107,7 +107,7 @@ class FundClass extends Model
           ->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')
           ->join('customerorderpretran as cp','cp.customerorderid','=','customerorderdetailpretran.customerorderid')
           ->join('goals_assets_allocation as g','g.asset','=','fundclass.asset')
-          ->where('cp.customerid',$customerid)
+          ->where('g.customerid',$customerid)
           ->where('g.purchase_type',$purchase_type)
           ->where('customerorderdetailpretran.customergoalid',$goalId)
           ->where('fundclass.assettype',$assettype)
