@@ -76,7 +76,7 @@ class FundPerformance extends Model
                     ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
                     ->where('customerfunddetailposttran.customerid',$customerid)
                     ->where('CG.customergoalid','!=','')
-                    ->groupby('CG.CustomerGoalId','CG.GoalName','CG.FutureCost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount')->orderBy('CG.goalpriority','ASC')
+                    ->groupby('customerfunddetailposttran.CustomerGoalId')->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
 
