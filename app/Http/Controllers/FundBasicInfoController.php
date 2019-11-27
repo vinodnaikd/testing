@@ -678,8 +678,8 @@ class FundBasicInfoController extends Controller
             $goalsAssSipData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
             $goalsAssSipData = array_sum(array_column($goalsAssSipData1, 'asset_value'));
 
-            $fund['Lumpsum_Amount'] = $goalsAssLumData;
-            $fund['Sip_Amount'] = $goalsAssSipData;
+            /*$fund['Lumpsum_Amount'] = $goalsAssLumData;
+            $fund['Sip_Amount'] = $goalsAssSipData;*/
               }
             }
 
@@ -792,7 +792,8 @@ class FundBasicInfoController extends Controller
               }
            
             }
-            
+            $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
+            $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
             array_push($selectedProductsArray, $fundproductsArr);
             $fund['fundslist'] = $selectedProductsArray;
             array_push($assetsArray, $fund);
