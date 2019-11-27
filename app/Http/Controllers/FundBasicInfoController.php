@@ -602,7 +602,20 @@ class FundBasicInfoController extends Controller
          
           $fundAssets = array();
           $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-          $fundassestsData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
+
+            if(isset($request['goal_wealth_type']))
+            {
+              if($request['goal_wealth_type'] == "goal")
+              {
+                $fundassestsData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
+                // dd($fundassestsData);
+              }
+              else
+              {
+                $fundassestsData = $this->fundclass->getCustomerWealthSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
+              }
+            }
+
           // dd($fundassestsData);
           if($fundassestsData)
           foreach($fundassestsData as $key => $value)
@@ -626,7 +639,10 @@ class FundBasicInfoController extends Controller
             $fundProducts = array();
             $selectedProductsArray = array();
             $fundprodcutsData = $this->fundrecord->getCustomerSelectedProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-            // dd($request['goal_wealth_type']);
+            // dd($fundprodcutsData);
+               $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
+            $lumsiptype = array_column($goalsAssType, 'purchase_type');
+
             if(isset($request['goal_wealth_type']))
             {
               if($request['goal_wealth_type'] == "goal")
@@ -635,33 +651,61 @@ class FundBasicInfoController extends Controller
             $goalsAssLumData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
             // dd($goalsAssLumData);
             $goalsAssSipData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
-              }
-              else
-              {
-            $goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
-            // dd($goalsAssLumData);
-            $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
-              }
-            }
+//fund values
 
-            $goalsAssType = $this->dashboardrecordsinfo->getGoalsAllocationTypesDetails($getCustomerInfo['customerid'],$request['goalid']);
-            $lumsiptype = array_column($goalsAssType, 'purchase_type');
-            // dd(array_column($goalsAssType, 'purchase_type'));
             $fundprdtscount = (count($fundprodcutsData)/2);
             $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
             $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
-            // dd($fundsipvalue);
             $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
             $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
+
+              }
+              else
+              {
+                /*$ProdData = $this->fundrecord->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');*/
+            /*$goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+            // dd($goalsAssLumData);
+            $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
+//fund values
+
+            $fundprdtscount = (count($fundprodcutsData)/2);
+            $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+            $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+            */
+
+            $goalsAssLumData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+           $goalsAssLumData = array_sum(array_column($goalsAssLumData1, 'asset_value'));
+            $goalsAssSipData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
+            $goalsAssSipData = array_sum(array_column($goalsAssSipData1, 'asset_value'));
+
+            $fund['Lumpsum_Amount'] = $goalsAssLumData;
+            $fund['Sip_Amount'] = $goalsAssSipData;
+              }
+            }
+
+            
             // dd($fund['Sip_Amount']);
             $lumProductsArray = array();
             $sipProductsArray = array();
-            // dd($goalsAssLumData);
+            // print_r($fundprodcutsData);
             foreach ($fundprodcutsData as $key2 => $value2) {
               // dd($value2);
+              if($request['goal_wealth_type'] == "wealth")
+                {
+                  $ProdData = $this->fundroi->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value2['asset'],'L');
+                  $prdtcount = count($ProdData);
+                $goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'L');
+            // dd($goalsAssLumData['asset_value']);
+              $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'S');
+
+              $fundlumvalue = round(($goalsAssLumData['asset_value']/$prdtcount),2);
+            $fundsipvalue = round(($goalsAssSipData['asset_value']/$prdtcount),2);
+                }
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
+
+                
                 // dd($fundvalueData);
                      if($fundvalueData)
                     {
@@ -748,6 +792,7 @@ class FundBasicInfoController extends Controller
               }
            
             }
+            
             array_push($selectedProductsArray, $fundproductsArr);
             $fund['fundslist'] = $selectedProductsArray;
             array_push($assetsArray, $fund);

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use DB;
 class FundClass extends Model
 {
     protected $table = 'fundclass';
@@ -46,7 +46,6 @@ class FundClass extends Model
 
      public function getFundClassDataForWealth($assettype,$asset,$inactive=0)
     {
-
       // print_r($asset);
         $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset_category')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive);
          if($assettype == "Equity")
@@ -90,6 +89,31 @@ class FundClass extends Model
           ->where('customerorderdetailpretran.customergoalid',$goalId)
           ->groupBy('fundclass.assettype')->get()->toArray();
 	}
+
+    public function getCustomerWealthSelectedAssests($customerid,$goalId)
+    {
+    return $this->select('fundclass.assettype','fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')
+          ->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')
+          ->join('customerorderpretran as cp','cp.customerorderid','=','customerorderdetailpretran.customerorderid')
+          ->join('goals_assets_allocation as g','g.asset','=','fundclass.asset')
+          ->where('cp.customerid',$customerid)
+          ->where('customerorderdetailpretran.customergoalid',$goalId)
+          ->groupBy('fundclass.assettype')->get()->toArray();
+  }
+
+      public function getCustomerWealthSelectedAssestsSumAmount($customerid,$goalId,$assettype,$purchase_type)
+    {
+    return $this->select('g.asset_value')->join('fund','fund.fundclassid','=','fundclass.fundclassid')
+          ->join('customerorderdetailpretran','customerorderdetailpretran.fundid','=','fund.fundid')
+          ->join('customerorderpretran as cp','cp.customerorderid','=','customerorderdetailpretran.customerorderid')
+          ->join('goals_assets_allocation as g','g.asset','=','fundclass.asset')
+          ->where('cp.customerid',$customerid)
+          ->where('g.purchase_type',$purchase_type)
+          ->where('customerorderdetailpretran.customergoalid',$goalId)
+          ->where('fundclass.assettype',$assettype)
+          ->groupBy('fundclass.fundclassid')->get()->toArray();
+  }
+
 	    public function getSearchedMutualFundData($searchData)
    	{
    		//dd($searchData['category']);

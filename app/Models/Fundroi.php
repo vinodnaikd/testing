@@ -60,6 +60,16 @@ public $timestamps = false;
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$IdsArray['customerid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
     }
 
+    public function getWealthAssetsAllocationDetailsSipLumProducts($customerid,$goalid,$assettype)
+   {
+    return $this->join('fund as f','customerorderdetailpretran.fundid','=','f.fundid')
+                ->join('fundclass as fc','f.fundclassid','=','fc.fundclassid')
+                ->where('fc.asset',$assettype)
+                ->where('customerorderdetailpretran.customergoalid',$goalid)
+                ->groupby('customerorderdetailpretran.fundid')
+                ->get()->toArray();
+   }
+
     public function getFundLumpsumRedemption($customerid,$fundid,$goalid)
     {
       return $this->select(DB::raw('SUM(customerorderdetailpretran.lumpsumamount) as amount'))->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('purchasetype',"L")->get()->first();
