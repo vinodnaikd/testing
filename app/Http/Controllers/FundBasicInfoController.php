@@ -605,15 +605,15 @@ class FundBasicInfoController extends Controller
 
             if(isset($request['goal_wealth_type']))
             {
-              if($request['goal_wealth_type'] == "goal")
-              {
+              /*if($request['goal_wealth_type'] == "goal")
+              {*/
                 $fundassestsData = $this->fundclass->getCustomerSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
                 // dd($fundassestsData);
-              }
+             /* }
               else
               {
                 $fundassestsData = $this->fundclass->getCustomerWealthSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
-              }
+              }*/
             }
 
           // dd($fundassestsData);
