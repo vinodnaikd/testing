@@ -1459,7 +1459,8 @@ public function getSipModifiedSummary(Request $request)
                 'messages' => $validator->messages()
             ], 400);
         }
-        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid'],$request['fundid']);
+        // dd($fundSipData);
         if($fundSipData)
         {
           $arr['transactionstatus'] = "cancelled";
@@ -1467,6 +1468,7 @@ public function getSipModifiedSummary(Request $request)
           $idsArr['goalid'] = $request['goalid'];
           $idsArr['customerorderid'] = $fundSipData['customerorderid'];
           $updateSipData = $this->fundroi->updateSipModifiedData($arr,$idsArr);
+          // dd($updateSipData);
           if($updateSipData)
           {
             $reqData['fundid'] = $request['fundid'];
@@ -1476,7 +1478,7 @@ public function getSipModifiedSummary(Request $request)
             $reqData['customerorderid'] = $fundSipData['customerorderid'];
             $reqData['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF88675".mt_rand(10,10000);
             $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
-            if($fundDetailsUpd)
+            if($fundDetailsUpd || $fundDetailsUpd == 0)
             {
               return response()->json([
               'status' => 'success',
@@ -1496,7 +1498,7 @@ public function getSipModifiedSummary(Request $request)
         }
       }
       elseif ($request['modify_type'] == "cancel") {
-        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid'],$request['fundid']);
         if($fundSipData)
         {
           $arr['transactionstatus'] = "cancelled";
@@ -1531,7 +1533,7 @@ public function getSipModifiedSummary(Request $request)
                 'messages' => $validator->messages()
             ], 400);
         }
-        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid']);
+        $fundSipData = $this->fundroi->checkSipModified($getCustomerInfo['customerid'],$request['fundid']);
         if($fundSipData)
         {
           $arr['transactionstatus'] = "cancelled";

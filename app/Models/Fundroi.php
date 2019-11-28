@@ -95,9 +95,9 @@ public $timestamps = false;
       return $this->select(DB::raw('SUM(customerorderdetailpretran.sipamount) as amount'))->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('purchasetype',"S")->get()->first();
     }
 
-    public function checkSipModified($customerid)
+    public function checkSipModified($customerid,$fundid)
     {
-      return $this->select('op.customerorderid','customerorderdetailpretran.sipamount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->get()->first();
+      return $this->select('op.customerorderid','customerorderdetailpretran.sipamount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->where('transactionstatus',"pending")->where('customerorderdetailpretran.fundid',$fundid)->groupby('customerorderdetailpretran.customerorderid')->get()->first();
     }
 
      public function InsertCustomerFundRedemption($arr)
