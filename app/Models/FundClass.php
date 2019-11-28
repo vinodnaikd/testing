@@ -109,7 +109,7 @@ class FundClass extends Model
           ->join('goals_assets_allocation as g','g.asset','=','fundclass.asset')
           ->where('g.customerid',$customerid)
           ->where('g.purchase_type',$purchase_type)
-          ->where('customerorderdetailpretran.customergoalid',$goalId)
+          ->where('g.goalid',$goalId)
           ->where('fundclass.assettype',$assettype)
           ->groupBy('fundclass.fundclassid')->get()->toArray();
   }

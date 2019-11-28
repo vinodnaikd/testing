@@ -599,10 +599,10 @@ class FundBasicInfoController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
-         
+         // dd()
           $fundAssets = array();
           $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-
+          // dd($getCustomerInfo);
             if(isset($request['goal_wealth_type']))
             {
             /*  if($request['goal_wealth_type'] == "goal")
@@ -674,7 +674,9 @@ class FundBasicInfoController extends Controller
             */
 
             $goalsAssLumData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'L');
+             // dd($goalsAssLumData1);
            $goalsAssLumSumData = array_sum(array_column($goalsAssLumData1, 'asset_value'));
+
            $fund['Lumpsum_Amount'] = $goalsAssLumSumData;
             $goalsAssSipData1 = $this->fundclass->getCustomerWealthSelectedAssestsSumAmount($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
             $goalsAssSipSumData = array_sum(array_column($goalsAssSipData1, 'asset_value'));
