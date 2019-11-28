@@ -111,7 +111,7 @@ class FundClass extends Model
           ->where('g.purchase_type',$purchase_type)
           ->where('g.goalid',$goalId)
           ->where('fundclass.assettype',$assettype)
-          ->groupBy('fundclass.fundclassid')->get()->toArray();
+          ->groupBy('g.asset')->get()->toArray();
   }
 
 	    public function getSearchedMutualFundData($searchData)
