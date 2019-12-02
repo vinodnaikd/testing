@@ -694,7 +694,8 @@ class FundBasicInfoController extends Controller
               if($request['goal_wealth_type'] == "wealth")
                 {
                   $ProdData = $this->fundroi->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value2['asset'],'L');
-                  $prdtcount = count($ProdData);
+                  // echo $value2['asset'];
+                   $prdtcount = count($ProdData);
                 $goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'L');
             // dd($goalsAssLumData['asset_value']);
               $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'S');
@@ -712,9 +713,13 @@ class FundBasicInfoController extends Controller
                      if($fundvalueData)
                     {
                       if($fundvalueData['lumpsumamount'] != '0' && $fundvalueData['lumpsumamount'] != null)
+                      {
                       $fundlumvalue1 = $fundvalueData['lumpsumamount'];
+                      }
                       else
+                      {
                        $fundlumvalue1 = $fundlumvalue;
+                      }
                     }
                     else
                     {
@@ -1232,7 +1237,7 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
           'goalid' => 'required|string|max:100',
           'fundid' => 'required|string|max:100',
           'purchasetype' => 'required|string|max:100',
-          'fundvalue' => 'required|max:100',
+          'fundvalue' => 'required|string|max:100',
             ]);
       
       if($validator->fails()) {

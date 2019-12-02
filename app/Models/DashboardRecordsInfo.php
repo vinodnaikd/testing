@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class DashboardRecordsInfo extends Model
 {
@@ -81,7 +82,10 @@ public $timestamps = false;
 
        public function getWealthAssetsAllocationDetailsSipLum($customerid,$goalid,$assettype,$asset,$type)
     {
-        return $this->join('fundclass','fundclass.asset','=','goals_assets_allocation.asset')->where('customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('fundclass.assettype',$assettype)->where('goals_assets_allocation.purchase_type',$type)->where('goals_assets_allocation.asset',$asset)->groupby('goals_assets_allocation.asset')->get()->first();
+      // DB::enableQueryLog();
+        $query = $this->join('fundclass','fundclass.asset','=','goals_assets_allocation.asset')->where('customerid',$customerid)->where('goals_assets_allocation.goalid',$goalid)->where('fundclass.assettype',$assettype)->where('goals_assets_allocation.purchase_type',$type)->where('goals_assets_allocation.asset',$asset)->groupby('goals_assets_allocation.asset')->get()->first();
+        // print_r(DB::getQueryLog());
+        return $query;
     }
 
   /*  public function getWealthAssetsAllocationDetailsSipLum($customerid,$goalid,$assettype,$asset,$type)
