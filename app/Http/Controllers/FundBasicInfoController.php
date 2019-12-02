@@ -708,7 +708,6 @@ class FundBasicInfoController extends Controller
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
 
-                
                 // dd($fundvalueData);
                      if($fundvalueData)
                     {
