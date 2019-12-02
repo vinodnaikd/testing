@@ -118,6 +118,6 @@ public $timestamps = false;
     public function RemoveCustomerFunds($customerid,$customergoalid,$fundid)
     {
       // dd($fundid);
-      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid','=',$customerid)->where('customergoalid','=',$customergoalid)->whereIn('fundid',$fundid)->delete();
+      return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid','=',$customerid)->where('customergoalid','=',$customergoalid)/*->whereIn('fundid',$fundid)*/->delete();
     }
 }
