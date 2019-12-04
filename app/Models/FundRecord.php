@@ -33,6 +33,12 @@ public $timestamps = false;
     return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->join('fundclass','fund.fundclassid','=','fundclass.fundclassid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.purchasetype',$purchasetype)->get()->toArray();
    }
 
+      public function CheckLumpsumSipData($customerid,$goal_id)
+   {
+
+    return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.lumpsumamount','!=',null)->where('customerorderdetailpretran.sipamount','!=',null)->get()->first();
+   }
+
    public function getCustomerGoalsList($customerid,$goalid)
    {
 

@@ -615,8 +615,8 @@ class FundBasicInfoController extends Controller
                 $fundassestsData = $this->fundclass->getCustomerWealthSelectedAssests($getCustomerInfo['customerid'],$request['goalid']);
               }*/
             }
-
-          // dd($fundassestsData);
+            $predata = $this->fundrecord->CheckLumpsumSipData($getCustomerInfo['customerid'],$request['goalid']);
+          // dd($predata);
           if($fundassestsData)
           foreach($fundassestsData as $key => $value)
           {
@@ -719,12 +719,12 @@ class FundBasicInfoController extends Controller
                     {
                        $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
                        // $fundvalueData['lumpsumamount'];
-                      if($request['goal_back'] == 1)
+                      if(!empty($predata))
                       {
-                          if(!empty($fundvalueData['lumpsumamount']))
+                          /*if(!empty($fundvalueData['lumpsumamount']))
                           $fundlumvalue1 = $fundvalueData['lumpsumamount'];
-                          else
-                           $fundlumvalue1 = $fundlumvalue; 
+                          else*/
+                           $fundlumvalue1 = $fundvalueData['lumpsumamount']; 
                       }
                       else
                       {
@@ -763,12 +763,9 @@ class FundBasicInfoController extends Controller
                     if($fundvalueData)
                     {
                       // dd($goalsAssSipData['asset_value']);
-                      if($request['goal_back'] == 1)
+                      if(!empty($predata))
                       {
-                          if(!empty($fundvalueData['sipamount']))
-                          $fundsipvalue1 = $fundvalueData['sipamount'];
-                          else
-                          $fundsipvalue1 = $fundsipvalue; 
+                          $fundsipvalue1 = $fundvalueData['sipamount']; 
                       }
                       else
                        $fundsipvalue1 = $fundsipvalue;
@@ -995,6 +992,16 @@ public function getCustomerGoalsOrderDetails(Request $request)
     public function CustomerFundSelection(Request $request)
    {
       $fundselection = $request->json()->all();
+       $getCustomerInfo = $this->customer->getUserDetailsrow($fundselection[0]['userid']);
+     $fundaddedData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$fundselection[0]['customergoalid']);
+      $fundaddedDataCount = count($fundaddedData);
+      $fundselectionCount = count($fundselection);
+    $removeFundsArr = "";
+    if($fundselectionCount != $fundaddedDataCount)
+    {
+      // dd($removeFundsArr);
+      $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$fundselection[0]['customergoalid'],$removeFundsArr);
+    }
 
       foreach ($fundselection as $key => $value) {
         // print_r($value);
@@ -1015,17 +1022,6 @@ public function getCustomerGoalsOrderDetails(Request $request)
           ], 400);
       }
       
-      $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
-
-      $newFunds = array_column($fundselection, 'fundid');
-     $fundaddedData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$value['customergoalid']);
-     $addedFunds = array_column($fundaddedData, 'fundid');
-    $removeFundsArr = array_diff($addedFunds,$newFunds);
-    if($removeFundsArr)
-    {
-      // dd($removeFundsArr);
-      $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$value['customergoalid'],$removeFundsArr);
-    }
       $checkFund = $this->fundrecord->CheckFundExists($getCustomerInfo['customerid'],$value['customergoalid'],$value['fundid']);
      // dd($checkFund);
         $purchaseArr = array("L","S");
