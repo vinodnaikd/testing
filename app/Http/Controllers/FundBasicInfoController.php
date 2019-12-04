@@ -719,12 +719,9 @@ class FundBasicInfoController extends Controller
                     {
                        $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
                        // $fundvalueData['lumpsumamount'];
-                      if(!empty($predata))
+                      if($fundvalueData['lumpsumamount'] != null && $fundvalueData['lumpsumamount'] != 0)
                       {
-                          /*if(!empty($fundvalueData['lumpsumamount']))
-                          $fundlumvalue1 = $fundvalueData['lumpsumamount'];
-                          else*/
-                           $fundlumvalue1 = $fundvalueData['lumpsumamount']; 
+                          $fundlumvalue1 = $fundvalueData['lumpsumamount']; 
                       }
                       else
                       {
@@ -763,7 +760,7 @@ class FundBasicInfoController extends Controller
                     if($fundvalueData)
                     {
                       // dd($goalsAssSipData['asset_value']);
-                      if(!empty($predata))
+                      if($fundvalueData['sipamount'] != null && $fundvalueData['sipamount'] != 0)
                       {
                           $fundsipvalue1 = $fundvalueData['sipamount']; 
                       }
