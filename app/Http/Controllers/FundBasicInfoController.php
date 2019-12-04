@@ -721,7 +721,10 @@ class FundBasicInfoController extends Controller
                        // $fundvalueData['lumpsumamount'];
                       if($request['goal_back'] == 1)
                       {
+                          if(!empty($fundvalueData['lumpsumamount']))
                           $fundlumvalue1 = $fundvalueData['lumpsumamount'];
+                          else
+                           $fundlumvalue1 = $fundlumvalue; 
                       }
                       else
                       {
@@ -762,7 +765,10 @@ class FundBasicInfoController extends Controller
                       // dd($goalsAssSipData['asset_value']);
                       if($request['goal_back'] == 1)
                       {
+                          if(!empty($fundvalueData['sipamount']))
                           $fundsipvalue1 = $fundvalueData['sipamount'];
+                          else
+                          $fundsipvalue1 = $fundsipvalue; 
                       }
                       else
                        $fundsipvalue1 = $fundsipvalue;
