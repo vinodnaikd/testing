@@ -674,6 +674,31 @@ else
         $purtype = array_unique(array_column($allocationData, 'purchase_type'));
         // dd($purtype); 
         $getCustomerInfo = $this->customer->getUserDetailsrow($allocationData[0]['userid']);
+        $purArr = array("L","S");
+        // dd($purtype);
+        foreach ($purArr as $key1 => $value1) {
+          // if($value1 == "")
+          if(in_array($value1, $purtype))
+        {
+
+          $reqData3['lum_sip_type'] = "checked";
+          $GoalAssetUpdDetails = $this->dashboardrecordsinfo->updateGoalAssetStatus($getCustomerInfo['customerid'],$allocationData[0]['goalid'],$value1,$reqData3);
+        }
+        else
+        {
+          $reqData3['lum_sip_type'] = "";
+          $GoalAssetUpdDetails = $this->dashboardrecordsinfo->updateGoalAssetStatus($getCustomerInfo['customerid'],$allocationData[0]['goalid'],$value1,$reqData3);
+        }
+        }
+        $GoalAssetDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$allocationData[0]['goalid']);
+        $goalsAssetCnt = count($allocationData);
+        $goalsAssCount = count($GoalAssetDetails);
+        if($goalsAssetCnt < $goalsAssCount)
+        {
+          $removeFundsArr = "";
+            $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$allocationData[0]['goalid'],$removeFundsArr);
+        }
+        // dd($GoalAssetDetails);
      /*   $GoalAssetDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$allocationData[0]['goalid']);
         // dd($goalsAssData);
         $goalsLumSip = array_unique(array_column($allocationData, 'purchase_type'));
@@ -707,14 +732,20 @@ else
         $reqData['purchase_type'] = $value['purchase_type'];
         $reqData['lumpsum_sip'] = $value['lum_sip'];
         // $reqData['lum_sip'] = $value['lum_sip'];
-        if(in_array($reqData['purchase_type'], $purtype))
+        /*if(in_array($reqData['purchase_type'], $purtype))
         {
           $reqData['lum_sip_type'] = "checked";
-        }
+        }*/
         /*else
         {
         $reqData['lum_sip_type'] = $value['lum_sip_type'];
         }*/
+        $GoalAssetLumSip = $this->dashboardrecordsinfo->getGoalsAllocationLumSipDetails($getCustomerInfo['customerid'],$value['goalid'],$value['purchase_type'],$value['asset']);
+        if($GoalAssetLumSip['asset_value'] == $value['asset_value'])
+        {
+            $removeFundsArr = "";
+            $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$value['goalid'],$removeFundsArr);
+        }
         if($reqData['purchase_type'] == "S")
         {
         $reqData['duration'] = $value['duration'];

@@ -28,9 +28,23 @@ public $timestamps = false;
        return $this->where('goal_ass_id',$goal_ass_id)->update($arr);;
         
     }
+
+    public function updateGoalAssetStatus($customerid,$goal_id,$puctype,$lumsip)
+    {
+       return $this->where('customerid',$customerid)
+       ->where('goalid',$goal_id)
+       ->where('purchase_type',$puctype)
+       ->update($lumsip);
+    }
+
     public function getGoalsAllocationDetails($customerid,$goalid)
     {
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->get()->toArray();
+    }
+
+        public function getGoalsAllocationLumSipDetails($customerid,$goalid,$purchasetype,$asset)
+    {
+        return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('purchase_type',$purchasetype)->where('asset',$asset)->get()->first();
     }
 
     public function getGoalsAllocationDetailsForRebalancing($customerid,$goalid)

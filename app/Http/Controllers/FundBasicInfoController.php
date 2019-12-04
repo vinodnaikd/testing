@@ -652,10 +652,17 @@ class FundBasicInfoController extends Controller
             // dd($goalsAssLumData);
             $goalsAssSipData = $this->dashboardrecordsinfo->getGoalsAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],'S');
 //fund values
-
-            $fundprdtscount = (count($fundprodcutsData)/2);
-            $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+            if($fundprodcutsData)
+            {
+                $fundprdtscount = (count($fundprodcutsData)/2);
+              /*if($fundprdtscount)
+              {
+                //echo $value['']
+                 $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
             $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+              }*/
+            }
+          
             $fund['Lumpsum_Amount'] = $goalsAssLumData['asset_value'];
             $fund['Sip_Amount'] = $goalsAssSipData['asset_value'];
 
@@ -695,7 +702,7 @@ class FundBasicInfoController extends Controller
                 {
                   $ProdData = $this->fundroi->getWealthAssetsAllocationDetailsSipLumProducts($getCustomerInfo['customerid'],$request['goalid'],$value2['asset'],'L');
                   // echo $value2['asset'];
-                   $prdtcount = count($ProdData);
+                   $fundprdtscount = count($ProdData);
                 $goalsAssLumData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'L');
             // dd($goalsAssLumData['asset_value']);
               $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'S');
@@ -707,23 +714,24 @@ class FundBasicInfoController extends Controller
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
-
                 // dd($fundvalueData);
                      if($fundvalueData)
                     {
-                      if($fundvalueData['lumpsumamount'] != '0' && $fundvalueData['lumpsumamount'] != null)
+                       $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+                       // $fundvalueData['lumpsumamount'];
+                      if($request['goal_back'] == 1)
                       {
-                      $fundlumvalue1 = $fundvalueData['lumpsumamount'];
+                          $fundlumvalue1 = $fundvalueData['lumpsumamount'];
                       }
                       else
                       {
                        $fundlumvalue1 = $fundlumvalue;
                       }
                     }
-                    else
+                    /*else
                     {
                       $fundlumvalue1 = $fundlumvalue;
-                    }
+                    }*/
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
                     $fundproducts1['fundvalue'] = $fundlumvalue1;
@@ -748,17 +756,21 @@ class FundBasicInfoController extends Controller
               elseif($value2['purchasetype'] == "S" && $goalsAssSipData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
+                $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
                     if($fundvalueData)
                     {
-                      // dd($fundvalueData);
-                      if($fundvalueData['sipamount'] != '0' && $fundvalueData['sipamount'] != null)
-                      $fundsipvalue1 = $fundvalueData['sipamount'];
+                      // dd($goalsAssSipData['asset_value']);
+                      if($request['goal_back'] == 1)
+                      {
+                          $fundsipvalue1 = $fundvalueData['sipamount'];
+                      }
                       else
                        $fundsipvalue1 = $fundsipvalue;
                     }
                     else
                     {
                       $fundsipvalue1 = $fundsipvalue;
+                      // dd($fundprdtscount);
                     }
                     $fundproducts2['fundid'] = $value2['fundid'];
                     $fundproducts2['fundname'] = $value2['fundname'];
