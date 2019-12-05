@@ -655,6 +655,8 @@ class FundBasicInfoController extends Controller
             if($fundprodcutsData)
             {
                 $fundprdtscount = (count($fundprodcutsData)/2);
+                $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+            $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
               /*if($fundprdtscount)
               {
                 //echo $value['']
@@ -707,8 +709,8 @@ class FundBasicInfoController extends Controller
             // dd($goalsAssLumData['asset_value']);
               $goalsAssSipData = $this->dashboardrecordsinfo->getWealthAssetsAllocationDetailsSipLum($getCustomerInfo['customerid'],$request['goalid'],$value['assettype'],$value2['asset'],'S');
 
-              $fundlumvalue = round(($goalsAssLumData['asset_value']/$prdtcount),2);
-            $fundsipvalue = round(($goalsAssSipData['asset_value']/$prdtcount),2);
+              $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+            $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
                 }
                 // dd($goalsAssLumData);
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
@@ -717,7 +719,7 @@ class FundBasicInfoController extends Controller
                 // dd($fundvalueData);
                      if($fundvalueData)
                     {
-                       $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
+                       /*$fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);*/
                        // $fundvalueData['lumpsumamount'];
                       if($fundvalueData['lumpsumamount'] != null && $fundvalueData['lumpsumamount'] != 0)
                       {
@@ -756,7 +758,7 @@ class FundBasicInfoController extends Controller
               elseif($value2['purchasetype'] == "S" && $goalsAssSipData['lum_sip_type'] == "checked")
               {
                 $fundvalueData = $this->fundrecord->getFundValue($getCustomerInfo['customerid'],$request['goalid'],$value2['fundid'],$value2['purchasetype']);
-                $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+               /* $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);*/
                     if($fundvalueData)
                     {
                       // dd($goalsAssSipData['asset_value']);

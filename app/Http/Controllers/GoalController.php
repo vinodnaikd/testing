@@ -693,7 +693,7 @@ else
         $GoalAssetDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$allocationData[0]['goalid']);
         $goalsAssetCnt = count($allocationData);
         $goalsAssCount = count($GoalAssetDetails);
-        if($goalsAssetCnt < $goalsAssCount)
+        if($goalsAssetCnt != $goalsAssCount)
         {
           $removeFundsArr = "";
             $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$allocationData[0]['goalid'],$removeFundsArr);

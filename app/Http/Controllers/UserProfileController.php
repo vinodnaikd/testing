@@ -290,21 +290,42 @@ class UserProfileController extends Controller
     }
     $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData[0]['userid']);
 
+          if(!empty($customerDetailsData))
+           {
+               $completed['userstatus'] = "true";
+           }
+           elseif(!empty($customerAddressData))
+           {
+               $completed['userstatus'] = "address";
+           }
+           elseif(!empty($customerBankData))
+           {
+               $completed['userstatus'] = "bankdetails";
+           }
+           else
+           {
+               $completed['userstatus'] = "addnominee";
+           }
+
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
+               $completed['userstatus'] = "false";
            }
            elseif(empty($customerAddressData))
            {
                $redirectionurl = "address";
+               $completed['userstatus'] = "false";
            }
            elseif(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
+               $completed['userstatus'] = "false";
            }
            else
            {
                $redirectionurl = "addnominee";
+               $completed['userstatus'] = "false";
            }         
            
         // $token = JWTAuth::fromUser($userData);
@@ -318,6 +339,7 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
+              'usercompleted' => $completed,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
               'otpstatus' => $otpstatus
@@ -803,22 +825,43 @@ class UserProfileController extends Controller
     }
     $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData['userid']);
 
+            if(!empty($customerDetailsData))
+           {
+               $completed['userstatus'] = "true";
+           }
+           elseif(!empty($customerAddressData))
+           {
+               $completed['userstatus'] = "address";
+           }
+           elseif(!empty($customerBankData))
+           {
+               $completed['userstatus'] = "bankdetails";
+           }
+           else
+           {
+               $completed['userstatus'] = "addnominee";
+           }
+
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
+               $completed['userstatus'] = "false";
            }
            elseif(empty($customerAddressData))
            {
                $redirectionurl = "address";
+               $completed['userstatus'] = "false";
            }
            elseif(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
+               $completed['userstatus'] = "false";
            }
            else
            {
                $redirectionurl = "addnominee";
-           }         
+               $completed['userstatus'] = "false";
+           }      
            
         // $token = JWTAuth::fromUser($userData);
         // dd($token);
@@ -831,6 +874,7 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
+              'usercompleted' => $completed,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
               'otpstatus' => $otpstatus,

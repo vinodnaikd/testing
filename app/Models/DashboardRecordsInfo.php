@@ -42,6 +42,11 @@ public $timestamps = false;
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->get()->toArray();
     }
 
+    public function getCheckedGoalsAllocationDetails($customerid,$goalid)
+    {
+        return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('lum_sip_type','checked')->get()->toArray();
+    }
+
         public function getGoalsAllocationLumSipDetails($customerid,$goalid,$purchasetype,$asset)
     {
         return $this->where('customerid',$customerid)->where('goalid',$goalid)->where('purchase_type',$purchasetype)->where('asset',$asset)->get()->first();
