@@ -195,7 +195,9 @@ class UserProfileController extends Controller
          {
          $reqData['mobileno'];
           $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
-    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal");
+    $customer=file_get_contents("http://sms.kloudportal.com/WebServiceSMS.aspx?User=KloudPortal&passwd=9299152641&mobilenumber=".$reqData['mobileno']."&message=".$msg."&sid=KITESP&mtype=N");
+    
+    //http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$reqData['mobileno']."&text=".$msg."&priority=ndnd&stype=normal
          }
      }
      $data['success']="User Created Successfully";
@@ -227,7 +229,7 @@ class UserProfileController extends Controller
         $userid = $userData[0]['userid'];
         $otpData = $this->usersprofile->UpdateUser($reqData,$userid);
          $msg="Dear%20Customer,%20your%20OTP%20for%20login%20into%20WERT%20is%20".$otp.".%20Use%20this%20otp%20to%20validate%20your%20login.";
-    $customer=file_get_contents("http://bhashsms.com/api/sendmsg.php?user=cnuonline&pass=java123*&sender=forden&phone=".$mobileno."&text=".$msg."&priority=ndnd&stype=normal");
+    $customer=file_get_contents("http://sms.kloudportal.com/WebServiceSMS.aspx?User=KloudPortal&passwd=9299152641&mobilenumber=".$mobileno."&message=".$msg."&sid=KITESP&mtype=N");
         $status = "otp was successfully sent";
       }
       else
