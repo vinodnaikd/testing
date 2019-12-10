@@ -17,8 +17,8 @@ class GoalsAllocation extends Model
     'type'
 ];
  public $timestamps = false;
- public function getWealthAssestsByRiskScore($score,$start,$end)
+ public function getWealthAssestsByRiskScore($score,$start,$end,$type)
     {
-    return $this->where('startscore','<=',$score)->where('endscore','>=',$score)->where('startmonth','<=',$start)->where('endmonth','>=',$end)->where('type','=','Wealth')->get()->first();
+    return $this->where('startscore','<=',$score)->where('endscore','>=',$score)->where('startmonth','<=',$start)->where('endmonth','>=',$end)->where('type','=',$type)->get()->first();
     }
 }

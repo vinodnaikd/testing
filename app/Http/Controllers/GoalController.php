@@ -15,6 +15,8 @@ use App\Models\FundProducts;
 use App\Models\Fundroi;
 use App\Models\WealthAllocation;
 use App\Models\SurplusCalculation;
+use App\Models\GoalsAllocation;
+
 class GoalController extends Controller
 {
     public function __construct(
@@ -28,7 +30,8 @@ class GoalController extends Controller
         FundProducts $fundproducts,
         Fundroi $fundroi,
         WealthAllocation $wealthallocation,
-        SurplusCalculation $surpluscalculation
+        SurplusCalculation $surpluscalculation,
+        GoalsAllocation $goalsallocation
     )
     {
         $this->goals = $goals;
@@ -42,6 +45,7 @@ class GoalController extends Controller
         $this->fundroi = $fundroi;
         $this->wealthallocation = $wealthallocation;
         $this->surpluscalculation = $surpluscalculation;
+        $this->goalsallocation = $goalsallocation;
     }
     /**
      * Display a listing of the resource.
@@ -332,7 +336,7 @@ class GoalController extends Controller
        $bargrowth = 0;
        }
 
-       foreach ($assests as $key => $value) {
+       /*foreach ($assests as $key => $value) {
           $assval[$value['assettype']] = $value['assettype'];
            $assval[$value['assettype']] = $assVal;          
         if($value['assettype'] == "Debt")
@@ -396,15 +400,125 @@ class GoalController extends Controller
            array_push($assestsArray2,$assval25);
           }
 
-        }
+        }*/
        //array_push($assestsArray,$assval);
         //dd($assestsArray);
         //$allocationData = $request->json()->all();
         $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
+        // dd($goalsData);
+        $customerRiskProfileScore = round($this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']));
+         $start = $data['timeframe'];
+         $end = $data['timeframe'];
+        $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end,'Goal');
         // $goalCount = count($g)
+        // dd($wealthAssets);
+        $lumpsum_amount = 0;
         if(!$goalsData)
         {
-        for($i=1;$i<=2;$i++)
+          $wealthLumSumm = array();
+        $wealthSipSumm = array();
+        if($wealthAssets['largecap'] != '0')
+        {
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'Equity';
+           $wealthlum['asset_value'] = (($wealthAssets['largecap'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['largecap'];
+           $wealthlum['lum_sip_type'] = "";
+
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'Equity';
+           $wealthsip['asset_value'] = (($wealthAssets['largecap'] * $goaldetails['monthcommitment'])/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['largecap'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+
+        }
+        
+        if($wealthAssets['midterm'] != '0')
+        {
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'Debt';
+           $wealthlum['asset_value'] = (($wealthAssets['midterm'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['midterm'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'Debt';
+           $wealthsip['asset_value'] = (($wealthAssets['midterm'] * $goaldetails['monthcommitment'])/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['midterm'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+        }
+
+
+        if($wealthAssets['liquid'] != '0')
+        {
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'liquid';
+           $wealthlum['asset_value'] = (($wealthAssets['liquid'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['liquid'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'liquid';
+           $wealthsip['asset_value'] = (($wealthAssets['liquid'] * $goaldetails['monthcommitment'])/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['liquid'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+        }
+        if($wealthAssets['gold'] != '0')
+        {
+           $wealthlum['goal_ass_id'] = "";
+           $wealthlum['assettype'] = 'gold';
+           $wealthlum['asset_value'] = (($wealthAssets['gold'] * $lumpsum_amount)/100);
+           $wealthlum['asset_percentage'] = $wealthAssets['gold'];
+           $wealthlum['lum_sip_type'] = "";
+           
+           $wealthsip['goal_ass_id'] = "";
+           $wealthsip['assettype'] = 'gold';
+           $wealthsip['asset_value'] = (($wealthAssets['gold'] * $goaldetails['monthcommitment'])/100);
+           $wealthsip['asset_percentage'] = $wealthAssets['gold'];
+           $wealthsip['lum_sip_type'] = "";
+
+           array_push($wealthLumSumm, $wealthlum);
+           array_push($wealthSipSumm, $wealthsip);
+
+        }
+        // dd($wealthLumSumm);
+        foreach($wealthLumSumm as $key =>$value)
+        {
+            $reqdata['customerid'] = $getCustomerInfo['customerid'];
+            $reqdata['goalid'] = $request['goal_id'];
+            $reqdata['asset'] = $value['assettype'];
+            $reqdata['asset_value'] = $value['asset_value'];
+            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['lumpsum_sip'] = 0;
+            $reqdata['purchase_type'] = "L";
+            $reqdata['duration'] = 0;
+            $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
+        }
+        foreach($wealthSipSumm as $key =>$value)
+        {
+            $reqdata['customerid'] = $getCustomerInfo['customerid'];
+            $reqdata['goalid'] = $request['goal_id'];
+            $reqdata['asset'] = $value['assettype'];
+            $reqdata['asset_value'] = $value['asset_value'];
+            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['lumpsum_sip'] = $goaldetails['monthcommitment'];
+            $reqdata['purchase_type'] = "S";
+            $reqdata['duration'] = $goaldetails['timeframe'];
+            $data = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqdata);
+        }
+
+
+
+        /*for($i=1;$i<=2;$i++)
         {
            // echo $i;
         foreach ($assestsArray as $key => $value) {
@@ -414,12 +528,11 @@ class GoalController extends Controller
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         if($i == 1)
         {
-          $reqData['asset'] = $value['assettype'];
+        $reqData['asset'] = $value['assettype'];
         $reqData['asset_value'] = 0;
         $reqData['asset_percentage'] = $value['asset_percentage'];
         $reqData['lumpsum_sip'] = 0;
-          $reqData['purchase_type'] = "L";
-         
+        $reqData['purchase_type'] = "L";
         }
         else
         {
@@ -430,12 +543,12 @@ class GoalController extends Controller
           $reqData['purchase_type'] = "S";
            $reqData['duration'] = $goaldetails['timeframe'];
         }
-        
             $customerGoalsDetails = $this->dashboardrecordsinfo->AddGoalsAssestsAllocation($reqData);
            // $status = "Goals Allocation Added Successfully";
     }
- }
-    if($customerGoalsDetails)
+ }*/
+
+    if($data)
           {
             $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
             $goalsLumSumm = array();
@@ -1249,7 +1362,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                $fundUpdate = $this->fundroi->updateCustomerFundValue($reqData2,$reqData3);*/
               }
               $fundproductsArr['Lumpsum'] = $lumProductsArray;
-                      $fundproductsArr['Sip'] = $sipProductsArray;
+              $fundproductsArr['Sip'] = $sipProductsArray;
          }
               $goals['fundproducts'] = $fundproductsArr;
             array_push($goalsFunds, $goals);
@@ -1423,6 +1536,7 @@ return response()->json([
          $sip['customergoalid'] = $value['customergoalid'];
          $sip['goalname'] = $value['goalname'];
          $sip['goalpriority'] = $value['goalpriority'];
+         $sip['sipdate'] = $value['transactiondate'];
          array_push($sipArray, $sip);
        }
         return response()->json([

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use DB;
 class FundProducts extends Model
 {
     protected $table = 'fund';
@@ -40,6 +40,19 @@ class FundProducts extends Model
 
         return $fundData;
         
+    }
+
+    public function getFundClassIds()
+    {
+        return $this->select('fund.fundclassid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->join('fundclass as c','c.fundclassid','=','fund.fundclassid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('c.asset_category','!=',null)->groupby('c.asset_category')->get()->toArray();
+    }
+     public function FundRankingUpdate($rank,$fundid)
+    {
+        return $this->where('fund.fundid','=',$fundid)->update($rank);
+    }
+    public function getFundProductsByClassId($fundclsid)
+    {
+        return $this->select(DB::raw('((r.beta_x*0.15) + (r.sharpe_x*0.3) + (r.sd_x*0.2) + (mf_return.3yearet*0.35)) as tot'),'fund.fundid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->join('mf_ratio AS r','r.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->orderby('tot','Desc')->get()->toArray();
     }
 
     public function getFundProductsDetails($fundid,$isnrielligble)

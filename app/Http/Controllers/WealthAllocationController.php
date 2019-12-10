@@ -127,7 +127,7 @@ class WealthAllocationController extends Controller
          $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
          $start = $wealthData[0]['timeframe'];
          $end = $wealthData[0]['timeframe'];
-        $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end);
+        $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end,'Wealth');
         if($wealthAssets['largecap'] != '0')
             $assetsArr['largecap'] = $wealthAssets['largecap'];
         if($wealthAssets['midcap'] != '0')

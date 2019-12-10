@@ -711,6 +711,7 @@ class FundBasicInfoController extends Controller
 
               $fundlumvalue = round(($goalsAssLumData['asset_value']/$fundprdtscount),2);
             $fundsipvalue = round(($goalsAssSipData['asset_value']/$fundprdtscount),2);
+            
                 }
                 // dd($goalsAssLumData);
               if($value2['purchasetype'] == "L" && $goalsAssLumData['lum_sip_type'] == "checked")
@@ -734,7 +735,11 @@ class FundBasicInfoController extends Controller
                     {
                       $fundlumvalue1 = $fundlumvalue;
                     }*/
-                    $fundproducts1['fundid'] = $value2['fundid'];
+                    if($request['goal_wealth_type'] == "goal")
+                     $fundproducts1['asset'] = $value['assettype'];
+                    else
+                     $fundproducts1['asset'] = $value2['asset'];
+
                     $fundproducts1['fundname'] = $value2['fundname'];
                     $fundproducts1['fundvalue'] = $fundlumvalue1;
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
@@ -774,6 +779,11 @@ class FundBasicInfoController extends Controller
                       $fundsipvalue1 = $fundsipvalue;
                       // dd($fundprdtscount);
                     }
+                    if($request['goal_wealth_type'] == "goal")
+                    $fundproducts2['asset'] = $value['assettype'];
+                    else
+                     $fundproducts2['asset'] = $value2['asset'];
+
                     $fundproducts2['fundid'] = $value2['fundid'];
                     $fundproducts2['fundname'] = $value2['fundname'];
                     $fundproducts2['fundvalue'] = $fundsipvalue1;
@@ -1312,5 +1322,30 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       return response()->json([
               'status' => $status
           ], 200);
+    }
+
+        public function FundRanking()
+    {
+      $fundclassIds = $this->fundproducts->getFundClassIds();
+      // dd($fundclassIds);
+      foreach($fundclassIds as $key =>$value)
+      {
+        // echo $value['fundclassid'];
+        $fundprdts = $this->fundproducts->getFundProductsByClassId($value['fundclassid']);
+        foreach($fundprdts as $key1 =>$value1)
+        {
+           $fundid['fundid'] = $value1['fundid'];
+           $fundrank['rank'] = $key1+1;
+           // dd($funddata['fundid']);
+          $fundrankingUpd = $this->fundproducts->FundRankingUpdate($fundrank,$fundid);
+        }
+              if($fundrankingUpd==0)
+      {
+        return response()->json([
+              'status' => "success"
+          ], 200);
+      }
+      }
+
     }
 }

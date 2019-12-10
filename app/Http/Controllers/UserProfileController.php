@@ -827,39 +827,47 @@ class UserProfileController extends Controller
 
             if(!empty($customerDetailsData))
            {
+               $completed['userstage'] = "personalinfo";
                $completed['userstatus'] = "true";
            }
-           elseif(!empty($customerAddressData))
+           if(!empty($customerAddressData))
            {
-               $completed['userstatus'] = "address";
+               $completed['userstage'] = "address";
+               $completed['userstatus'] = "true";
            }
-           elseif(!empty($customerBankData))
+           if(!empty($customerBankData))
            {
-               $completed['userstatus'] = "bankdetails";
+               $completed['userstage'] = "bankdetails";
+               $completed['userstatus'] = "true";
            }
-           else
+           if(!empty($customernomineeData))
            {
-               $completed['userstatus'] = "addnominee";
+               $completed['userstage'] = "addnominee";
+               $completed['userstatus'] = "true";
            }
 
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
+               $completed['userstage'] = "personalinfo";
                $completed['userstatus'] = "false";
            }
-           elseif(empty($customerAddressData))
+           if(empty($customerAddressData))
            {
                $redirectionurl = "address";
+               $completed['userstage'] = "address";
                $completed['userstatus'] = "false";
            }
-           elseif(empty($customerBankData))
+           if(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
+               $completed['userstage'] = "bankdetails";
                $completed['userstatus'] = "false";
            }
-           else
+           if(empty($customernomineeData))
            {
                $redirectionurl = "addnominee";
+               $completed['userstage'] = "addnominee";
                $completed['userstatus'] = "false";
            }      
            
