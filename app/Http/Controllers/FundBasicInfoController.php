@@ -1339,12 +1339,12 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
            // dd($funddata['fundid']);
           $fundrankingUpd = $this->fundproducts->FundRankingUpdate($fundrank,$fundid);
         }
-              if($fundrankingUpd==0)
+             /* if($fundrankingUpd==0)
       {
         return response()->json([
               'status' => "success"
           ], 200);
-      }
+      }*/
       }
 
     }
