@@ -847,7 +847,7 @@ class UserProfileController extends Controller
                $completed['userstage'] = "addnominee";
                $completed['userstatus'] = "true";
            }*/
-
+           $redirectionurl = "";
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
