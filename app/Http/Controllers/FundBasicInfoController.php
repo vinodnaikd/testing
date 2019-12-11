@@ -1330,7 +1330,7 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       // dd($fundclassIds);
       foreach($fundclassIds as $key =>$value)
       {
-        // echo $value['fundclassid'];
+         // echo $value['assettype'];
         $fundprdts = $this->fundproducts->getFundProductsByClassId($value['fundclassid']);
         foreach($fundprdts as $key1 =>$value1)
         {

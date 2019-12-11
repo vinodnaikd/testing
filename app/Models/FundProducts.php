@@ -44,7 +44,7 @@ class FundProducts extends Model
 
     public function getFundClassIds()
     {
-        return $this->select('fund.fundclassid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->join('fundclass as c','c.fundclassid','=','fund.fundclassid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('c.asset_category','!=',null)->groupby('c.asset_category')->get()->toArray();
+        return $this->select('fund.fundclassid','c.assettype')->join('mf_return','mf_return.schemecode','=','fund.fundid')->join('fundclass as c','c.fundclassid','=','fund.fundclassid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('c.asset_category','!=',null)->groupby('c.asset_category')->get()->toArray();
     }
      public function FundRankingUpdate($rank,$fundid)
     {

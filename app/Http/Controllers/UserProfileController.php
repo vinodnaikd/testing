@@ -827,7 +827,7 @@ class UserProfileController extends Controller
     }
     $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData['userid']);
 
-            if(!empty($customerDetailsData))
+            /*if(!empty($customerDetailsData))
            {
                $completed['userstage'] = "personalinfo";
                $completed['userstatus'] = "true";
@@ -846,31 +846,31 @@ class UserProfileController extends Controller
            {
                $completed['userstage'] = "addnominee";
                $completed['userstatus'] = "true";
-           }
+           }*/
 
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
-               $completed['userstage'] = "personalinfo";
-               $completed['userstatus'] = "false";
+               /*$completed['userstage'] = "personalinfo";
+               $completed['userstatus'] = "false";*/
            }
            if(empty($customerAddressData))
            {
                $redirectionurl = "address";
-               $completed['userstage'] = "address";
-               $completed['userstatus'] = "false";
+               /*$completed['userstage'] = "address";
+               $completed['userstatus'] = "false";*/
            }
            if(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
-               $completed['userstage'] = "bankdetails";
-               $completed['userstatus'] = "false";
+               /*$completed['userstage'] = "bankdetails";
+               $completed['userstatus'] = "false";*/
            }
            if(empty($customernomineeData))
            {
                $redirectionurl = "addnominee";
-               $completed['userstage'] = "addnominee";
-               $completed['userstatus'] = "false";
+               /*$completed['userstage'] = "addnominee";
+               $completed['userstatus'] = "false";*/
            }      
            
         // $token = JWTAuth::fromUser($userData);
