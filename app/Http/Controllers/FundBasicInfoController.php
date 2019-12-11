@@ -1331,7 +1331,19 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       foreach($fundclassIds as $key =>$value)
       {
          // echo $value['assettype'];
+        if($value['assettype'] == "Equity")
+        {  
         $fundprdts = $this->fundproducts->getFundProductsByClassId($value['fundclassid']);
+        }
+        elseif($value['assettype'] == "Debt")
+        {
+        $fundprdts = $this->fundproducts->getFundProductsByClassDebt($value['fundclassid']);  
+        }
+        elseif($value['assettype'] == "Liquid")
+        {
+        $fundprdts = $this->fundproducts->getFundProductsByClassLiquid($value['fundclassid']);  
+        }
+
         foreach($fundprdts as $key1 =>$value1)
         {
            $fundid['fundid'] = $value1['fundid'];

@@ -55,6 +55,16 @@ class FundProducts extends Model
         return $this->select(DB::raw('((r.beta_x*0.15) + (r.sharpe_x*0.3) + (r.sd_x*0.2) + (mf_return.3yearet*0.35)) as tot'),'fund.fundid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->join('mf_ratio AS r','r.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->orderby('tot','Desc')->get()->toArray();
     }
 
+        public function getFundProductsByClassDebt($fundclsid)
+    {
+        return $this->select(DB::raw('((am.ytm*0.1) + (am.mod_dur_num*0.2) + (mf_return.1monthret*0.1) + (mf_return.3monthret*0.1) + (mf_return.6monthret*0.2) + (mf_return.1yrret*0.2) + (e.exratio*0.1)) as tot'),'fund.fundid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->join('mf_ratio AS r','r.schemecode','=','fund.fundid')->join('avg_maturity AS am','am.schemecode','=','fund.fundid')->join('expenceratio AS e','e.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->orderby('tot','Desc')->get()->toArray();
+    }
+
+        public function getFundProductsByClassLiquid($fundclsid)
+    {
+        return $this->select(DB::raw('((am.ytm*0.1) + (am.mod_dur_num*0.2) + (mf_return.1monthret*0.1) + (mf_return.3monthret*0.1) + (mf_return.6monthret*0.2) + (mf_return.1yrret*0.2) + (e.exratio*0.1)) as tot'),'fund.fundid')->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->join('mf_ratio AS r','r.schemecode','=','fund.fundid')->join('avg_maturity AS am','am.schemecode','=','fund.fundid')->join('expenceratio AS e','e.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->orderby('tot','Desc')->get()->toArray();
+    }
+
     public function getFundProductsDetails($fundid,$isnrielligble)
     {
         //Add query inactive = 1
