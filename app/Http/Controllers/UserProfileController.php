@@ -308,7 +308,7 @@ class UserProfileController extends Controller
            {
                $completed['userstatus'] = "addnominee";
            }
-
+           $redirectionurl = "";
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
@@ -884,7 +884,7 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
-              'usercompleted' => $completed,
+              //'usercompleted' => $completed,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
               'otpstatus' => $otpstatus,
