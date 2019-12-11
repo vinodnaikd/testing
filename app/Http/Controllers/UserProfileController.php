@@ -625,7 +625,7 @@ class UserProfileController extends Controller
           {
        
        $nomineeData = $request->json()->all();
-      
+      // dd($nomineeData);
        $getCustomerInfo = $this->customer->getUserDetailsrow($nomineeData['nominee']['userid']);
        // dd($getCustomerInfo['customerid']);
           foreach ($nomineeData as $key => $value) {

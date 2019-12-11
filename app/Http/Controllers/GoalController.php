@@ -1720,7 +1720,7 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
-         $datas = array();
+         /*$datas = array();
          $datasArray = array();
         foreach ($request->json()->all() as $key => $value) {
           
@@ -1753,17 +1753,16 @@ public function getSipModifiedSummary(Request $request)
         $data1['Liquid'] = $value1['asset_value'];
         if($value1['asset'] == "Gold")
         $data1['Gold'] = $value1['asset_value'];
-      
       }
       array_push($datas,$data1);
       $data['Assets'] = $datas;
-    }
+    }*/
     // $datasArray['Rebalancing'] = $data;
-    return response()->json([
+    /*return response()->json([
               'status' => 'success',
               'Rebalancing' => $data,
             //'Our Recommendation'=> $data3
-          ],200);
+          ],200);*/
     //$goalsAssetData['Rebalancing'] = $datas;
     //array_push($data,$goalsAssetData);
       /*
@@ -1784,7 +1783,46 @@ public function getSipModifiedSummary(Request $request)
             'Liquid' => "3,00,000",
              'Current Allocation' => "3,00,000",
         ));//*/
-        }
+        //}
+        $data = "1";
+         $data1 = "1st Goal (Mayras postgraduation in US)";
+         $data2 = array(array(
+           'asset' => "Debt",
+           'asset_value' => "2,00,000",
+           'asset_percentage' => "20",
+           'changed_value' => "3,00,000",
+            'changed_percentage' => "30",
+       ),
+       array(
+           'asset' => "Equity",
+           'asset_value' => "3,00,000",
+           'asset_percentage' => "30",
+           'changed_value' => "4,00,000",
+            'changed_percentage' => "40",
+       ),
+       array(
+           'asset' => "Liquid",
+           'asset_value' => "2,00,000",
+           'asset_percentage' => "20",
+           'changed_value' => "1,00,000",
+            'changed_percentage' => "10",
+       ),
+       array(
+           'asset' => "Gold",
+           'asset_value' => "3,00,000",
+           'asset_percentage' => "30",
+           'changed_value' => "2,00,000",
+            'changed_percentage' => "20",
+       )
+       );//
+
+        return response()->json([
+              'status' => 'success',
+              'goal_priority' => $data,
+              'goal' => $data1,
+              'Rebalancing' => $data2,
+            //'Our Recommendation'=> $data3
+          ],200);
         
     }
 
