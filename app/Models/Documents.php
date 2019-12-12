@@ -26,4 +26,9 @@ class Documents extends Model
 //        dd($password);
         return $this->where('customerdocumentid',$id)->get()->toArray();
     }
+      public function getDocumentsDetailsByUserId($id)
+    {
+//        dd($password);
+        return $this->where('customerid',$id)->get()->toArray();
+    }
 }

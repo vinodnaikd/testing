@@ -71,7 +71,7 @@ class DocumentsController extends Controller
         // $fileName = $file->getClientOriginalName();
           // $fileName = $file;
         // dd($file);
-        $file_pointer = public_path();//.'/usersdocuments/'.$request['userid'];
+        $file_pointer = public_path('usersdocuments');//.'/usersdocuments/'.$request['userid'];
            if (!file_exists($file_pointer)) {
               $folder=mkdir($file_pointer, 777,true);
           }
@@ -81,7 +81,7 @@ class DocumentsController extends Controller
           file_put_contents($file, $image_base64);
      /*   $file->move($destinationPath,$fileName);
         chmod($destinationPath,0777);*/
-        $reqData['documentpath']=$file;
+        $reqData['documentpath']=$fileName;
         $reqData['documentname'] = $request['documentname'];
         $reqData['customerid'] = $getCustomerInfo['customerid'];
         $reqData['documenttypeid'] = $request['documenttypeid'];
@@ -90,10 +90,9 @@ class DocumentsController extends Controller
         $documentData = $this->documents->InsertDocuments($reqData);
         if($documentData)
         {
-            $documentDetails = $this->documents->getDocumentsDetails($documentData);
+            /*$documentDetails = $this->documents->getDocumentsDetails($documentData);*/
             return response()->json([
-                'status' => 'success',
-                'messages' => $documentDetails
+                'status' => 'Document Uploaded Successfully'
             ], 200);
         }
     }
@@ -106,12 +105,49 @@ class DocumentsController extends Controller
      */
     public function show(Documents $documents)
     {
+        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $documentsData = DB::table('documenttype')->get();
         if($documentsData)
         {
            return response()->json([
                 'status' => 'success',
                 'Documents' => $documentsData
+            ], 200);
+        }
+        else
+        {
+            return response()->json([
+                'status' => 'failed'
+            ], 401);
+        }
+    }
+
+    public function getUploadedDocuments(Request $request)
+    {
+           $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $documentDetails = $this->documents->getDocumentsDetailsByUserId($getCustomerInfo['customerid']);
+        $docArr = array();
+        foreach ($documentDetails as $key => $value) {
+            $doc['documenttypeid'] = $value['documenttypeid'];
+            $doc['customerdocumentid'] = $value['customerdocumentid'];
+            $doc['documentname'] = $value['documentname'];
+            $doc['documentpath'] = url('usersdocuments/'.$value['documentpath']);
+            array_push($docArr, $doc);
+        }
+        if($docArr)
+        {
+           return response()->json([
+                'status' => 'success',
+                'Documents' => $docArr
             ], 200);
         }
         else
