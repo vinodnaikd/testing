@@ -210,6 +210,7 @@ Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRisk
 Route::post('/v1/users/document/adddocument', 'DocumentsController@store');
 Route::get('/v1/users/document/getdocuments', 'DocumentsController@show');
 Route::post('/v1/users/document/getuploadeddocuments', 'DocumentsController@getUploadedDocuments');
+Route::post('/v1/users/document/documentdownload', 'DocumentsController@getDownload');
 //Route::post('/v1/users/reports/getriskprofilescore', 'RiskQuestionsController@getRiskProfileScore');
 //Route::post('/v1/users/reports/getriskprofile', 'RiskQuestionsController@getRiskProfile');
 

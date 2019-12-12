@@ -9,6 +9,7 @@ use App\Models\Customer;
 use Carbon\Carbon;
 use Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class DocumentsController extends Controller
 {
@@ -158,6 +159,23 @@ class DocumentsController extends Controller
         }
     }
 
+    public function getDownload(Request $request)
+    {
+      $validator = Validator::make($request->json()->all(), [
+            'customerdocumentid' => 'required|string|max:255'
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+    $documentDetails = $this->documents->getDocumentsDetails($request['customerdocumentid']);
+    // dd($documentDetails['documentpath']);
+    $file= public_path(). "/usersdocuments/".$documentDetails['documentpath'];   
+    $name = basename($file);
+    return response()->download($file,$name);
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -24,7 +24,7 @@ class Documents extends Model
         public function getDocumentsDetails($id)
     {
 //        dd($password);
-        return $this->where('customerdocumentid',$id)->get()->toArray();
+        return $this->where('customerdocumentid',$id)->get()->first();
     }
       public function getDocumentsDetailsByUserId($id)
     {
