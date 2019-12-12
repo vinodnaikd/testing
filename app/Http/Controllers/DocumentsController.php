@@ -106,7 +106,7 @@ class DocumentsController extends Controller
      */
     public function show(Documents $documents)
     {
-        $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        /*$getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);*/
         $documentsData = DB::table('documenttype')->get();
         if($documentsData)
         {
