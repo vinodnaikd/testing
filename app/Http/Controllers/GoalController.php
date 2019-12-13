@@ -1788,30 +1788,30 @@ public function getSipModifiedSummary(Request $request)
          $data1 = "1st Goal (Mayras postgraduation in US)";
          $data2 = array(array(
            'asset' => "Debt",
-           'asset_value' => "2,00,000",
+           'asset_value' => "200000",
            'asset_percentage' => "20",
-           'changed_value' => "3,00,000",
+           'changed_value' => "300000",
             'changed_percentage' => "30",
        ),
        array(
            'asset' => "Equity",
-           'asset_value' => "3,00,000",
+           'asset_value' => "300000",
            'asset_percentage' => "30",
-           'changed_value' => "4,00,000",
+           'changed_value' => "400000",
             'changed_percentage' => "40",
        ),
        array(
            'asset' => "Liquid",
-           'asset_value' => "2,00,000",
+           'asset_value' => "200000",
            'asset_percentage' => "20",
-           'changed_value' => "1,00,000",
+           'changed_value' => "100000",
             'changed_percentage' => "10",
        ),
        array(
            'asset' => "Gold",
-           'asset_value' => "3,00,000",
+           'asset_value' => "300000",
            'asset_percentage' => "30",
-           'changed_value' => "2,00,000",
+           'changed_value' => "200000",
             'changed_percentage' => "20",
        )
        );//
