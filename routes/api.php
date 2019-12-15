@@ -112,6 +112,9 @@ Route::post('/v1/users/usersipredemptionsummary', 'GoalController@getSipRedempti
 Route::post('/v1/users/usersipmodifysummary', 'GoalController@getSipModifiedSummary');
 Route::post('/v1/users/userchangesipredemptionsummary', 'GoalController@getSipRedemptionSummaryAfterAmountChange');
 Route::post('/v1/users/getassetrebalancing', 'GoalController@getAssetRebalancing');
+Route::post('/v1/users/addassetrebalancing', 'GoalController@addChangedAssetsRebalance');
+Route::post('/v1/users/getassetrebalancingdata', 'GoalController@getAssetRebalancingData');
+
 
     //End Of Routes
 

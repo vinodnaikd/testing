@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssetRebalancing extends Model
 {
+	protected $table = "rebalancing";
   protected $fillable =
 [
    'Assets',
@@ -16,4 +17,18 @@ class AssetRebalancing extends Model
    'your allocation INR',
    'your allocation %',
 ];
+public $timestamps = false;
+	public function addAssetsRebalancing($arr) {
+	    
+	    return $this->insertGetId($arr);
+	}
+	public function updateAssetsRebalancing($arr,$id) {
+	    
+	    return $this->where('rbl_id',$id)->update($arr);
+	}
+	public function getAssetRebalancingData($goalid)
+	{
+		return $this->where('goalid',$goalid)->get()->toArray();
+	}
+	
 }

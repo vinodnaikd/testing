@@ -16,6 +16,7 @@ use App\Models\Fundroi;
 use App\Models\WealthAllocation;
 use App\Models\SurplusCalculation;
 use App\Models\GoalsAllocation;
+use App\Models\AssetRebalancing;
 
 class GoalController extends Controller
 {
@@ -31,7 +32,8 @@ class GoalController extends Controller
         Fundroi $fundroi,
         WealthAllocation $wealthallocation,
         SurplusCalculation $surpluscalculation,
-        GoalsAllocation $goalsallocation
+        GoalsAllocation $goalsallocation,
+        AssetRebalancing $assetrebalancing
     )
     {
         $this->goals = $goals;
@@ -46,6 +48,7 @@ class GoalController extends Controller
         $this->wealthallocation = $wealthallocation;
         $this->surpluscalculation = $surpluscalculation;
         $this->goalsallocation = $goalsallocation;
+        $this->assetrebalancing = $assetrebalancing;
     }
     /**
      * Display a listing of the resource.
@@ -1815,7 +1818,7 @@ public function getSipModifiedSummary(Request $request)
         $data1['asset'] = $value1['asset'];  
         $data1['asset_value'] = $value1['asset_value'];
         $data1['asset_percentage'] = $value1['asset_percentage'];
-        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['goalid'],$value1['asset']);
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalIdAndAsset($value['goalid'],$value1['asset']);
         if($customerGoalsDetails)
         {
           $data1['changed_value'] = 1500;
@@ -1909,38 +1912,64 @@ public function getSipModifiedSummary(Request $request)
         }
     }
 
-     public function getProductSelection(Request $request)
+     public function addChangedAssetsRebalance(Request $request)
     {
-     $data = "1";
-      $data1 = "1st Goal Product Selection";
-      $data2 = array(array(
-        'Equity' => "3(40%)INR 4,00,000'",
-        'Debt' => "Debt(30%)INR 3,00,000",
-        'Gold' => "Gold(10%)INR 1,00,000",
-        'Liquid' => "Liquid(20%)INR 2,00,000",
-    ));//
-$data3 = "AMOUNT(₹)";
-       $data4 = array(array(
-         'Franklin prima plus Fund' => "+50,000",
-         'DSP Blackrock Income Opp Fund' => "+1,00,000",
-         'HDFC Gold Fund' => "-50,000",
-         'Franklin USB Fund' => "-50,000",
-          'HDFC Cash Management Fund' => "+50,000",
-          'DSP Equity Fund' => "+1,00,000",
-     ));//
-     $data5 = array(array(
-       'DSP Equity Fund' => "+1,00,000",
-   ));//
-     return response()->json(array([
-           'status' => 'success',
-           'user id' => $data,
-           'goals' => $data1,
-           'goals' => $data2,
-           'scenarioonrproduct'=> $data3,
-           'scenarioonrproduct'=> $data4,
-          'AmountforRebalancing: INR 10,00,000'=> $data5
-       ],200));
-   }
+      $assetChange = $request->json()->all();
+      foreach ($assetChange as $key => $value) {
+        
+      $validator = Validator::make($value, [
+            'asset' => 'required|string|max:255',
+            'asset_value' => 'required|string|max:255',
+            'asset_percentage' => 'required|string|max:255',
+            'asset_changed_value' => 'required|string|max:255',
+            'asset_changed_percentage' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        $reqData['goalid'] = $value['goalid'];
+        $reqData['asset'] = $value['asset'];
+        $reqData['asset_value'] = $value['asset_value'];
+        $reqData['asset_percentage'] = $value['asset_percentage'];
+        $reqData['asset_changed_value'] = $value['asset_changed_value'];
+        $reqData['asset_changed_percentage'] = $value['asset_changed_percentage'];
+if ($reqData['asset_changed_percentage'] > $reqData['asset_percentage']) 
+{
+  $reqData['status'] = "Added";
+  $reqData['red_add_amount'] = $reqData['asset_changed_percentage'] - $reqData['asset_percentage'];
+}
+else
+{
+  $reqData['status'] = "Reduced";
+  $reqData['red_add_amount'] = $reqData['asset_percentage'] - $reqData['asset_changed_percentage'];
+}
+if($value['rbl_id'])
+{
+  $insertReb =$this->assetrebalancing->updateAssetsRebalancing($reqData,$value['rbl_id']);
+        if($insertReb)
+        {
+          return response()->json([
+              'status' => 'updated'
+          ],200);
+        }
+}
+else
+{
+  $insertReb =$this->assetrebalancing->addAssetsRebalancing($reqData);
+        if($insertReb)
+        {
+          return response()->json([
+              'status' => 'success'
+          ],200);
+        }
+}
+        
+      }
+    }
 
 
 
@@ -1950,9 +1979,119 @@ $data3 = "AMOUNT(₹)";
      * @param  \App\Goal  $goal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Goal $goal)
+    public function getAssetRebalancingData(Request $request)
     {
-        //
+        $validator = Validator::make($request->json()->all(), [
+            'userid' => 'required|string|max:255',
+            'goalid' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+      $getAssetData = $this->assetrebalancing->getAssetRebalancingData($request['goalid']);
+      $data = array();
+      foreach($getAssetData as $key => $value)
+      {
+         if($value['asset'] == "Equity")
+         {
+          $data1['asset'] = $value['asset'];
+          $data1['asset_changed_value'] = $value['asset_changed_value'];
+          $data1['asset_changed_percentage'] = $value['asset_changed_percentage'];
+         $assetsfunds = $this->fundperformance->getGoalsSummaryListWithGoalIdAndAssetProducts($request['goalid'],$value['asset']);
+          $prdtcnt = count($assetsfunds);
+          // $data1['funds'] = $assetsfunds;
+          $dataArr = array();
+          foreach ($assetsfunds as $key1 => $value1) 
+          {
+            $data2['fundid'] = $value1['fundid'];
+            $data2['fundname'] = $value1['fundname'];
+            $data2['fundvalue'] = round($value['asset_changed_value']/$prdtcnt);
+            if($value['status'] == "Added")
+              $data2['status'] = "plus";
+            else
+              $data2['status'] = "minus";
+            array_push($dataArr, $data2);
+          }
+          $data1['funds'] = $dataArr;
+          array_push($data,$data1);
+         }
+         if($value['asset'] == "Debt")
+         {
+          $data1['asset'] = $value['asset'];
+          $data1['asset_changed_value'] = $value['asset_changed_value'];
+          $data1['asset_changed_percentage'] = $value['asset_changed_percentage'];
+          $assetsfunds = $this->fundperformance->getGoalsSummaryListWithGoalIdAndAssetProducts($request['goalid'],$value['asset']);
+          $prdtcnt = count($assetsfunds);
+          // $data1['funds'] = $assetsfunds;
+          $dataArr = array();
+          foreach ($assetsfunds as $key1 => $value1) 
+          {
+            $data2['fundid'] = $value1['fundid'];
+            $data2['fundname'] = $value1['fundname'];
+            $data2['fundvalue'] = round($value['asset_changed_value']/$prdtcnt);
+            if($value['status'] == "Added")
+              $data2['status'] = "plus";
+            else
+              $data2['status'] = "minus";
+            array_push($dataArr, $data2);
+          }
+          $data1['funds'] = $dataArr;
+          array_push($data,$data1);
+         }
+         if($value['asset'] == "Liquid")
+         {
+          $data1['asset'] = $value['asset'];
+          $data1['asset_changed_value'] = $value['asset_changed_value'];
+          $data1['asset_changed_percentage'] = $value['asset_changed_percentage'];
+          $assetsfunds = $this->fundperformance->getGoalsSummaryListWithGoalIdAndAssetProducts($request['goalid'],$value['asset']);
+          $prdtcnt = count($assetsfunds);
+          // $data1['funds'] = $assetsfunds;
+          $dataArr = array();
+          foreach ($assetsfunds as $key1 => $value1) 
+          {
+            $data2['fundid'] = $value1['fundid'];
+            $data2['fundname'] = $value1['fundname'];
+            $data2['fundvalue'] = round($value['asset_changed_value']/$prdtcnt);
+            if($value['status'] == "Added")
+              $data2['status'] = "plus";
+            else
+              $data2['status'] = "minus";
+            array_push($dataArr, $data2);
+          }
+          $data1['funds'] = $dataArr;
+          array_push($data,$data1);
+         }
+         if($value['asset'] == "Gold")
+         {
+          $data1['asset'] = $value['asset'];
+          $data1['asset_changed_value'] = $value['asset_changed_value'];
+          $data1['asset_changed_percentage'] = $value['asset_changed_percentage'];
+           $assetsfunds = $this->fundperformance->getGoalsSummaryListWithGoalIdAndAssetProducts($request['goalid'],$value['asset']);
+          $prdtcnt = count($assetsfunds);
+          // $data1['funds'] = $assetsfunds;
+          $dataArr = array();
+          foreach ($assetsfunds as $key1 => $value1) 
+          {
+            $data2['fundid'] = $value1['fundid'];
+            $data2['fundname'] = $value1['fundname'];
+            $data2['fundvalue'] = round($value['asset_changed_value']/$prdtcnt);
+            if($value['status'] == "Added")
+              $data2['status'] = "plus";
+            else
+              $data2['status'] = "minus";
+            array_push($dataArr, $data2);
+          }
+          $data1['funds'] = $dataArr;
+          array_push($data,$data1);
+         }
+      }
+      return response()->json([
+              'status' => 'success',
+              'Rebalancing' => $data
+          ],200);
     }
 
     /**
