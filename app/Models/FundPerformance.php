@@ -115,7 +115,7 @@ class FundPerformance extends Model
 
     public function getGoalsSummaryListWithGoalId($goalId)
     {
-        return $this->select('CG.customergoalId','CG.goalname','CG.futurecost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount')
+        return $this->select('CG.customergoalId','CG.goalname','CG.futurecost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount','CG.createdutcdatetime')
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
                     ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
@@ -127,9 +127,9 @@ class FundPerformance extends Model
                     ->get()->first();
     }
 
-     public function getGoalsSummaryGraphListWithGoalId($goalId)
+    public function getGoalsSummaryListWithGoalIdAndAsset($goalId,$asset)
     {
-        return $this->select('fc.AssetType',DB::raw('SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue'),DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue'),DB::raw('((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth'))
+         return $this->select('fc.AssetType',DB::raw('SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue'),DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue'),DB::raw('((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth'))
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
                     ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
@@ -139,6 +139,21 @@ class FundPerformance extends Model
                     ->groupby('customerfunddetailposttran.customerid','fc.assettype')
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
+    }
+
+     public function getGoalsSummaryGraphListWithGoalId($goalId,$asset)
+    {
+        return $this->select('fc.AssetType',DB::raw('SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue'),DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue'),DB::raw('((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth'))
+                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
+                    ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
+                    ->join('fund as fd','fd.fundid','=','GC.fundid')
+                    ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->where('fc.assettype',$asset)
+                    ->groupby('customerfunddetailposttran.customerid','fc.assettype')
+                    //->orderBy('CG.goalpriority','ASC')
+                    ->get()->first();
     }
 
      public function getGoalsSummaryFundsListWithGoalId($goalId)

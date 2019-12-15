@@ -737,6 +737,7 @@ else
             ], 400);
         }
         $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
+        // dd($customerGoalsDetails);
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
@@ -768,6 +769,7 @@ else
 
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         $customerGoalsDetails['timetaken'] = $diff;
+        // dd($assetsData);
        foreach ($assetsData as $key => $value) {
         $d = array(['TotalInvestmentValue'.':'.$value['TotalInvestmentValue']],['TotalCurrentValue'.':'.$value['TotalCurrentValue']],['AssetType'.':'.$value['AssetType']],['Growth'.':'.$value['Growth']]);
         array_push($newArr, $d);
@@ -1720,8 +1722,9 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
-         /*$datas = array();
+         
          $datasArray = array();
+         // dd($request->json()->all());
         foreach ($request->json()->all() as $key => $value) {
           
         $validator = Validator::make($value, [
@@ -1738,31 +1741,110 @@ public function getSipModifiedSummary(Request $request)
         $getCustomerInfo = $this->customer->getUserDetailsrow($value['userid']);
         $goalsAssests = $this->dashboardrecordsinfo->getGoalsAllocationDetailsForRebalancing($getCustomerInfo['customerid'],$value['goalid']);
         $data = array();
-       
+       // dd($goalsAssests);
         if($goalsAssests)
         {
         $data['userid'] = $value['userid'];
-        $data['goalname'] = $goalsAssests[0]['goalname'];
+        $data['goal'] = $goalsAssests[0]['goalname'];
+        $data['goal_priority'] = $goalsAssests[0]['goalpriority'];
         $assdata = array();
+        $datas = array();
       foreach ($goalsAssests as $key1 => $value1) {
         if($value1['asset'] == "Equity")
-        $data1['Equity'] = $value1['asset_value'];
+        {
+        $data1['asset'] = $value1['asset'];  
+        $data1['asset_value'] = $value1['asset_value'];
+        $data1['asset_percentage'] = $value1['asset_percentage'];
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['goalid'],$value1['asset']);
+        if($customerGoalsDetails)
+        {
+          $data1['changed_value'] = 3500;
+          $data1['changed_percentage'] = (3500/100);
+        }
+        else
+        {
+          $data1['changed_value'] = $value1['asset_value'];
+        $data1['changed_percentage'] = $value1['asset_percentage'];
+        }
+        // dd(round($customerGoalsDetails['TotalCurrentValue']));
+        array_push($datas,$data1);
+        }
         if($value1['asset'] == "Debt")
-        $data1['Debt'] = $value1['asset_value'];
+        {
+        
+        $data1['asset'] = $value1['asset'];  
+        $data1['asset_value'] = $value1['asset_value'];
+        $data1['asset_percentage'] = $value1['asset_percentage'];
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['goalid'],$value1['asset']);
+        if($customerGoalsDetails)
+        {
+          $data1['changed_value'] = 3000;
+          $data1['changed_percentage'] = (3000/100);
+        }
+        else
+        {
+          $data1['changed_value'] = $value1['asset_value'];
+        $data1['changed_percentage'] = $value1['asset_percentage'];
+        }
+        array_push($datas,$data1);
+        }
+        // $data1['Debt'] = $value1['asset_value'];
         if($value1['asset'] == "Liquid")
-        $data1['Liquid'] = $value1['asset_value'];
+        {
+         
+        $data1['asset'] = $value1['asset'];  
+        $data1['asset_value'] = $value1['asset_value'];
+        $data1['asset_percentage'] = $value1['asset_percentage'];
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['goalid'],$value1['asset']);
+        if($customerGoalsDetails)
+        {
+          $data1['changed_value'] = 2000;
+          $data1['changed_percentage'] = (2000/100);
+        }
+        else
+        {
+          $data1['changed_value'] = $value1['asset_value'];
+        $data1['changed_percentage'] = $value1['asset_percentage'];
+        }
+        array_push($datas,$data1);
+        }
+        // $data1['Liquid'] = $value1['asset_value'];
         if($value1['asset'] == "Gold")
-        $data1['Gold'] = $value1['asset_value'];
+        {
+         
+        $data1['asset'] = $value1['asset'];  
+        $data1['asset_value'] = $value1['asset_value'];
+        $data1['asset_percentage'] = $value1['asset_percentage'];
+        $customerGoalsDetails = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['goalid'],$value1['asset']);
+        if($customerGoalsDetails)
+        {
+          $data1['changed_value'] = 1500;
+          $data1['changed_percentage'] = (1500/100);
+        }
+        else
+        {
+          $data1['changed_value'] = $value1['asset_value'];
+        $data1['changed_percentage'] = $value1['asset_percentage'];
+        }
+        array_push($datas,$data1);
+        }
+        // $data1['Gold'] = $value1['asset_value'];
       }
-      array_push($datas,$data1);
-      $data['Assets'] = $datas;
-    }*/
-    // $datasArray['Rebalancing'] = $data;
-    /*return response()->json([
+              // dd($datas);
+      // array_push($datas,$data1);
+      // $data['Rebalancing'] = $datas;
+
+          return response()->json([
               'status' => 'success',
-              'Rebalancing' => $data,
+              'goal_priority' => $goalsAssests[0]['goalpriority'],
+              'goal' => $goalsAssests[0]['goalname'],
+              'goalid' => $goalsAssests[0]['customergoalid'],
+               "Rebalancing" =>$datas,
             //'Our Recommendation'=> $data3
-          ],200);*/
+          ],200);
+    }
+     //$datasArray['Rebalancing'] = $data;
+
     //$goalsAssetData['Rebalancing'] = $datas;
     //array_push($data,$goalsAssetData);
       /*
@@ -1784,7 +1866,8 @@ public function getSipModifiedSummary(Request $request)
              'Current Allocation' => "3,00,000",
         ));//*/
         //}
-        $data = "1";
+
+        /*$data = "1";
          $data1 = "1st Goal (Mayras postgraduation in US)";
          $data2 = array(array(
            'asset' => "Debt",
@@ -1822,8 +1905,8 @@ public function getSipModifiedSummary(Request $request)
               'goal' => $data1,
               'Rebalancing' => $data2,
             //'Our Recommendation'=> $data3
-          ],200);
-        
+          ],200);*/
+        }
     }
 
      public function getProductSelection(Request $request)

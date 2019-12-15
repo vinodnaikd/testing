@@ -1337,11 +1337,22 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
         }
         elseif($value['assettype'] == "Debt")
         {
-        $fundprdts = $this->fundproducts->getFundProductsByClassDebt($value['fundclassid']);  
+          if($value['asset_category'] == "Debt Long")
+          {
+        $fundprdts = $this->fundproducts->getFundProductsByClassDebtLong($value['fundclassid']);
+          }
+          elseif ($value['asset_category'] == "Debt Medium") {
+            # code...
+        $fundprdts = $this->fundproducts->getFundProductsByClassDebtMedium($value['fundclassid']);  
+          }
         }
-        elseif($value['assettype'] == "Liquid")
+        elseif($value['asset_category'] == "Liquid")
         {
         $fundprdts = $this->fundproducts->getFundProductsByClassLiquid($value['fundclassid']);  
+        }
+        elseif($value['assettype'] == "Gold")
+        {
+        $fundprdts = $this->fundproducts->getFundProductsByClassId($value['fundclassid']);  
         }
 
         foreach($fundprdts as $key1 =>$value1)
