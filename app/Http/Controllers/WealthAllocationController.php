@@ -166,7 +166,7 @@ public function getCustomerWealthAllocation(Request $request)
          $end = $wealthData[0]['timeframe'];
           $lumpsum_amount = $wealthData[0]['lumpsum_amount'];
          $sip_amount = $wealthData[0]['sip_amount'];
-        $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end);
+        $wealthAssets = $this->goalsallocation->getWealthAssestsByRiskScore($customerRiskProfileScore,$start,$end,'Wealth');
         
         $lumsipArray['Lumpsum_Amount'] = $wealthData[0]['lumpsum_amount'];
         $lumsipArray['Sip_Amount'] = $wealthData[0]['sip_amount'];
