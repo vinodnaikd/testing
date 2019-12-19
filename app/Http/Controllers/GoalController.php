@@ -1919,10 +1919,10 @@ public function getSipModifiedSummary(Request $request)
         
       $validator = Validator::make($value, [
             'asset' => 'required|string|max:255',
-            'asset_value' => 'required|string|max:255',
-            'asset_percentage' => 'required|string|max:255',
-            'asset_changed_value' => 'required|string|max:255',
-            'asset_changed_percentage' => 'required|string|max:255',
+            'asset_value' => 'required|max:255',
+            'asset_percentage' => 'required|max:255',
+            'asset_changed_value' => 'required|max:255',
+            'asset_changed_percentage' => 'required|max:255',
             'goalid' => 'required|string|max:255',
         ]);
         if($validator->fails()) {

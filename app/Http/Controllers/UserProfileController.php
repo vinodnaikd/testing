@@ -19,6 +19,8 @@ use App\User;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\RequestOptions;
+
 
 class UserProfileController extends Controller
 {
@@ -123,6 +125,7 @@ class UserProfileController extends Controller
               'messages' => $validator->messages()
           ], 400);
       }
+
       $otp = $this->generateOTP();
       // dd($otp);
       $reqData['username'] = $request['first_name'];
@@ -201,6 +204,78 @@ class UserProfileController extends Controller
          }
      }
      $data['success']="User Created Successfully";
+     if($request->all())
+{
+  $client = new \GuzzleHttp\Client();
+  $endpoint = "https://opalcrm.kloudportal.com/api/crm/registration";
+$email = $request['email'];
+$company_name = "WERT";
+$name = $request['first_name'];
+$mobile = $request['mobile_number'];
+$password = $request['password'];
+// $value = "P@ssw0rd@1";
+$response = $client->request('post', $endpoint, ['query' => [
+    'email' => $email, 
+    'company_name' => $company_name,
+    'name' => $name, 
+    'work_number' => $mobile,
+    'password' => $password,
+    'conform_password' => $password
+]]);
+$statusCode = $response->getStatusCode();
+$content = json_decode($response->getBody(), true);
+if($content)
+{
+  $login = "https://opalcrm.kloudportal.com/api/crm/login";
+$client = new \GuzzleHttp\Client();
+$email = $request['email'];
+$password = $request['password'];
+$response = $client->request('POST', $login, ['query' => [
+    'email' => $email, 
+    'password' => $password,
+]]);
+$statusCode = $response->getStatusCode();
+$loginres = json_decode($response->getBody(), true);
+if($loginres)
+{
+  $addlead = "https://opalcrm.kloudportal.com/api/crm/leads";
+  $token = $loginres['access_token'];
+
+$response = $client->get(
+    'https://httpbin.org/bearer',
+    [
+        RequestOptions::HEADERS => [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ]
+    ]
+);
+$tokendata = json_decode($response->getBody()->getContents());
+// dd($loginres);
+
+$name = $request['first_name'];
+$email = $request['email'];
+$primary_number = $request['mobile_number'];
+$lead_type = "Hot";
+$company_id = $loginres['data']['company_id'];
+$user_id = $loginres['data']['id'];
+$lead_stage = "lead";
+$response = $client->request('post', $addlead, ['query' => [
+    'name' => $name, 
+    'primary_number' => $primary_number,
+    'email' => $email, 
+    'lead_type' => $lead_type,
+    'company_id' => $company_id, 
+    'user_id' => $user_id,
+    'lead_stage' => $lead_stage,
+    'token' => $token
+]]);
+$statusCode = $response->getStatusCode();
+$content = json_decode($response->getBody(), true);
+}
+}
+}
+
         }
      
             return $data;
@@ -827,50 +902,42 @@ class UserProfileController extends Controller
     }
     $getCustomereventsInfo = $this->eventsNotification->getUserEvents($userData['userid']);
 
-            /*if(!empty($customerDetailsData))
+            if(!empty($customerDetailsData))
            {
-               $completed['userstage'] = "personalinfo";
-               $completed['userstatus'] = "true";
+               $completed['personalinfo'] = "true";
            }
            if(!empty($customerAddressData))
            {
-               $completed['userstage'] = "address";
-               $completed['userstatus'] = "true";
+               $completed['address'] = "true";
            }
            if(!empty($customerBankData))
            {
-               $completed['userstage'] = "bankdetails";
-               $completed['userstatus'] = "true";
+               $completed['bankdetails'] = "true";
            }
            if(!empty($customernomineeData))
            {
-               $completed['userstage'] = "addnominee";
-               $completed['userstatus'] = "true";
-           }*/
+               $completed['addnominee'] = "true";
+           }
            $redirectionurl = "";
            if(empty($customerDetailsData))
            {
                $redirectionurl = "personalinfo";
-               /*$completed['userstage'] = "personalinfo";
-               $completed['userstatus'] = "false";*/
+               $completed['personalinfo'] = "false";
            }
            if(empty($customerAddressData))
            {
                $redirectionurl = "address";
-               /*$completed['userstage'] = "address";
-               $completed['userstatus'] = "false";*/
+               $completed['address'] = "false";
            }
            if(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
-               /*$completed['userstage'] = "bankdetails";
-               $completed['userstatus'] = "false";*/
+               $completed['bankdetails'] = "false";
            }
            if(empty($customernomineeData))
            {
                $redirectionurl = "addnominee";
-               /*$completed['userstage'] = "addnominee";
-               $completed['userstatus'] = "false";*/
+               $completed['addnominee'] = "false";
            }      
            
         // $token = JWTAuth::fromUser($userData);
@@ -884,7 +951,7 @@ class UserProfileController extends Controller
               'userProfile' => $userData,
               'redirection_url' => $redirectionurl,
               //'inflationvalue' => $inflation,
-              //'usercompleted' => $completed,
+              'usercompleted' => $completed,
               'eventsInfo' => $getCustomereventsInfo,
               'registerstatus' => $status,
               'otpstatus' => $otpstatus,
