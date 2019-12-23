@@ -739,7 +739,7 @@ class FundBasicInfoController extends Controller
                      $fundproducts1['asset'] = $value['assettype'];
                     else
                      $fundproducts1['asset'] = $value2['asset'];
-
+                   $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
                     $fundproducts1['fundvalue'] = $fundlumvalue1;
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
