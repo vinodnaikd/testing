@@ -207,7 +207,7 @@ class UserProfileController extends Controller
      if($request->all())
 {
   $client = new \GuzzleHttp\Client();
-  $endpoint = "https://opalcrm.kloudportal.com/api/crm/registration";
+  /*$endpoint = "https://opalcrm.kloudportal.com/api/crm/registration";
 $email = $request['email'];
 $company_name = "WERT";
 $name = $request['first_name'];
@@ -223,13 +223,13 @@ $response = $client->request('post', $endpoint, ['query' => [
     'conform_password' => $password
 ]]);
 $statusCode = $response->getStatusCode();
-$content = json_decode($response->getBody(), true);
-if($content)
-{
+$content = json_decode($response->getBody(), true);*/
+/*if($client)
+{*/
   $login = "https://opalcrm.kloudportal.com/api/crm/login";
 $client = new \GuzzleHttp\Client();
-$email = $request['email'];
-$password = $request['password'];
+$email = "trew.fintech@gmail.com";//$request['email'];
+$password = "P@ssw0rd@1";//$request['password'];
 $response = $client->request('POST', $login, ['query' => [
     'email' => $email, 
     'password' => $password,
@@ -273,7 +273,7 @@ $response = $client->request('post', $addlead, ['query' => [
 $statusCode = $response->getStatusCode();
 $content = json_decode($response->getBody(), true);
 }
-}
+// }
 }
 
         }

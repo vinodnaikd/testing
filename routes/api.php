@@ -268,6 +268,13 @@ Route::put('/tasks/{task}', 'TaskController@update')->name('tasks.update');
 
 Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 
+/* BSE */
+Route::post('/v1/bse/getpassword','BSEController@getPassword');
+Route::post('/v1/bse/mfneworder','BSEController@MFNewOrder');
+Route::post('v1/bse/mfsiporder','BSEController@MFSipOrder');
+
+/* End BSE */
+
 //Route::group(['prefix' => 'users'], function()
 //{
 //    Route::post('/signup', 'UserController@signup');
