@@ -890,6 +890,7 @@ $content = json_decode($response->getBody(), true);
       $getCustomerInfo = $this->customer->getUserDetails($userData['userid']);
       $customerBankData = $this->customerbank->getCustomerBankDetails($getCustomerInfo[0]['customerid']);
       $customerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
+      // dd($customerDetailsData);
       $customerAddressData = $this->customeraddress->getCustomerAddress($getCustomerInfo[0]['customerid']);
       $customernomineeData = $this->customernominee->getCustomerNomineeDetails($getCustomerInfo[0]['customerid']);
     if(!empty($customerBankData) && !empty($customerDetailsData) && !empty($customerAddressData) && !empty($customernomineeData))
@@ -921,20 +922,21 @@ $content = json_decode($response->getBody(), true);
            $redirectionurl = "";
            if(empty($customerDetailsData))
            {
+            // echo 222;
                $redirectionurl = "personalinfo";
                $completed['personalinfo'] = "false";
            }
-           if(empty($customerAddressData))
+           elseif(empty($customerAddressData))
            {
                $redirectionurl = "address";
                $completed['address'] = "false";
            }
-           if(empty($customerBankData))
+           elseif(empty($customerBankData))
            {
                $redirectionurl = "bankdetails";
                $completed['bankdetails'] = "false";
            }
-           if(empty($customernomineeData))
+           else// if(empty($customernomineeData))
            {
                $redirectionurl = "addnominee";
                $completed['addnominee'] = "false";

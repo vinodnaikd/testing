@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Model\BSE;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BSEController extends Controller
 {
@@ -13,7 +14,23 @@ class BSEController extends Controller
      */
     public function getPassword(Request $request)
     {
-        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+          'UserId' => 'required|string|max:255',
+          'MemberId' => 'required|string|max:100',
+          'Password' => 'required|string|max:100',
+          'PassKey' => 'required|string|max:100',
+          ]);
+          if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $UserId = $request['UserId'];
+      $MemberId = $request['MemberId'];
+      $Password = $request['Password'];
+      $PassKey = $request['PassKey'];
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
     CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic",
@@ -24,7 +41,7 @@ class BSEController extends Controller
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => "POST",
-    CURLOPT_POSTFIELDS =>"<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:ns=\"http://bsestarmfdemo.bseindia.com/2016/01/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <ns:getPassword>\r\n \r\n         <ns:UserId>3787201</ns:UserId>\r\n         <!--Optional:-->\r\n         <ns:MemberId>37872</ns:MemberId>\r\n         <!--Optional:-->\r\n         <ns:Password>@12345</ns:Password>\r\n         <!--Optional:-->\r\n         <ns:PassKey>cdefghijkls123</ns:PassKey>\r\n      </ns:getPassword>\r\n   </soap:Body>\r\n</soap:Envelope>",
+    CURLOPT_POSTFIELDS =>"<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:ns=\"http://bsestarmfdemo.bseindia.com/2016/01/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <ns:getPassword>\r\n \r\n         <ns:UserId>".$UserId."</ns:UserId>\r\n         <!--Optional:-->\r\n         <ns:MemberId>".$MemberId."</ns:MemberId>\r\n         <!--Optional:-->\r\n         <ns:Password>".$Password."</ns:Password>\r\n         <!--Optional:-->\r\n         <ns:PassKey>".$PassKey."</ns:PassKey>\r\n      </ns:getPassword>\r\n   </soap:Body>\r\n</soap:Envelope>",
     CURLOPT_HTTPHEADER => array(
     "Content-Type:  application/soap+xml;charset=UTF-8;action=\"http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword\""
     ),
@@ -88,6 +105,78 @@ class BSEController extends Controller
       CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:sipOrderEntryParam>\r\n         <!--Optional: NEW /CXL  (Cancellation)-->\r\n         <bses:TransactionCode>NEW</bses:TransactionCode>\r\n         <!--Optional:-->\r\n         <bses:UniqueRefNo>2341543152993323</bses:UniqueRefNo>\r\n         <!--Optional:-->\r\n         <bses:SchemeCode>02G</bses:SchemeCode>\r\n         <!--Optional:-->\r\n         <bses:MemberCode>37872</bses:MemberCode>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>TRL12R073</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:UserID>3787201</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:InternalRefNo/>\r\n         <!--Optional:-->\r\n         <bses:TransMode>P</bses:TransMode>\r\n         <!--Optional:-->\r\n         <bses:DpTxnMode>P</bses:DpTxnMode>\r\n         <!--Optional:-->\r\n         <bses:StartDate>20/12/2019</bses:StartDate>\r\n         <!--Optional: MONTHLY/QUARTERLY/ WEEKLY -->\r\n         <bses:FrequencyType>MONTHLY</bses:FrequencyType>\r\n         <!--Optional:-->\r\n         <bses:FrequencyAllowed>1</bses:FrequencyAllowed>\r\n         <!--Optional:-->\r\n         <bses:InstallmentAmount>1000.00</bses:InstallmentAmount>\r\n         <!--Optional:-->\r\n         <bses:NoOfInstallment>12</bses:NoOfInstallment>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:FolioNo/>\r\n         <!--Optional:-->\r\n         <bses:FirstOrderFlag>Y</bses:FirstOrderFlag>\r\n         <!--Optional:-->\r\n         <bses:SubberCode/>\r\n         <!--Optional:-->\r\n         <bses:Euin/>\r\n         <!--Optional:-->\r\n         <bses:EuinVal>N</bses:EuinVal>\r\n         <!--Optional:-->\r\n         <bses:DPC>N</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:RegId/>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>pABEo/Ul8WtJeGKojYdmd8xyBfKls/FArMUrxSSjalrlZJiqN85xZBvQN7D+dbSk</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>cdefghijkls123</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Param1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:sipOrderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
       CURLOPT_HTTPHEADER => array(
         "Content-Type: application/soap+xml;charset=UTF-8;action=\"http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam\""
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return $response;
+    }
+
+public function MFSwitchOrder(Request $request)
+    {
+        $curl = curl_init();
+      curl_setopt_array($curl, array(
+      CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:sipOrderEntryParam>\r\n         <!--Optional: NEW /CXL  (Cancellation)-->\r\n         <bses:TransactionCode>NEW</bses:TransactionCode>\r\n         <!--Optional:-->\r\n         <bses:UniqueRefNo>2341543152993323</bses:UniqueRefNo>\r\n         <!--Optional:-->\r\n         <bses:SchemeCode>02G</bses:SchemeCode>\r\n         <!--Optional:-->\r\n         <bses:MemberCode>37872</bses:MemberCode>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>TRL12R073</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:UserID>3787201</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:InternalRefNo/>\r\n         <!--Optional:-->\r\n         <bses:TransMode>P</bses:TransMode>\r\n         <!--Optional:-->\r\n         <bses:DpTxnMode>P</bses:DpTxnMode>\r\n         <!--Optional:-->\r\n         <bses:StartDate>20/12/2019</bses:StartDate>\r\n         <!--Optional: MONTHLY/QUARTERLY/ WEEKLY -->\r\n         <bses:FrequencyType>MONTHLY</bses:FrequencyType>\r\n         <!--Optional:-->\r\n         <bses:FrequencyAllowed>1</bses:FrequencyAllowed>\r\n         <!--Optional:-->\r\n         <bses:InstallmentAmount>1000.00</bses:InstallmentAmount>\r\n         <!--Optional:-->\r\n         <bses:NoOfInstallment>12</bses:NoOfInstallment>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:FolioNo/>\r\n         <!--Optional:-->\r\n         <bses:FirstOrderFlag>Y</bses:FirstOrderFlag>\r\n         <!--Optional:-->\r\n         <bses:SubberCode/>\r\n         <!--Optional:-->\r\n         <bses:Euin/>\r\n         <!--Optional:-->\r\n         <bses:EuinVal>N</bses:EuinVal>\r\n         <!--Optional:-->\r\n         <bses:DPC>N</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:RegId/>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>pABEo/Ul8WtJeGKojYdmd8xyBfKls/FArMUrxSSjalrlZJiqN85xZBvQN7D+dbSk</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>cdefghijkls123</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Param1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:sipOrderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
+      CURLOPT_HTTPHEADER => array(
+        "Content-Type: application/soap+xml;charset=UTF-8;action=\"http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam\""
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return $response;
+    }
+
+    public function UploadPassword(Request $request)
+    {
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+      CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS =>"<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:ns=\"http://bsestarmfdemo.bseindia.com/2016/01/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <ns:getPassword>\r\n \r\n         <ns:UserId>3787201</ns:UserId>\r\n         <!--Optional:-->\r\n         <ns:MemberId>37872</ns:MemberId>\r\n         <!--Optional:-->\r\n         <ns:Password>@12345</ns:Password>\r\n         <!--Optional:-->\r\n         <ns:PassKey>cdefghijkls123</ns:PassKey>\r\n      </ns:getPassword>\r\n   </soap:Body>\r\n</soap:Envelope>",
+      CURLOPT_HTTPHEADER => array(
+        "Content-Type:  application/soap+xml;charset=UTF-8;action=\"http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/getPassword\""
+      ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return $response;
+    }
+
+     public function getPaymentLink(Request $request)
+    {
+      $curl = curl_init();
+      curl_setopt_array($curl, array(
+      CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:ns=\"http://bsestarmfdemo.bseindia.com/2016/01/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <ns:MFAPI>\r\n         <!--Optional:-->\r\n         <ns:Flag>03</ns:Flag>\r\n         <!--Optional:-->\r\n         <ns:UserId>3787201</ns:UserId>\r\n         <!--Optional:-->\r\n         <ns:EncryptedPassword>pABEo/Ul8WtncKcuWTFCNxpiFrn++A8JzSJc28gmiJQ/LCueLDAq+Q==</ns:EncryptedPassword>\r\n         <!--Optional:-->\r\n         <ns:param>37872|TRL12R073|http://dev-savingsmanager.co.in</ns:param>\r\n      </ns:MFAPI>\r\n   </soap:Body>\r\n</soap:Envelope>",
+      CURLOPT_HTTPHEADER => array(
+        "Content-Type:  application/soap+xml;charset=UTF-8;action=\"http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPI\""
       ),
     ));
 
