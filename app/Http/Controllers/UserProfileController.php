@@ -936,7 +936,7 @@ $content = json_decode($response->getBody(), true);
                $redirectionurl = "bankdetails";
                $completed['bankdetails'] = "false";
            }
-           else// if(empty($customernomineeData))
+           elseif(empty($customernomineeData))
            {
                $redirectionurl = "addnominee";
                $completed['addnominee'] = "false";

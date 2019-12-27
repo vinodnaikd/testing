@@ -269,10 +269,10 @@ Route::put('/tasks/{task}', 'TaskController@update')->name('tasks.update');
 Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 
 /* BSE */
-Route::post('/v1/bse/getpassword','BSEController@getPassword');
+Route::post('/v1/bse/getpassword','BSEController@getOrderPassword');
 Route::post('/v1/bse/uploadpassword','BSEController@UploadPassword');
 Route::post('/v1/bse/getpaymentlink','BSEController@getPaymentLink');
-Route::post('/v1/bse/mfneworder','BSEController@MFNewOrder');
+Route::post('/v1/bse/mfneworder','BSEController@MFNewOrderPurchase');
 Route::post('v1/bse/mfsiporder','BSEController@MFSipOrder');
 Route::post('v1/bse/mfswitchorder','BSEController@MFSwitchOrder');
 
