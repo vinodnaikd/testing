@@ -50,4 +50,16 @@ class UserProfile extends Model
     return $this->where('email','=',$email)->where('otp','=',$otp)->get()->first();
     }
 
+      public function getUserInformationDetails($customerid)
+    {
+//        dd($password);
+        return $this->join('customer as c','c.userid','sso.userid')
+        ->join('customeraddress as ca','ca.customerid','c.customerid')
+        ->join('customerdetail as cd','cd.customerid','c.customerid')
+        ->join('customerbank as cb','cb.customerid','c.customerid')
+        ->where('c.customerid',$customerid)
+        ->get()
+        ->first();
+    }
+
 }

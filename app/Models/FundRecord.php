@@ -33,6 +33,16 @@ public $timestamps = false;
     return $this->join('customerorderdetailpretran','customerorderpretran.customerorderid','=','customerorderdetailpretran.customerorderid')->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')->join('fundclass','fund.fundclassid','=','fundclass.fundclassid')->where('customerid',$customerid)->where('customerorderdetailpretran.customergoalid',$goal_id)->where('customerorderdetailpretran.purchasetype',$purchasetype)->get()->toArray();
    }
 
+      public function getBseInformation($customerid)
+    {
+      return $this->join('customer as c','c.customerid','customerorderpretran.customerid')
+      ->join('sso as s','s.userid','c.userid')
+      ->where('customerorderpretran.customerid','=',$customerid)
+      ->where('customerorderpretran.orderstatus','=','pending')
+      ->get()->first();
+    }
+
+
       public function CheckLumpsumSipData($customerid,$goal_id)
    {
 
@@ -59,6 +69,12 @@ public $timestamps = false;
    public function InsertCustomerOrderDetailsPretran($arr)
     {
       return $this->insertGetId($arr);
+    }
+    public function updateCustomerOrderDetailsPretran($orderno,$customerid)
+    {
+
+      $data['orderstatus'] = "completed";
+      return $this->where('orderno','=',$orderno)->where('customerid','=',$customerid)->update($data);
     }
    public function CheckCustomerOrderStatus($id)
     {

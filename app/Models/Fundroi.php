@@ -25,7 +25,7 @@ class Fundroi extends Model
        'lumpsumunits',
        'transactionstatus'
    ];
-public $timestamps = false;
+  public $timestamps = false;
    public function InsertCustomerOrderDetailsPretran($arr)
     {
       // dd($arr);
@@ -37,7 +37,10 @@ public $timestamps = false;
     {
       return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
     }
-
+        public function updateBseOrderEntry($arr)
+    {
+      return $this->where('customerorderdetailpretran.customerorderid',$arr['customerorderid'])->where('customerorderdetailpretran.fundid',$arr['fundid'])->update($arr);
+    }
     public function checkCustomerSelectedFund($IdsArray)
     {
       return $this->where('customerorderid',$IdsArray['customerorderid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->get()->first();
@@ -58,6 +61,24 @@ public $timestamps = false;
     public function updateCustomerFundValue($arr,$IdsArray)
     {
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$IdsArray['customerid'])->where('fundid',$IdsArray['fundid'])->where('customergoalid',$IdsArray['goalid'])->where('purchasetype',$IdsArray['purchasetype'])->update($arr);
+    }
+
+       public function getBseCustomerOrderData($customerid,$type)
+    {
+      return $this->join('customerorderpretran as p','p.customerorderid','customerorderdetailpretran.customerorderid')
+      ->where('p.customerid','=',$customerid)
+      ->where('customerorderdetailpretran.purchasetype','=',$type)
+      ->where('p.orderstatus','=','pending')
+      ->get()->toArray();
+    }
+
+           public function getBseCustomerOrderFullData($customerid)
+    {
+      return $this->join('scheme_details as s','s.schemecode','customerorderdetailpretran.fundid')->join('customerorderpretran as p','p.customerorderid','customerorderdetailpretran.customerorderid')
+      ->where('p.customerid','=',$customerid)
+      //->where('customerorderdetailpretran.purchasetype','=',$type)
+      ->where('p.orderstatus','=','pending')
+      ->get()->toArray();
     }
 
     public function getWealthAssetsAllocationDetailsSipLumProducts($customerid,$goalid,$assettype)
@@ -89,6 +110,8 @@ public $timestamps = false;
     {
       return $this->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->groupby('customerorderdetailpretran.customergoalid')->get()->toArray();
     }
+
+     
 
     public function getFundSipRedemption($customerid,$fundid,$goalid)
     {

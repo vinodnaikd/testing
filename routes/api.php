@@ -272,11 +272,18 @@ Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 Route::post('/v1/bse/getpassword','BSEController@getOrderPassword');
 Route::post('/v1/bse/uploadpassword','BSEController@UploadPassword');
 Route::post('/v1/bse/getpaymentlink','BSEController@getPaymentLink');
-Route::post('/v1/bse/mfneworder','BSEController@MFNewOrderPurchase');
-Route::post('v1/bse/mfsiporder','BSEController@MFSipOrder');
+Route::post('/v1/bse/mfneworderpurchase','BSEController@MFNewOrderPurchase');
+Route::post('/v1/bse/mfneworderredemption','BSEController@MFNewOrderRedemption');
+Route::post('v1/bse/mfsipcreateorder','BSEController@MFSipCreateOrder');
+Route::post('v1/bse/mfsipcancelorder','BSEController@MFSipCancelOrder');
 Route::post('v1/bse/mfswitchorder','BSEController@MFSwitchOrder');
+Route::post('v1/bse/clientcodecreation','BSEController@ClientCodeCreation');
 
-
+\DB::listen(function($sql) {
+    \Log::info($sql->sql);
+    \Log::info($sql->bindings);
+    \Log::info($sql->time);
+});
 /* End BSE */
 
 //Route::group(['prefix' => 'users'], function()
