@@ -919,7 +919,7 @@ $content = json_decode($response->getBody(), true);
            {
                $completed['addnominee'] = "true";
            }
-           $redirectionurl = "";
+           $redirectionurl = "null";
            if(empty($customerDetailsData))
            {
             // echo 222;
