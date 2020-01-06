@@ -500,7 +500,7 @@ class GoalController extends Controller
             $reqdata['goalid'] = $request['goal_id'];
             $reqdata['asset'] = $value['assettype'];
             $reqdata['asset_value'] = $value['asset_value'];
-            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['asset_percentage'] = ($value['asset_percentage'])?$value['asset_percentage']: '0';
             $reqdata['lumpsum_sip'] = 0;
             $reqdata['purchase_type'] = "L";
             $reqdata['duration'] = 0;
@@ -512,7 +512,7 @@ class GoalController extends Controller
             $reqdata['goalid'] = $request['goal_id'];
             $reqdata['asset'] = $value['assettype'];
             $reqdata['asset_value'] = $value['asset_value'];
-            $reqdata['asset_percentage'] = $value['asset_percentage'];
+            $reqdata['asset_percentage'] = ($value['asset_percentage'])?$value['asset_percentage']: '0';
             $reqdata['lumpsum_sip'] = $goaldetails['monthcommitment'];
             $reqdata['purchase_type'] = "S";
             $reqdata['duration'] = $goaldetails['timeframe'];
@@ -563,7 +563,7 @@ class GoalController extends Controller
           $goalsdet1['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet1['assettype'] = $value['asset'];
            $goalsdet1['asset_value'] = $value['asset_value'];
-           $goalsdet1['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet1['asset_percentage'] = ($value['asset_percentage'])?$value['asset_percentage']: '0';
            $goalsdet1['lum_sip_type'] = $value['lum_sip_type'];
            array_push($goalsLumSumm, $goalsdet1);
         }
@@ -573,7 +573,7 @@ class GoalController extends Controller
           $goalsdet['goal_ass_id'] = $value['goal_ass_id'];
            $goalsdet['assettype'] = $value['asset'];
            $goalsdet['asset_value'] = $value['asset_value'];
-           $goalsdet['asset_percentage'] = $value['asset_percentage'];
+           $goalsdet['asset_percentage'] = ($value['asset_percentage'])?$value['asset_percentage']: '0';
            $goalsdet['lum_sip_type'] = $value['lum_sip_type'];
            $goalsdet['duration'] = $value['duration'];
            array_push($goalsSipSumm, $goalsdet);
