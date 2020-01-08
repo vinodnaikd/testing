@@ -59,7 +59,7 @@ class BSEController extends Controller
   ),
 ));
 
-$response = curl_exec($curl);
+    $response = curl_exec($curl);
     curl_close($curl);
     $doc = new \DOMDocument();
     $doc->loadXML($response);

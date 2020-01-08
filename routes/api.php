@@ -278,6 +278,7 @@ Route::post('v1/bse/mfsipcreateorder','BSEController@MFSipCreateOrder');
 Route::post('v1/bse/mfsipcancelorder','BSEController@MFSipCancelOrder');
 Route::post('v1/bse/mfswitchorder','BSEController@MFSwitchOrder');
 Route::post('v1/bse/clientcodecreation','BSEController@ClientCodeCreation');
+Route::post('v1/bse/transactionpostdata','FundBasicInfoController@AddTranscationDataToPostTable');
 
 \DB::listen(function($sql) {
     \Log::info($sql->sql);

@@ -29,7 +29,6 @@ class FundPerformance extends Model
     public function InsertCustomerFundDetailPostTran($arr)
     {
        return $this->insertGetId($arr);
-        
     }
     
      public function UpdateCustomerFundDetailPostTran($arr,$Id)

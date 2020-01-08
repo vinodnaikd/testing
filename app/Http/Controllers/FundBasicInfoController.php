@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FundBasicInfo;
 use App\Models\FundInfo;
 use App\Models\FundPerformance;
+use App\Models\Customerfundposttran;
 use App\Models\FundRecord;
 use App\Models\FundClass;
 use App\Models\Customer;
@@ -13,6 +14,7 @@ use App\Models\Fundroi;
 use App\Models\CustomerDetails;
 use App\Models\FundHoldings;
 use App\Models\DashboardRecordsInfo;
+use App\Models\Transcations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Session;
@@ -31,7 +33,9 @@ class FundBasicInfoController extends Controller
         Fundroi $fundroi,
         CustomerDetails $customerdetails,
         FundHoldings $fundholdings,
-        DashboardRecordsInfo $dashboardrecordsinfo
+        DashboardRecordsInfo $dashboardrecordsinfo,
+        Transcations $transcations,
+        Customerfundposttran $customerfundposttran
     )
     {
       
@@ -46,6 +50,8 @@ class FundBasicInfoController extends Controller
         $this->customerdetails = $customerdetails;
         $this->fundholdings = $fundholdings;
         $this->dashboardrecordsinfo = $dashboardrecordsinfo;
+        $this->transcations = $transcations;
+        $this->customerfundposttran = $customerfundposttran;
     }
     /**
      * Display a listing of the resource.
@@ -558,7 +564,7 @@ class FundBasicInfoController extends Controller
             $fund['subcategory'] = "subcategory";
             $fund['limit'] = "2";
             $fundProducts = array();
-           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble);
+           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble,5,"");
 
          foreach($fundprodcutsData as $key2 => $value2)
          {
@@ -1318,6 +1324,73 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       else
       {
         $status = "Checkout Summary Failed";
+      }
+      return response()->json([
+              'status' => $status
+          ], 200);
+    }
+
+        public function AddTranscationDataToPostTable(Request $request)
+    {
+      $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100'
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+      $getCustomerOrder = $this->transcations->getCustomerTranscationDetails($getCustomerInfo['customerid']);
+      foreach($getCustomerOrder as $key =>$value)
+      {
+        $custpost['customerid'] = $value['customerid'];
+        $custpost['customergoalid'] = $value['customergoalid'];
+        $custpost['fundid'] = $value['fundid'];
+        $custpost['startdate'] = $value['startdate'];
+        $custpost['orderno'] = $value['orderno'];
+
+        $getCustomerFund = $this->customerfundposttran->AddCustomerOrderPost($custpost);
+        if($getCustomerFund)
+        {
+          $custpostdata['customerfundid'] = $getCustomerFund;
+          $custpostdata['customerid'] = $value['customerid'];
+          $custpostdata['purchasetype'] = $value['purchasetype'];
+          $custpostdata['startdate'] = $value['startdate'];
+          $custpostdata['sipamount'] = $value['sipamount'];
+          $custpostdata['sipmonthlydate'] = $value['sipmonthlydate'];
+          $custpostdata['sipduration'] = $value['sipduration'];
+          $custpostdata['lumpsumamount'] = $value['lumpsumamount'];
+          $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);
+          if($getCustomerFunddata)
+          {
+            $custpostdetail['customerfundid'] = $getCustomerFund;
+            $custpostdetail['funddataid'] = $getCustomerFunddata;
+            $custpostdetail['customerid'] = $value['customerid'];
+            $custpostdetail['fundid'] = $value['fundid'];
+            $custpostdetail['purchasetype'] = $value['purchasetype'];
+            $custpostdetail['transactiondate'] = $value['trxndate'];
+            $custpostdetail['units'] = $value['units'];
+            $custpostdetail['purchasenavvalue'] = $value['nav'];
+            $custpostdetail['purchasevalue'] = $value['amount'];
+            $custpostdetail['investmentamount'] = $value['amount'];
+            $custpostdetail['transactionstatus'] = "completed";
+            $custpostdetail['customergoalid'] = $value['customergoalid'];
+            $custpostdetail['folionumber'] = $value['folio'];
+            $getCustomerFunddetail = $this->fundPerformance->InsertCustomerFundDetailPostTran($custpostdetail);
+          }
+        }
+      }
+
+      if($getCustomerFunddetail)
+      {
+        $status = "Post Data Added Successfully";
+      }
+      else
+      {
+        $status = "Post Data Added Failed";
       }
       return response()->json([
               'status' => $status

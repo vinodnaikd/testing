@@ -1,0 +1,652 @@
+[2020-01-07 06:13:20] local.ERROR: Method App\Http\Controllers\BSEController::AddTranscationDataToPostTable does not exist. {"exception":"[object] (BadMethodCallException(code: 0): Method App\\Http\\Controllers\\BSEController::AddTranscationDataToPostTable does not exist. at E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php:68)
+[stacktrace]
+#0 [internal function]: Illuminate\\Routing\\Controller->__call('AddTranscationD...', Array)
+#1 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\BSEController), 'AddTranscationD...')
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#9 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#10 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#49 {main}
+"} 
+[2020-01-07 06:13:57] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 06:13:57] local.INFO: array (
+  0 => '185',
+)  
+[2020-01-07 06:13:57] local.INFO: 447.55  
+[2020-01-07 06:13:57] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist (SQL: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = 192 and `p`.`orderstatus` = completed) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist (SQL: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = 192 and `p`.`orderstatus` = completed) at E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:664, PDOException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist at E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:326)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(624): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(333): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2095): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2083): Illuminate\\Database\\Query\\Builder->runSelect()
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2569): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2084): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(519): Illuminate\\Database\\Query\\Builder->get(Array)
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(503): Illuminate\\Database\\Eloquent\\Builder->getModels(Array)
+#8 E:\\xampp\\htdocs\\jwtAuthn\\app\\Models\\Transcations.php(27): Illuminate\\Database\\Eloquent\\Builder->get()
+#9 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php(1343): App\\Models\\Transcations->getCustomerTranscationDetails(192)
+#10 [internal function]: App\\Http\\Controllers\\FundBasicInfoController->AddTranscationDataToPostTable(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FundBasicInfoController), 'AddTranscationD...')
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#55 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#56 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#57 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#58 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#59 {main}
+"} 
+[2020-01-07 06:43:10] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 06:43:10] local.INFO: array (
+  0 => '185',
+)  
+[2020-01-07 06:43:10] local.INFO: 9.7  
+[2020-01-07 06:43:10] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist (SQL: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = 192 and `p`.`orderstatus` = completed) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist (SQL: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = 192 and `p`.`orderstatus` = completed) at E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:664, PDOException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'wert_local1.transactions' doesn't exist at E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:326)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(624): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(333): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2095): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2083): Illuminate\\Database\\Query\\Builder->runSelect()
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2569): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2084): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(519): Illuminate\\Database\\Query\\Builder->get(Array)
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(503): Illuminate\\Database\\Eloquent\\Builder->getModels(Array)
+#8 E:\\xampp\\htdocs\\jwtAuthn\\app\\Models\\Transcations.php(27): Illuminate\\Database\\Eloquent\\Builder->get()
+#9 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php(1343): App\\Models\\Transcations->getCustomerTranscationDetails(192)
+#10 [internal function]: App\\Http\\Controllers\\FundBasicInfoController->AddTranscationDataToPostTable(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FundBasicInfoController), 'AddTranscationD...')
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#50 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#51 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#52 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#54 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#55 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#56 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#57 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#58 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#59 {main}
+"} 
+[2020-01-07 06:43:44] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 06:43:44] local.INFO: array (
+  0 => '185',
+)  
+[2020-01-07 06:43:44] local.INFO: 40.09  
+[2020-01-07 06:43:44] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 06:43:44] local.INFO: array (
+  0 => 192,
+  1 => 'completed',
+)  
+[2020-01-07 06:43:44] local.INFO: 20.61  
+[2020-01-07 06:49:01] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 06:49:01] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 06:49:01] local.INFO: 9.09  
+[2020-01-07 06:49:01] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 06:49:01] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 06:49:01] local.INFO: 8  
+[2020-01-07 06:49:31] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 06:49:31] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 06:49:31] local.INFO: 10.12  
+[2020-01-07 06:49:31] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 06:49:31] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 06:49:31] local.INFO: 15.55  
+[2020-01-07 09:42:13] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 09:42:13] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 09:42:13] local.INFO: 37.81  
+[2020-01-07 09:42:13] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 09:42:13] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 09:42:13] local.INFO: 31.97  
+[2020-01-07 09:42:13] local.INFO: insert into `customerfundposttran` (`customerid`) values (?)  
+[2020-01-07 09:42:13] local.INFO: array (
+  0 => 209,
+)  
+[2020-01-07 09:42:13] local.INFO: 63.92  
+[2020-01-07 09:42:13] local.ERROR: Undefined property: App\Http\Controllers\FundBasicInfoController::$fundinfo {"exception":"[object] (ErrorException(code: 0): Undefined property: App\\Http\\Controllers\\FundBasicInfoController::$fundinfo at E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php:1366)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php(1366): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined prope...', 'E:\\\\xampp\\\\htdocs...', 1366, Array)
+#1 [internal function]: App\\Http\\Controllers\\FundBasicInfoController->AddTranscationDataToPostTable(Object(Illuminate\\Http\\Request))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FundBasicInfoController), 'AddTranscationD...')
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#50 {main}
+"} 
+[2020-01-07 10:14:30] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 10:14:30] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 10:14:30] local.INFO: 31.14  
+[2020-01-07 10:14:30] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 10:14:30] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 10:14:30] local.INFO: 33.03  
+[2020-01-07 10:14:30] local.INFO: insert into `customerfundposttran` (`customerid`, `customergoalid`, `fundid`, `startdate`, `orderno`) values (?, ?, ?, ?, ?)  
+[2020-01-07 10:14:30] local.INFO: array (
+  0 => 209,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  2 => 755,
+  3 => '2019-11-22',
+  4 => '365866357514',
+)  
+[2020-01-07 10:14:30] local.INFO: 69.77  
+[2020-01-07 10:14:30] local.ERROR: Undefined property: App\Http\Controllers\FundBasicInfoController::$fundinfo {"exception":"[object] (ErrorException(code: 0): Undefined property: App\\Http\\Controllers\\FundBasicInfoController::$fundinfo at E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php:1366)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php(1366): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined prope...', 'E:\\\\xampp\\\\htdocs...', 1366, Array)
+#1 [internal function]: App\\Http\\Controllers\\FundBasicInfoController->AddTranscationDataToPostTable(Object(Illuminate\\Http\\Request))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FundBasicInfoController), 'AddTranscationD...')
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#50 {main}
+"} 
+[2020-01-07 10:19:11] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 10:19:11] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 10:19:11] local.INFO: 11  
+[2020-01-07 10:19:11] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 10:19:11] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 10:19:11] local.INFO: 9.74  
+[2020-01-07 10:19:11] local.INFO: insert into `customerfundposttran` (`customerid`, `customergoalid`, `fundid`, `startdate`, `orderno`) values (?, ?, ?, ?, ?)  
+[2020-01-07 10:19:11] local.INFO: array (
+  0 => 209,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  2 => 755,
+  3 => '2019-11-22',
+  4 => '365866357514',
+)  
+[2020-01-07 10:19:11] local.INFO: 49.2  
+[2020-01-07 10:19:11] local.ERROR: Undefined property: App\Http\Controllers\FundBasicInfoController::$fundinfo {"exception":"[object] (ErrorException(code: 0): Undefined property: App\\Http\\Controllers\\FundBasicInfoController::$fundinfo at E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php:1366)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\FundBasicInfoController.php(1366): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined prope...', 'E:\\\\xampp\\\\htdocs...', 1366, Array)
+#1 [internal function]: App\\Http\\Controllers\\FundBasicInfoController->AddTranscationDataToPostTable(Object(Illuminate\\Http\\Request))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('AddTranscationD...', Array)
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FundBasicInfoController), 'AddTranscationD...')
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#50 {main}
+"} 
+[2020-01-07 10:20:50] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-07 10:20:50] local.INFO: 9.13  
+[2020-01-07 10:20:50] local.INFO: select * from `transactions` inner join `customerorderdetailpretran` as `dp` on `dp`.`transaction_number` = `transactions`.`trxnno` inner join `customerorderpretran` as `p` on `p`.`customerorderid` = `dp`.`customerorderid` where `p`.`customerid` = ? and `p`.`orderstatus` = ?  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 209,
+  1 => 'completed',
+)  
+[2020-01-07 10:20:50] local.INFO: 9.82  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfundposttran` (`customerid`, `customergoalid`, `fundid`, `startdate`, `orderno`) values (?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 209,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  2 => 755,
+  3 => '2019-11-22',
+  4 => '365866357514',
+)  
+[2020-01-07 10:20:50] local.INFO: 75.35  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfunddataposttran` (`customerfundid`, `customerid`, `purchasetype`, `startdate`, `sipamount`, `sipmonthlydate`, `sipduration`, `lumpsumamount`) values (?, ?, ?, ?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 11,
+  1 => 209,
+  2 => 'L',
+  3 => '2019-11-22',
+  4 => NULL,
+  5 => NULL,
+  6 => NULL,
+  7 => NULL,
+)  
+[2020-01-07 10:20:50] local.INFO: 52.79  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfunddetailposttran` (`customerfundid`, `funddataid`, `customerid`, `fundid`, `purchasetype`, `transactiondate`, `units`, `purchasenavvalue`, `purchasevalue`, `investmentamount`, `transactionstatus`, `customergoalid`, `folionumber`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 11,
+  1 => 10,
+  2 => 209,
+  3 => 755,
+  4 => 'L',
+  5 => '2020-01-07 15:31:23',
+  6 => 25.0,
+  7 => 597,
+  8 => 15000,
+  9 => 15000,
+  10 => 'completed',
+  11 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  12 => '10236546',
+)  
+[2020-01-07 10:20:50] local.INFO: 43.72  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfundposttran` (`customerid`, `customergoalid`, `fundid`, `startdate`, `orderno`) values (?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 209,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  2 => 815,
+  3 => '2019-11-22',
+  4 => '365866357514',
+)  
+[2020-01-07 10:20:50] local.INFO: 28.02  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfunddataposttran` (`customerfundid`, `customerid`, `purchasetype`, `startdate`, `sipamount`, `sipmonthlydate`, `sipduration`, `lumpsumamount`) values (?, ?, ?, ?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 12,
+  1 => 209,
+  2 => 'L',
+  3 => '2019-11-22',
+  4 => NULL,
+  5 => NULL,
+  6 => NULL,
+  7 => NULL,
+)  
+[2020-01-07 10:20:50] local.INFO: 24.04  
+[2020-01-07 10:20:50] local.INFO: insert into `customerfunddetailposttran` (`customerfundid`, `funddataid`, `customerid`, `fundid`, `purchasetype`, `transactiondate`, `units`, `purchasenavvalue`, `purchasevalue`, `investmentamount`, `transactionstatus`, `customergoalid`, `folionumber`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  
+[2020-01-07 10:20:50] local.INFO: array (
+  0 => 12,
+  1 => 11,
+  2 => 209,
+  3 => 815,
+  4 => 'L',
+  5 => '2020-01-07 15:31:23',
+  6 => 241.0,
+  7 => 597,
+  8 => 125000,
+  9 => 125000,
+  10 => 'completed',
+  11 => 'GL456-SSD5-DDDD-FDGJ-DDSF-627167333KJS',
+  12 => '5198162',
+)  
+[2020-01-07 10:20:50] local.INFO: 53.41  
+[2020-01-07 10:30:35] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-07 10:30:35] local.INFO: 11.95  
+[2020-01-07 10:30:35] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`timeframe` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? group by `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` order by `CG`.`goalpriority` asc limit 1  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-07 10:30:35] local.INFO: 159.45  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`fundclassid`, `fc`.`assettype` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? group by `fc`.`fundclassid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-07 10:30:35] local.INFO: 67.64  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`assettype`, `fd`.`fundname`, `fd`.`fundclassid`, `fd`.`fundid` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `CFD` on `CFD`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`assettype` = ? group by `customerfunddetailposttran`.`fundid`, `fc`.`assettype`, `fd`.`fundname`, `CFD`.`purchasetype`, `CFD`.`StartDate`, `GC`.`NAV`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 'Debt',
+)  
+[2020-01-07 10:30:35] local.INFO: 18.34  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 16,
+)  
+[2020-01-07 10:30:35] local.INFO: 59.59  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`assettype`, `fd`.`fundname`, `fd`.`fundclassid`, `fd`.`fundid` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `CFD` on `CFD`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`assettype` = ? group by `customerfunddetailposttran`.`fundid`, `fc`.`assettype`, `fd`.`fundname`, `CFD`.`purchasetype`, `CFD`.`StartDate`, `GC`.`NAV`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 'Liquid',
+)  
+[2020-01-07 10:30:35] local.INFO: 3.31  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 41,
+)  
+[2020-01-07 10:30:35] local.INFO: 1.86  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`assettype`, `fd`.`fundname`, `fd`.`fundclassid`, `fd`.`fundid` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `CFD` on `CFD`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`assettype` = ? group by `customerfunddetailposttran`.`fundid`, `fc`.`assettype`, `fd`.`fundname`, `CFD`.`purchasetype`, `CFD`.`StartDate`, `GC`.`NAV`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 'Equity',
+)  
+[2020-01-07 10:30:35] local.INFO: 3.38  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 49,
+)  
+[2020-01-07 10:30:35] local.INFO: 2.06  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`assettype`, `fd`.`fundname`, `fd`.`fundclassid`, `fd`.`fundid` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `CFD` on `CFD`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`assettype` = ? group by `customerfunddetailposttran`.`fundid`, `fc`.`assettype`, `fd`.`fundname`, `CFD`.`purchasetype`, `CFD`.`StartDate`, `GC`.`NAV`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 'Gold',
+)  
+[2020-01-07 10:30:35] local.INFO: 4.12  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 53,
+)  
+[2020-01-07 10:30:35] local.INFO: 2.21  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 53,
+)  
+[2020-01-07 10:30:35] local.INFO: 1.96  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+  2 => 53,
+)  
+[2020-01-07 10:30:35] local.INFO: 3.71  
+[2020-01-07 10:30:35] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-07 10:30:35] local.INFO: 2.51  
+[2020-01-07 10:30:35] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`timeframe` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? group by `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` order by `CG`.`goalpriority` asc limit 1  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-07 10:30:35] local.INFO: 13.01  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`fundclassid`, `fc`.`assettype` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? group by `fc`.`fundclassid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-07 10:30:35] local.INFO: 2.34  
+[2020-01-07 10:30:35] local.INFO: select `fc`.`assettype`, `fd`.`fundname`, `fd`.`fundclassid`, `fd`.`fundid` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `CFD` on `CFD`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`assettype` = ? group by `customerfunddetailposttran`.`fundid`, `fc`.`assettype`, `fd`.`fundname`, `CFD`.`purchasetype`, `CFD`.`StartDate`, `GC`.`NAV`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+  2 => 'Equity',
+)  
+[2020-01-07 10:30:35] local.INFO: 4.1  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+  2 => 38,
+)  
+[2020-01-07 10:30:35] local.INFO: 2.09  
+[2020-01-07 10:30:35] local.INFO: select SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue, `customerfunddetailposttran`.`units`, `customerfunddetailposttran`.`purchasevalue`, `f`.`fundid`, `f`.`fundclassid`, `f`.`fundname` from `customerfunddetailposttran` inner join `fund` as `f` on `f`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `mf_return` on `mf_return`.`schemecode` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fc`.`fundclassid` = `f`.`fundclassid` where `customerfunddetailposttran`.`customerid` = ? and `customerfunddetailposttran`.`customergoalid` = ? and `fc`.`fundclassid` = ? group by `f`.`fundid`  
+[2020-01-07 10:30:35] local.INFO: array (
+  0 => 124,
+  1 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+  2 => 38,
+)  
+[2020-01-07 10:30:35] local.INFO: 1.83  
