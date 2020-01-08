@@ -7,6 +7,9 @@ use App\Models\FundRecord;
 use App\Models\UserProfile;
 use App\Models\Customer;
 use App\Models\Customerpertransactionfeed;
+use App\Models\FundInfo;
+use App\Models\FundPerformance;
+use App\Models\Customerfundposttran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -18,7 +21,10 @@ class BSEController extends Controller
         FundRecord $fundrecord,
         UserProfile $userprofile,
         Customerpertransactionfeed $customerpertransactionfeed,
-        Customer $customer
+        Customer $customer,
+        FundInfo $fundInfo,
+        Customerfundposttran $customerfundposttran,
+        FundPerformance $fundPerformance
     )
     {
         $this->fundroi = $fundroi;
@@ -26,6 +32,9 @@ class BSEController extends Controller
         $this->userprofile = $userprofile;
         $this->customerpertransactionfeed = $customerpertransactionfeed;
         $this->customer = $customer;
+        $this->customerfundposttran = $customerfundposttran;
+        $this->fundInfo = $fundInfo;
+        $this->fundPerformance = $fundPerformance;
     }
 
    /* $userId = Envrionment.get("")
@@ -541,6 +550,49 @@ public function MFSwitchOrder(Request $request)
        $prefeed = $this->customerpertransactionfeed->InsertCustomerOrderDetailsPretran($data);
              if($prefeed)
       {
+
+
+        $custpost['customerid'] = $cusId['customerid'];
+        $custpost['customergoalid'] = $value['customergoalid'];
+        $custpost['fundid'] = $value['fundid'];
+        $custpost['startdate'] = $value['startdate'];
+        $custpost['orderno'] = $value['orderno'];
+
+        $getCustomerFund = $this->customerfundposttran->AddCustomerOrderPost($custpost);
+        if($getCustomerFund)
+        {
+          $custpostdata['customerfundid'] = $getCustomerFund;
+          $custpostdata['customerid'] = $cusId['customerid'];
+          $custpostdata['purchasetype'] = $value['purchasetype'];
+          $custpostdata['startdate'] = $value['startdate'];
+          $custpostdata['sipamount'] = $value['sipamount'];
+          $custpostdata['sipmonthlydate'] = $value['sipmonthlydate'];
+          $custpostdata['sipduration'] = $value['sipduration'];
+          $custpostdata['lumpsumamount'] = $value['lumpsumamount'];
+          $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);
+          if($getCustomerFunddata)
+          {
+            $custpostdetail['customerfundid'] = $getCustomerFund;
+            $custpostdetail['funddataid'] = $getCustomerFunddata;
+            $custpostdetail['customerid'] = $cusId['customerid'];
+            $custpostdetail['fundid'] = $value['fundid'];
+            $custpostdetail['purchasetype'] = $value['purchasetype'];
+            $custpostdetail['transactiondate'] = "";//$value['transaction_date'];
+            $custpostdetail['units'] = '12'.mt_rand(10,100);//$value['units'];
+            $custpostdetail['purchasenavvalue'] = $value['purchasenav'];
+            if($value['purchasetype'] == "L")
+              $amount = $value['lumpsumamount'];
+            else
+              $amount = $value['sipamount'];
+            $custpostdetail['purchasevalue'] = $amount;
+            $custpostdetail['investmentamount'] = $amount;
+            $custpostdetail['transactionstatus'] = "completed";
+            $custpostdetail['customergoalid'] = $value['customergoalid'];
+            $custpostdetail['folionumber'] = mt_rand();//$value['folio'];
+            $getCustomerFunddetail = $this->fundPerformance->InsertCustomerFundDetailPostTran($custpostdetail);
+          }
+        }
+
         $orderno = $customerOrderData[0]['orderno'];
         $customerid = $customerID;
         $updateprefeed = $this->fundrecord->updateCustomerOrderDetailsPretran($orderno,$customerid);
