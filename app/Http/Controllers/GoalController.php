@@ -823,7 +823,7 @@ else
         // dd($customerGoals);
         $newGoalsArray = array();
         foreach ($customerGoals as $key => $value) {
-          echo $value['customergoalId'];
+          //echo $value['customergoalId'];
           $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalId']);
         // dd($customerGoalsDetails);
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
