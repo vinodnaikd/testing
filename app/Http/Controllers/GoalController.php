@@ -795,7 +795,7 @@ else
         $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
         // dd($customerInvestAmntArr);
         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
-        /*if($customerRiskProfileScore <= 20)
+        if($customerRiskProfileScore <= 20)
         {
             $riskcategory = "Secure";
         }
@@ -814,7 +814,7 @@ else
         elseif($customerRiskProfileScore >= 81 && $customerRiskProfileScore <=100)
         {
             $riskcategory = "Highly Aggressive";
-        }*/
+        }
         $customerTransLog = $this->fundperformance->getCustomerPostTransLogs($getCustomerInfo['customerid']);
         
        // dd($customerTransLog);
@@ -864,7 +864,7 @@ else
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
-          //"riskcategory" => $riskcategory,
+          "riskcategory" => $riskcategory,
           "Transaction_Log" => $customerTransLog,
           "Goals" => $newGoalsArray
         ], 200);
