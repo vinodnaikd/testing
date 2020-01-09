@@ -783,6 +783,7 @@ else
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
         $savingsArray = array();
+        // dd($customerInvestAmnt);
         //if($customerInvestAmnt['purchase1'])
         foreach ($customerInvestAmnt['purchase1'] as $key => $value) {
             $currentSavings = $value['units'] * $value['nav'];
@@ -792,6 +793,7 @@ else
         $customerInvestAmntArr['start_date'] = $value['startdate'];
         $customerInvestAmntArr['purchase'] = $customerInvestAmnt['purchase'];
         $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
+        // dd($customerInvestAmntArr);
         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
         if($customerRiskProfileScore <= 20)
         {
@@ -821,7 +823,7 @@ else
         // dd($customerGoals);
         $newGoalsArray = array();
         foreach ($customerGoals as $key => $value) {
-
+          echo $value['customergoalId'];
           $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalId']);
         // dd($customerGoalsDetails);
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;

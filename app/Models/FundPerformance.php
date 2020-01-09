@@ -47,7 +47,9 @@ class FundPerformance extends Model
         $records['purchase1'] = $this->select('customerfunddetailposttran.customerid','units','g.nav','c.startdate')
         ->join('globalnavcurrvalue as g','g.fundid','=','customerfunddetailposttran.fundid')
         ->join('customerfundposttran as c','c.customerfundid','=','customerfunddetailposttran.customerfundid')
-        ->where('customerfunddetailposttran.customerid',$customerId)->get()->toArray();
+        ->where('customerfunddetailposttran.customerid',$customerId)
+        ->groupby('customerfunddetailposttran.fundid')
+        ->get()->toArray();
         return $records;
     }
 
@@ -71,7 +73,7 @@ class FundPerformance extends Model
                     ->join('customergoal as g','g.customergoalid','=','f.customergoalid')
                     ->where('customerfunddetailposttran.customerid',$customerId)
                     ->orderBy('customerfunddetailposttran.customerfundid','DESC')
-                    ->take(10)
+                    ->take(5)
                     ->get()
                     ->toArray();
 
@@ -186,7 +188,7 @@ class FundPerformance extends Model
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
                     //->where('fc.assettype',$asset)
-                    ->groupby('customerfunddetailposttran.customerid','fc.assettype')
+                    ->groupby('fc.assettype')
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
@@ -260,7 +262,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
                     ->where('customerfunddetailposttran.customerid',$customerid)
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
                     ->where('fc.fundclassid',$fundclassid)
-                    ->groupby('f.fundid')
+                    ->groupby('customerfunddetailposttran.fundid')
                     ->get()
                     ->toArray();
     }
