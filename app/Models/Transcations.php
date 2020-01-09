@@ -20,8 +20,9 @@ class Transcations extends Model
 
      public function getCustomerTranscationDetails($Id)
     {
-        return $this->join('customerorderdetailpretran as dp','dp.transaction_number','transactions.trxnno')
+        return $this->join('customerorderdetailpretran as dp','dp.customerorderid','transactions.customerorderid')
         	->join('customerorderpretran as p','p.customerorderid','dp.customerorderid')
+            //->where('dp.customerorderid','=','transactions.customerorderid')
         	->where('p.customerid',$Id)
         	->where('p.orderstatus','completed')
         	->get()->toArray();
