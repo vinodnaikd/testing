@@ -1,0 +1,776 @@
+[2020-01-09 04:21:01] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:21:01] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:21:01] local.INFO: 332.53  
+[2020-01-09 04:21:01] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:21:01] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:21:01] local.INFO: 51.33  
+[2020-01-09 04:21:01] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:21:01] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:21:01] local.INFO: 32.16  
+[2020-01-09 04:21:02] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:21:02] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:21:02] local.INFO: 218.27  
+[2020-01-09 04:21:02] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:21:02] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:21:02] local.INFO: 77.36  
+[2020-01-09 04:21:02] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:21:02] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:21:02] local.INFO: 4.75  
+[2020-01-09 04:21:02] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:21:02] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:21:02] local.INFO: 25.67  
+[2020-01-09 04:21:02] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:21:02] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:21:02] local.INFO: 2.99  
+[2020-01-09 04:23:45] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:23:45] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:23:45] local.INFO: 9.53  
+[2020-01-09 04:23:45] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:23:45] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:23:45] local.INFO: 5.14  
+[2020-01-09 04:23:45] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:23:45] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:23:45] local.INFO: 1.84  
+[2020-01-09 04:23:45] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:23:45] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:23:45] local.INFO: 274.99  
+[2020-01-09 04:23:46] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:23:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:23:46] local.INFO: 325.88  
+[2020-01-09 04:23:46] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:23:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:23:46] local.INFO: 5.19  
+[2020-01-09 04:23:46] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:23:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:23:46] local.INFO: 70.67  
+[2020-01-09 04:23:46] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:23:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:23:46] local.INFO: 4.11  
+[2020-01-09 04:29:00] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:29:01] local.INFO: 15.13  
+[2020-01-09 04:29:01] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:29:01] local.INFO: 8.49  
+[2020-01-09 04:29:01] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:29:01] local.INFO: 2.79  
+[2020-01-09 04:29:01] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:29:01] local.INFO: 98.81  
+[2020-01-09 04:29:01] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:29:01] local.INFO: 19.44  
+[2020-01-09 04:29:01] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:29:01] local.INFO: 3.79  
+[2020-01-09 04:29:01] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:29:01] local.INFO: 10.6  
+[2020-01-09 04:29:01] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:29:01] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:29:01] local.INFO: 3.09  
+[2020-01-09 04:37:54] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:37:54] local.INFO: 8.1  
+[2020-01-09 04:37:54] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:37:54] local.INFO: 3.96  
+[2020-01-09 04:37:54] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:37:54] local.INFO: 1.51  
+[2020-01-09 04:37:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:37:54] local.INFO: 17.26  
+[2020-01-09 04:37:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:37:54] local.INFO: 8.37  
+[2020-01-09 04:37:54] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:37:54] local.INFO: 2.63  
+[2020-01-09 04:37:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:37:54] local.INFO: 7.91  
+[2020-01-09 04:37:54] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:37:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:37:54] local.INFO: 2.48  
+[2020-01-09 04:37:59] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:37:59] local.INFO: 9.65  
+[2020-01-09 04:37:59] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:37:59] local.INFO: 3.4  
+[2020-01-09 04:37:59] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:37:59] local.INFO: 1.4  
+[2020-01-09 04:37:59] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:37:59] local.INFO: 21.76  
+[2020-01-09 04:37:59] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:37:59] local.INFO: 11.36  
+[2020-01-09 04:37:59] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:37:59] local.INFO: 3.64  
+[2020-01-09 04:37:59] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:37:59] local.INFO: 9.89  
+[2020-01-09 04:37:59] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:37:59] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:37:59] local.INFO: 3.11  
+[2020-01-09 04:39:50] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:39:50] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:39:50] local.INFO: 9.76  
+[2020-01-09 04:39:50] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:39:50] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:39:50] local.INFO: 3.01  
+[2020-01-09 04:39:50] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:39:50] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:39:50] local.INFO: 1.44  
+[2020-01-09 04:39:51] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:39:51] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:39:51] local.INFO: 16.66  
+[2020-01-09 04:39:51] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:39:51] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:39:51] local.INFO: 10.61  
+[2020-01-09 04:39:51] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:39:51] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:39:51] local.INFO: 3.03  
+[2020-01-09 04:39:51] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:39:51] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:39:51] local.INFO: 7.6  
+[2020-01-09 04:39:51] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:39:51] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:39:51] local.INFO: 3.12  
+[2020-01-09 04:47:54] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:47:54] local.INFO: 10.44  
+[2020-01-09 04:47:54] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:47:54] local.INFO: 3.05  
+[2020-01-09 04:47:54] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:47:54] local.INFO: 1.28  
+[2020-01-09 04:47:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:47:54] local.INFO: 17.1  
+[2020-01-09 04:47:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:47:54] local.INFO: 8.97  
+[2020-01-09 04:47:54] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:47:54] local.INFO: 2.81  
+[2020-01-09 04:47:54] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:47:54] local.INFO: 9.12  
+[2020-01-09 04:47:54] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:47:54] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:47:54] local.INFO: 3.74  
+[2020-01-09 04:48:53] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 04:48:53] local.INFO: 7.59  
+[2020-01-09 04:48:53] local.INFO: select * from `customergoal` where `customerid` = ? order by `goalpriority` asc  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:48:53] local.INFO: 3.09  
+[2020-01-09 04:48:53] local.INFO: select * from `customer_surplus_amount` where `customerid` = ?  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 04:48:53] local.INFO: 1.29  
+[2020-01-09 04:48:53] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 04:48:53] local.INFO: 23.61  
+[2020-01-09 04:48:53] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:48:53] local.INFO: 10.14  
+[2020-01-09 04:48:53] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 04:48:53] local.INFO: 6.52  
+[2020-01-09 04:48:53] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:48:53] local.INFO: 11.07  
+[2020-01-09 04:48:53] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 04:48:53] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 04:48:53] local.INFO: 3.14  
+[2020-01-09 05:00:56] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:00:56] local.INFO: 9.5  
+[2020-01-09 05:00:56] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:00:56] local.INFO: 7.43  
+[2020-01-09 05:00:56] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:00:56] local.INFO: 32.9  
+[2020-01-09 05:00:56] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:00:56] local.INFO: 78.27  
+[2020-01-09 05:00:56] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:00:56] local.INFO: 262.8  
+[2020-01-09 05:00:56] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:00:56] local.INFO: 22.68  
+[2020-01-09 05:00:56] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:00:56] local.INFO: 11.05  
+[2020-01-09 05:00:56] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:00:56] local.INFO: 3.19  
+[2020-01-09 05:00:56] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:00:56] local.INFO: 9.96  
+[2020-01-09 05:00:56] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:00:56] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:00:56] local.INFO: 4.01  
+[2020-01-09 05:13:41] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:13:41] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:13:41] local.INFO: 8.72  
+[2020-01-09 05:13:41] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:13:41] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:13:41] local.INFO: 1.27  
+[2020-01-09 05:13:41] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:13:41] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:13:41] local.INFO: 1.88  
+[2020-01-09 05:13:41] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:13:41] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:13:41] local.INFO: 3.28  
+[2020-01-09 05:13:41] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:13:41] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:13:41] local.INFO: 148.9  
+[2020-01-09 05:13:42] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:13:42] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:13:42] local.INFO: 17.28  
+[2020-01-09 05:13:42] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:13:42] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:13:42] local.INFO: 8.33  
+[2020-01-09 05:13:42] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:13:42] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:13:42] local.INFO: 4.97  
+[2020-01-09 05:13:42] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:13:42] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:13:42] local.INFO: 9.83  
+[2020-01-09 05:13:42] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:13:42] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:13:42] local.INFO: 3.94  
+[2020-01-09 05:14:11] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:14:11] local.INFO: 5.94  
+[2020-01-09 05:14:11] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:11] local.INFO: 0.99  
+[2020-01-09 05:14:11] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:11] local.INFO: 2.06  
+[2020-01-09 05:14:11] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:11] local.INFO: 1.16  
+[2020-01-09 05:14:11] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:11] local.INFO: 154.45  
+[2020-01-09 05:14:11] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:14:11] local.INFO: 16.39  
+[2020-01-09 05:14:11] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:11] local.INFO: 7.45  
+[2020-01-09 05:14:11] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:11] local.INFO: 2.72  
+[2020-01-09 05:14:11] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:11] local.INFO: 6.25  
+[2020-01-09 05:14:11] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:11] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:11] local.INFO: 2.43  
+[2020-01-09 05:14:32] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:14:32] local.INFO: 9.94  
+[2020-01-09 05:14:32] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:32] local.INFO: 1.89  
+[2020-01-09 05:14:32] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:32] local.INFO: 2.03  
+[2020-01-09 05:14:32] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:32] local.INFO: 2.14  
+[2020-01-09 05:14:32] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:32] local.INFO: 173.43  
+[2020-01-09 05:14:32] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:14:32] local.INFO: 16.09  
+[2020-01-09 05:14:32] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:32] local.INFO: 6.62  
+[2020-01-09 05:14:32] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:32] local.INFO: 3.41  
+[2020-01-09 05:14:32] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:32] local.INFO: 6.83  
+[2020-01-09 05:14:32] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:32] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:32] local.INFO: 3.01  
+[2020-01-09 05:14:46] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:14:46] local.INFO: 8.43  
+[2020-01-09 05:14:46] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:46] local.INFO: 1.14  
+[2020-01-09 05:14:46] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:46] local.INFO: 1.82  
+[2020-01-09 05:14:46] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:46] local.INFO: 1.77  
+[2020-01-09 05:14:46] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:14:46] local.INFO: 160.16  
+[2020-01-09 05:14:46] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:14:46] local.INFO: 24.02  
+[2020-01-09 05:14:46] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:46] local.INFO: 50.61  
+[2020-01-09 05:14:46] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:14:46] local.INFO: 3.75  
+[2020-01-09 05:14:46] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:46] local.INFO: 7.12  
+[2020-01-09 05:14:46] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:14:46] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:14:46] local.INFO: 3.02  
+[2020-01-09 05:15:00] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => '117',
+)  
+[2020-01-09 05:15:00] local.INFO: 7.65  
+[2020-01-09 05:15:00] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:15:00] local.INFO: 1.46  
+[2020-01-09 05:15:00] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:15:00] local.INFO: 1.9  
+[2020-01-09 05:15:00] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:15:00] local.INFO: 2.34  
+[2020-01-09 05:15:00] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 124,
+)  
+[2020-01-09 05:15:00] local.INFO: 153.26  
+[2020-01-09 05:15:00] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 124,
+  1 => '',
+)  
+[2020-01-09 05:15:00] local.INFO: 16.84  
+[2020-01-09 05:15:00] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:15:00] local.INFO: 9.4  
+[2020-01-09 05:15:00] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-1920699881KJ',
+)  
+[2020-01-09 05:15:00] local.INFO: 2.36  
+[2020-01-09 05:15:00] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `CG`.`createdutcdatetime` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `CG`.`CustomerGoalId`, `CG`.`GoalName`, `CG`.`FutureCost`, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount`, `fc`.`assettype`  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:15:00] local.INFO: 6.33  
+[2020-01-09 05:15:00] local.INFO: select `fc`.`AssetType`, SUM(customerfunddetailposttran.purchasevalue) AS TotalInvestmentValue, SUM(customerfunddetailposttran.units * GC.NAV) AS TotalCurrentValue, ((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` inner join `fund` as `fd` on `fd`.`fundid` = `GC`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` where `customerfunddetailposttran`.`customergoalid` = ? group by `customerfunddetailposttran`.`customerid`, `fc`.`assettype`  
+[2020-01-09 05:15:00] local.INFO: array (
+  0 => 'GL456-SSD5-DDDD-FDGJ-DDSF-36683468KJSD',
+)  
+[2020-01-09 05:15:00] local.INFO: 2.18  
+[2020-01-09 05:15:11] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:15:11] local.INFO: array (
+  0 => '1',
+)  
+[2020-01-09 05:15:11] local.INFO: 9.4  
+[2020-01-09 05:15:11] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` is null  
+[2020-01-09 05:15:11] local.INFO: array (
+)  
+[2020-01-09 05:15:11] local.INFO: 29.92  
+[2020-01-09 05:15:11] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` is null  
+[2020-01-09 05:15:11] local.INFO: array (
+)  
+[2020-01-09 05:15:11] local.INFO: 1.33  
+[2020-01-09 05:15:11] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` is null  
+[2020-01-09 05:15:11] local.INFO: array (
+)  
+[2020-01-09 05:15:11] local.INFO: 1.31  
+[2020-01-09 05:15:11] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` is null order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:15:11] local.INFO: array (
+)  
+[2020-01-09 05:15:11] local.INFO: 2.38  
+[2020-01-09 05:15:11] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` is null and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:15:11] local.INFO: array (
+  0 => '',
+)  
+[2020-01-09 05:15:11] local.INFO: 10.25  
+[2020-01-09 05:15:20] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => '3',
+)  
+[2020-01-09 05:15:20] local.INFO: 6.06  
+[2020-01-09 05:15:20] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => 1,
+)  
+[2020-01-09 05:15:20] local.INFO: 0.71  
+[2020-01-09 05:15:20] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => 1,
+)  
+[2020-01-09 05:15:20] local.INFO: 1.29  
+[2020-01-09 05:15:20] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => 1,
+)  
+[2020-01-09 05:15:20] local.INFO: 56.5  
+[2020-01-09 05:15:20] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => 1,
+)  
+[2020-01-09 05:15:20] local.INFO: 4.42  
+[2020-01-09 05:15:20] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:15:20] local.INFO: array (
+  0 => 1,
+  1 => '',
+)  
+[2020-01-09 05:15:20] local.INFO: 4.29  
+[2020-01-09 05:15:20] local.ERROR: Undefined variable: riskcategory {"exception":"[object] (ErrorException(code: 0): Undefined variable: riskcategory at E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\GoalController.php:865)
+[stacktrace]
+#0 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Controllers\\GoalController.php(865): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Undefined varia...', 'E:\\\\xampp\\\\htdocs...', 865, Array)
+#1 [internal function]: App\\Http\\Controllers\\GoalController->getGoalsSummaryList(Object(Illuminate\\Http\\Request))
+#2 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php(54): call_user_func_array(Array, Array)
+#3 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(45): Illuminate\\Routing\\Controller->callAction('getGoalsSummary...', Array)
+#4 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(219): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\GoalController), 'getGoalsSummary...')
+#5 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(176): Illuminate\\Routing\\Route->runController()
+#6 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(682): Illuminate\\Routing\\Route->run()
+#7 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#8 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#9 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 E:\\xampp\\htdocs\\jwtAuthn\\app\\Http\\Middleware\\ApiDataLogger.php(17): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#12 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): App\\Http\\Middleware\\ApiDataLogger->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php(41): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#15 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php(58): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#18 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Routing\\Middleware\\ThrottleRequests->handle(Object(Illuminate\\Http\\Request), Object(Closure), 60, '1')
+#19 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#20 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#21 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(684): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#22 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(659): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#23 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(625): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#24 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(614): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#25 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(176): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#26 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(30): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#27 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\barryvdh\\laravel-cors\\src\\HandleCors.php(36): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#28 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Barryvdh\\Cors\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#31 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#34 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(31): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#37 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#40 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#41 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#42 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(62): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#43 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(163): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(53): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(104): Illuminate\\Routing\\Pipeline->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#46 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(151): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#47 E:\\xampp\\htdocs\\jwtAuthn\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(116): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#48 E:\\xampp\\htdocs\\jwtAuthn\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#49 E:\\xampp\\htdocs\\jwtAuthn\\server.php(21): require_once('E:\\\\xampp\\\\htdocs...')
+#50 {main}
+"} 
+[2020-01-09 05:15:34] local.INFO: select `customerid` from `customer` where `userid` = ?  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => '202',
+)  
+[2020-01-09 05:15:34] local.INFO: 4.6  
+[2020-01-09 05:15:34] local.INFO: select sum(`purchasevalue`) as aggregate from `customerfunddetailposttran` where `customerid` = ?  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => 209,
+)  
+[2020-01-09 05:15:34] local.INFO: 0.85  
+[2020-01-09 05:15:34] local.INFO: select `customerfunddetailposttran`.`customerid`, `units`, `g`.`nav`, `c`.`startdate` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `g` on `g`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customerfundposttran` as `c` on `c`.`customerfundid` = `customerfunddetailposttran`.`customerfundid` where `customerfunddetailposttran`.`customerid` = ?  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => 209,
+)  
+[2020-01-09 05:15:34] local.INFO: 1.18  
+[2020-01-09 05:15:34] local.INFO: select sum(`questionoptions`.`score`) as aggregate from `riskprofile` inner join `questionoptions` on `riskprofile`.`optionid` = `questionoptions`.`optionid` where `riskprofile`.`customerid` = ?  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => 209,
+)  
+[2020-01-09 05:15:34] local.INFO: 1.22  
+[2020-01-09 05:15:34] local.INFO: select `f`.`orderno`, `customerfunddetailposttran`.`investmentamount`, `d`.`purchasetype`, `f`.`customergoalid`, `fd`.`fundname`, `fc`.`assettype`, `g`.`goalname` from `customerfunddetailposttran` inner join `customerfunddataposttran` as `d` on `d`.`customerid` = `customerfunddetailposttran`.`customerid` inner join `customerfundposttran` as `f` on `f`.`customerid` = `d`.`customerid` inner join `fund` as `fd` on `fd`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `fundclass` as `fc` on `fd`.`fundclassid` = `fc`.`fundclassid` inner join `customergoal` as `g` on `g`.`customergoalid` = `f`.`customergoalid` where `customerfunddetailposttran`.`customerid` = ? order by `customerfunddetailposttran`.`customerfundid` desc limit 10  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => 209,
+)  
+[2020-01-09 05:15:34] local.INFO: 3.98  
+[2020-01-09 05:15:34] local.INFO: select `CG`.`customergoalId`, `CG`.`goalname`, `CG`.`futurecost`, sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue, `CG`.`goalpriority`, `CG`.`timeframe`, `fp`.`sipamount`, `fp`.`lumpsumamount` from `customerfunddetailposttran` inner join `globalnavcurrvalue` as `GC` on `GC`.`fundid` = `customerfunddetailposttran`.`fundid` inner join `customergoal` as `CG` on `CG`.`customergoalid` = `customerfunddetailposttran`.`customergoalid` inner join `customerfunddataposttran` as `fp` on `fp`.`funddataid` = `customerfunddetailposttran`.`funddataid` where `customerfunddetailposttran`.`customerid` = ? and `CG`.`customergoalid` != ? group by `customerfunddetailposttran`.`customergoalid` order by `CG`.`goalpriority` asc  
+[2020-01-09 05:15:34] local.INFO: array (
+  0 => 209,
+  1 => '',
+)  
+[2020-01-09 05:15:34] local.INFO: 4.2  

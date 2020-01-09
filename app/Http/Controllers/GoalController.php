@@ -227,15 +227,18 @@ class GoalController extends Controller
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $Goalsdata = $this->goals->getGoalsList($getCustomerInfo['customerid']);
         $surplusData = $this->surpluscalculation->getCustomerSurplusCalculationDetails($getCustomerInfo['customerid']);
+        $customerGoals = $this->fundperformance->getCustomerGoals($getCustomerInfo['customerid']);
+        $goalsIdData = array_column($customerGoals, 'customergoalId');
         // dd($surplusData['total_surplus']);
          /*$price = array_column($Goalsdata, 'goalcost');
          array_multisort($price, SORT_ASC, $Goalsdata);*/
+         // dd($Goalsdata);
         $GoalsArr = array();
         $GoalsAchArr = array();
         $GoalsFutureArr = array();
         $goalAmount = "0";
         foreach ($Goalsdata as $key => $value) {
-          //echo $value['goalcost'];
+          // echo $value['customergoalid'];
            if($key == 0)
           {
             $goalAmount = $value['goalcost'];
@@ -252,18 +255,114 @@ class GoalController extends Controller
           {
           }*/
             //$goalAmount += $value['goalcost'];
-            $value['goaltype'] = "Achievable";
-            array_push($GoalsArr,$value);
+          // if(in_array(, haystack))
+          $value['goaltype'] = "Achievable";
+          if(in_array($value['customergoalid'], $goalsIdData))
+          {
+              
+              $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalid']);
+        // dd($customerGoalsDetails);
+        $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $customerGoalsDetails['yearmonth'] = "months";
+        }
+        else
+        {
+          $customerGoalsDetails['yearmonth'] = "year";
+        }
+       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['customergoalid']);
+       $newArr = array();
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
+       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $mytime = Carbon::now();
+       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
+        $customerGoalsDetails['customerid'] = $value['customerid'];
+        $customerGoalsDetails['timetaken'] = $diff;
+        $customerGoalsDetails['goal_status'] = "completed";
+        array_push($GoalsArr,$customerGoalsDetails);
           }
           else
           {
-            // unset($goalAmount);
-            $goalAmount = $goalAmount-$value['goalcost'];
-            $value['goaltype'] = "Future";
-            array_push($GoalsArr,$value);
+              $value['goal_status'] = "started";
+
+              array_push($GoalsArr,$value);
           }
-          
+            
+            //array_push($GoalsArr,$value);
+          }
+          else
+          {
+             $goalAmount = $goalAmount-$value['goalcost'];
+            $value['goaltype'] = "Future";
+            // unset($goalAmount);
+            if(in_array($value['customergoalid'], $goalsIdData))
+          {
+              $customerGoalsDetails['goal_status'] = "completed";
+              $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalid']);
+        // dd($customerGoalsDetails);
+        $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $customerGoalsDetails['yearmonth'] = "months";
         }
+        else
+        {
+          $customerGoalsDetails['yearmonth'] = "year";
+        }
+       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['customergoalid']);
+       $newArr = array();
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
+       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $mytime = Carbon::now();
+       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $customerGoalsDetails['timetaken'] = $diff;
+        $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
+        $customerGoalsDetails['customerid'] = $value['customerid'];
+        array_push($GoalsArr,$customerGoalsDetails);
+          }
+          else
+          {
+              $value['goal_status'] = "started";
+              array_push($GoalsArr,$value);
+          }
+           
+            
+          }
+        }
+        
+        // dd($customerGoals);
        // $GoalsArr['Achievable'] = $GoalsAchArr;
        // $GoalsArr['Future'] = $GoalsFutureArr;
         // print_r($goalAmount);
@@ -694,17 +793,78 @@ else
         $customerInvestAmntArr['purchase'] = $customerInvestAmnt['purchase'];
         $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
+        if($customerRiskProfileScore <= 20)
+        {
+            $riskcategory = "Secure";
+        }
+        elseif($customerRiskProfileScore >= 21 && $customerRiskProfileScore <=40)
+        {
+            $riskcategory = "Moderately Secure";
+        }
+        elseif($customerRiskProfileScore >= 41 && $customerRiskProfileScore <=60)
+        {
+            $riskcategory = "Moderate";
+        }
+        elseif($customerRiskProfileScore >= 61 && $customerRiskProfileScore <=80)
+        {
+            $riskcategory = "Aggressive";
+        }
+        elseif($customerRiskProfileScore >= 81 && $customerRiskProfileScore <=100)
+        {
+            $riskcategory = "Highly Aggressive";
+        }
         $customerTransLog = $this->fundperformance->getCustomerPostTransLogs($getCustomerInfo['customerid']);
         
        // dd($customerTransLog);
         //Goals
         $customerGoals = $this->fundperformance->getCustomerGoals($getCustomerInfo['customerid']);
+        // dd($customerGoals);
+        $newGoalsArray = array();
+        foreach ($customerGoals as $key => $value) {
+
+          $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalId']);
+        // dd($customerGoalsDetails);
+        $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $customerGoalsDetails['yearmonth'] = "months";
+        }
+        else
+        {
+          $customerGoalsDetails['yearmonth'] = "year";
+        }
+       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['customergoalId']);
+       $newArr = array();
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
+       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $mytime = Carbon::now();
+       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $customerGoalsDetails['timetaken'] = $diff;
+          // dd($customerGoalsDetails);
+        array_push($newGoalsArray, $customerGoalsDetails);
+        }
         //dd($customerGoals);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
+          "riskcategory" => $riskcategory,
           "Transaction_Log" => $customerTransLog,
-          "Goals" => $customerGoals
+          "Goals" => $newGoalsArray
         ], 200);
     }
 
@@ -780,7 +940,55 @@ else
        }
       // return $newArr;
         $customerGoalsDetails['goalsAssests'] = $newArr;
-        $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);
+/*
+        $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);*/
+        // dd($customerGoalsDetails);
+// New 
+
+      $fundclassassests = $this->fundperformance->getCustomerAssets($request['goalid']);
+      $fundAssets = array();
+      // dd($fundclassassests);
+      foreach($fundclassassests as $key =>$value)
+      {
+         $assests['assettype'] = $value['assettype'];
+         // $assests['assetname'] = $value['subcategory'];
+         $fundclassData = $this->fundclass->getSelectedFundClassDataNew($value['assettype'],$value['fundclassid']);
+
+         $fundClass = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
+            $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
+            $fund['limit'] = "2";
+            $fundProducts = array();
+           $fundprodcutsData = $this->fundperformance->getGoalsSummaryFundsListWithGoalIdNew($request['goalid'],$value1['fundclassid']);
+           // dd($fundprodcutsData);
+         foreach($fundprodcutsData as $key2 => $value2)
+         {
+              //dd($value2);
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['purchasetype'] = $value2['purchasetype'];
+              $products['startdate'] = $value2['startdate'];
+              $products['investmentvalue'] = $value2['investmentvalue'];
+              $products['units'] = $value2['units'];
+              $products['currentvalue'] = $value2['currentvalue'];
+              $products['Growth'] = $value2['Growth'];
+              array_push($fundProducts, $products);
+         }
+              $fund['fundproducts'] = $fundProducts;
+            array_push($fundClass, $fund);
+         }
+         $assests['fundclass'] = $fundClass;
+         array_push($fundAssets, $assests);
+      }
+      $customerGoalsDetails['goalsAllocatedFunds'] = $fundAssets;
        return response()->json([
           "GoalsSummaryDetails" => $customerGoalsDetails
         ], 200);

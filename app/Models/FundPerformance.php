@@ -51,6 +51,16 @@ class FundPerformance extends Model
         return $records;
     }
 
+        public function getCustomerAssets($goalId)
+    {
+        
+        return $this->select('fc.assettype','fc.fundclassid')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
+        ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
+        ->where('customerfunddetailposttran.customergoalid',$goalId)
+        ->groupby('fc.assettype')
+        ->get()->toArray();
+    }
+
     public function getCustomerPostTransLogs($customerId)
     {
         return $this->select('f.orderno','customerfunddetailposttran.investmentamount','d.purchasetype','f.customergoalid','fd.fundname','fc.assettype','g.goalname')
@@ -192,6 +202,22 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','GC.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->groupby('customerfunddetailposttran.fundid','fc.assettype','fd.fundname','CFD.purchasetype','CFD.StartDate','GC.NAV')
+                    //->orderBy('CG.goalpriority','ASC')
+                    ->get()->toArray();
+    }
+
+    public function getGoalsSummaryFundsListWithGoalIdNew($goalId,$fundclassid)
+    {
+        return $this->select('fc.assettype','fd.fundname','fd.fundid','CFD.purchasetype',
+'CFD.startdate',DB::raw('SUM(customerfunddetailposttran.purchasevalue) AS investmentvalue'),DB::raw('SUM(customerfunddetailposttran.units) AS units'),DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),DB::raw('((SUM(customerfunddetailposttran.units * GC.NAV) - SUM(customerfunddetailposttran.purchasevalue))*100.00/SUM(customerfunddetailposttran.purchasevalue))as Growth'))
+                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
+                    ->join('customerfunddataposttran as CFD','CFD.funddataid','=','customerfunddetailposttran.funddataid')
+                    ->join('fund as fd','fd.fundid','=','GC.fundid')
+                    ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->where('fc.fundclassid',$fundclassid)
                     ->groupby('customerfunddetailposttran.fundid','fc.assettype','fd.fundname','CFD.purchasetype','CFD.StartDate','GC.NAV')
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
