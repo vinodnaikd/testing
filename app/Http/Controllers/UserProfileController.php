@@ -719,7 +719,7 @@ $content = json_decode($response->getBody(), true);
           'Name' => 'required|string|max:255',
           //'guardian_name' => 'required|string|max:100',
           'relationship' => 'required|string|max:100',
-          'percentage' => 'required|string|max:255',
+          'percentage' => 'required|max:255',
           //'customerid' => 'required|string|max:100',
           ]);
           if($validator->fails()) {
