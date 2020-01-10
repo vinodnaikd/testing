@@ -25,6 +25,7 @@ class Transcations extends Model
             //->where('dp.customerorderid','=','transactions.customerorderid')
         	->where('p.customerid',$Id)
         	->where('p.orderstatus','completed')
+            ->groupby('transactions.folio')
         	->get()->toArray();
     }
 }

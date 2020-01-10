@@ -1344,28 +1344,31 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       }
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
       $getCustomerOrder = $this->transcations->getCustomerTranscationDetails($getCustomerInfo['customerid']);
-      foreach($getCustomerOrder as $key =>$value)
-      {
-        $custpost['customerid'] = $value['customerid'];
-        $custpost['customergoalid'] = $value['customergoalid'];
-        $custpost['fundid'] = $value['fundid'];
-        $custpost['startdate'] = $value['startdate'];
-        $custpost['orderno'] = $value['orderno'];
+      // dd($getCustomerOrder);
+      if(!empty($getCustomerOrder))
+        {
+          // echo "string";
+          $custpost['customerid'] = $getCustomerOrder[0]['customerid'];
+        $custpost['customergoalid'] = $getCustomerOrder[0]['customergoalid'];
+        $custpost['fundid'] = $getCustomerOrder[0]['fundid'];
+        $custpost['startdate'] = $getCustomerOrder[0]['startdate'];
+        $custpost['orderno'] = $getCustomerOrder[0]['orderno'];
 
         $getCustomerFund = $this->customerfundposttran->AddCustomerOrderPost($custpost);
-        if($getCustomerFund)
-        {
-          $custpostdata['customerfundid'] = $getCustomerFund;
-          $custpostdata['customerid'] = $value['customerid'];
-          $custpostdata['purchasetype'] = $value['purchasetype'];
-          $custpostdata['startdate'] = $value['startdate'];
-          $custpostdata['sipamount'] = $value['sipamount'];
-          $custpostdata['sipmonthlydate'] = $value['sipmonthlydate'];
-          $custpostdata['sipduration'] = $value['sipduration'];
-          $custpostdata['lumpsumamount'] = $value['lumpsumamount'];
+         if($getCustomerFund)
+         {
+            $custpostdata['customerfundid'] = $getCustomerFund;
+          $custpostdata['customerid'] = $getCustomerOrder[0]['customerid'];
+          $custpostdata['purchasetype'] = $getCustomerOrder[0]['purchasetype'];
+          $custpostdata['startdate'] = $getCustomerOrder[0]['startdate'];
+          $custpostdata['sipamount'] = $getCustomerOrder[0]['sipamount'];
+          $custpostdata['sipmonthlydate'] = $getCustomerOrder[0]['sipmonthlydate'];
+          $custpostdata['sipduration'] = $getCustomerOrder[0]['sipduration'];
+          $custpostdata['lumpsumamount'] = $getCustomerOrder[0]['lumpsumamount'];
           $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);
-          if($getCustomerFunddata)
-          {
+         }
+      foreach($getCustomerOrder as $key =>$value)
+      {
             $custpostdetail['customerfundid'] = $getCustomerFund;
             $custpostdetail['funddataid'] = $getCustomerFunddata;
             $custpostdetail['customerid'] = $value['customerid'];
@@ -1380,8 +1383,7 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
             $custpostdetail['customergoalid'] = $value['customergoalid'];
             $custpostdetail['folionumber'] = $value['folio'];
             $getCustomerFunddetail = $this->fundPerformance->InsertCustomerFundDetailPostTran($custpostdetail);
-          }
-        }
+         
       }
 
       if($getCustomerFunddetail)
@@ -1391,6 +1393,7 @@ $fundHoldings = $this->fundholdings->getFundHoldings($request['fundid']);
       else
       {
         $status = "Post Data Added Failed";
+      }
       }
       return response()->json([
               'status' => $status
