@@ -269,7 +269,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
 
      public function getCustomerRedeemFundProducts($customerid,$goalId)
     {
-        return $this->select(DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'customerfunddetailposttran.units','customerfunddetailposttran.purchasevalue','f.fundid','f.fundclassid','f.fundname','customerfunddetailposttran.purchasetype','fd.sipamount')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
+        return $this->select(DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'customerfunddetailposttran.units','customerfunddetailposttran.purchasevalue','f.fundid','f.fundclassid','f.fundname','customerfunddetailposttran.purchasetype','fd.sipamount','customerfunddetailposttran.folionumber')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('customerfunddataposttran as fd','fd.funddataid','=','customerfunddetailposttran.funddataid')
                     ->join('mf_return','mf_return.schemecode','=','customerfunddetailposttran.fundid')

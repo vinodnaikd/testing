@@ -1185,6 +1185,13 @@ else
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
         // dd($customerGoals);
+        $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+         if($wealthData)
+         {
+         $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+         // dd($wealthAllocateData);
+       $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
+         }
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
@@ -1200,7 +1207,8 @@ else
            array_push($goalwealth, $gw);
         }
        return response()->json([
-          "Goals" => $goalwealth
+          "Goals" => $goalwealth,
+          "Wealth" => $wealthAllocateData
         ], 200);
     }
 
@@ -1544,6 +1552,8 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                     $fundproducts1['currentvalue'] = $value2['currentvalue'];
                     $fundproducts1['fundredamount'] = $redmvalue1;
                     $fundproducts1['balamount'] = $value2['purchasevalue']-$redmvalue1;
+                    $fundproducts1['folionumber'] = trim($value2['folionumber']);
+                    
                 array_push($lumProductsArray, $fundproducts1);
 /*                $reqData['lumpsumamount'] = $fundvalue;
                 $reqData1['fundid'] = $value2['fundid'];
@@ -1570,6 +1580,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                     $fundproducts2['units'] = $value2['units'];
                     $fundproducts2['fundredamount'] = $redmvalue;
                     $fundproducts2['balamount'] = $value2['purchasevalue']-$redmvalue;
+                    $fundproducts2['folionumber'] = trim($value2['folionumber']);
                     array_push($sipProductsArray, $fundproducts2);
                 /*$reqData2['sipamount'] = $fundvalue;
                 $reqData3['fundid'] = $value2['fundid'];
