@@ -476,6 +476,26 @@ public function MFSwitchOrder(Request $request)
   $customerOrderData = $this->fundroi->getBseCustomerOrderFullData($customerID);
   $userdata = $this->userprofile->getUserInformationDetails($customerID);
       if($customerOrderData)
+      {
+         $custpost['customerid'] = $cusId['customerid'];
+        $custpost['customergoalid'] = $customerOrderData[0]['customergoalid'];
+        $custpost['fundid'] = $customerOrderData[0]['fundid'];
+        $custpost['startdate'] = $customerOrderData[0]['startdate'];
+        $custpost['orderno'] = $customerOrderData[0]['orderno'];
+        $getCustomerFund = $this->customerfundposttran->AddCustomerOrderPost($custpost);
+        if($getCustomerFund)
+        {
+          $custpostdata['customerfundid'] = $getCustomerFund;
+          $custpostdata['customerid'] = $cusId['customerid'];
+          $custpostdata['purchasetype'] = $customerOrderData[0]['purchasetype'];
+          $custpostdata['startdate'] = $customerOrderData[0]['startdate'];
+          $custpostdata['sipamount'] = $customerOrderData[0]['sipamount'];
+          $custpostdata['sipmonthlydate'] = $customerOrderData[0]['sipmonthlydate'];
+          $custpostdata['sipduration'] = $customerOrderData[0]['sipduration'];
+          $custpostdata['lumpsumamount'] = $customerOrderData[0]['lumpsumamount'];
+          $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);
+        }
+        
       foreach($customerOrderData as $key =>$value)
       {
         $data['amc_code'] = $value['amc_code'];
@@ -550,18 +570,10 @@ public function MFSwitchOrder(Request $request)
        $prefeed = $this->customerpertransactionfeed->InsertCustomerOrderDetailsPretran($data);
              if($prefeed)
       {
-
-
-        $custpost['customerid'] = $cusId['customerid'];
-        $custpost['customergoalid'] = $value['customergoalid'];
-        $custpost['fundid'] = $value['fundid'];
-        $custpost['startdate'] = $value['startdate'];
-        $custpost['orderno'] = $value['orderno'];
-
-        $getCustomerFund = $this->customerfundposttran->AddCustomerOrderPost($custpost);
-        if($getCustomerFund)
-        {
-          $custpostdata['customerfundid'] = $getCustomerFund;
+       
+        /*if($getCustomerFund)
+        {*/
+          /*$custpostdata['customerfundid'] = $getCustomerFund;
           $custpostdata['customerid'] = $cusId['customerid'];
           $custpostdata['purchasetype'] = $value['purchasetype'];
           $custpostdata['startdate'] = $value['startdate'];
@@ -569,7 +581,7 @@ public function MFSwitchOrder(Request $request)
           $custpostdata['sipmonthlydate'] = $value['sipmonthlydate'];
           $custpostdata['sipduration'] = $value['sipduration'];
           $custpostdata['lumpsumamount'] = $value['lumpsumamount'];
-          $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);
+          $getCustomerFunddata = $this->fundInfo->InsertCustomerFundDataPostTran($custpostdata);*/
           if($getCustomerFunddata)
           {
             $custpostdetail['customerfundid'] = $getCustomerFund;
@@ -591,14 +603,14 @@ public function MFSwitchOrder(Request $request)
             $custpostdetail['folionumber'] = mt_rand();//$value['folio'];
             $getCustomerFunddetail = $this->fundPerformance->InsertCustomerFundDetailPostTran($custpostdetail);
           }
-        }
+       // }
 
         $orderno = $customerOrderData[0]['orderno'];
         $customerid = $customerID;
         $updateprefeed = $this->fundrecord->updateCustomerOrderDetailsPretran($orderno,$customerid);
       }
       }
-
+}
       $curl = curl_init();
       curl_setopt_array($curl, array(
       CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFUploadService/MFUploadService.svc/Basic",

@@ -18,6 +18,10 @@ class Transcations extends Model
        return $this->insertGetId($arr);
     }
 
+    /*public function UpdateCustomerFundDetailPostTran($arr)
+    {
+       return $this->where('')->update($arr);
+    }*/
      public function getCustomerTranscationDetails($Id)
     {
         return $this->join('customerorderdetailpretran as dp','dp.customerorderid','transactions.customerorderid')
