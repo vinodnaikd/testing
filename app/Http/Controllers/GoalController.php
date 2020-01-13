@@ -1184,7 +1184,7 @@ else
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
-        dd($customerGoals);
+        // dd($customerGoals);
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
