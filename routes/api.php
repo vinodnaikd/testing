@@ -49,7 +49,10 @@ Route::post('/v1/users/login', 'UserController@login');
     ], 401);
 })->name('api.jwt.unauthorized');*/
 // Route::middleware('jwt.auth')->get('users', function(Request $request) {
- Route::group(['middleware' => 'jwt.auth'], function(){
+
+//Main JWT
+ // Route::group(['middleware' => 'jwt.auth'], function(){
+// End JWT
     Route::post('/v1/users/register', 'UserProfileController@Register');
     Route::post('/v1/users/registerdata', 'UserProfileController@RegisterData');
      Route::post('/v1/users/getregisterdetails', 'UserProfileController@getRegistraionDetails');
@@ -292,7 +295,7 @@ Route::post('v1/bse/transactionpostdata','FundBasicInfoController@AddTranscation
 //    Route::post('/signup', 'UserController@signup');
 //});
 // Jwt Authentication
- });
+ // });
 // End
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
