@@ -1191,6 +1191,7 @@ else
            $gw['goalid'] = $value['customergoalId'];
            $gw['futurecost'] = $value['futurecost'];
            $gw['totalcurrentvalue'] = $value['totalcurrentvalue'];
+           $gw['investmentvalue'] = $value['investmentvalue'];
            $gw['goalpriority'] = $value['goalpriority'];
            $gw['year'] = floor($value['timeframe']/12);
            $gw['month'] = $value['timeframe']%12;
@@ -1312,6 +1313,7 @@ else
               $products['units'] = $value2['units'];
               $products['purchasevalue'] = $value2['purchasevalue'];
               $products['currentvalue'] = $value2['currentvalue'];
+              $products['folionumber'] = trim($value2['folionumber']);
              /* $products['amccode'] = $value2['amccode'];
               $products['AUM'] = number_format($value2['incret'],2);
               $products['oneM'] = number_format($value2['1monthret'],2);
