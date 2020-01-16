@@ -1349,6 +1349,12 @@ return response()->json([
       
     }
 
+    //Allocate Your Money
+
+    
+
+    //End
+
         public function CustomerNewFundSelection(Request $request)
    {
             // dd($request->json()->all());

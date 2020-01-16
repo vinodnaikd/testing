@@ -277,6 +277,8 @@ Route::post('/v1/bse/uploadpassword','BSEController@UploadPassword');
 Route::post('/v1/bse/getpaymentlink','BSEController@getPaymentLink');
 Route::post('/v1/bse/mfneworderpurchase','BSEController@MFNewOrderPurchase');
 Route::post('/v1/bse/mfneworderredemption','BSEController@MFNewOrderRedemption');
+
+Route::post('v1/bse/mfsipupdate','BSEController@MFSipUpdate');
 Route::post('v1/bse/mfsipcreateorder','BSEController@MFSipCreateOrder');
 Route::post('v1/bse/mfsipcancelorder','BSEController@MFSipCancelOrder');
 Route::post('v1/bse/mfswitchorder','BSEController@MFSwitchOrder');
