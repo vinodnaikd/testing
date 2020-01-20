@@ -785,7 +785,7 @@ else
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
         $savingsArray = array();
-        dd($customerInvestAmnt);
+        // dd($customerInvestAmnt);
         //if($customerInvestAmnt['purchase1'])
         foreach ($customerInvestAmnt['purchase1'] as $key => $value) {
             $currentSavings = $value['units'] * $value['nav'];
