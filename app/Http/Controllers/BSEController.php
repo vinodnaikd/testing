@@ -10,6 +10,7 @@ use App\Models\Customerpertransactionfeed;
 use App\Models\FundInfo;
 use App\Models\FundPerformance;
 use App\Models\Customerfundposttran;
+use App\Models\GlobalCurrNav;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -24,7 +25,8 @@ class BSEController extends Controller
         Customer $customer,
         FundInfo $fundInfo,
         Customerfundposttran $customerfundposttran,
-        FundPerformance $fundPerformance
+        FundPerformance $fundPerformance,
+        GlobalCurrNav $globalnav
     )
     {
         $this->fundroi = $fundroi;
@@ -35,6 +37,7 @@ class BSEController extends Controller
         $this->customerfundposttran = $customerfundposttran;
         $this->fundInfo = $fundInfo;
         $this->fundPerformance = $fundPerformance;
+        $this->globalnav = $globalnav;
     }
 
    /* $userId = Envrionment.get("")
@@ -690,12 +693,14 @@ public function MFSwitchOrder(Request $request)
             $custpostdetail['fundid'] = $value['fundid'];
             $custpostdetail['purchasetype'] = $value['purchasetype'];
             $custpostdetail['transactiondate'] = "";//$value['transaction_date'];
-            $custpostdetail['units'] = '12'.mt_rand(10,100);//$value['units'];
+            
             $custpostdetail['purchasenavvalue'] = $value['purchasenav'];
             if($value['purchasetype'] == "L")
               $amount = $value['lumpsumamount'];
             else
               $amount = $value['sipamount'];
+            $navunits = $this->globalnav->getCurrentNavValueByFundId($value['fundid']);
+            $custpostdetail['units'] = $amount/$navunits['nav'];//$value['units'];
             $custpostdetail['purchasevalue'] = $amount;
             $custpostdetail['investmentamount'] = $amount;
             $custpostdetail['transactionstatus'] = "completed";
