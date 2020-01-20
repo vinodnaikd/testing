@@ -278,8 +278,8 @@ class GoalController extends Controller
        //dd($totInv);
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
-       $customerGoalsDetails['growth'] = $growth;
-       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $customerGoalsDetails['growth'] = number_format($growth,2);
+       $customerGoalsDetails['bargrowth'] = $bargrowth*100;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
