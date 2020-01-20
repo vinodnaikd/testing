@@ -295,6 +295,7 @@ class GoalController extends Controller
         $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
         $customerGoalsDetails['customerid'] = $value['customerid'];
         $customerGoalsDetails['timetaken'] = $diff;
+        $customerGoalsDetails['totalsaved'] = $totCur;
         $customerGoalsDetails['goal_status'] = "completed";
         array_push($GoalsArr,$customerGoalsDetails);
           }
