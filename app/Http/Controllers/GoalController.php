@@ -315,7 +315,6 @@ class GoalController extends Controller
             // unset($goalAmount);
             if(in_array($value['customergoalid'], $goalsIdData))
           {
-              $customerGoalsDetails['goal_status'] = "completed";
               $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalid']);
         // dd($customerGoalsDetails);
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
@@ -351,6 +350,7 @@ class GoalController extends Controller
         $customerGoalsDetails['timetaken'] = $diff;
         $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
         $customerGoalsDetails['customerid'] = $value['customerid'];
+        $customerGoalsDetails['goal_status'] = "completed";
         array_push($GoalsArr,$customerGoalsDetails);
           }
           else
@@ -764,6 +764,7 @@ else
 }
        $goaldetails['growth'] = $growth;
        $goaldetails['bargrowth'] = $bargrowth;
+       $goaldetails['totalsaved'] = $totCur;
        
        return response()->json([
           "GoalsDetails" => $goaldetails
@@ -784,7 +785,7 @@ else
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
         $savingsArray = array();
-        // dd($customerInvestAmnt);
+        dd($customerInvestAmnt);
         //if($customerInvestAmnt['purchase1'])
         foreach ($customerInvestAmnt['purchase1'] as $key => $value) {
             $currentSavings = $value['units'] * $value['nav'];

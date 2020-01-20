@@ -617,7 +617,7 @@ public function MFSwitchOrder(Request $request)
         $data['city'] = $userdata['city'];//$value[''];
         $data['pincode'] = $userdata['pincode'];//$value[''];
         $data['phone_office'] = $userdata['mobile'];
-        $data['transaction_date'] = "";//Current Date;
+        $data['transaction_date'] = Carbon::now();//Current Date;
         $data['transaction_time'] = "";//timestamp
         $data['units'] = "";//$value[''];
         $data['amount'] = "";//if condition
