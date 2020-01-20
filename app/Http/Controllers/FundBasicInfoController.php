@@ -1067,7 +1067,7 @@ public function getCustomerGoalsOrderDetails(Request $request)
       $reqData['customerid'] = $getCustomerInfo['customerid'];
       $reqData['orderdate'] = $value['orderdate'];
       $reqData['orderno'] = "3658663575".mt_rand(10,100);
-      $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-KJSDDF3575".mt_rand(10,100);
+      $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-".mt_rand(10,100)."F3575".mt_rand(10,100);
       $reqData1['fundid'] = $value['fundid'];
       
       $reqData['orderstatus'] = $value['orderstatus'];
