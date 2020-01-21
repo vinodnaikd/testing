@@ -964,6 +964,10 @@ else
         }
         $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($request['goalid']);
         // dd($customerGoalsDetails);
+        $lum_data = $this->fundperformance->getCustomerLumpsumSipData($request['goalid'],'L');
+        $sip_data = $this->fundperformance->getCustomerLumpsumSipData($request['goalid'],'S');
+        $customerGoalsDetails['sipamount'] = $sip_data['lum_sip'];
+        $customerGoalsDetails['lumpsumamount'] = $lum_data['lum_sip'];
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
@@ -982,6 +986,7 @@ else
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
        $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $customerGoalsDetails['totalsaved'] = $totCur;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);

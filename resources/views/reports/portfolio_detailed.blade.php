@@ -116,8 +116,8 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 		<th>No of Units</th>
 		<th>Purchase Value (INR)</th>
     <th>Current Amount</th>
-		<th>Dividend Payout</th>
-		<th>Dividend Reinvest</th>
+		<!-- <th>Dividend Payout</th>
+		<th>Dividend Reinvest</th> -->
 		<th>Profit/Loss</th>
 		<th>No of Days</th>
 		<th>Net Gain</th>
@@ -134,14 +134,14 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     //   $frequency = "M";
     ?>
     <tr>
-      <td> <?=$value['purchasetype']?></td>
+      <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
       <td><?=$value['transactiondate']?></td>
       <td><?=$value['purchasevalue']?></td>
       <td><?=$value['units']?></td>
       <td><?=$value['purchasevalue']?></td>
       <td></td>
-      <td></td>
-      <td></td>
+      <!-- <td></td>
+      <td></td> -->
       <td></td>
       <td></td>
       <td></td>
@@ -161,8 +161,8 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   	  <td></td>
   		<td><?php echo array_sum ($total_sum ); ?></td>
   		<td></td>
-  		<td></td>
-  		<td></td>
+  		<!-- <td></td>
+  		<td></td> -->
   		<td></td>
   		<td></td>
       <td></td>

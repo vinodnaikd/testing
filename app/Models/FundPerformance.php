@@ -315,9 +315,9 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
 
     public function getCustomerPortfolioDetailed($customerId,$fromDate,$toDate)
     {
-        return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
-  ->where('customerfunddetailposttran.customerid',$customerId)
-
+        return $this->join('customerfunddataposttran as d','d.customerfundid','=','customerfunddetailposttran.customerfundid')
+  ->where('d.customerid',$customerId)
+  ->groupby('customerfunddetailposttran.fundid','customerfunddetailposttran.purchasetype')
                     // ->join('customerfundposttran as f','f.customerid','=','d.customerid')
                     // ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
                     // ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
