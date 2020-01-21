@@ -124,6 +124,16 @@ class FundPerformance extends Model
                     ->get()->toArray();
     }
 
+            public function getCustomerLumpsumSipData($goalId,$purchasetype)
+    {
+        return $this->select(DB::raw('sum(customerfunddetailposttran.purchasevalue) as lum_sip'))
+                    ->join('customerfundposttran as p','p.customerfundid','=','customerfunddetailposttran.customerfundid')
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->where('customerfunddetailposttran.purchasetype',$purchasetype)
+                    ->groupby('customerfunddetailposttran.fundid')
+                    ->get()->first();
+    }
+
     public function getGoalsSummaryListWithGoalId($goalId)
     {
         return $this->select('CG.customergoalId','CG.goalname','CG.futurecost','CG.goalpriority','CG.timeframe','fp.sipamount','fp.lumpsumamount','CG.createdutcdatetime')

@@ -828,7 +828,11 @@ else
         foreach ($customerGoals as $key => $value) {
           //echo $value['customergoalId'];
           $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalId']);
-        // dd($customerGoalsDetails);
+          $lum_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'L');
+          $sip_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'S');
+          $customerGoalsDetails['sipamount'] = $sip_data['lum_sip'];
+          $customerGoalsDetails['lumpsumamount'] = $lum_data['lum_sip'];
+         // dd($sip_data['lum_sip']);
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
@@ -847,8 +851,8 @@ else
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
        $customerGoalsDetails['bargrowth'] = $bargrowth;
-       $mytime = Carbon::now();
-       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $mytime = Carbon::now();
+        $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
         $ts2 = strtotime($mytime);
 
@@ -873,6 +877,7 @@ else
     if(!in_array($values['customergoalid'], $newGoals))
     {
       $customerNewGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($values['customergoalid']);
+      // print_r($customerNewGoalsDetails);
       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($values['customergoalid']);
       $yearmonth = floor($customerNewGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
@@ -886,7 +891,7 @@ else
        $newArr = array();
        $mytime = Carbon::now();
        $goaldate = $customerNewGoalsDetails['createdutcdatetime'];
-        $ts1 = strtotime($customerNewGoalsDetails['createdutcdatetime']);
+        $ts1 = strtotime($values['createdutcdatetime']);
         $ts2 = strtotime($mytime);
 
         $year1 = date('Y', $ts1);
