@@ -872,9 +872,9 @@ else
   foreach ($customerNewGoals as $keys => $values) {
     if(!in_array($values['customergoalid'], $newGoals))
     {
-
+      $customerNewGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($values['customergoalid']);
       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($values['customergoalid']);
-      $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+      $yearmonth = floor($customerNewGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
           $newGoalsData['yearmonth'] = "months";
@@ -885,8 +885,8 @@ else
         }
        $newArr = array();
        $mytime = Carbon::now();
-       $goaldate = $customerGoalsDetails['createdutcdatetime'];
-        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
+       $goaldate = $customerNewGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerNewGoalsDetails['createdutcdatetime']);
         $ts2 = strtotime($mytime);
 
         $year1 = date('Y', $ts1);
@@ -903,8 +903,8 @@ else
       $newGoalsData['futurecost'] = $values['futurecost'];
       $newGoalsData['goalpriority'] = $values['goalpriority'];
       $newGoalsData['timeframe'] = $values['timeframe'];
-      $newGoalsData['sipamount'] = $customerGoalsDetails['sipamount'];
-      $newGoalsData['lumpsumamount'] = $customerGoalsDetails['lumpsumamount'];
+      $newGoalsData['sipamount'] = $customerNewGoalsDetails['sipamount'];
+      $newGoalsData['lumpsumamount'] = $customerNewGoalsDetails['lumpsumamount'];
       $newGoalsData['createdutcdatetime'] = $values['createdutcdatetime'];
       $newGoalsData['growth'] = "0.00";
       $newGoalsData['bargrowth'] = "0.00";
