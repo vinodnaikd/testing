@@ -822,6 +822,7 @@ else
        // dd($customerTransLog);
         //Goals
         $customerGoals = $this->fundperformance->getCustomerGoals($getCustomerInfo['customerid']);
+
         // dd($customerGoals);
         $newGoalsArray = array();
         foreach ($customerGoals as $key => $value) {
@@ -859,9 +860,53 @@ else
 
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         $customerGoalsDetails['timetaken'] = $diff;
+        $customerGoalsDetails['goal_status'] = "completed";
           // dd($customerGoalsDetails);
         array_push($newGoalsArray, $customerGoalsDetails);
         }
+        echo $diff;
+//Unfinished Code
+  $customerNewGoals = $this->goals->getGoalsList($getCustomerInfo['customerid']);
+  $newGoals = array_column($customerGoals, 'customergoalId');
+  // dd($customerNewGoals);
+  foreach ($customerNewGoals as $keys => $values) {
+    if(!in_array($values['customergoalid'], $newGoals))
+    {
+
+      $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($values['customergoalid']);
+       $newArr = array();
+       $mytime = Carbon::now();
+       $goaldate = $customerGoalsDetails['createdutcdatetime'];
+        $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        //$customerGoalsDetails['timetaken'] = $diff;
+
+      $newGoalsData['customergoalId'] = $values['customergoalid'];
+      $newGoalsData['goalname'] = $values['goalname'];
+      $newGoalsData['futurecost'] = $values['futurecost'];
+      $newGoalsData['goalpriority'] = $values['goalpriority'];
+      $newGoalsData['timeframe'] = $values['timeframe'];
+      $newGoalsData['sipamount'] = $customerGoalsDetails['sipamount'];
+      $newGoalsData['lumpsumamount'] = $customerGoalsDetails['lumpsumamount'];
+      $newGoalsData['createdutcdatetime'] = $values['createdutcdatetime'];
+      $newGoalsData['growth'] = "0.00";
+      $newGoalsData['bargrowth'] = "0.00";
+      $newGoalsData['timetaken'] = $diff;
+      $newGoalsData['goal_status'] = "started";
+          // dd($customerGoalsDetails);
+        array_push($newGoalsArray, $newGoalsData);
+    }
+  }
+//End
+
         //dd($customerGoals);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
