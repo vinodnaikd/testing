@@ -864,7 +864,7 @@ else
           // dd($customerGoalsDetails);
         array_push($newGoalsArray, $customerGoalsDetails);
         }
-        echo $diff;
+        // echo $diff;
 //Unfinished Code
   $customerNewGoals = $this->goals->getGoalsList($getCustomerInfo['customerid']);
   $newGoals = array_column($customerGoals, 'customergoalId');
@@ -874,6 +874,15 @@ else
     {
 
       $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($values['customergoalid']);
+      $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $newGoalsData['yearmonth'] = "months";
+        }
+        else
+        {
+          $newGoalsData['yearmonth'] = "year";
+        }
        $newArr = array();
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
