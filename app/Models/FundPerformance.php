@@ -127,7 +127,7 @@ class FundPerformance extends Model
             public function getCustomerLumpsumSipData($goalId,$purchasetype)
     {
         return $this->select(DB::raw('sum(customerfunddetailposttran.purchasevalue) as lum_sip'))
-                    ->join('customerfundposttran as p','p.customergoalid','=','customerfunddetailposttran.customergoalid')
+                    /*->join('customerfundposttran as p','p.customergoalid','=','customerfunddetailposttran.customergoalid')*/
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
                     ->where('customerfunddetailposttran.purchasetype',$purchasetype)
                     ->groupby('customerfunddetailposttran.fundid')
