@@ -102,10 +102,32 @@ $checkUserQuestions = $this->riskprofile->getSubmittedOptions($request['question
             ], 400);
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
-                return response()->json([
+        $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
+        if($customerRiskProfileScore <= 20)
+        {
+            $riskcategory = "Secure";
+        }
+        elseif($customerRiskProfileScore >= 21 && $customerRiskProfileScore <=40)
+        {
+            $riskcategory = "Moderately Secure";
+        }
+        elseif($customerRiskProfileScore >= 41 && $customerRiskProfileScore <=60)
+        {
+            $riskcategory = "Moderate";
+        }
+        elseif($customerRiskProfileScore >= 61 && $customerRiskProfileScore <=80)
+        {
+            $riskcategory = "Aggressive";
+        }
+        elseif($customerRiskProfileScore >= 81 && $customerRiskProfileScore <=100)
+        {
+            $riskcategory = "Highly Aggressive";
+        }
+       
+         return response()->json([
                 'status' => 'success',
-                'riskprofilescore' => $customerRiskProfileScore
+                'riskprofilescore' => $customerRiskProfileScore,
+                'riskcategory'=>$riskcategory 
             ], 200);
         
     }
