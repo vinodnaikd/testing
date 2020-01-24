@@ -262,6 +262,8 @@ class GoalController extends Controller
               
               $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalid']);
         // dd($customerGoalsDetails);
+        $lum_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'L');
+        $sip_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'S');
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
@@ -293,6 +295,8 @@ class GoalController extends Controller
 
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
+        $customerGoalsDetails['lumpsumamount'] = $lum_data['lum_sip'];
+        $customerGoalsDetails['sipamount'] = $sip_data['lum_sip'];
         $customerGoalsDetails['customerid'] = $value['customerid'];
         $customerGoalsDetails['timetaken'] = $diff;
         $customerGoalsDetails['totalsaved'] = $totCur;
@@ -334,7 +338,7 @@ class GoalController extends Controller
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
-       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth*100;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
@@ -431,7 +435,7 @@ class GoalController extends Controller
        if($totInv)
        {
        $growth = (($totCur-$totInv)/$totInv);
-       $bargrowth = ($totCur/$data['futurecost']);
+       $bargrowth = ($totCur/$data['futurecost'])*100;
        }
        else
        {
@@ -763,7 +767,7 @@ else
        
 }
        $goaldetails['growth'] = $growth;
-       $goaldetails['bargrowth'] = $bargrowth;
+       $goaldetails['bargrowth'] = $bargrowth*100;
        $goaldetails['totalsaved'] = $totCur;
        
        return response()->json([
@@ -850,7 +854,7 @@ else
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
-       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth*100;
         $mytime = Carbon::now();
         $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
@@ -985,7 +989,7 @@ else
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
-       $customerGoalsDetails['bargrowth'] = $bargrowth;
+       $customerGoalsDetails['bargrowth'] = $bargrowth*100;
        $customerGoalsDetails['totalsaved'] = $totCur;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
