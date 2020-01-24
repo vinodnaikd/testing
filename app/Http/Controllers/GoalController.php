@@ -1005,13 +1005,13 @@ else
         $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
         $customerGoalsDetails['timetaken'] = $diff;
         // dd($assetsData);
-       foreach ($assetsData as $key => $value) {
+     /*  foreach ($assetsData as $key => $value) {
         $d = array(['TotalInvestmentValue'.':'.$value['TotalInvestmentValue']],['TotalCurrentValue'.':'.$value['TotalCurrentValue']],['AssetType'.':'.$value['AssetType']],['Growth'.':'.$value['Growth']]);
         array_push($newArr, $d);
         // array_push($newArr, $v1);
-       }
+       }*/
       // return $newArr;
-        $customerGoalsDetails['goalsAssests'] = $newArr;
+        $customerGoalsDetails['goalsAssests'] = $assetsData;
 /*
         $customerGoalsDetails['goalsAllocatedFunds'] = $this->fundperformance->getGoalsSummaryFundsListWithGoalId($request['goalid']);*/
         // dd($customerGoalsDetails);
