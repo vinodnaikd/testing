@@ -262,8 +262,8 @@ class GoalController extends Controller
               
               $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalid']);
         // dd($customerGoalsDetails);
-        $lum_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'L');
-        $sip_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'S');
+        $lum_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalid'],'L');
+        $sip_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalid'],'S');
         $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
         if($yearmonth == 0)
         {
