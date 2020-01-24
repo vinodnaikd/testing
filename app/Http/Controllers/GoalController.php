@@ -354,6 +354,7 @@ class GoalController extends Controller
         $customerGoalsDetails['timetaken'] = $diff;
         $customerGoalsDetails['customergoalid'] = $customerGoalsDetails['customergoalId'];
         $customerGoalsDetails['customerid'] = $value['customerid'];
+        $customerGoalsDetails['totalsaved'] = $totCur;
         $customerGoalsDetails['goal_status'] = "completed";
         array_push($GoalsArr,$customerGoalsDetails);
           }
@@ -797,8 +798,7 @@ else
         }
         if(!empty($value))
         $customerInvestAmntArr['start_date'] = $value['startdate'];
-        $customerInvestAmntArr['purchase'] = $customerInvestAmnt['purchase'];
-        $customerInvestAmntArr['purchasesavings'] = $customerInvestAmnt['purchase']+array_sum($savingsArray);
+        
         // dd($customerInvestAmntArr);
         $customerRiskProfileScore = $this->riskprofile->getCustomerRiskProfileScore($getCustomerInfo['customerid']);
         if($customerRiskProfileScore <= 20)
@@ -829,9 +829,12 @@ else
 
         // dd($customerGoals);
         $newGoalsArray = array();
+        $totalInvestValue = array();
+        $totalCurrentValue = array();
         foreach ($customerGoals as $key => $value) {
           //echo $value['customergoalId'];
           $customerGoalsDetails = $this->fundperformance->getGoalsSummaryListWithGoalId($value['customergoalId']);
+          // dd($customerGoalsDetails);
           $lum_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'L');
           $sip_data = $this->fundperformance->getCustomerLumpsumSipData($value['customergoalId'],'S');
           $customerGoalsDetails['sipamount'] = $sip_data['lum_sip'];
@@ -851,9 +854,12 @@ else
        $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
        $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
        //dd($totInv);
+       $totalInvestValue[] = $totInv;
+       $totalCurrentValue[] = $totCur;
+
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
-       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['growth'] = $growth*100;
        $customerGoalsDetails['bargrowth'] = $bargrowth*100;
         $mytime = Carbon::now();
         $goaldate = $customerGoalsDetails['createdutcdatetime'];
@@ -924,8 +930,8 @@ else
     }
   }
 //End
-
-        //dd($customerGoals);
+        $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
+        $customerInvestAmntArr['purchasesavings'] = array_sum($totalCurrentValue);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
@@ -986,11 +992,11 @@ else
        $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
        $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
        //dd($totInv);
+       $customerGoalsDetails['totalsaved'] = $totCur;
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth;
        $customerGoalsDetails['bargrowth'] = $bargrowth*100;
-       $customerGoalsDetails['totalsaved'] = $totCur;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
         $ts1 = strtotime($customerGoalsDetails['createdutcdatetime']);
