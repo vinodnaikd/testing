@@ -31,7 +31,7 @@ class CustomerDetails extends Model
     }
     public function getCustomerDetails($Id)
     {
-        return $this->where('customerid','=',$Id)->get()->toArray();
+        return $this->where('customerid','=',$Id)->orderby('modifiedutcdatetime')->get()->toArray();
     }
     
    public function getCustomerDetailsByUserId($Id)

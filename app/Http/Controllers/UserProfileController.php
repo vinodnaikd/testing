@@ -1058,6 +1058,12 @@ $content = json_decode($response->getBody(), true);
       if($action == "customerdetails")
       {
         $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo['customerid']);
+        if($getCustomerDetailsData)
+          $getCustomerDetailsData[0]['customer_type'] = "personal";
+        if(isset($getCustomerDetailsData[1]['customerid']))
+        {
+          $getCustomerDetailsData[1]['customer_type'] = "guardian";
+        }
           return response()->json([
             'status' => 'Success',
             'customerdetails' => $getCustomerDetailsData
@@ -1083,6 +1089,17 @@ $content = json_decode($response->getBody(), true);
                 $nominee['relation'] = $value['relation'];
                 $nominee['allottedpercent'] = $value['allottedpercent'];
                 $nominee['customerid'] = $value['customerid'];
+                if($key == 0)
+                {
+                  $nominee['nominee'] = "nominee1";
+                }
+                elseif ($key == 1) {
+                  $nominee['nominee'] = "nominee2";
+                }
+                else
+                {
+                  $nominee['nominee'] = "nominee3";
+                }
                 array_push($nomineeArr, $nominee);
               }
           return response()->json([
