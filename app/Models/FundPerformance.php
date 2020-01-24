@@ -130,7 +130,7 @@ class FundPerformance extends Model
                     /*->join('customerfundposttran as p','p.customergoalid','=','customerfunddetailposttran.customergoalid')*/
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
                     ->where('customerfunddetailposttran.purchasetype',$purchasetype)
-                    ->groupby('customerfunddetailposttran.fundid')
+                    //->groupby('customerfunddetailposttran.fundid')
                     ->get()->first();
     }
 
