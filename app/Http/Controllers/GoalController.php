@@ -337,7 +337,7 @@ class GoalController extends Controller
        //dd($totInv);
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
-       $customerGoalsDetails['growth'] = number_format($growth*100),2);
+       $customerGoalsDetails['growth'] = number_format(($growth*100),2);
        $customerGoalsDetails['bargrowth'] = number_format(($bargrowth*100),2);
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
@@ -858,7 +858,7 @@ else
        $totalCurrentValue[] = $totCur;
        $customerGoalsDetails['totalsaved'] = $totCur;
        $growth = (($totCur-$totInv)/$totInv);
-       $bargrowth = number_format(($totCur/$customerGoalsDetails['futurecost']),2);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = number_format(($growth*100),2);
        $customerGoalsDetails['bargrowth'] = number_format(($bargrowth*100),2);
         $mytime = Carbon::now();
