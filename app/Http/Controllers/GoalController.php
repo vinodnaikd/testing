@@ -856,7 +856,7 @@ else
        //dd($totInv);
        $totalInvestValue[] = $totInv;
        $totalCurrentValue[] = $totCur;
-
+       $customerGoalsDetails['totalsaved'] = $totCur;
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
        $customerGoalsDetails['growth'] = $growth*100;
@@ -988,6 +988,7 @@ else
           $customerGoalsDetails['yearmonth'] = "year";
         }
        $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+       // dd($assetsData);
        $newArr = array();
        $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
        $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
@@ -995,7 +996,7 @@ else
        $customerGoalsDetails['totalsaved'] = $totCur;
        $growth = (($totCur-$totInv)/$totInv);
        $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
-       $customerGoalsDetails['growth'] = $growth;
+       $customerGoalsDetails['growth'] = $growth*100;
        $customerGoalsDetails['bargrowth'] = $bargrowth*100;
        $mytime = Carbon::now();
        $goaldate = $customerGoalsDetails['createdutcdatetime'];
