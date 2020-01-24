@@ -77,7 +77,7 @@ label{
     <li>: <?php  if (isset($accountData['user']['0']['address1'])) {
       echo $accountData['user']['0']['address1'];
     } ?></li>
-  
+
 
   </ul>
   </div>
@@ -125,11 +125,10 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
         ?>
         <tr>
           <td><?=$value['transactiondate']?></td>
-          <td><?=$value['transactionstatus']?></td>
+          <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
           <td><?=$value['investmentamount']?></td>
           <td><?=$value['units']?></td>
-          <td><?=$value['purchasevalue']?></td>
-          <td><?=$value['units']?></td>
+          <td><?=$value['purchasenavvalue']?></td>
         </tr>
          <?php
         }

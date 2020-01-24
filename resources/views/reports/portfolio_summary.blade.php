@@ -78,7 +78,7 @@ label{
   <li>: <?php  if (isset($portfoliosummaryData['user']['0']['address1'])) {
     echo $portfoliosummaryData['user']['0']['address1'];
   } ?></li>
-	
+
 	</ul>
 	</div>
   <div class="list1">
@@ -115,15 +115,15 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     <th>Unit Balance</th>
     <th>Current Value</th>
 		<th>Purchase Cost(INR)</th>
-		<th>Dividend Reinvest</th>
-    <th>Dividend Payout</th>
+		<!-- <th>Dividend Reinvest</th>
+    <th>Dividend Payout</th> -->
     <th>Profit/Loss</th>
 		<th>Weighted Average Days</th>
-		<th>Absolute Return(%)</th>
+		<!-- <th>Absolute Return(%)</th> -->
 		<th>Annual Return(%)</th>
 		<th>CAGR(%)</th>
 		<th>XIRR(%)</th>
-    <th>Net Gain</th>
+    <!-- <th>Net Gain</th> -->
 
   </tr>
   <?php
@@ -131,22 +131,42 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   foreach ($portfoliosummaryData['port'] as $key => $value) {
      $total_sum[]=$value['units'];
 
+
     ?>
     <tr>
       <td><?=$value['fundname']?></td>
+
       <td><?=$value['folionumber']?></td>
       <td><?=$value['units']?></td>
+      <!-- <td></td>
+      <td></td> -->
+      <td><?=$value['purchasevalue']?></td>
+      <td><?=$value['investmentamount']?></td>
+      <?php
+        $Current_Value=$value['purchasevalue']-$value['investmentamount'];
+      
+      ?>
+      <?php
+          if($Current_Value==0 && $value['investmentamount']==0)
+          {
+            $return_data=0;
+          }
+          else{
+            $return_data=$Current_Value/$value['investmentamount'];
+          }
+       ?>
+       <?php
+         $return=$return_data*100;
+       ?>
+      <td><?=$Current_Value?></td>
+
+      <td></td>
+
+      <td><?=$return?></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <!-- <td></td>
+      <td></td> -->
     </tr>
      <?php
     }
@@ -165,10 +185,10 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <!-- <td></td>
+      <td></td> -->
+      <!-- <td></td>
+      <td></td> -->
       </tr>
       <tr>
       <td>Grand Total</td>

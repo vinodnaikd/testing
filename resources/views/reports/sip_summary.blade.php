@@ -80,7 +80,7 @@ label{
     echo $sipsummaryData['user']['0']['address1'];
   } ?></li>
 
-		
+
 
 	</ul>
 	</div>
@@ -140,7 +140,7 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     <td><?=$value['startdate']?></td>
     <td><?=$value['enddate']?></td>
     <td></td>
-    <td></td>
+    <td>Monthly</td>
     <td></td>
     <td></td>
     <td></td>

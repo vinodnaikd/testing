@@ -116,7 +116,53 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 		<th>XIRR</th>
 
 	  </tr>
+    <?php
+    $total_sum=[];
+    foreach ($rebalancingreport['port'] as $key => $value) {
+       $total_sum[]=$value['purchasevalue'];
+      // if($value['frequency'] == "Monthly")
+      //   $frequency = "M";
+      ?>
+      <tr>
+        <?php
+          $Current_Value=$value['purchasevalue']-$value['investmentamount'];
+        ?>
+        <?php
+            if($Current_Value==0 && $value['investmentamount']==0)
+            {
+              $return_data=0;
+            }
+            else{
+              $return_data=$Current_Value/$value['investmentamount'];
 
+            }
+         ?>
+         <?php
+           $return=$return_data*100;
+
+            //$strtrans = strtotime($value['transactiondate']);
+          //  $strtrans_current = strtotime(date("Y-m-d"));
+
+
+         ?>
+
+        <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
+        <td><?=$value['transactiondate']?></td>
+        <td><?=$value['purchasevalue']?></td>
+        <td><?=$value['units']?></td>
+        <td><?=$value['investmentamount']?></td>
+        <td></td>
+        <td><?=$Current_Value?></td>
+
+        <td></td>
+
+        <td><?=$return?></td>
+        <td></td>
+        <td></td>
+      </tr>
+       <?php
+      }
+      ?>
 
 <tr style="background:skyblue;
     color: blue;"
@@ -132,7 +178,7 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 		<td>20,084.13</td>
 		<td></td>
 		<td>6,084.35</td>
-		<td></td>
+
 		<td></td>
 		<td></td>
 	  </tr>

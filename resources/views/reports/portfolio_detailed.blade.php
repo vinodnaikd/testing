@@ -117,11 +117,11 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 		<th>Purchase Value (INR)</th>
     <th>Current Amount</th>
 		<!-- <th>Dividend Payout</th>
-		<th>Dividend Reinvest</th> -->
-		<th>Profit/Loss</th>
-		<th>No of Days</th>
+		<th>Dividend Reinvest</th>
 		<th>Net Gain</th>
-		<th>Absolute Return</th>
+		<th>Absolute Return</th> -->
+    <th>Profit/Loss</th>
+		<th>No of Days</th>
 		<th>Annual Return</th>
 		<th>CAGR</th>
 		<th>XIRR</th>
@@ -134,19 +134,39 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     //   $frequency = "M";
     ?>
     <tr>
+      <?php
+        $Current_Value=$value['purchasevalue']-$value['investmentamount'];
+      ?>
+      <?php
+          if($Current_Value==0 && $value['investmentamount']==0)
+          {
+            $return_data=0;
+          }
+          else{
+            $return_data=$Current_Value/$value['investmentamount'];
+
+          }
+       ?>
+       <?php
+         $return=$return_data*100;
+
+          //$strtrans = strtotime($value['transactiondate']);
+        //  $strtrans_current = strtotime(date("Y-m-d"));
+
+
+       ?>
+
       <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
       <td><?=$value['transactiondate']?></td>
       <td><?=$value['purchasevalue']?></td>
       <td><?=$value['units']?></td>
-      <td><?=$value['purchasevalue']?></td>
+      <td><?=$value['investmentamount']?></td>
       <td></td>
-      <!-- <td></td>
-      <td></td> -->
+      <td><?=$Current_Value?></td>
+
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+
+      <td><?=$return?></td>
       <td></td>
       <td></td>
     </tr>
