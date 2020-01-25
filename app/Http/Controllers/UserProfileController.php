@@ -774,11 +774,11 @@ $content = json_decode($response->getBody(), true);
                 array_push($nomineeArr, $nominee);
               }
             }
+          }
           return response()->json([
             'status' => $status,
             'customernomineedetails' => $nomineeArr
             ], 200);
-          }
           }
           
    elseif($request['action'] == "customeraddress")
