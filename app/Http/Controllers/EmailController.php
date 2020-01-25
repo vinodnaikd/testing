@@ -73,8 +73,7 @@ public function customerReports(Request $request)
 		}
 
 		$getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-
-//Taxation Report
+		//Taxation Report
 if($request['report_type'] == "taxation_report") {
 	$validator = Validator::make($request->json()->all(), [
 			'from_date' => 'required|string|max:100',
@@ -97,7 +96,6 @@ if($request['report_type'] == "taxation_report") {
 		$pdf = PDF::loadView('reports.taxation_report')->setPaper('a3','landscape');
 		return $pdf->download('taxation_report.pdf');
 }
-
 
 //Portfolio detailed
 elseif ($request['report_type'] == "portfolio_detailed") {
@@ -245,6 +243,7 @@ $rebalancingreport['user']=$this->bank->getUserinfo($getCustomerInfo['customerid
 	view()->share('rebalancingreport',$rebalancingreport);
 		$pdf = PDF::loadView('reports.rebalancing_report')->setPaper('a3', 'landscape');
 		return $pdf->download('rebalancingreport.pdf');
+	}
 }
 
-    }
+}
