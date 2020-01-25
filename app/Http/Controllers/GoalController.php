@@ -789,6 +789,22 @@ else
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerInvestAmnt = $this->fundperformance->getCustomerSumInvestmentPostTran($getCustomerInfo['customerid']);
+        $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+        $wealthAllocateData = "";
+         if($wealthData)
+         {
+         $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+         // dd($wealthAllocateData);
+       $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
+         }
+           if($wealthAllocateData)
+           {
+                $wealthAllocateData = $wealthAllocateData;
+           }
+          else
+            {
+              $wealthAllocateData = array();
+            }
         $savingsArray = array();
         // dd($customerInvestAmnt);
         //if($customerInvestAmnt['purchase1'])
@@ -937,7 +953,8 @@ else
           "Risk_Score" => $customerRiskProfileScore,
           "riskcategory" => $riskcategory,
           "Transaction_Log" => $customerTransLog,
-          "Goals" => $newGoalsArray
+          "Goals" => $newGoalsArray,
+          "Wealth" => $wealthAllocateData
         ], 200);
     }
 
@@ -1270,7 +1287,11 @@ else
          {
          $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
          // dd($wealthAllocateData);
-       $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
+          $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
+          if($wealthAllocateData)
+            $wealthAllocateData = $wealthAllocateData;
+          else
+            $wealthAllocateData = array();
          }
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
