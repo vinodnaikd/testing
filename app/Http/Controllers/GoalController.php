@@ -1101,6 +1101,76 @@ else
         ], 200);
     }
 
+        public function getWealthSummaryListWithWealthId(Request $request)
+    {
+       $validator = Validator::make($request->json()->all(), [
+            'wealth_id' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+        
+      $nrielligble = "";
+      
+      $fundclassassests = $this->dashboardrecordsinfo->getWealthAssetsTypes($request['wealth_id']);
+      // dd($fundclassassests);
+      $fundAssets = array();
+      foreach($fundclassassests as $key =>$value)
+      {
+        $goalsAssData = $this->dashboardrecordsinfo->getGoalsDetailsForFunds($request['wealth_id'],$value['asset']);
+     // dd($goalsAssData);
+        $goalsAssetstypesData = $this->dashboardrecordsinfo->getWealthAllocationAssetstypesNew($request['wealth_id'],$value['assettype']);
+        // dd($goalsAssetstypesData);
+      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype'],$goalsAssetstypesData);
+         // if($fundclassData)
+          $assests['assettype'] = $value['assettype'];
+         $fundClass = array();
+         foreach($fundclassData as $key1 => $value1)
+         {
+            $fund['fundclassid'] = $value1['fundclassid'];
+            $fund['name'] = $value1['name'];
+            $fund['assettype'] = $value1['assettype'];
+            $fund['assetcategory'] = $value1['asset_category'];
+            $fund['category'] = $value1['category'];
+            if($value1['subcategory'])
+            $fund['subcategory'] = $value1['subcategory'];
+            else
+            $fund['subcategory'] = "subcategory";
+            $fund['limit'] = "2";
+            $fundProducts = array();
+            $limit = 5;
+              $viewmore = "";
+              $fundclassid = $value1['fundclassid'];
+              $fundprodcutsData = $this->fundperformance->getWealthSummaryFundsListWithWealthIdNew($request['wealth_id'],$fundclassid);
+           
+           // dd($fundprodcutsData);
+         foreach($fundprodcutsData as $key2 => $value2)
+         {
+          
+              $products['fundid'] = $value2['fundid'];
+              $products['fundname'] = $value2['fundname'];
+              $products['startdate'] = $value2['startdate'];
+              $products['investmentvalue'] = $value2['investmentvalue'];
+              $products['units'] = $value2['units'];
+              $products['currentvalue'] = $value2['currentvalue'];
+              $products['Growth'] = $value2['Growth'];
+              array_push($fundProducts, $products);
+         }
+              $fund['fundproducts'] = $fundProducts;
+            array_push($fundClass, $fund);
+         }
+         $assests['fundclass'] = $fundClass;
+         // dd($assests);
+         array_push($fundAssets, $assests);
+      }
+      return response()->json([
+              'funds' => $fundAssets
+          ], 200);
+    }
+
     public function goalsAssestsAllocation(Request $request)
     {
         $allocationData = $request->json()->all();

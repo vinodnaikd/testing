@@ -31,4 +31,9 @@ class WealthAllocation extends Model
 	    return $this->where('customerid',$id)->get()->toArray();
 	}
 
+	public function getWealthAllocationById($id) {
+	    
+	    return $this->where('cust_wel_all',$id)->get()->first();
+	}
+
 }
