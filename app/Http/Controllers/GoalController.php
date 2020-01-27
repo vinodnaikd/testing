@@ -1113,8 +1113,46 @@ else
             ], 400);
         }
         
-      $nrielligble = "";
-      
+      $customerGoalsDetails = $this->wealthallocation->getWealthAllocationById($request['wealth_id']);
+        // dd($customerGoalsDetails);
+        $lum_data = $this->fundperformance->getCustomerLumpsumSipData($request['wealth_id'],'L');
+        $sip_data = $this->fundperformance->getCustomerLumpsumSipData($request['wealth_id'],'S');
+        $customerGoalsDetails['sipamount'] = $sip_data['lum_sip'];
+        $customerGoalsDetails['lumpsumamount'] = $lum_data['lum_sip'];
+        $yearmonth = floor($customerGoalsDetails['timeframe']/12);;
+        if($yearmonth == 0)
+        {
+          $customerGoalsDetails['yearmonth'] = "months";
+        }
+        else
+        {
+          $customerGoalsDetails['yearmonth'] = "year";
+        }
+       /*$assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($request['goalid']);
+       // dd($assetsData);
+       $newArr = array();
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $customerGoalsDetails['totalsaved'] = $totCur;
+       $growth = (($totCur-$totInv)/$totInv);
+       $bargrowth = ($totCur/$customerGoalsDetails['futurecost']);
+       $customerGoalsDetails['growth'] = number_format(($growth*100),2);
+       $customerGoalsDetails['bargrowth'] = number_format(($bargrowth*100),2);*/
+       $mytime = Carbon::now();
+       $goaldate = $customerGoalsDetails['created_at'];
+        $ts1 = strtotime($customerGoalsDetails['created_at']);
+        $ts2 = strtotime($mytime);
+
+        $year1 = date('Y', $ts1);
+        $year2 = date('Y', $ts2);
+
+        $month1 = date('m', $ts1);
+        $month2 = date('m', $ts2);
+
+        $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+        $customerGoalsDetails['timetaken'] = $diff;
+      // dd($customerGoalsDetails);
       $fundclassassests = $this->dashboardrecordsinfo->getWealthAssetsTypes($request['wealth_id']);
       // dd($fundclassassests);
       $fundAssets = array();
@@ -1149,7 +1187,6 @@ else
            // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {
-          
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
               $products['startdate'] = $value2['startdate'];
@@ -1166,8 +1203,9 @@ else
          // dd($assests);
          array_push($fundAssets, $assests);
       }
+      $customerGoalsDetails['wealthAllocatedFunds'] = $fundAssets;
       return response()->json([
-              'funds' => $fundAssets
+              'WealthSummaryDetails' => $customerGoalsDetails
           ], 200);
     }
 
