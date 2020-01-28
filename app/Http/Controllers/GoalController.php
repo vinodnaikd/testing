@@ -1592,8 +1592,84 @@ public function CustomerAllocateNewFundSelection(Request $request)
       }
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
-        $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
-        dd($orderstatus);
+      $checkFund = $this->fundrecord->CheckFundExistsInvest($getCustomerInfo['customerid'],$request['customergoalid'],$request['fundid'],$request['purchasetype']);
+      if($checkFund)
+      {
+        $IdsArr['customerid'] = $getCustomerInfo['customerid'];
+        $IdsArr['goalid'] = $request['customergoalid'];
+        $IdsArr['fundid'] = $request['fundid'];
+        $IdsArr['purchasetype'] = $request['purchasetype'];
+          $reqData['fundid'] = $request['fundid'];
+          $reqData['purchasetype'] = $request['purchasetype'];
+          $reqData['customergoalid'] = $request['customergoalid'];
+          $reqData['customerid'] = $getCustomerInfo['customerid'];
+        if($request['purchasetype'] == "L")
+          $reqData['lumpsumamount'] = $request['amount'];
+          else
+          $reqData['sipamount'] = $request['amount'];
+
+        $fundselectionDetailsData = $this->fundroi->updateCustomerFundValue($reqData,$IdsArr);
+        $status = "fund selection updated Successfully";
+        // dd($fundselectionDetailsData);
+      }
+      else
+      {
+      $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+      if($orderstatus)
+      {
+        // dd($orderstatus);
+          $reqData1['fundid'] = $request['fundid'];
+          $reqData1['purchasetype'] = $request['purchasetype'];
+          $reqData1['customergoalid'] = $request['customergoalid'];
+          $reqData1['startdate'] = $request['startdate'];
+          $reqData1['createdutcdatetime'] = Carbon::now();
+          $reqData1['modifiedutcdatetime'] = Carbon::now();
+          // foreach ($purchaseArr as $key1 => $value1) {
+            if($request['purchasetype'] == "L")
+          $reqData1['lumpsumamount'] = $request['amount'];
+          else
+          $reqData1['sipamount'] = $request['amount'];
+         $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+         $reqData1['customerorderid'] = $orderstatus['customerorderid'];
+         $reqData1['purchasetype'] = $request['purchasetype'];
+          $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+          $status = "fund selection added Successfully";
+        // }
+      }
+      else
+      {
+
+      $reqData['customerid'] = $getCustomerInfo['customerid'];
+      $reqData['orderdate'] = $request['orderdate'];
+      $reqData['orderno'] = "3658663575".mt_rand(10,100);
+      $reqData['customerorderid'] = "FJ456-SSD5-DDDD-FDGJ-DDSF-KJSDDF3575".mt_rand(10,100);
+      $reqData1['fundid'] = $request['fundid'];
+      
+      $reqData['orderstatus'] = $request['orderstatus'];
+      $reqData1['customergoalid'] = $request['customergoalid'];
+      $reqData1['startdate'] = $request['startdate'];
+      $reqData1['createdutcdatetime'] = Carbon::now();
+      $reqData1['modifiedutcdatetime'] = Carbon::now();
+     
+      $fundselectionData = $this->fundrecord->InsertCustomerOrderPretran($reqData);
+      //dd($fundselectionData);
+      if($fundselectionData == 0 || $fundselectionData)
+      {
+        
+          $reqData1['customerorderid'] = $reqData['customerorderid'];
+           // foreach ($purchaseArr as $key1 => $value1) {
+$reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,100);
+          $reqData1['purchasetype'] = $request['purchasetype'];
+          $fundselectionDetailsData = $this->fundroi->InsertCustomerOrderDetailsPretran($reqData1);
+          $status = "fund selection added Successfully";
+        // }
+      }
+
+      }
+    }
+      return response()->json([
+              'fundselection' => "fund amount allocated Successfully"
+          ], 200);
     }
     
 

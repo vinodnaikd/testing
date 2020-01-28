@@ -58,6 +58,7 @@ public $timestamps = false;
       ->join('fund','fund.fundid','=','customerorderdetailpretran.fundid')
       ->where('customerorderpretran.customerid',$customerid)
       ->where('customerorderdetailpretran.customergoalid',$goalid)
+      ->where('customerorderdetailpretran.status','pending')
       ->groupby('customerorderdetailpretran.customergoalid')
       ->get()
       ->toArray();
@@ -99,10 +100,10 @@ public $timestamps = false;
       ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.purchasetype',$purchasetype)->first();
     }
 
-    public function CheckFundExistsInvest($customerid,$goalid,$fundid)
+    public function CheckFundExistsInvest($customerid,$goalid,$fundid,$purchasetype)
     {
       return $this->join('customerorderdetailpretran as cd','customerorderpretran.customerorderid','=','cd.customerorderid')
-      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.transactionstatus','=','pending')->first();
+      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.purchasetype','=',$purchasetype)->where('cd.transactionstatus','=','pending')->first();
     }
 
 }
