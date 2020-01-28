@@ -103,7 +103,7 @@ public $timestamps = false;
     public function CheckFundExistsInvest($customerid,$goalid,$fundid,$purchasetype)
     {
       return $this->join('customerorderdetailpretran as cd','customerorderpretran.customerorderid','=','cd.customerorderid')
-      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.purchasetype','=',$purchasetype)->where('cd.transactionstatus','=','pending')->first();
+      ->where('customerid',$customerid)->where('cd.customergoalid',$goalid)->where('cd.fundid',$fundid)->where('cd.purchasetype','=',$purchasetype)->where('cd.status','=','pending')->first();
     }
 
 }
