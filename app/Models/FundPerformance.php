@@ -322,6 +322,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
     }
 
 
+  
    //Reports Query
 
     //TaxationReport
@@ -344,9 +345,10 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
 
     public function getCustomerPortfolioDetailed($customerId,$fromDate,$toDate)
     {
-        return $this->join('customerfunddataposttran as d','d.customerfundid','=','customerfunddetailposttran.customerfundid')
-  ->where('d.customerid',$customerId)
-  ->groupby('customerfunddetailposttran.fundid','customerfunddetailposttran.purchasetype')
+        return $this->join('fund as d','d.fundid','=','customerfunddetailposttran.fundid')
+           ->join('globalnavcurrvalue as gv','gv.fundid','=','customerfunddetailposttran.fundid')
+           ->whereBetween('customerfunddetailposttran.transactiondate', [$fromDate, $toDate])
+        ->where('customerfunddetailposttran.customerid',$customerId)
                     // ->join('customerfundposttran as f','f.customerid','=','d.customerid')
                     // ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
                     // ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
@@ -364,6 +366,7 @@ public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
   return $this->join('customerfunddataposttran as d','d.customerfundid','=','customerfunddetailposttran.customerfundid')
 ->where('d.customerid',$customerId)
 ->groupby('customerfunddetailposttran.fundid','customerfunddetailposttran.purchasetype')
+->whereBetween('customerfunddetailposttran.transactiondate', [$fromDate, $toDate])
     // return $this->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
     //             ->join('customerfundposttran as f','f.customerid','=','d.customerid')
     //             ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
@@ -383,10 +386,15 @@ public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
 
     public function getCustomerPortfolioSummaryReport($custid,$fromDate,$toDate)
     {
+      return $this->join('customerfunddataposttran as d','d.customerfundid','=','customerfunddetailposttran.customerfundid')
+      ->join('globalnavcurrvalue as gv','gv.fundid','=','customerfunddetailposttran.fundid')
+      ->whereBetween('customerfunddetailposttran.transactiondate', [$fromDate, $toDate])
 
-      return $this->join('fund as d','d.fundid','=','customerfunddetailposttran.fundid')
-
-->where('customerfunddetailposttran.customerid',$custid)
+      ->where('d.customerid',$custid)
+      ->groupby('customerfunddetailposttran.fundid','customerfunddetailposttran.purchasetype')
+//       return $this->join('fund as d','d.fundid','=','customerfunddetailposttran.fundid')
+//   ->join('globalnavcurrvalue as gv','gv.fundid','=','customerfunddetailposttran.fundid')
+// ->where('customerfunddetailposttran.customerid',$custid)
                     ->get()
                     ->toArray();
     }
@@ -406,7 +414,7 @@ public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
                     ->orderBy('customerfunddetailposttran.customerfundid','DESC')
                     ->take(10)
                     ->get()
-                    ->toArray(); 
+                    ->toArray();
 
     }
  public function getModifiedCustomerSipSummary($customerId)

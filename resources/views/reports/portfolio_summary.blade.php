@@ -105,7 +105,6 @@ label{
 	</div>
 <hr style="height:1.5px;background-color:black;">
 <h2><?php echo $portfoliosummaryData['user']['0']['firstname'];?></h2>
-<p>  <?php echo $portfoliosummaryData['port']['0']['fundname'];?><br><br>
 Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 	<table id="customers">
 
@@ -115,36 +114,29 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
     <th>Unit Balance</th>
     <th>Current Value</th>
 		<th>Purchase Cost(INR)</th>
-		<!-- <th>Dividend Reinvest</th>
-    <th>Dividend Payout</th> -->
     <th>Profit/Loss</th>
 		<th>Weighted Average Days</th>
-		<!-- <th>Absolute Return(%)</th> -->
-		<th>Annual Return(%)</th>
+		<th>Absolute Return(%)</th>
 		<th>CAGR(%)</th>
 		<th>XIRR(%)</th>
     <!-- <th>Net Gain</th> -->
 
   </tr>
   <?php
-  $total_sum=[];
+  $total_current=[]; $total_prof=[]; $total_invest=[];$total_units=[];$total_purch=[];
   foreach ($portfoliosummaryData['port'] as $key => $value) {
-     $total_sum[]=$value['units'];
 
 
+
+    // if($value['frequency'] == "Monthly")
+    //   $frequency = "M";
     ?>
     <tr>
-      <td><?=$value['fundname']?></td>
-
-      <td><?=$value['folionumber']?></td>
-      <td><?=$value['units']?></td>
-      <!-- <td></td>
-      <td></td> -->
-      <td><?=$value['purchasevalue']?></td>
-      <td><?=$value['investmentamount']?></td>
       <?php
-        $Current_Value=$value['purchasevalue']-$value['investmentamount'];
-      
+        $Current_Value=$value['units'] * $value['nav'];
+      ?>
+      <?php
+        $proftloss_Value=$Current_Value-$value['investmentamount'];
       ?>
       <?php
           if($Current_Value==0 && $value['investmentamount']==0)
@@ -152,21 +144,37 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
             $return_data=0;
           }
           else{
-            $return_data=$Current_Value/$value['investmentamount'];
+            $return_data=$proftloss_Value/$value['investmentamount'];
+
           }
-       ?>
-       <?php
          $return=$return_data*100;
-       ?>
-      <td><?=$Current_Value?></td>
 
-      <td></td>
+  $total_units[]=$value['units'];
+  $total_invest[]=$value['investmentamount'];
+$total_purch[]=$value['purchasevalue'];
+  $total_current[]=$Current_Value;
+  $total_prof[]=$proftloss_Value;
 
+$earlier = new DateTime($value['transactiondate']);
+$later = new DateTime(date('Y-m-d'));
+
+$diff = $later->diff($earlier)->format("%a");
+
+?>
+
+
+      <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
+      <td><?=$value['folionumber']?></td>
+      <td><?=round(($value['units']),2)?></td>
+      <td><?=round(($Current_Value),2)?></td>
+      <td><?=round(($value['purchasevalue']),2)?></td>
+      <td><?=$proftloss_Value?></td>
+      <td><?=$diff?></td>
       <td><?=$return?></td>
       <td></td>
       <td></td>
-      <!-- <td></td>
-      <td></td> -->
+
+
     </tr>
      <?php
     }
@@ -175,25 +183,20 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   <tr style="background:skyblue;
       color: blue;"
   }>
-      <td>Total</td>
+  	  <td>Total</td>
+  	  <td></td>
+      <td><?php echo array_sum ($total_units); ?></td>
+      <td><?php echo array_sum ($total_current); ?></td>
+      	<td><?php echo array_sum ($total_purch); ?></td></td>
+        <td><?php echo array_sum ($total_prof ); ?></td>
+  		<td></td>
+  		<td></td>
       <td></td>
-      <td><?php echo array_sum ($total_sum ); ?></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <!-- <td></td>
-      <td></td> -->
-      <!-- <td></td>
-      <td></td> -->
-      </tr>
-      <tr>
-      <td>Grand Total</td>
-      <td></td>
-      <td><?php echo array_sum ($total_sum ); ?></td>
+    
+  	  </tr>
+  	  <tr>
+  	  <td>Grand Total</td>
       <td></td>
       <td></td>
       <td></td>
@@ -202,10 +205,12 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>></tr>
-	</table>
+     
+      <td></td></tr>
+
+</table>
+
+
 	<h3>Disclaimer :</h3>
 	<div style="border:1px solid black;padding-bottom:30px;">
 	<ol><li>Ventura Securities Limited has taken utmost care to ensure the correctness and accuracy of the data contained in this Report. However, since it relies on third party for the data ,

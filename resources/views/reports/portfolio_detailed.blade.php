@@ -122,20 +122,25 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
 		<th>Absolute Return</th> -->
     <th>Profit/Loss</th>
 		<th>No of Days</th>
-		<th>Annual Return</th>
+		<th>Absolute Return</th>
 		<th>CAGR</th>
 		<th>XIRR</th>
   </tr>
   <?php
-  $total_sum=[];
+  $total_current=[]; $total_prof=[]; $total_invest=[];$total_units=[];
   foreach ($PortfolioData['port'] as $key => $value) {
-     $total_sum[]=$value['purchasevalue'];
+
+
+
     // if($value['frequency'] == "Monthly")
     //   $frequency = "M";
     ?>
     <tr>
       <?php
-        $Current_Value=$value['purchasevalue']-$value['investmentamount'];
+        $Current_Value=$value['units'] * $value['nav'];
+      ?>
+      <?php
+        $proftloss_Value=$Current_Value-$value['investmentamount'];
       ?>
       <?php
           if($Current_Value==0 && $value['investmentamount']==0)
@@ -143,32 +148,36 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
             $return_data=0;
           }
           else{
-            $return_data=$Current_Value/$value['investmentamount'];
+            $return_data=$proftloss_Value/$value['investmentamount'];
 
           }
-       ?>
-       <?php
          $return=$return_data*100;
 
-          //$strtrans = strtotime($value['transactiondate']);
-        //  $strtrans_current = strtotime(date("Y-m-d"));
+  $total_units[]=$value['units'];
+  $total_invest[]=$value['investmentamount'];
+  $total_current[]=$Current_Value;
+  $total_prof[]=$proftloss_Value;
 
+  $earlier = new DateTime($value['transactiondate']);
+  $later = new DateTime(date('Y-m-d'));
 
+  $diff = $later->diff($earlier)->format("%a");
        ?>
+
 
       <td> <?=($value['purchasetype'] == 'L')?'Lumpsum':'Sip'?></td>
       <td><?=$value['transactiondate']?></td>
-      <td><?=$value['purchasevalue']?></td>
-      <td><?=$value['units']?></td>
-      <td><?=$value['investmentamount']?></td>
-      <td></td>
-      <td><?=$Current_Value?></td>
-
-      <td></td>
-
+      <td><?=round(($value['purchasevalue']),2)?></td>
+      <td><?=round(($value['units']),2)?></td>
+      <td><?=round(($value['investmentamount']),2)?></td>
+      <td><?=round(($Current_Value),2)?></td>
+      <td><?=$proftloss_Value?></td>
+      <td><?=$diff?></td>
       <td><?=$return?></td>
       <td></td>
       <td></td>
+
+
     </tr>
      <?php
     }
@@ -179,16 +188,15 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   }>
   	  <td>Total</td>
   	  <td></td>
-  		<td><?php echo array_sum ($total_sum ); ?></td>
+      <td></td>
+      <td><?php echo array_sum ($total_units); ?></td>
+      <td><?php echo array_sum ($total_invest ); ?></td>
+    <td><?php echo array_sum ($total_current); ?></td>
+    <td><?php echo array_sum ($total_prof ); ?></td>
+
+
   		<td></td>
-  		<!-- <td></td>
-  		<td></td> -->
   		<td></td>
-  		<td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -196,7 +204,6 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
   	  <tr>
   	  <td>Grand Total</td>
       <td></td>
-      <td><?php echo array_sum ($total_sum ); ?></td>
       <td></td>
       <td></td>
       <td></td>
@@ -206,9 +213,7 @@ Birla SL Tax Relief '96(G) - Equity [1015447155]<br><br></p>
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>></tr>
+      <td></td></tr>
 
 </table>
 
