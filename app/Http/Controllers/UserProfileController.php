@@ -555,8 +555,7 @@ $content = json_decode($response->getBody(), true);
         $getCustomerInfo = $this->customer->getUserDetails($value['userid']);
         $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
 
-        //dd($getUserInfo);
-        if($getCustomerDetailsData)
+        if($value['custdet_id'])
         {
             $customerDetailsData = $this->customerdetails->UpdateCustomerDetails($reqData,$getCustomerInfo[0]['customerid']);
             if($customerDetailsData)
@@ -577,11 +576,10 @@ $content = json_decode($response->getBody(), true);
            $status['error']="Duplicate. Email already Exists";
            return $status;
         }else{
-            
             $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
      $customerDetailsData = $this->customerdetails->InsertCustomerDetails($reqData);
-//     dd($customerDetailsData);
-     if($customerDetailsData == 0)
+    // dd($customerDetailsData);
+     if($customerDetailsData)
      {
          //dd($getCustomerDetailsData);
          $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);

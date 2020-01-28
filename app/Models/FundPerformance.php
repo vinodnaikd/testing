@@ -295,7 +295,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
 
     public function getCustomerGoalsFundProducts($customerid,$goalId,$fundclassid)
     {
-        return $this->select(DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'customerfunddetailposttran.units','customerfunddetailposttran.purchasevalue','f.fundid','f.fundclassid','f.fundname','customerfunddetailposttran.folionumber')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
+        return $this->select(DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),DB::raw('SUM(customerfunddetailposttran.units) as units'),DB::raw('SUM(customerfunddetailposttran.purchasevalue) as purchasevalue'),'f.fundid','f.fundclassid','f.fundname','customerfunddetailposttran.folionumber')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('mf_return','mf_return.schemecode','=','customerfunddetailposttran.fundid')
                     ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
@@ -316,7 +316,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
                     ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
                     ->where('customerfunddetailposttran.customerid',$customerid)
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
-                    ->groupby('f.fundid')
+                    ->groupby('customerfunddetailposttran.fundid','customerfunddetailposttran.purchasetype')
                     ->get()
                     ->toArray();
     }

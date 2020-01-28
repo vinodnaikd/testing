@@ -1570,7 +1570,31 @@ return response()->json([
     }
 
     //Allocate Your Money
-
+public function CustomerAllocateNewFundSelection(Request $request)
+   {
+            // dd($request->json()->all());
+        $validator = Validator::make($request->json()->all(), [
+          'userid' => 'required|string|max:100',
+          'orderdate' => 'required|string|max:255',
+          'fundid' => 'required|string|max:255',
+          'orderstatus' => 'required|string|max:255',
+          'customergoalid' => 'required|string|max:100',
+          'purchasetype' => 'required|string|max:100',
+          'startdate' => 'required|string|max:255',
+          'amount' => 'required|string|max:255'
+            ]);
+      
+      if($validator->fails()) {
+          return response()->json([
+              'status' => 'error',
+              'messages' => $validator->messages()
+          ], 400);
+      }
+      
+      $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
+        $orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);
+        dd($orderstatus);
+    }
     
 
     //End
@@ -1594,6 +1618,8 @@ return response()->json([
               'status' => 'error',
               'messages' => $validator->messages()
           ], 400);
+
+
       }
       
       $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
@@ -1698,6 +1724,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $customerGoals = $this->fundperformance->getCustomerWealthGoalsAllocate($getCustomerInfo['customerid']);
          $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+         $wealthAllocateData = array();
          if($wealthData)
          {
          $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
