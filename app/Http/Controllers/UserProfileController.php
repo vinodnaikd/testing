@@ -557,14 +557,15 @@ $content = json_decode($response->getBody(), true);
 
         if($value['custdet_id'])
         {
-            $customerDetailsData = $this->customerdetails->UpdateCustomerDetails($reqData,$getCustomerInfo[0]['customerid']);
+            $customerDetailsData = $this->customerdetails->UpdateCustomerDetailsNew($reqData,$value['custdet_id']);
             if($customerDetailsData)
             {
                 $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
-                 return response()->json([
+                $status = 'Customer Details Updated Successfully';
+                 /*return response()->json([
             'status' => 'Customer Details Updated Successfully',
             'customerdetails' => $getCustomerDetailsData
-        ], 200);
+        ], 200);*/
             }
            
         }
@@ -583,15 +584,17 @@ $content = json_decode($response->getBody(), true);
      {
          //dd($getCustomerDetailsData);
          $getCustomerDetailsData = $this->customerdetails->getCustomerDetails($getCustomerInfo[0]['customerid']);
-          return response()->json([
-            'status' => 'Customer Details Added Successfully',
-            'customerdetails' => $getCustomerDetailsData
-        ], 200);
+         $status = 'Customer Details Added Successfully';
+          
      }
         }
         }
         
 }
+return response()->json([
+            'status' => $status,
+            'customerdetails' => $getCustomerDetailsData
+        ], 200);
           }
    elseif($request['action'] == "customerbank")
           {

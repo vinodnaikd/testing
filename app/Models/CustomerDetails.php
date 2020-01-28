@@ -48,6 +48,11 @@ class CustomerDetails extends Model
     {
         return $this->where('customerid','=',$Id)->update($arr);
     }
+
+    public function UpdateCustomerDetailsNew($arr,$Id)
+    {
+        return $this->where('custdet_id','=',$Id)->update($arr);
+    }
     
     public function checkDuplicateMailExists($email)
     {
