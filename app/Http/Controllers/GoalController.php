@@ -954,8 +954,25 @@ else
     }
     $goalscnt = array_column($newGoalsArray, 'goal_status');
     $glscnt = array_count_values($goalscnt);
-    $goals_completed['goals_completed'] = ($glscnt['completed'])?$glscnt['completed'] : "";
-    $goals_completed['goals_completed'] = ($glscnt['started'])?$glscnt['started'] : "";
+    if(isset($glscnt['started']))
+{
+    $glscnt['started'] = $glscnt['started'];
+}
+else
+{
+  $glscnt['started'] = 0;
+}
+if(isset($glscnt['goals_completed']))
+{
+    $glscnt['goals_completed'] = $glscnt['goals_completed'];
+}
+else
+{
+  $glscnt['goals_completed'] = 0;
+}
+    $goals_completed['goals_completed'] = $glscnt['completed'];
+    $goals_completed['goals_started'] = $glscnt['started'];
+    
   }
 //End
         $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
