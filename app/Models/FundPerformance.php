@@ -65,7 +65,7 @@ class FundPerformance extends Model
 
     public function getCustomerPostTransLogs($customerId)
     {
-        return $this->select('f.orderno','customerfunddetailposttran.investmentamount','d.purchasetype','f.customergoalid','fd.fundname','fc.assettype','g.goalname')
+        return $this->select('f.orderno','customerfunddetailposttran.investmentamount','d.purchasetype','f.customergoalid','fd.fundname','fc.assettype','g.goalname','customerfunddetailposttran.folionumber')
                     ->join('customerfunddataposttran as d','d.funddataid','=','customerfunddetailposttran.funddataid')
                     ->join('customerfundposttran as f','f.customerfundid','=','d.customerfundid')
                     ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
