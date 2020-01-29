@@ -952,6 +952,10 @@ else
           // dd($customerGoalsDetails);
         array_push($newGoalsArray, $newGoalsData);
     }
+    $goalscnt = array_column($newGoalsArray, 'goal_status');
+    $glscnt = array_count_values($goalscnt);
+    $goals_completed['goals_completed'] = $glscnt['completed'];
+    $goals_completed['goals_completed'] = $glscnt['started'];
   }
 //End
         $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
@@ -962,7 +966,8 @@ else
           "riskcategory" => $riskcategory,
           "Transaction_Log" => $customerTransLog,
           "Goals" => $newGoalsArray,
-          "Wealth" => $newWealthArr
+          "Wealth" => $newWealthArr,
+          "GoalsCount" => $goals_completed
         ], 200);
     }
 
