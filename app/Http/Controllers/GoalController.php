@@ -1086,7 +1086,7 @@ else
               $products['investmentvalue'] = $value2['investmentvalue'];
               $products['units'] = $value2['units'];
               $products['currentvalue'] = $value2['currentvalue'];
-              $products['Growth'] = $value2['Growth'];
+              $products['Growth'] = number_format(($value2['Growth']),2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
@@ -1193,7 +1193,7 @@ else
               $products['investmentvalue'] = $value2['investmentvalue'];
               $products['units'] = $value2['units'];
               $products['currentvalue'] = $value2['currentvalue'];
-              $products['Growth'] = $value2['Growth'];
+              $products['Growth'] = number_format(($value2['Growth']),2);
               array_push($fundProducts, $products);
          }
               $fund['fundproducts'] = $fundProducts;
