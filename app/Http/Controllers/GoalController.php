@@ -372,8 +372,29 @@ class GoalController extends Controller
        // $GoalsArr['Achievable'] = $GoalsAchArr;
        // $GoalsArr['Future'] = $GoalsFutureArr;
         // print_r($goalAmount);
+         $goalscnt = array_column($GoalsArr, 'goal_status');
+    $glscnt = array_count_values($goalscnt);
+    if(isset($glscnt['started']))
+{
+    $glscnt['started'] = $glscnt['started'];
+}
+else
+{
+  $glscnt['started'] = 0;
+}
+if(isset($glscnt['goals_completed']))
+{
+    $glscnt['goals_completed'] = $glscnt['goals_completed'];
+}
+else
+{
+  $glscnt['goals_completed'] = 0;
+}
+    $goals_completed['goals_completed'] = $glscnt['completed'];
+    $goals_completed['goals_started'] = $glscnt['started'];
 	   return response()->json([
-          "GoalsList" => $GoalsArr
+          "GoalsList" => $GoalsArr,
+          "goalCount" => $goals_completed
         ], 200);
     }
 
