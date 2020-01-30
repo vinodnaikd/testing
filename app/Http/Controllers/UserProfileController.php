@@ -573,11 +573,11 @@ $content = json_decode($response->getBody(), true);
         {
             
        $checkDuplicateEmail=$this->customerdetails->checkDuplicateMailExists($reqData['email']);
-       if($checkDuplicateEmail)
+       /*if($checkDuplicateEmail)
         if(count($checkDuplicateEmail)>0){
            $status['error']="Duplicate. Email already Exists";
            return $status;
-        }else{
+        }else{*/
             $reqData['customerid'] = $getCustomerInfo[0]['customerid'];
      $customerDetailsData = $this->customerdetails->InsertCustomerDetails($reqData);
     // dd($customerDetailsData);
@@ -588,7 +588,7 @@ $content = json_decode($response->getBody(), true);
          $status = 'Customer Details Added Successfully';
           
      }
-        }
+        //}
         }
         
 }
