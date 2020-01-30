@@ -392,6 +392,11 @@ else
 }
     $goals_completed['goals_completed'] = $glscnt['completed'];
     $goals_completed['goals_started'] = $glscnt['started'];
+      if(empty($goals_completed))
+  {
+    $goals_completed['goals_completed'] = 0;
+    $goals_completed['goals_started'] = 0;
+  }
 	   return response()->json([
           "GoalsList" => $GoalsArr,
           "goalCount" => $goals_completed
@@ -973,8 +978,10 @@ else
           // dd($customerGoalsDetails);
         array_push($newGoalsArray, $newGoalsData);
     }
+    // dd($newGoalsArray);
     $goalscnt = array_column($newGoalsArray, 'goal_status');
     $glscnt = array_count_values($goalscnt);
+
     if(isset($glscnt['started']))
 {
     $glscnt['started'] = $glscnt['started'];
@@ -985,15 +992,20 @@ else
 }
 if(isset($glscnt['completed']))
 {
-    $glscnt['goals_completed'] = $glscnt['goals_completed'];
+    $glscnt['completed'] = $glscnt['completed'];
 }
 else
 {
-  $glscnt['goals_completed'] = 0;
+  $glscnt['completed'] = 0;
 }
     $goals_completed['goals_completed'] = $glscnt['completed'];
     $goals_completed['goals_started'] = $glscnt['started'];
     
+  }
+  if(empty($goals_completed))
+  {
+    $goals_completed['goals_completed'] = 0;
+    $goals_completed['goals_started'] = 0;
   }
 //End
         $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
