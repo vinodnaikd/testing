@@ -388,7 +388,7 @@ if(isset($glscnt['completed']))
 }
 else
 {
-  $glscnt['goals_completed'] = 0;
+  $glscnt['completed'] = 0;
 }
     $goals_completed['goals_completed'] = $glscnt['completed'];
     $goals_completed['goals_started'] = $glscnt['started'];
