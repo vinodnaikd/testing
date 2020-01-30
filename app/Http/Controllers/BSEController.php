@@ -290,7 +290,7 @@ curl_setopt_array($curl, array(
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => "POST",
-  CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/orderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:orderEntryParam>\r\n         <!--Optional:-->\r\n         <bses:TransCode>NEW</bses:TransCode>\r\n         <!--Optional:-->\r\n         <bses:TransNo>".$TransNo."</bses:TransNo>\r\n         <!--Optional:-->\r\n         <bses:OrderId/>\r\n         <!--Optional:-->\r\n         <bses:UserID>3787201</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:MemberId>37872</bses:MemberId>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>TRL12R073</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:SchemeCd>02G</bses:SchemeCd>\r\n         <!--Optional:-->\r\n         <bses:BuySell>R</bses:BuySell>\r\n         <!--Optional:-->\r\n         <bses:BuySellType>FRESH</bses:BuySellType>\r\n         <!--Optional:-->\r\n         <bses:DPTxn>P</bses:DPTxn>\r\n         <!--Optional:-->\r\n         <bses:OrderVal>25000</bses:OrderVal>\r\n         <!--Optional:-->\r\n         <bses:Qty/>\r\n         <!--Optional:-->\r\n         <bses:AllRedeem>N</bses:AllRedeem>\r\n         <!--Optional:-->\r\n         <bses:FolioNo>1235648</bses:FolioNo>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:KYCStatus>Y</bses:KYCStatus>\r\n         <!--Optional:-->\r\n         <bses:RefNo>3243243245642</bses:RefNo>\r\n         <!--Optional:-->\r\n         <bses:SubBrCode/>\r\n         <!--Optional:-->\r\n         <bses:EUIN/>\r\n         <!--Optional:-->\r\n         <bses:EUINVal>N</bses:EUINVal>\r\n         <!--Optional:-->\r\n         <bses:MinRedeem>N</bses:MinRedeem>\r\n         <!--Optional:-->\r\n         <bses:DPC>N</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>".$PassKey."</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>cdefghijkls123</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Parma1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:orderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
+  CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/orderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:orderEntryParam>\r\n         <!--Optional:-->\r\n         <bses:TransCode>NEW</bses:TransCode>\r\n         <!--Optional:-->\r\n         <bses:TransNo>2018213877326694553</bses:TransNo>\r\n         <!--Optional:-->\r\n         <bses:OrderId/>\r\n         <!--Optional:-->\r\n         <bses:UserID>3787201</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:MemberId>37872</bses:MemberId>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>TRL12R073</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:SchemeCd>02G</bses:SchemeCd>\r\n         <!--Optional:-->\r\n         <bses:BuySell>R</bses:BuySell>\r\n         <!--Optional:-->\r\n         <bses:BuySellType>FRESH</bses:BuySellType>\r\n         <!--Optional:-->\r\n         <bses:DPTxn>P</bses:DPTxn>\r\n         <!--Optional:-->\r\n         <bses:OrderVal>25000</bses:OrderVal>\r\n         <!--Optional:-->\r\n         <bses:Qty/>\r\n         <!--Optional:-->\r\n         <bses:AllRedeem>N</bses:AllRedeem>\r\n         <!--Optional:-->\r\n         <bses:FolioNo>1235648</bses:FolioNo>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:KYCStatus>Y</bses:KYCStatus>\r\n         <!--Optional:-->\r\n         <bses:RefNo>324478653285742</bses:RefNo>\r\n         <!--Optional:-->\r\n         <bses:SubBrCode/>\r\n         <!--Optional:-->\r\n         <bses:EUIN/>\r\n         <!--Optional:-->\r\n         <bses:EUINVal>N</bses:EUINVal>\r\n         <!--Optional:-->\r\n         <bses:MinRedeem>N</bses:MinRedeem>\r\n         <!--Optional:-->\r\n         <bses:DPC>N</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>".$Password."</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>cdefghijkls123</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Parma1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:orderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
   CURLOPT_HTTPHEADER => array(
     "Content-Type: application/soap+xml;charset=UTF-8;action=\"http://bsestarmf.in/MFOrderEntry/orderEntryParam\""
   ),
@@ -300,6 +300,7 @@ $response = curl_exec($curl);
 
 curl_close($curl);
 echo $response;
+
     }
 
     /**
@@ -338,24 +339,26 @@ echo $response;
       $PassKey = $EncPassword['passkey']; // request parameter
 
         $curl = curl_init();
-      curl_setopt_array($curl, array(
-      CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc",
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => "",
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => "POST",
-      CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:sipOrderEntryParam>\r\n         <!--Optional: NEW /CXL  (Cancellation)-->\r\n         <bses:TransactionCode>".$TransactionCode."</bses:TransactionCode>\r\n         <!--Optional:-->\r\n         <bses:UniqueRefNo>".$UniqueRefNo."</bses:UniqueRefNo>\r\n         <!--Optional:-->\r\n         <bses:SchemeCode>".$SchemeCode."</bses:SchemeCode>\r\n         <!--Optional:-->\r\n         <bses:MemberCode>".$MemberCode."</bses:MemberCode>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>".$ClientCode."</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:UserID>".$UserID."</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:InternalRefNo/>\r\n         <!--Optional:-->\r\n         <bses:TransMode>".$TransMode."</bses:TransMode>\r\n         <!--Optional:-->\r\n         <bses:DpTxnMode>".$DpTxnMode."</bses:DpTxnMode>\r\n         <!--Optional:-->\r\n         <bses:StartDate>".$StartDate."</bses:StartDate>\r\n         <!--Optional: MONTHLY/QUARTERLY/ WEEKLY -->\r\n         <bses:FrequencyType>".$FrequencyType."</bses:FrequencyType>\r\n         <!--Optional:-->\r\n         <bses:FrequencyAllowed>".$FrequencyAllowed."</bses:FrequencyAllowed>\r\n         <!--Optional:-->\r\n         <bses:InstallmentAmount>".$InstallmentAmount."</bses:InstallmentAmount>\r\n         <!--Optional:-->\r\n         <bses:NoOfInstallment>".$NoOfInstallment."</bses:NoOfInstallment>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:FolioNo/>\r\n         <!--Optional:-->\r\n         <bses:FirstOrderFlag>".$FirstOrderFlag."</bses:FirstOrderFlag>\r\n         <!--Optional:-->\r\n         <bses:SubberCode/>\r\n         <!--Optional:-->\r\n         <bses:Euin/>\r\n         <!--Optional:-->\r\n         <bses:EuinVal>".$EuinVal."</bses:EuinVal>\r\n         <!--Optional:-->\r\n         <bses:DPC>".$DPC."</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:RegId/>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>".$Password."</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>".$PassKey."</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Param1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:sipOrderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
-      CURLOPT_HTTPHEADER => array(
-        "Content-Type: application/soap+xml;charset=UTF-8;action=\"http://bsestarmf.in/MFOrderEntry/sipOrderEntryParam\""
-      ),
-    ));
 
-    $response = curl_exec($curl);
-    curl_close($curl);
-    return $response;
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_POSTFIELDS =>"\r\n<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:bses=\"http://bsestarmf.in/\">\r\n   <soap:Header xmlns:wsa=\"http://www.w3.org/2005/08/addressing\"><wsa:Action>http://bsestarmf.in/MFOrderEntry/orderEntryParam</wsa:Action><wsa:To>http://bsestarmfdemo.bseindia.com/MFOrderEntry/MFOrder.svc</wsa:To></soap:Header>\r\n   <soap:Body>\r\n      <bses:orderEntryParam>\r\n         <!--Optional:-->\r\n         <bses:TransCode>NEW</bses:TransCode>\r\n         <!--Optional:-->\r\n         <bses:TransNo>20192157944326694553</bses:TransNo>\r\n         <!--Optional:-->\r\n         <bses:OrderId/>\r\n         <!--Optional:-->\r\n         <bses:UserID>3787201</bses:UserID>\r\n         <!--Optional:-->\r\n         <bses:MemberId>37872</bses:MemberId>\r\n         <!--Optional:-->\r\n         <bses:ClientCode>TRL12R073</bses:ClientCode>\r\n         <!--Optional:-->\r\n         <bses:SchemeCd>02G</bses:SchemeCd>\r\n         <!--Optional:-->\r\n         <bses:BuySell>R</bses:BuySell>\r\n         <!--Optional:-->\r\n         <bses:BuySellType>FRESH</bses:BuySellType>\r\n         <!--Optional:-->\r\n         <bses:DPTxn>P</bses:DPTxn>\r\n         <!--Optional:-->\r\n         <bses:OrderVal>25000</bses:OrderVal>\r\n         <!--Optional:-->\r\n         <bses:Qty/>\r\n         <!--Optional:-->\r\n         <bses:AllRedeem>N</bses:AllRedeem>\r\n         <!--Optional:-->\r\n         <bses:FolioNo>1235648</bses:FolioNo>\r\n         <!--Optional:-->\r\n         <bses:Remarks/>\r\n         <!--Optional:-->\r\n         <bses:KYCStatus>Y</bses:KYCStatus>\r\n         <!--Optional:-->\r\n         <bses:RefNo>3243243284742</bses:RefNo>\r\n         <!--Optional:-->\r\n         <bses:SubBrCode/>\r\n         <!--Optional:-->\r\n         <bses:EUIN/>\r\n         <!--Optional:-->\r\n         <bses:EUINVal>N</bses:EUINVal>\r\n         <!--Optional:-->\r\n         <bses:MinRedeem>N</bses:MinRedeem>\r\n         <!--Optional:-->\r\n         <bses:DPC>N</bses:DPC>\r\n         <!--Optional:-->\r\n         <bses:IPAdd/>\r\n         <!--Optional:-->\r\n         <bses:Password>pABEo/Ul8Wu3bZFdhINts2cNMStek3GFiFcIHX8Lim8XaOTGx8gmC10UkDZBp+oa60nFus9nGlM=</bses:Password>\r\n         <!--Optional:-->\r\n         <bses:PassKey>cdefghijkls123</bses:PassKey>\r\n         <!--Optional:-->\r\n         <bses:Parma1/>\r\n         <!--Optional:-->\r\n         <bses:Param2/>\r\n         <!--Optional:-->\r\n         <bses:Param3/>\r\n      </bses:orderEntryParam>\r\n   </soap:Body>\r\n</soap:Envelope>",
+  CURLOPT_HTTPHEADER => array(
+    "Content-Type: application/soap+xml;charset=UTF-8;action=\"http://bsestarmf.in/MFOrderEntry/orderEntryParam\""
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
     }
 
     public function MFSipCancelOrder(Request $request)
