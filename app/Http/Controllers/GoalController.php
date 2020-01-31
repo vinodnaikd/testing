@@ -2185,6 +2185,8 @@ return response()->json([
        foreach ($sipSummary as $key => $value) {
          $sip['fundid'] = $value['fundid'];
          $sip['fundname'] = $value['fundname'];
+         $sip['asset_category'] = $value['asset_category'];
+         $sip['asset'] = $value['asset'];
          $sip['purchasetype'] = $value['purchasetype'];
          $sip['currentvalue'] = round($value['currentvalue']);
          $sip['customergoalid'] = $value['customergoalid'];

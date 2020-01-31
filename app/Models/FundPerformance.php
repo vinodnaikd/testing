@@ -419,7 +419,7 @@ public function getCustomerAccountStatement($customerId,$fromDate,$toDate)
     }
  public function getModifiedCustomerSipSummary($customerId)
     {
-        return $this->select('customerfunddetailposttran.purchasetype','fd.fundid','fd.fundname',DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'g.customergoalid','g.goalname','g.goalpriority','customerfunddetailposttran.transactiondate')
+        return $this->select('customerfunddetailposttran.purchasetype','fd.fundid','fd.fundname',DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),'g.customergoalid','g.goalname','g.goalpriority','customerfunddetailposttran.transactiondate','fc.asset_category','fc.asset')
                     ->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
                     ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
                     ->join('customerfundposttran as f','f.customerid','=','d.customerid')
