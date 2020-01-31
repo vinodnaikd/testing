@@ -52,7 +52,7 @@ class BSEController extends Controller
       
       $UserId = "3787201";
       $MemberId = "37872";
-      $Password = "@123456";
+      $Password = "@12345";
       $PassKey = "cdefghijkls123";
 
         $curl = curl_init();
