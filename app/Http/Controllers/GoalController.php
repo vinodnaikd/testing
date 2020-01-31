@@ -1931,6 +1931,8 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
 
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
+                    $fundproducts1['asset_category'] = $value2['asset_category'];
+                    $fundproducts1['asset'] = $value2['asset'];
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
                     $fundproducts1['units'] = $value2['units'];
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
@@ -2104,6 +2106,8 @@ public function getRedemptionSummary(Request $request)
                     $redmvalue1 = $fundredemData1['amount'];
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
+                    $fundproducts1['asset_category'] = $value2['asset_category'];
+                    $fundproducts1['asset'] = $value2['asset'];
                     $fundproducts1['purchasetype'] = $value2['purchasetype'];
                    /* $fundproducts1['units'] = $value2['units'];
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
