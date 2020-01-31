@@ -399,7 +399,7 @@ else
   }
 	   return response()->json([
           "GoalsList" => $GoalsArr,
-          "goalCount" => $goals_completed
+          "goalCount" => array($goals_completed)
         ], 200);
     }
 
@@ -1017,7 +1017,7 @@ else
           "Transaction_Log" => $customerTransLog,
           "Goals" => $newGoalsArray,
           "Wealth" => $newWealthArr,
-          "GoalsCount" => $goals_completed
+          "GoalsCount" => array($goals_completed)
         ], 200);
     }
 
@@ -2376,7 +2376,7 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
-        
+
          $datasArray = array();
          // dd($request->json()->all());
         foreach ($request->json()->all() as $key => $value) {
@@ -2752,9 +2752,20 @@ else
      * @param  \App\Goal  $goal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Goal $goal)
+    public function RedeemCheckOutSummary(Request $request)
     {
-        //
+        $validator = Validator::make($request->json()->all(), [
+            'fundid' => 'required|string|max:255',
+            'amount' => 'required|string|max:255',
+        ]);
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'messages' => $validator->messages()
+            ], 400);
+        }
+
+
     }
 
     /**
