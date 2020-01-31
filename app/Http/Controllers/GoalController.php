@@ -1593,6 +1593,8 @@ else
           $products['fundstatus'] = "unchecked";*/
               $products['fundid'] = $value2['fundid'];
               $products['fundname'] = $value2['fundname'];
+              $products['asset_category'] = $value2['asset_category'];
+              $products['asset'] = $value2['asset'];
               $products['units'] = $value2['units'];
               $products['purchasevalue'] = $value2['purchasevalue'];
               $products['currentvalue'] = $value2['currentvalue'];

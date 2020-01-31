@@ -966,6 +966,8 @@ public function getCustomerGoalsOrderDetails(Request $request)
             foreach ($fundprodcutsData as $key1 => $value1) {
                     $fundproducts['fundid'] = $value1['fundid'];
                     $fundproducts['fundname'] = $value1['fundname'];
+                    $fundproducts['asset_category'] = $value1['asset_category'];
+                    $fundproducts['asset'] = $value1['asset'];
                     $fundproducts['purchasetype'] = $value1['purchasetype'];
                     $fundproducts['fundvalue'] = $value1['lumpsumamount'];
                     $fundproducts['lumpsumunits'] = $value1['lumpsumunits'];
@@ -983,6 +985,8 @@ public function getCustomerGoalsOrderDetails(Request $request)
             foreach ($fundprodcutsData1 as $key1 => $value1) {
                     $fundproducts1['fundid'] = $value1['fundid'];
                     $fundproducts1['fundname'] = $value1['fundname'];
+                    $fundproducts1['asset_category'] = $value1['asset_category'];
+                    $fundproducts1['asset'] = $value1['asset'];
                     $fundproducts1['purchasetype'] = $value1['purchasetype'];
                     $fundproducts1['sipamount'] = $value1['sipamount'];
                     $fundproducts1['sipmonthlydate'] = $value1['sipmonthlydate'];
