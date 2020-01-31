@@ -2376,7 +2376,7 @@ public function getSipModifiedSummary(Request $request)
 
     public function getAssetRebalancing(Request $request)
        {
-         
+        
          $datasArray = array();
          // dd($request->json()->all());
         foreach ($request->json()->all() as $key => $value) {

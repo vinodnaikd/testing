@@ -618,7 +618,7 @@ return response()->json([
           'userid' => 'required|string|max:100',
           'effective_date' => 'required|string|max:100',
           'expiry_date' => 'required|string|max:100',
-          'maximum_limit' => 'required|string|max:100',
+          'maximum_limit' => 'required|max:100',
           ]);
           if($validator->fails()) {
           return response()->json([
