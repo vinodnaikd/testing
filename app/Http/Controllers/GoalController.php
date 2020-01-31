@@ -399,7 +399,7 @@ else
   }
 	   return response()->json([
           "GoalsList" => $GoalsArr,
-          "goalCount" => array($goals_completed)
+          "goalCount" => $goals_completed
         ], 200);
     }
 
@@ -1017,7 +1017,7 @@ else
           "Transaction_Log" => $customerTransLog,
           "Goals" => $newGoalsArray,
           "Wealth" => $newWealthArr,
-          "GoalsCount" => array($goals_completed)
+          "GoalsCount" => $goals_completed
         ], 200);
     }
 
