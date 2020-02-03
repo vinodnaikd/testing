@@ -1940,7 +1940,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
                     $fundproducts1['currentvalue'] = $value2['currentvalue'];
                     $fundproducts1['fundredamount'] = $redmvalue1;
-                    $fundproducts1['balamount'] = $value2['purchasevalue']-$redmvalue1;
+                    $fundproducts1['balamount'] = $redmvalue1;
                     $fundproducts1['folionumber'] = trim($value2['folionumber']);
                     
                 array_push($lumProductsArray, $fundproducts1);

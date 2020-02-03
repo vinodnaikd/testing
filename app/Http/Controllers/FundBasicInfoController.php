@@ -319,13 +319,13 @@ class FundBasicInfoController extends Controller
                 $viewmore = "loadmore";
               $fundclassid = $request['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }/*
+              }
               else
               {
                 $viewmore = "";
               $fundclassid = $value1['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }*/
+              }
               
             }
             else
@@ -457,13 +457,13 @@ class FundBasicInfoController extends Controller
                 $viewmore = "loadmore";
               $fundclassid = $request['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }/*
+              }
               else
               {
                 $viewmore = "";
               $fundclassid = $value1['fundclassid'];
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
-              }*/
+              }
               
             }
             else
