@@ -1008,8 +1008,8 @@ else
     $goals_completed['goals_started'] = 0;
   }
 //End
-        $customerInvestAmntArr['purchase'] = number_format((array_sum($totalInvestValue)),2);
-        $customerInvestAmntArr['purchasesavings'] = number_format((array_sum($totalCurrentValue)),2);
+        $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
+        $customerInvestAmntArr['purchasesavings'] = array_sum($totalCurrentValue);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
