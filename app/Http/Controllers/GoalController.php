@@ -1008,8 +1008,8 @@ else
     $goals_completed['goals_started'] = 0;
   }
 //End
-        $customerInvestAmntArr['purchase'] = array_sum($totalInvestValue);
-        $customerInvestAmntArr['purchasesavings'] = array_sum($totalCurrentValue);
+        $customerInvestAmntArr['purchase'] = number_format(array_sum($totalInvestValue),2);
+        $customerInvestAmntArr['purchasesavings'] = number_format(array_sum($totalCurrentValue),2);
        return response()->json([
           "Savings_Summary" => $customerInvestAmntArr,
           "Risk_Score" => $customerRiskProfileScore,
@@ -1925,11 +1925,17 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
             /*if($value2['purchasetype'] == "L")
               {*/
                 $fundredemData1 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalId']);
-                // dd($fundredemData1);
+                //dd($fundredemData1);
                 if(!empty($fundredemData1['amount']))
+                {
                 $redmvalue1 = $value2['purchasevalue']-$fundredemData1['amount'];
+                $redmAmnt = $fundredemData1['amount'];
+                }
             else
+            {
                 $redmvalue1 = 0;
+                $redmAmnt = 0;
+            }
 
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
@@ -1939,7 +1945,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                     $fundproducts1['units'] = $value2['units'];
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
                     $fundproducts1['currentvalue'] = $value2['currentvalue'];
-                    $fundproducts1['fundredamount'] = $redmvalue1;
+                    $fundproducts1['fundredamount'] = $redmAmnt;
                     $fundproducts1['balamount'] = $redmvalue1;
                     $fundproducts1['folionumber'] = trim($value2['folionumber']);
                     
