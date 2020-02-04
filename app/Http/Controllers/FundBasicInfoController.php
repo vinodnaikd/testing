@@ -426,30 +426,17 @@ class FundBasicInfoController extends Controller
       {
 
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
-        // dd($goalsAssData);
-        // print_r($goalsAssData['asset']);
-         
-        /*if($request['goal_wealth_type'] == "goal")
-      {*/
+        
       $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
-      if($value['asset'])
-      $assetFC = $value['asset'];
-      else
-      $assetFC = "Liquid";
-      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($assetFC);
-      // echo $value['asset'];
-      $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
-     /* }
-      else
-      {
-      $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['asset']);
-      }*/
-         // if($fundclassData)
-      // dd($fundclassData);
+      
           $assests['assettype'] = $value['assettype'];
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
          {
+            $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($value1['asset']);
+      // echo $value['asset'];
+      $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
+
             $fund['fundclassid'] = $value1['fundclassid'];
             $fund['name'] = $value1['name'];
             $fund['assettype'] = $value1['assettype'];

@@ -51,7 +51,7 @@ class FundClass extends Model
         if($assettype == "Debt")
           $assetcategory = "Debt Medium";
 
-         $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype);
+         $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype);
          if(isset($assetcategory))
          {
             $query->where('asset_category',$assetcategory);
