@@ -435,11 +435,11 @@ class FundBasicInfoController extends Controller
          {
             //echo $value1['assettype'];
             if($value1['assettype'] == "Gold")
-             echo $assetfc = "Gold";
+              $assetfc = "Gold";
             elseif($value1['assettype'] == "Liquid")
-             echo $assetfc = "Liquid";
+              $assetfc = "Liquid";
             else
-             echo $assetfc = $value1['asset'];
+              $assetfc = $value1['asset'];
             $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($assetfc);
       // echo $value['asset'];
       $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
