@@ -436,7 +436,7 @@ class FundBasicInfoController extends Controller
       $assetFC = $value['asset'];
       else
       $assetFC = "Liquid";
-      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass();
+      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($assetFC);
       // echo $value['asset'];
       $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
      /* }
