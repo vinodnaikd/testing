@@ -300,6 +300,7 @@ class FundBasicInfoController extends Controller
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
          {
+          // echo $value1['assettype'];
             $fund['fundclassid'] = $value1['fundclassid'];
             $fund['name'] = $value1['name'];
             $fund['assettype'] = $value1['assettype'];
@@ -331,7 +332,7 @@ class FundBasicInfoController extends Controller
             else
             {
               $viewmore = "";
-              $fundclassid = $value1['fundclassid'];
+              $fundclassid = array($value1['fundclassid']);
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
             }
            
