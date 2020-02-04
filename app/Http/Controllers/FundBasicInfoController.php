@@ -432,8 +432,11 @@ class FundBasicInfoController extends Controller
         /*if($request['goal_wealth_type'] == "goal")
       {*/
       $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
-      
-      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($value['asset']);
+      if($value['asset'])
+      $assetFC = $value['asset'];
+      else
+      $assetFC = "Liquid";
+      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass();
       // echo $value['asset'];
       $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
      /* }
