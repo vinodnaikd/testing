@@ -120,7 +120,7 @@ class Fundroi extends Model
 
     public function checkSipModified($customerid,$fundid)
     {
-      return $this->select('op.customerorderid','customerorderdetailpretran.sipamount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->where('transactionstatus',"pending")->where('customerorderdetailpretran.fundid',$fundid)->groupby('customerorderdetailpretran.customerorderid')->get()->first();
+      return $this->select('op.customerorderid','customerorderdetailpretran.sipamount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('purchasetype',"S")->where('status',"pending")->where('customerorderdetailpretran.fundid',$fundid)->groupby('customerorderdetailpretran.customerorderid')->get()->first();
     }
 
      public function InsertCustomerFundRedemption($arr)

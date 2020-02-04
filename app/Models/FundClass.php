@@ -19,8 +19,13 @@ class FundClass extends Model
    
     public function getFundClassAssestType()
     {
-        return $this->select('assettype')->where('assettype','!=','Hybrid')->where('assettype','!=','Other')->groupBy('assettype')->get()->toArray();
+        return $this->select('assettype','asset')->where('assettype','!=','Hybrid')->where('assettype','!=','Other')->groupBy('assettype')->get()->toArray();
     }
+        public function getFundClassAssestTypeNew()
+    {
+        return $this->select('assettype','asset','asset_category')->where('assettype','!=','Hybrid')->where('assettype','!=','Other')->groupBy('asset')->get()->toArray();
+    }
+
     public function getFundClassSubcategory()
     {
         return $this->select('subcategory','assettype')->where('subcategory','<>', '')->groupBy('subcategory')->orderBy('assettype')->get()->toArray();
@@ -28,6 +33,16 @@ class FundClass extends Model
     public function getFundClass($assettype)
     {
         return $this->where('assettype',$assettype)->get()->toArray();
+    }
+        public function getFundIdsAssetClass($asset)
+    {
+        if(empty($asset))
+        {
+           $asset = "Liquid";
+        }
+        // else
+
+        return $this->where('asset',$asset)->get()->toArray();
     }
     public function getFundClassData($assettype,$inactive=0)
     {

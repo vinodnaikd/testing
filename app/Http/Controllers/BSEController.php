@@ -763,7 +763,7 @@ public function MFSwitchOrder(Request $request)
     curl_close($curl);
     $doc = new \DOMDocument();
     $doc->loadXML($response);
-    $paymentLink = str_replace("http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPIResponse100|","",$doc->textContent);
+    $paymentLink['payment'] = str_replace("http://bsestarmfdemo.bseindia.com/2016/01/IMFUploadService/MFAPIResponse100|","",$doc->textContent);
 
     return $paymentLink;
     }

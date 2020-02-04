@@ -411,6 +411,9 @@ class FundBasicInfoController extends Controller
       /*if($request['goal_wealth_type'] == "goal")
       {*/
       $fundclassassests = $this->fundclass->getFundClassAssestType();
+
+      $fundclassassestsNew = $this->fundclass->getFundClassAssestTypeNew();
+      // dd($fundclassassestsNew);
      /* }
       else
       {
@@ -421,6 +424,7 @@ class FundBasicInfoController extends Controller
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
+
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsAllocationForFunds($getCustomerInfo['customerid'],$request['goalid'],$value['assettype']);
         // dd($goalsAssData);
         // print_r($goalsAssData['asset']);
@@ -428,6 +432,10 @@ class FundBasicInfoController extends Controller
         /*if($request['goal_wealth_type'] == "goal")
       {*/
       $fundclassData = $this->fundclass->getFundClassData($goalsAssData['asset']);
+      
+      $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($value['asset']);
+      // echo $value['asset'];
+      $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
      /* }
       else
       {
@@ -469,7 +477,7 @@ class FundBasicInfoController extends Controller
             else
             {
               $viewmore = "";
-              $fundclassid = $value1['fundclassid'];
+              $fundclassid = $FcIds;
               $fundprodcutsData = $this->fundproducts->getFundProducts($fundclassid,$nrielligble,$limit,$viewmore);
             }
            
@@ -479,6 +487,7 @@ class FundBasicInfoController extends Controller
           
           //$reqData['defaultfund'] = $value2['fundid'];
           $reqData['fundid'] = $value2['fundid'];
+          // $reqData['fundclassid'] = $value2['fundclassid'];
           $reqData['goalid'] = $request['goalid'];
           $reqData['customerorderid'] = $orderstatus['customerorderid'];
          $checkFundStatus = $this->fundroi->checkCustomerSelectedFund($reqData);
@@ -501,6 +510,7 @@ class FundBasicInfoController extends Controller
          }
           }
               $products['fundid'] = $value2['fundid'];
+              $products['fundclassid'] = $value2['fundclassid'];
               $products['fundname'] = $value2['fundname'];
               $products['amccode'] = $value2['amccode'];
               $products['mininvestment'] = $value2['mininvt'];

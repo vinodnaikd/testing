@@ -22,18 +22,18 @@ class FundProducts extends Model
         if($isnrielligble == 1)
         {
             $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->leftJoin('scheme_details AS sd','sd.schemecode','=','fund.fundid')
-            ->where('fundclassid',$fundclsid)->where('fund.isnrieligible',$isnrielligble)->orderby('rank')->take($limit)->get()->toArray();
+            ->whereIn('fundclassid',$fundclsid)->where('fund.isnrieligible',$isnrielligble)->orderby('rank')->take($limit)->get()->toArray();
         }
         else
         {
             if(!empty($viewmore))
             {
-                $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->orwhere('sd.plan','=','2')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->orderby('fund.rank')->get()->toArray();//->orderby('rank')
+                $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->orwhere('sd.plan','=','2')->where('sd.status','=','Active')->whereIn('fundclassid',$fundclsid)->orderby('fund.rank')->get()->toArray();//->orderby('rank')
 
             }
             else
             {
-                $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->where('fundclassid',$fundclsid)->take($limit)->get()->toArray();//->orderby('fund.rank')->take($limit)->get()->toArray();//->orderby('rank')
+                $fundData = $this->join('mf_return','mf_return.schemecode','=','fund.fundid')->Join('scheme_details AS sd','sd.schemecode','=','fund.fundid')->join('mf_sip AS s','s.schemecode','=','fund.fundid')->where('frequency','=','Monthly')->where('sd.opt_code','=','1')->where('sd.type_code','=','1')->where('sd.plan','=','6')->where('sd.status','=','Active')->whereIn('fundclassid',$fundclsid)->take($limit)->get()->toArray();//->orderby('fund.rank')->take($limit)->get()->toArray();//->orderby('rank')
             }
 
         }
