@@ -36,10 +36,10 @@ class FundClass extends Model
     }
         public function getFundIdsAssetClass($asset)
     {
-        if(empty($asset))
+        /*if(empty($asset))
         {
            $asset = "Liquid";
-        }
+        }*/
         // else
 
         return $this->where('asset',$asset)->get()->toArray();
