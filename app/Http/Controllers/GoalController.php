@@ -1560,7 +1560,7 @@ else
       $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
        // dd($request['goal_wealth']);
-      if($request[0]['goal_wealth_type'] == "wealth")
+      if($values['goal_wealth_type'] == "wealth")
       {
         $customerGoals = $this->fundperformance->getCustomerWealthData($getCustomerInfo['customerid'],$values['goalid']);
         // dd($customerGoals);
