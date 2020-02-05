@@ -572,7 +572,7 @@ class FundBasicInfoController extends Controller
             $fund['subcategory'] = "subcategory";
             $fund['limit'] = "2";
             $fundProducts = array();
-           $fundprodcutsData = $this->fundproducts->getFundProducts($value1['fundclassid'],$nrielligble,5,"");
+           $fundprodcutsData = $this->fundproducts->getFundProducts(array($value1['fundclassid']),$nrielligble,5,"");
 
          foreach($fundprodcutsData as $key2 => $value2)
          {
