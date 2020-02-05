@@ -920,7 +920,7 @@ class FundBasicInfoController extends Controller
                     array_push($selectedProductsArray1, $fundproducts1);
             }
             $amount1 = array_sum(array_column($selectedProductsArray1, 'sipamount'));
-            
+            // uasort($selectedProductsArray1,'')
             if(in_array("S", $lumsiptype))
               {
                 if($goalsAssType[1]['lum_sip_type'] != "")
