@@ -1569,7 +1569,7 @@ else
         $goalsFunds = array();
        foreach($customerGoals as $gkey =>$gvalue)
        {
-           // $goals['goalname'] = $gvalue['goalname'];
+           $goals['goalname'] = "wealth";
            $goals['goalid'] = $gvalue['cust_wel_all'];
            // $goals['futurecost'] = $gvalue['futurecost'];
            $goals['totalcurrentvalue'] = $gvalue['totalcurrentvalue'];
