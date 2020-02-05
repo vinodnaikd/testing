@@ -1560,6 +1560,7 @@ else
       $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
        // dd($request['goal_wealth']);
+       // echo $values['goal_wealth_type'];
       if($values['goal_wealth_type'] == "wealth")
       {
         $customerGoals = $this->fundperformance->getCustomerWealthData($getCustomerInfo['customerid'],$values['goalid']);
@@ -1628,57 +1629,57 @@ else
       }
       else
       {
-        $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
+        $customerGoals1 = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
        // dd($customerGoals);
-       $goalsFunds = array();
-       foreach($customerGoals as $gkey =>$gvalue)
+       $goalsFunds1 = array();
+       foreach($customerGoals1 as $gkey1 =>$gvalue1)
        {
-        $goals['goalname'] = $gvalue['goalname'];
-           $goals['goalid'] = $gvalue['customergoalId'];
-           $goals['futurecost'] = $gvalue['futurecost'];
-           $goals['totalcurrentvalue'] = $gvalue['totalcurrentvalue'];
-           $goals['goalpriority'] = $gvalue['goalpriority'];
-           $goals['year'] = floor($gvalue['timeframe']/12);
-           $goals['month'] = $gvalue['timeframe']%12;
-    $customerGoalsAssets = $this->fundperformance->getCustomerGoalsFundsAssets($getCustomerInfo['customerid'],$gvalue['customergoalId']);
-      $fundAssets = array();
-      foreach($customerGoalsAssets as $key =>$value)
+        $goals1['goalname'] = $gvalue1['goalname'];
+           $goals1['goalid'] = $gvalue1['customergoalId'];
+           $goals1['futurecost'] = $gvalue1['futurecost'];
+           $goals1['totalcurrentvalue'] = $gvalue1['totalcurrentvalue'];
+           $goals1['goalpriority'] = $gvalue1['goalpriority'];
+           $goals1['year'] = floor($gvalue1['timeframe']/12);
+           $goals1['month'] = $gvalue1['timeframe']%12;
+    $customerGoalsAssets1 = $this->fundperformance->getCustomerGoalsFundsAssets($getCustomerInfo['customerid'],$gvalue1['customergoalId']);
+      $fundAssets1 = array();
+      foreach($customerGoalsAssets1 as $keys1 =>$values1)
       {
-         $assests['assettype'] = $value['assettype'];
-         $fundclassData = $this->fundperformance->getUserGoalsSummaryFundsListWithGoalId($getCustomerInfo['customerid'],$gvalue['customergoalId'],$value['assettype']);
-         $fundClass = array();
-         foreach($fundclassData as $key1 => $value1)
+         $assests['assettype'] = $values1['assettype'];
+         $fundclassData1 = $this->fundperformance->getUserGoalsSummaryFundsListWithGoalId($getCustomerInfo['customerid'],$gvalue1['customergoalId'],$values1['assettype']);
+         $fundClass1 = array();
+         foreach($fundclassData1 as $key12 => $value12)
          {
-            $fund['fundclassid'] = $value1['fundclassid'];
-            $fund['assettype'] = $value1['assettype'];
-            $fundProducts = array();
-           $fundprodcutsData = $this->fundperformance->getCustomerGoalsFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalId'],$value1['fundclassid']);
+            $fund1['fundclassid'] = $value12['fundclassid'];
+            $fund1['assettype'] = $value12['assettype'];
+            $fundProducts1 = array();
+           $fundprodcutsData1 = $this->fundperformance->getCustomerGoalsFundProducts($getCustomerInfo['customerid'],$gvalue1['customergoalId'],$value12['fundclassid']);
            // dd($fundprodcutsData);
-         foreach($fundprodcutsData as $key2 => $value2)
+         foreach($fundprodcutsData1 as $key21 => $value21)
          {          
          
-              $products['fundid'] = $value2['fundid'];
-              $products['fundname'] = $value2['fundname'];
-              $products['asset_category'] = $value2['asset_category'];
-              $products['asset'] = $value2['asset'];
-              $products['units'] = $value2['units'];
-              $products['purchasevalue'] = $value2['purchasevalue'];
-              $products['currentvalue'] = $value2['currentvalue'];
-              $products['folionumber'] = trim($value2['folionumber']);
+              $products2['fundid'] = $value21['fundid'];
+              $products2['fundname'] = $value21['fundname'];
+              $products2['asset_category'] = $value21['asset_category'];
+              $products2['asset'] = $value21['asset'];
+              $products2['units'] = $value21['units'];
+              $products2['purchasevalue'] = $value21['purchasevalue'];
+              $products2['currentvalue'] = $value21['currentvalue'];
+              $products2['folionumber'] = trim($value21['folionumber']);
             
-              array_push($fundProducts, $products);
+              array_push($fundProducts1, $products2);
          }
-              $fund['fundproducts'] = $fundProducts;
-            array_push($fundClass, $fund);
+              $fund1['fundproducts'] = $fundProducts1;
+            array_push($fundClass1, $fund1);
          }
-         $assests['fundclass'] = $fundClass;
-         array_push($fundAssets, $assests);
+         $assests['fundclass'] = $fundClass1;
+         array_push($fundAssets1, $assests);
       }
-      $goals['goalproducts'] = $fundAssets;
-         array_push($goalsFunds, $goals);
+      $goals1['goalproducts'] = $fundAssets1;
+         array_push($goalsFunds1, $goals1);
   }
   // print_r($goalsFunds);
-   array_push($goalsFundsArr, $goalsFunds);
+   array_push($goalsFundsArr, $goalsFunds1);
       }
        
 }
