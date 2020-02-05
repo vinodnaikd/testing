@@ -28,7 +28,7 @@ class FundClass extends Model
 
     public function getFundClassSubcategory()
     {
-        return $this->select('subcategory','assettype')->where('subcategory','<>', '')->groupBy('subcategory')->orderBy('assettype')->get()->toArray();
+        return $this->select('asset_category','assettype')->where('asset_category','<>', '')->groupBy('asset_category')->orderBy('assettype')->get()->toArray();
     }
     public function getFundClass($assettype)
     {
@@ -86,9 +86,9 @@ class FundClass extends Model
         return $query->groupBy('asset')->get()->toArray();//->groupBy('asset')->get()->toArray();
     }
 
-    public function getFundClassSubcategoryData($subcategory,$inactive=0)
+    public function getFundClassSubcategoryData($assetcategory,$inactive=0)
     {
-        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('subcategory',$subcategory)->where('fundclass.inactive',$inactive)->get()->toArray();
+        return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('asset_category',$assetcategory)->where('fundclass.inactive',$inactive)->get()->toArray();
     }
      public function getSelectedFundClassData($assettype,$inactive=0)
     {

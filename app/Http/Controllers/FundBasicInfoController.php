@@ -556,8 +556,8 @@ class FundBasicInfoController extends Controller
       foreach($fundclassassests as $key =>$value)
       {
          $assests['assettype'] = $value['assettype'];
-         $assests['assetname'] = $value['subcategory'];
-         $fundclassData = $this->fundclass->getFundClassSubcategoryData($value['subcategory']);
+         $assests['assetname'] = $value['asset_category'];
+         $fundclassData = $this->fundclass->getFundClassSubcategoryData($value['asset_category']);
 
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
