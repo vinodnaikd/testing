@@ -2177,6 +2177,7 @@ public function getRedemptionSummary(Request $request)
        /*$customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);*/
        // print_r($customerGoals);
        $goalsFunds = array();
+       $lumProductsArray = array();
        foreach($fundredem as $gkey =>$gvalue)
        {
         //$goals['goalname'] = $gvalue['goalname'];
@@ -2184,12 +2185,12 @@ public function getRedemptionSummary(Request $request)
             $fundProducts = array();
            $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProductsSummaryNew($getCustomerInfo['customerid'],$gvalue['customergoalid']);
            // dd($fundprodcutsData);
-           $lumProductsArray = array();
+           
             $sipProductsArray = array();
             // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {          
-            // echo $value2['fundid'];
+            
             /*if($value2['purchasetype'] == "L")
               {*/
                 $fundredemData1 = $this->fundroi->getFundLumpsumRedemptionNew($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
@@ -2210,6 +2211,7 @@ public function getRedemptionSummary(Request $request)
                 }
               if(!empty($fundredemData1['amount']))
               {
+                // echo $value2['fundid'];
                     $redmvalue1 = $fundredemData1['amount'];
                     $fundproducts1['fundid'] = $value2['fundid'];
                     $fundproducts1['fundname'] = $value2['fundname'];
@@ -2223,33 +2225,14 @@ public function getRedemptionSummary(Request $request)
                     $fundproducts1['amounttoredeem'] = $redmvalue1;
                     $fundproducts1['balanceamount'] = $newPurchasevalue-$redmvalue1;
                 array_push($lumProductsArray, $fundproducts1);
-             // }
-              /*else
-              {
-            $fundredemData = $this->fundroi->getFundSipRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
-            if(!empty($fundredemData['amount']))
-                $redmvalue = $fundredemData['amount'];
-            else
-                $redmvalue = 0;
-
-                    $fundproducts2['fundid'] = $value2['fundid'];
-                    $fundproducts2['fundname'] = $value2['fundname'];
-                    $fundproducts2['purchasetype'] = $value2['purchasetype'];
-                   
-                    $fundproducts2['existingamount'] = $value2['purchasevalue'];
-                    $fundproducts2['amounttoredeem'] = $redmvalue;
-                    $fundproducts2['balanceamount'] = $value2['purchasevalue']-$redmvalue;
-                    array_push($lumProductsArray, $fundproducts2);
-              }*/
-               /*$fundproducts2['sipamount'] = $value2['sipamount'];
-                    $fundproducts2['purchasevalue'] = $value2['purchasevalue'];
-                    $fundproducts2['currentvalue'] = $value2['currentvalue'];
-                    $fundproducts2['units'] = $value2['units'];
-                    $fundproducts2['fundredamount'] = $redmvalue;*/
-              $fundproductsArr['Lumpsum'] = $lumProductsArray;
+              
             }
+              // $fundproductsArr['Lumpsum'] = $lumProductsArray;
                       //$fundproductsArr['Sip'] = $sipProductsArray;
-         }            
+         // print_r($fundproductsArr);  
+         }       
+         // $fundproductsArr['Lumpsum'] = $lumProductsArray;
+         // dd($fundproductsArr);
          }
          if(!empty($lumProductsArray))
          {

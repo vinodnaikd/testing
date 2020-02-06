@@ -98,7 +98,7 @@ class Fundroi extends Model
 
         public function getFundLumpsumRedemptionNew($customerid,$fundid,$goalid)
     {
-      return $this->select(DB::raw('SUM(customerorderdetailpretran.lumpsumamount) as amount'))->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('status',"pending")->get()->first();
+      return $this->select('customerorderdetailpretran.lumpsumamount as amount')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('fundid',$fundid)->where('customergoalid',$goalid)->where('paymenttype',"Redemption")->where('status',"pending")->get()->first();
     }
 
     public function getAddedFunds($customerid,$goalid)
@@ -135,7 +135,7 @@ class Fundroi extends Model
 
     public function getRedemptionSummaryDetails($customerid)
     {
-      return $this->select('customerorderdetailpretran.orderdetailid','customerorderdetailpretran.customergoalid','op.customerid')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('paymenttype',"Redemption")->get()->toArray();
+      return $this->select('customerorderdetailpretran.orderdetailid','customerorderdetailpretran.customergoalid','op.customerid')->join('customerorderpretran as op','op.customerorderid','=','customerorderdetailpretran.customerorderid')->where('op.customerid',$customerid)->where('paymenttype',"Redemption")->groupby('customerorderdetailpretran.customergoalid')->get()->toArray();
     }
 
     public function updateSipModifiedData($arr,$IdsArray)
