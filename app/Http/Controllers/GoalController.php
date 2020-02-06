@@ -2191,6 +2191,21 @@ public function getRedemptionSummary(Request $request)
             /*if($value2['purchasetype'] == "L")
               {*/
                 $fundredemData1 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
+                
+                $fundprodcutsDataNewPur = $this->fundperformance->getCustomerRedeemFundProductsNew($getCustomerInfo['customerid'],$gvalue['customergoalid'],$value2['fundid']);
+                // dd($fundprodcutsDataNewPur);
+                if($fundprodcutsDataNewPur)
+                {
+                 $newPurchasevalue = $value2['purchasevalue']-$fundprodcutsDataNewPur['purchasevalue'];
+                 $newunits = $value2['units']-$fundprodcutsDataNewPur['units'];
+                 $newcurrentvalue = $value2['currentvalue']-$fundprodcutsDataNewPur['currentvalue'];
+                }
+                else
+                {
+                  $newPurchasevalue = $value2['purchasevalue'];
+                  $newunits = $value2['units'];
+                 $newcurrentvalue = $value2['currentvalue'];
+                }
               if(!empty($fundredemData1['amount']))
               {
                     $redmvalue1 = $fundredemData1['amount'];
@@ -2202,9 +2217,9 @@ public function getRedemptionSummary(Request $request)
                    /* $fundproducts1['units'] = $value2['units'];
                     $fundproducts1['purchasevalue'] = $value2['purchasevalue'];
                     $fundproducts1['currentvalue'] = $value2['currentvalue'];*/
-                    $fundproducts1['existingamount'] = $value2['purchasevalue'];
+                    $fundproducts1['existingamount'] = $newPurchasevalue;
                     $fundproducts1['amounttoredeem'] = $redmvalue1;
-                    $fundproducts1['balanceamount'] = $value2['purchasevalue']-$redmvalue1;
+                    $fundproducts1['balanceamount'] = $newPurchasevalue-$redmvalue1;
                 array_push($lumProductsArray, $fundproducts1);
              // }
               /*else
