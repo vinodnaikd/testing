@@ -2182,7 +2182,7 @@ public function getRedemptionSummary(Request $request)
         //$goals['goalname'] = $gvalue['goalname'];
            //$goals['goalid'] = $gvalue['customergoalid'];
             $fundProducts = array();
-           $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalid']);
+           $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProductsSummaryNew($getCustomerInfo['customerid'],$gvalue['customergoalid']);
            // dd($fundprodcutsData);
            $lumProductsArray = array();
             $sipProductsArray = array();
