@@ -1467,6 +1467,10 @@ else
           else
             $wealthAllocateData = array();
          }
+         else
+         {
+          $wealthAllocateData = array();
+         }
         $goalwealth = array();
         foreach ($customerGoals as $key => $value) {
            $gw['goalname'] = $value['goalname'];
