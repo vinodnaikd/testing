@@ -369,7 +369,7 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
                     ->join('mf_return','mf_return.schemecode','=','customerfunddetailposttran.fundid')
                     ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
                     ->where('customerfunddetailposttran.customerid',$customerid)
-                    //->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
                     ->groupby('customerfunddetailposttran.fundid')
                     ->get()
                     ->toArray();

@@ -2180,18 +2180,20 @@ public function getRedemptionSummary(Request $request)
        foreach($fundredem as $gkey =>$gvalue)
        {
         //$goals['goalname'] = $gvalue['goalname'];
-           //$goals['goalid'] = $gvalue['customergoalid'];
+           // echo $goals['goalid'] = $gvalue['customergoalid'];
             $fundProducts = array();
            $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProductsSummaryNew($getCustomerInfo['customerid'],$gvalue['customergoalid']);
            // dd($fundprodcutsData);
            $lumProductsArray = array();
             $sipProductsArray = array();
+            // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {          
+            // echo $value2['fundid'];
             /*if($value2['purchasetype'] == "L")
               {*/
-                $fundredemData1 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
-                
+                $fundredemData1 = $this->fundroi->getFundLumpsumRedemptionNew($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
+                // print_r($fundredemData1);
                 $fundprodcutsDataNewPur = $this->fundperformance->getCustomerRedeemFundProductsNew($getCustomerInfo['customerid'],$gvalue['customergoalid'],$value2['fundid']);
                 // dd($fundprodcutsDataNewPur);
                 if($fundprodcutsDataNewPur)
