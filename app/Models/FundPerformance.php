@@ -361,7 +361,21 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
                     ->toArray();
     }
 
-
+public function getCustomerRedeemFundProductsNew($customerid,$goalId,$fundid)
+    {
+        return $this->select(DB::raw('SUM(customerfunddetailposttran.units * GC.NAV) as currentvalue'),DB::raw('SUM(customerfunddetailposttran.units) as units'),DB::raw('SUM(customerfunddetailposttran.purchasevalue) as purchasevalue'),'f.fundid','f.fundclassid','f.fundname','customerfunddetailposttran.purchasetype','fd.sipamount','customerfunddetailposttran.folionumber','fc.asset_category','fc.asset')->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('customerfunddataposttran as fd','fd.funddataid','=','customerfunddetailposttran.funddataid')
+                    ->join('mf_return','mf_return.schemecode','=','customerfunddetailposttran.fundid')
+                    ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
+                    ->where('customerfunddetailposttran.customerid',$customerid)
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->where('customerfunddetailposttran.fundid',$fundid)
+                    ->where('customerfunddetailposttran.payment_type','R')
+                    ->groupby('customerfunddetailposttran.fundid')
+                    ->get()
+                    ->first();
+    }
   
    //Reports Query
 

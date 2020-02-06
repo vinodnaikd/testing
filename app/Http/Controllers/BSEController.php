@@ -718,7 +718,7 @@ public function MFSwitchOrder(Request $request)
             $custpostdetail['customerid'] = $cusId['customerid'];
             $custpostdetail['fundid'] = $value['fundid'];
             $custpostdetail['purchasetype'] = $value['purchasetype'];
-            $custpostdetail['transactiondate'] = "";//$value['transaction_date'];
+            $custpostdetail['transactiondate'] = Carbon::now();//$value['transaction_date'];
             
             $custpostdetail['purchasenavvalue'] = $value['purchasenav'];
             if($value['purchasetype'] == "L")
