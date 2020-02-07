@@ -1213,13 +1213,25 @@ else
       $fundAssets = array();
       foreach($fundclassassests as $key =>$value)
       {
+          if($value['assettype'] == "Debt" && $value['asset'] == "liquid")
+          {
+            $assettypeNew = "Liquid";
+          }
+          elseif ($value['assettype'] == "Equity" && $value['asset'] == "gold") {
+            $assettypeNew = "Gold";
+          }
+          else
+          {
+            $assettypeNew = $value['assettype'];
+          }
+
         $goalsAssData = $this->dashboardrecordsinfo->getGoalsDetailsForFunds($request['wealth_id'],$value['asset']);
      // dd($goalsAssData);
         $goalsAssetstypesData = $this->dashboardrecordsinfo->getWealthAllocationAssetstypesNew($request['wealth_id'],$value['assettype']);
         // dd($goalsAssetstypesData);
       $fundclassData = $this->fundclass->getFundClassDataForWealth($goalsAssData['assettype'],$goalsAssetstypesData);
          // if($fundclassData)
-          $assests['assettype'] = $value['assettype'];
+          $assests['assettype'] = $assettypeNew;
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
          {

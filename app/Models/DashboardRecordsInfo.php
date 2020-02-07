@@ -84,7 +84,7 @@ public $timestamps = false;
         // dd($assetscat);
         return $this->select('c.assettype','goals_assets_allocation.asset')
         ->join('fundclass as c','goals_assets_allocation.asset','=','c.asset')
-        ->where('goals_assets_allocation.goalid',$goalid)->groupby('c.assettype')->get()->toArray();
+        ->where('goals_assets_allocation.goalid',$goalid)->groupby('c.asset')->get()->toArray();
     }
 
 
