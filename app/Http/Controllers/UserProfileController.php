@@ -1418,10 +1418,22 @@ return response()->json([
             ], 200);
         }
         $checkUser = $this->usersprofile->checkDuplicateMailExists($request['email']);
-        //$resetpasswordlink = "localhost:8000/api/v1/users/resetpassword";
-        $userid = $checkUser[0]['userid'];
+        if($checkUser)
+        {
+          //$resetpasswordlink = "localhost:8000/api/v1/users/resetpassword";
         //ToDo Email 
+            $userid = $checkUser[0]['userid'];
+            $status = "Mail Sent Successfully";
+        }
+        else
+        {
+            $status = "Mail Sending Failed";
+        }
+        
         //dd($checkUser);
+        return response()->json([
+                'status' => $status
+            ], 200);
     }
     
         public function resetPassword(Request $request)
