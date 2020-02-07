@@ -1238,6 +1238,7 @@ else
             $fund['fundclassid'] = $value1['fundclassid'];
             $fund['name'] = $value1['name'];
             $fund['assettype'] = $value1['assettype'];
+            $fund['asset'] = $value1['asset'];
             $fund['assetcategory'] = $value1['asset_category'];
             $fund['category'] = $value1['category'];
             if($value1['subcategory'])
@@ -1249,7 +1250,12 @@ else
             $limit = 5;
               $viewmore = "";
               $fundclassid = $value1['fundclassid'];
-              $fundprodcutsData = $this->fundperformance->getWealthSummaryFundsListWithWealthIdNew($request['wealth_id'],$fundclassid);
+
+            $fundIdsWithAssetclassData = $this->fundclass->getFundIdsAssetClass($value1['asset']);
+        // echo $value['asset'];
+           $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
+
+              $fundprodcutsData = $this->fundperformance->getWealthSummaryFundsListWithWealthIdNew($request['wealth_id'],$FcIds);
            
            // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
