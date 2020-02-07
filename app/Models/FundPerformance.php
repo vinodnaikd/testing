@@ -103,6 +103,18 @@ class FundPerformance extends Model
                     ->take(1)->get()->toArray();
     }
 
+         public function getCustomerWealthGoalsNew($customerid,$goalId)
+    {
+        return $this->select(DB::raw('sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue'),'fp.sipamount','fp.lumpsumamount','CG.timeframe','customerfunddetailposttran.customergoalid')
+                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('customer_wealth_allocation as CG','CG.cust_wel_all','=','customerfunddetailposttran.customergoalid')
+                    ->join('customerfunddataposttran as fp','fp.funddataid','=','customerfunddetailposttran.funddataid')
+                    ->where('customerfunddetailposttran.customerid',$customerid)
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->groupby('customerfunddetailposttran.fundid')->orderBy('CG.cust_wel_all','ASC')
+                    ->take(1)->get()->toArray();
+    }
+
      public function getCustomerWealthData($customerid,$wealthId)
     {
         return $this->select('CG.cust_wel_all',DB::raw('sum(customerfunddetailposttran.units * GC.NAV) as totalcurrentvalue'),'CG.timeframe','fp.sipamount','fp.lumpsumamount')

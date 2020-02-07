@@ -1964,6 +1964,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
        $validator = Validator::make($values, [
             'userid' => 'required|string|max:255',
             'goalid' => 'required|string|max:255',
+            'redeem_type' => 'required|string|max:255'
         ]);
         if($validator->fails()) {
             return response()->json([
@@ -1974,14 +1975,84 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
         // dd($value['goalid']);
       $getCustomerInfo = $this->customer->getUserDetailsrow($values['userid']);
        /*$orderstatus = $this->fundrecord->CheckCustomerOrderStatus($getCustomerInfo['customerid']);*/
-       $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
+       if($values['goal_wealth_type'] == "wealth")
+       {
+        $customerGoals1 = $this->fundperformance->getCustomerWealthGoalsNew($getCustomerInfo['customerid'],$values['goalid']);
+       // print_r($customerGoals);
+       $goalsFunds1 = array();
+       foreach($customerGoals1 as $gkey =>$gvalue)
+       {
+        $goals['goalname'] = "Wealth";
+           $goals['goalid'] = $gvalue['customergoalid'];
+            $fundProducts1 = array();
+           $fundprodcutsData1 = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalid']);
+           // dd($fundprodcutsData);
+           $lumProductsArray1 = array();
+            $sipProductsArray1 = array();
+         foreach($fundprodcutsData1 as $key2 => $value2)
+         {          
+            /*if($value2['purchasetype'] == "L")
+              {*/
+                $fundredemData11 = $this->fundroi->getFundLumpsumRedemption($getCustomerInfo['customerid'],$value2['fundid'],$gvalue['customergoalid']);
+                // dd($fundredemData1);
+                $fundprodcutsDataNewPur1 = $this->fundperformance->getCustomerRedeemFundProductsNew($getCustomerInfo['customerid'],$gvalue['customergoalid'],$value2['fundid']);
+                // dd($fundprodcutsDataNewPur);
+                if($fundprodcutsDataNewPur1)
+                {
+                 $newPurchasevalue = $value2['purchasevalue']-$fundprodcutsDataNewPur1['purchasevalue'];
+                 $newunits = $value2['units']-$fundprodcutsDataNewPur1['units'];
+                 $newcurrentvalue = $value2['currentvalue']-$fundprodcutsDataNewPur1['currentvalue'];
+                }
+                else
+                {
+                  $newPurchasevalue = $value2['purchasevalue'];
+                  $newunits = $value2['units'];
+                 $newcurrentvalue = $value2['currentvalue'];
+                }
+                //dd($fundredemData1);
+                if(!empty($fundredemData11['amount']))
+                {
+                $redmvalue1 = $newPurchasevalue-$fundredemData11['amount'];
+                $redmAmnt = $fundredemData1['amount'];
+                }
+                else
+                {
+                    $redmvalue1 = $newPurchasevalue;
+                if($values['redeem_type'] == "fullredeem")
+                    $redmAmnt = $newPurchasevalue;
+                else
+                    $redmAmnt = 0;
+                }
+
+                    $fundproducts11['fundid'] = $value2['fundid'];
+                    $fundproducts11['fundname'] = $value2['fundname'];
+                    $fundproducts11['asset_category'] = $value2['asset_category'];
+                    $fundproducts11['asset'] = $value2['asset'];
+                    $fundproducts11['purchasetype'] = $value2['purchasetype'];
+                    $fundproducts11['units'] = $newunits;
+                    $fundproducts11['purchasevalue'] = $newPurchasevalue;
+                    $fundproducts11['currentvalue'] = $newcurrentvalue;
+                    $fundproducts11['fundredamount'] = $redmAmnt;
+                    $fundproducts11['balamount'] = $redmvalue1;
+                    $fundproducts11['folionumber'] = trim($value2['folionumber']);
+                    
+                array_push($lumProductsArray1, $fundproducts11);
+         }
+              $goals['fundproducts'] = $lumProductsArray1;
+            array_push($goalsFunds1, $goals);
+         }
+         array_push($redeemFunds, $goalsFunds1);
+       }
+       else
+       {
+        $customerGoals = $this->fundperformance->getCustomerWealthGoals($getCustomerInfo['customerid'],$values['goalid']);
        // print_r($customerGoals);
        $goalsFunds = array();
        foreach($customerGoals as $gkey =>$gvalue)
        {
-        $goals['goalname'] = $gvalue['goalname'];
-           $goals['goalid'] = $gvalue['customergoalId'];
-           $goals['goalpriority'] = $gvalue['goalpriority'];
+        $goals1['goalname'] = $gvalue['goalname'];
+           $goals1['goalid'] = $gvalue['customergoalId'];
+           $goals1['goalpriority'] = $gvalue['goalpriority'];
             $fundProducts = array();
            $fundprodcutsData = $this->fundperformance->getCustomerRedeemFundProducts($getCustomerInfo['customerid'],$gvalue['customergoalId']);
            // dd($fundprodcutsData);
@@ -2016,6 +2087,9 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                 else
                 {
                     $redmvalue1 = $newPurchasevalue;
+                if($values['redeem_type'] == "fullredeem")
+                    $redmAmnt = $newPurchasevalue;
+                else
                     $redmAmnt = 0;
                 }
 
@@ -2070,10 +2144,13 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
               //$fundproductsArr['Lumpsum'] = $lumProductsArray;
               //$fundproductsArr['Sip'] = $sipProductsArray;
          }
-              $goals['fundproducts'] = $lumProductsArray;
-            array_push($goalsFunds, $goals);
+              $goals1['fundproducts'] = $lumProductsArray;
+            array_push($goalsFunds, $goals1);
          }
          array_push($redeemFunds, $goalsFunds);
+       }
+
+       
 }
 return response()->json([
               'funds' => $redeemFunds
