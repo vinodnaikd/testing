@@ -2044,7 +2044,7 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
 
                     $fundproducts11['fundid'] = $value2['fundid'];
                     $fundproducts11['fundname'] = $value2['fundname'];
-                    $fundproducts11['asset_category'] = $value2['asset_category'];
+                    $fundproducts11['asset_category'] = $value2['assettype'];
                     $fundproducts11['asset'] = $value2['asset'];
                     $fundproducts11['purchasetype'] = $value2['purchasetype'];
                     $fundproducts11['units'] = $newunits;
