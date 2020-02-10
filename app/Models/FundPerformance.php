@@ -333,6 +333,18 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
                     ->toArray();
     }
 
+    public function getCustomerGoalsFundsAssetsDataNew($customerid,$goalId)
+    {
+        return $this->select('fc.fundclassid','fc.assettype')->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')
+                    ->join('fund as f','f.fundid','=','customerfunddetailposttran.fundid')
+                    ->join('fundclass as fc','fc.fundclassid','=','f.fundclassid')
+                    ->where('customerfunddetailposttran.customerid',$customerid)
+                    ->where('customerfunddetailposttran.customergoalid',$goalId)
+                    ->groupby('fc.assettype')
+                    ->get()
+                    ->toArray();
+    }
+
     public function getCustomerGoalsFundsAssetsNew($customerid,$goalId)
     {
         return $this->select('fc.fundclassid','fc.assettype')->join('customerfunddataposttran as d','d.customerid','=','customerfunddetailposttran.customerid')

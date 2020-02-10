@@ -684,6 +684,7 @@ else
 
     if($data)
           {
+            echo 1;
             $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
             $goalsLumSumm = array();
        $goalsSipSumm = array();
@@ -739,6 +740,7 @@ else
 }
 else
 {
+  echo 2;
   $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
   $goalsLumSumm = array();
        $goalsSipSumm = array();
@@ -1663,7 +1665,7 @@ else
            $goals1['goalpriority'] = $gvalue1['goalpriority'];
            $goals1['year'] = floor($gvalue1['timeframe']/12);
            $goals1['month'] = $gvalue1['timeframe']%12;
-    $customerGoalsAssets1 = $this->fundperformance->getCustomerGoalsFundsAssets($getCustomerInfo['customerid'],$gvalue1['customergoalId']);
+    $customerGoalsAssets1 = $this->fundperformance->getCustomerGoalsFundsAssetsDataNew($getCustomerInfo['customerid'],$gvalue1['customergoalId']);
       $fundAssets1 = array();
       foreach($customerGoalsAssets1 as $keys1 =>$values1)
       {
