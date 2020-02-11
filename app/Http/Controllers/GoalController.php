@@ -684,7 +684,7 @@ else
 
     if($data)
           {
-            echo 12;
+            // echo 12;
             $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
             $goalsLumSumm = array();
        $goalsSipSumm = array();
@@ -729,6 +729,14 @@ else
        $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
        $goaldetails['Lumpsum_Amount'] = "0";
        $goaldetails['Sip'] = $assestsArray2;*/
+       if($goalsLumSumm[0]['lum_sip_type'] == "NULL" && $goalsSipSumm[0]['lum_sip_type'] == "NULL")
+       {
+            $goaldetails['lumpsum_check'] = "true";
+            $goaldetails['sip_check'] = "true";
+            // echo 1;
+       }
+       else
+       {
         if($goalsLumSumm[0]['lum_sip_type'] == "checked")
        $goaldetails['lumpsum_check'] = "true";
        else
@@ -737,10 +745,11 @@ else
        $goaldetails['sip_check'] = "true";
        else
        $goaldetails['sip_check'] = "false";
+   }
 }
 else
 {
-  echo 22;
+  // echo 22;
   $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
   $goalsLumSumm = array();
        $goalsSipSumm = array();
@@ -780,11 +789,11 @@ else
        {
             $goaldetails['lumpsum_check'] = "true";
             $goaldetails['sip_check'] = "true";
-            echo 1;
+            // echo 1;
        }
        else
        {
-        echo 2;
+        // echo 2;
             if($goalsLumSumm[0]['lum_sip_type'] == "checked")
            $goaldetails['lumpsum_check'] = "true";
            else
