@@ -684,7 +684,7 @@ else
 
     if($data)
           {
-            //echo 1;
+            echo 12;
             $goalsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
             $goalsLumSumm = array();
        $goalsSipSumm = array();
@@ -740,7 +740,7 @@ else
 }
 else
 {
-  // echo 2;
+  echo 22;
   $customerGoalsDetails = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$request['goal_id']);
   $goalsLumSumm = array();
        $goalsSipSumm = array();
