@@ -733,11 +733,11 @@ else
        {
             $goaldetails['lumpsum_check'] = "true";
             $goaldetails['sip_check'] = "true";
-            echo 1;
+            // echo 1;
        }
        else
        {
-        echo 2;
+        // echo 2;
         if($goalsLumSumm[0]['lum_sip_type'] == "checked")
        $goaldetails['lumpsum_check'] = "true";
        else
