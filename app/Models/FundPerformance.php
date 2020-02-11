@@ -309,15 +309,15 @@ public function getUserGoalsSummaryFundsListWithGoalId($customerid,$goalId,$asse
     public function getUserGoalsSummaryFundsListWithGoalIdNew($customerid,$goalId,$asset)
     {
         return $this->select('fc.assettype','fd.fundname','fd.fundclassid','fd.fundid')
-                    ->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
-                    ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
-                    ->join('customerfunddataposttran as CFD','CFD.funddataid','=','customerfunddetailposttran.funddataid')
-                    ->join('fund as fd','fd.fundid','=','GC.fundid')
+                    //->join('globalnavcurrvalue as GC','GC.fundid','=','customerfunddetailposttran.fundid')
+                   // ->join('customergoal as CG','CG.customergoalid','=','customerfunddetailposttran.customergoalid')
+                    //->join('customerfunddataposttran as CFD','CFD.funddataid','=','customerfunddetailposttran.funddataid')
+                    ->join('fund as fd','fd.fundid','=','customerfunddetailposttran.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customerid',$customerid)
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
                     ->where('fc.assettype',$asset)
-                    ->groupby('fc.assettype')
+                    ->groupby('fc.fundclassid')
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
     }
