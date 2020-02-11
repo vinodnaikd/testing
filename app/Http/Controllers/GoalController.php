@@ -776,13 +776,15 @@ else
        $goaldetails['Lumpsum_Amount'] = $goals['lumpsum_amount'];
        $goaldetails['Sip'] = $goalsSipSumm;
 
-      if($goalsLumSumm[0]['lum_sip_type'] == "" && $goalsSipSumm[0]['lum_sip_type'] == "")
+      if($goalsLumSumm[0]['lum_sip_type'] == "NULL" && $goalsSipSumm[0]['lum_sip_type'] == "NULL")
        {
             $goaldetails['lumpsum_check'] = "true";
             $goaldetails['sip_check'] = "true";
+            echo 1;
        }
        else
        {
+        echo 2;
             if($goalsLumSumm[0]['lum_sip_type'] == "checked")
            $goaldetails['lumpsum_check'] = "true";
            else
