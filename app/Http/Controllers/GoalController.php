@@ -1670,7 +1670,7 @@ else
       foreach($customerGoalsAssets1 as $keys1 =>$values1)
       {
          $assests['assettype'] = $values1['assettype'];
-         $fundclassData1 = $this->fundperformance->getUserGoalsSummaryFundsListWithGoalId($getCustomerInfo['customerid'],$gvalue1['customergoalId'],$values1['assettype']);
+         $fundclassData1 = $this->fundperformance->getUserGoalsSummaryFundsListWithGoalIdNew($getCustomerInfo['customerid'],$gvalue1['customergoalId'],$values1['assettype']);
          $fundClass1 = array();
          foreach($fundclassData1 as $key12 => $value12)
          {
