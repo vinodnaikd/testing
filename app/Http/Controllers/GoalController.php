@@ -729,14 +729,15 @@ else
        $goaldetails['Sip_Amount'] = $goaldetails['monthcommitment'];
        $goaldetails['Lumpsum_Amount'] = "0";
        $goaldetails['Sip'] = $assestsArray2;*/
-       if($goalsLumSumm[0]['lum_sip_type'] == "NULL" && $goalsSipSumm[0]['lum_sip_type'] == "NULL")
+       if($goalsLumSumm[0]['lum_sip_type'] == "" && $goalsSipSumm[0]['lum_sip_type'] == "")
        {
             $goaldetails['lumpsum_check'] = "true";
             $goaldetails['sip_check'] = "true";
-            // echo 1;
+            echo 1;
        }
        else
        {
+        echo 2;
         if($goalsLumSumm[0]['lum_sip_type'] == "checked")
        $goaldetails['lumpsum_check'] = "true";
        else
