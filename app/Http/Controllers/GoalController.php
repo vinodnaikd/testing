@@ -2106,11 +2106,17 @@ $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-GDGJ-DDSF-KJSDF35675".mt_rand(10,1
                 }
                 else
                 {
-                    $redmvalue1 = $newPurchasevalue;
+                    
                 if($values['redeem_type'] == "fullredeem")
+                {
                     $redmAmnt = $newPurchasevalue;
+                    $redmvalue1 = 0;
+                }
                 else
+                {
                     $redmAmnt = 0;
+                    $redmvalue1 = $newPurchasevalue;
+                }
                 }
 
                     $fundproducts1['fundid'] = $value2['fundid'];
