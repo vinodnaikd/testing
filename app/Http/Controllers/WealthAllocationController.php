@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\WealthAllocation;
 use App\Models\RiskQuestions;
 use App\Models\GoalsAllocation;
+use App\Models\FundPerformance;
 use App\Models\Customer;
 use App\Models\FundClass;
 use App\Models\DashboardRecordsInfo;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 class WealthAllocationController extends Controller
 {
     public function __construct(WealthAllocation $wealthallocation,
-        Customer $customer,RiskQuestions $riskquestions,GoalsAllocation $goalsallocation,FundClass $fundclass,DashboardRecordsInfo $dashboardrecordsinfo)
+        Customer $customer,RiskQuestions $riskquestions,GoalsAllocation $goalsallocation,FundClass $fundclass,DashboardRecordsInfo $dashboardrecordsinfo,FundPerformance $fundperformance)
     {
         $this->wealthallocation = $wealthallocation;
         $this->customer = $customer;
@@ -23,6 +24,7 @@ class WealthAllocationController extends Controller
         $this->goalsallocation = $goalsallocation;
         $this->fundclass = $fundclass;
         $this->dashboardrecordsinfo = $dashboardrecordsinfo;
+        $this->fundperformance = $fundperformance;
 
     }
     /**
@@ -171,6 +173,20 @@ public function getCustomerWealthAllocation(Request $request)
         $lumsipArray['Lumpsum_Amount'] = $wealthData[0]['lumpsum_amount'];
         $lumsipArray['Sip_Amount'] = $wealthData[0]['sip_amount'];
         $wealthAssetsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+
+        $customerGoalsDetails = $this->wealthallocation->getWealthAllocationById($request['wealth_id']);
+      $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($request['wealth_id']);
+      if($wealthAllocateData)
+      {
+        $goaldetails['totalcurrentvalue'] = $wealthAllocateData[0]['totalcurrentvalue'];
+          $goaldetails['investmentvalue'] = $wealthAllocateData[0]['investmentvalue'];
+      }
+      else
+      {
+        $goaldetails['totalcurrentvalue'] = array();
+        $goaldetails['investmentvalue'] = array();
+      }
+
         if(!$wealthAssetsData)
         {
         $wealthLumSumm = array();
