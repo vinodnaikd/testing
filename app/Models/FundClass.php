@@ -107,7 +107,7 @@ class FundClass extends Model
           ->join('customerfunddetailposttran as d','d.fundid','=','fund.fundid')
           ->where('fundclass.assettype',$assettype)
           ->where('d.customergoalid',$goalId)
-          ->groupBy('fundclass.assettype')->get()->toArray();
+          ->groupBy('fundclass.fundclassid')->get()->toArray();
   }
     
      public function getCustomerSelectedAssests($customerid,$goalId)
