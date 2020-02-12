@@ -99,6 +99,16 @@ class FundClass extends Model
     {
         return $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.fundclassid',$fundclassid)->where('fundclass.inactive',$inactive)->groupBy('fundclass.assettype')->get()->toArray();
     }
+
+    public function getCustomerSelectedFundAssestsNew($goalId,$assettype)
+    {
+    return $this->select('fundclass.assettype','fundclass.fundclassid')
+          ->join('fund','fund.fundclassid','=','fundclass.fundclassid')
+          ->join('customerfunddetailposttran as d','d.fundid','=','fund.fundid')
+          ->where('fundclass.assettype',$assettype)
+          ->where('d.customergoalid',$goalId)
+          ->groupBy('fundclass.assettype')->get()->toArray();
+  }
     
      public function getCustomerSelectedAssests($customerid,$goalId)
    	{

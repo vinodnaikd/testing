@@ -1129,7 +1129,10 @@ else
          $assests['assettype'] = $value['assettype'];
          // $assests['assetname'] = $value['subcategory'];
          $fundclassData = $this->fundclass->getSelectedFundClassDataNew($value['assettype'],$value['fundclassid']);
-
+         // print_r($fundclassData)
+         $fundIdsWithAssetclassData = $this->fundclass->getCustomerSelectedFundAssestsNew($request['goalid'],$value['assettype']);
+        // echo $value['asset'];
+           $FcIds = array_column($fundIdsWithAssetclassData,'fundclassid');
          $fundClass = array();
          foreach($fundclassData as $key1 => $value1)
          {
@@ -1143,7 +1146,7 @@ else
             $fund['subcategory'] = "subcategory";
             $fund['limit'] = "2";
             $fundProducts = array();
-           $fundprodcutsData = $this->fundperformance->getGoalsSummaryFundsListWithGoalIdNew($request['goalid'],$value1['fundclassid']);
+           $fundprodcutsData = $this->fundperformance->getGoalsSummaryFundsListWithGoalIdNew($request['goalid'],$FcIds);
            // dd($fundprodcutsData);
          foreach($fundprodcutsData as $key2 => $value2)
          {

@@ -277,7 +277,7 @@ class FundPerformance extends Model
                     ->join('fund as fd','fd.fundid','=','GC.fundid')
                     ->join('fundclass as fc','fd.fundclassid','=','fc.fundclassid')
                     ->where('customerfunddetailposttran.customergoalid',$goalId)
-                    ->where('fc.fundclassid',$fundclassid)
+                    ->whereIn('fc.fundclassid',$fundclassid)
                     ->groupby('customerfunddetailposttran.fundid','fc.assettype','fd.fundname','CFD.purchasetype','CFD.StartDate','GC.NAV')
                     //->orderBy('CG.goalpriority','ASC')
                     ->get()->toArray();
