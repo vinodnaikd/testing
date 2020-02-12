@@ -107,6 +107,21 @@ class WealthAllocationController extends Controller
         }
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
         $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+
+      if($wealthData)
+      $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($wealthData[0]['cust_wel_all']);
+    // dd($wealthAllocateData[0]['totalcurrentvalue']);
+      if($wealthAllocateData)
+      {
+        $wealthData[0]['totalcurrentvalue'] = $wealthAllocateData[0]['totalcurrentvalue'];
+          $wealthData[0]['investmentvalue'] = $wealthAllocateData[0]['investmentvalue'];
+      }
+      else
+      {
+        $wealthData[0]['totalcurrentvalue'] = array();
+        $wealthData[0]['investmentvalue'] = array();
+      }
+      // $newWealth = array_merge($wealthData,$goaldetails);
          return response()->json([
               'status' => 'success',
               'wealthdata' => $wealthData
@@ -175,17 +190,6 @@ public function getCustomerWealthAllocation(Request $request)
         $wealthAssetsData = $this->dashboardrecordsinfo->getGoalsAllocationDetails($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
 
         $customerGoalsDetails = $this->wealthallocation->getWealthAllocationById($request['wealth_id']);
-      $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($request['wealth_id']);
-      if($wealthAllocateData)
-      {
-        $goaldetails['totalcurrentvalue'] = $wealthAllocateData[0]['totalcurrentvalue'];
-          $goaldetails['investmentvalue'] = $wealthAllocateData[0]['investmentvalue'];
-      }
-      else
-      {
-        $goaldetails['totalcurrentvalue'] = array();
-        $goaldetails['investmentvalue'] = array();
-      }
 
         if(!$wealthAssetsData)
         {
