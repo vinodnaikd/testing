@@ -109,7 +109,8 @@ class WealthAllocationController extends Controller
         $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
 
       if($wealthData)
-      $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($wealthData[0]['cust_wel_all']);
+      {
+              $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($wealthData[0]['cust_wel_all']);
     // dd($wealthAllocateData[0]['totalcurrentvalue']);
       if($wealthAllocateData)
       {
@@ -120,6 +121,11 @@ class WealthAllocationController extends Controller
       {
         $wealthData[0]['totalcurrentvalue'] = array();
         $wealthData[0]['investmentvalue'] = array();
+      }
+      }
+      else
+      {
+        $wealthData = array();
       }
       // $newWealth = array_merge($wealthData,$goaldetails);
          return response()->json([
