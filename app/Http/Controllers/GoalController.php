@@ -1183,6 +1183,19 @@ else
         }
         
       $customerGoalsDetails = $this->wealthallocation->getWealthAllocationById($request['wealth_id']);
+      $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocateNew($request['wealth_id']);
+      if($wealthAllocateData)
+      {
+        $customerGoalsDetails['totalcurrentvalue'] = $wealthAllocateData[0]['totalcurrentvalue'];
+          $customerGoalsDetails['investmentvalue'] = $wealthAllocateData[0]['investmentvalue'];
+      }
+      else
+      {
+        $customerGoalsDetails['totalcurrentvalue'] = array();
+        $customerGoalsDetails['investmentvalue'] = array();
+      }
+       
+
         // dd($customerGoalsDetails);
         $lum_data = $this->fundperformance->getCustomerLumpsumSipData($request['wealth_id'],'L');
         $sip_data = $this->fundperformance->getCustomerLumpsumSipData($request['wealth_id'],'S');

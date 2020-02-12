@@ -719,7 +719,7 @@ public function MFSwitchOrder(Request $request)
             $custpostdetail['fundid'] = $value['fundid'];
             $custpostdetail['purchasetype'] = $value['purchasetype'];
             $custpostdetail['transactiondate'] = Carbon::now();//$value['transaction_date'];
-            
+            $custpostdetail['transactionrefcode'] = $now->format('YmdHisu');
             $custpostdetail['purchasenavvalue'] = $value['purchasenav'];
             if($value['purchasetype'] == "L")
               $amount = $value['lumpsumamount'];
