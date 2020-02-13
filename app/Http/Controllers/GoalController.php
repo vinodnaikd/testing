@@ -1531,6 +1531,13 @@ else
            $gw['month'] = $value['timeframe']%12;
            $gw['sipamount'] = $value['sipamount'];
            $gw['lumpsumamount'] = $value['lumpsumamount'];
+
+           $assetsData = $this->fundperformance->getGoalsSummaryGraphListWithGoalId($value['customergoalId']);
+       $totInv = array_sum(array_column($assetsData, 'TotalInvestmentValue'));
+       $totCur = array_sum(array_column($assetsData, 'TotalCurrentValue'));
+       //dd($totInv);
+       $growth = (($totCur-$totInv)/$totInv);
+       $gw['growth'] = number_format($growth,2);
            array_push($goalwealth, $gw);
         }
        return response()->json([
