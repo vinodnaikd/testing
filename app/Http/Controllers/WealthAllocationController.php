@@ -115,7 +115,10 @@ class WealthAllocationController extends Controller
       if($wealthAllocateData)
       {
         $wealthData[0]['totalcurrentvalue'] = $wealthAllocateData[0]['totalcurrentvalue'];
+        if(isset($wealthAllocateData[0]['investmentvalue']))
           $wealthData[0]['investmentvalue'] = $wealthAllocateData[0]['investmentvalue'];
+        else
+          $wealthData[0]['investmentvalue'] = array();
       }
       else
       {
