@@ -62,7 +62,7 @@ class FundClass extends Model
      public function getFundClassDataForWealth($assettype,$asset,$inactive=0)
     {
       // print_r($asset);
-        $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset_category','fundclass.asset')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('assettype',$assettype)->where('fundclass.inactive',$inactive);
+        $query = $this->select('fundclass.fundclassid','fundclass.name','fundclass.assettype','fundclass.category','fundclass.subcategory','fundclass.asset_category','fundclass.asset')->distinct('fundclass.fundclassid')->join('fund','fund.fundclassid','=','fundclass.fundclassid')->where('asset','!=','')->where('assettype',$assettype)->where('fundclass.inactive',$inactive);
          if($assettype == "Equity")
         {
           foreach ($asset as $key => $value) {

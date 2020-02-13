@@ -188,6 +188,7 @@ public function getCustomerWealthAllocation(Request $request)
         $getCustomerInfo = $this->customer->getUserDetailsrow($request['userid']);
          $customerRiskProfileScore = round($this->riskquestions->getCustomerRiskProfileScore($getCustomerInfo['customerid']));
          $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
+         // if($wealthData)
          $start = $wealthData[0]['timeframe'];
          $end = $wealthData[0]['timeframe'];
           $lumpsum_amount = $wealthData[0]['lumpsum_amount'];
