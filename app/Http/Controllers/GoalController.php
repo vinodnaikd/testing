@@ -2252,7 +2252,21 @@ return response()->json([
         $reqData['lumpsumamount'] = $value['fundvalue'];
         else
         $reqData['sipamount'] = $value['fundvalue'];
-  $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
+    $getPendingRecords = $this->fundroi->getFundLumpsumRedemptionPending($getCustomerInfo['customerid'],$value['fundid'],$value['goalid']);
+    if($getPendingRecords)
+    {
+       // echo 111;
+      $upd['customerorderid'] = $getPendingRecords['customerorderid'];
+      $upd['goalid'] = $getPendingRecords['customergoalid'];
+      $upd['fundid'] = $getPendingRecords['fundid'];
+      $upd['purchasetype'] = "L";
+      $AmtUpd['lumpsumamount'] = $value['fundvalue'];
+      $fundDetailsUpd = $this->fundroi->updateCustomerFundDetails($AmtUpd,$upd);
+    }
+    else
+    {
+      $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData);
+    }
       }
       else
       {
@@ -2265,7 +2279,7 @@ return response()->json([
 
         $fundOrderEntry = $this->fundrecord->InsertCustomerOrderPretran($reqData);
         // dd($fundOrderEntry);
-        if($fundOrderEntry == 0)
+        if($fundOrderEntry == 0 || $fundDetailsUpd)
         {
           $reqData1['orderdetailid'] = "DJ456-SSD5-DDDD-".mt_rand(10,10000)."-DDSF-KJSDF88675".mt_rand(10,10000);
         $reqData1['customerorderid'] = $reqData['customerorderid'];
@@ -2277,12 +2291,27 @@ return response()->json([
         $reqData1['lumpsumamount'] = $value['fundvalue'];
         else
         $reqData1['sipamount'] = $value['fundvalue'];
-  $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData1);
+
+        $getPendingRecords = $this->fundroi->getFundLumpsumRedemptionPending($getCustomerInfo['customerid'],$value['fundid'],$value['goalid']);
+    if($getPendingRecords)
+    {
+      $upd['customerorderid'] = $reqData['customerorderid'];
+      $upd['goalid'] = $getPendingRecords['customergoalid'];
+      $upd['fundid'] = $getPendingRecords['fundid'];
+      $upd['purchasetype'] = "L";
+      $AmtUpd['lumpsumamount'] = $value['fundvalue'];
+      $fundDetailsUpd = $this->fundroi->updateCustomerFundDetails($AmtUpd,$upd);
+    }
+    else
+    {
+      $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData1);
+    }
+  // $fundDetailsUpd = $this->fundroi->InsertCustomerFundRedemption($reqData1);
         }
       }
   }
   // dd($fundDetailsUpd);
-    if($fundDetailsUpd == 0)
+    if($fundDetailsUpd == 0 || $fundDetailsUpd)
     {
       return response()->json([
               'status' => "Fund Redemption Successfully"
