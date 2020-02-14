@@ -1504,14 +1504,16 @@ else
         $wealthData = $this->wealthallocation->getWealthAllocation($getCustomerInfo['customerid']);
          if($wealthData)
          {
-         $wealthAllocateData = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
+         $wealthAllocateData1 = $this->fundperformance->getCustomerWealthAllocate($getCustomerInfo['customerid'],$wealthData[0]['cust_wel_all']);
          // dd($wealthAllocateData);
           $wealthAllocateData['wealthid'] = $wealthData[0]['cust_wel_all'];
           $wealthAllocateData['lumpsum_amount'] = $wealthData[0]['lumpsum_amount'];
           $wealthAllocateData['sip_amount'] = $wealthData[0]['sip_amount'];
           $wealthAllocateData['timeframe'] = $wealthData[0]['timeframe'];
+          $wealthAllocateData['totalcurrentvalue'] = $wealthAllocateData1[0]['totalcurrentvalue'];
+          $wealthAllocateData['investmentvalue'] = $wealthAllocateData1[0]['investmentvalue'];
           if($wealthAllocateData)
-            $wealthAllocateData = $wealthAllocateData;
+            $wealthAllocateData = array($wealthAllocateData);
           else
             $wealthAllocateData = array();
          }
