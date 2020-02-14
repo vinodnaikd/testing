@@ -1021,6 +1021,11 @@ public function getCustomerGoalsOrderDetails(Request $request)
       $fundselection = $request->json()->all();
        $getCustomerInfo = $this->customer->getUserDetailsrow($fundselection[0]['userid']);
      $fundaddedData = $this->fundroi->getAddedFunds($getCustomerInfo['customerid'],$fundselection[0]['customergoalid']);
+     $newArrData = array_column($fundaddedData, 'fundid');
+     $newReqData = array_column($fundselection, 'fundid');
+     /*print_r($newArrData);
+     print_r($newReqData);
+     die;*/
       $fundaddedDataCount = count($fundaddedData);
       $fundselectionCount = count($fundselection);
     $removeFundsArr = "";
@@ -1028,6 +1033,20 @@ public function getCustomerGoalsOrderDetails(Request $request)
     {
       // dd($removeFundsArr);
       $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$fundselection[0]['customergoalid'],$removeFundsArr);
+    }
+    else
+    {
+      // dd($fundaddedData);
+$array11 = array_intersect($newArrData, $newReqData);
+$array21 = array_intersect($newReqData, $newArrData);
+
+      if($newArrData === array_intersect($newArrData, $newReqData) && $newReqData === array_intersect($newReqData, $newArrData)) {
+           // echo 'Equal';
+      } else {
+        // echo 3;
+          $fundaddedData = $this->fundroi->RemoveCustomerFunds($getCustomerInfo['customerid'],$fundselection[0]['customergoalid'],$removeFundsArr);
+      }
+       
     }
 
       foreach ($fundselection as $key => $value) {
