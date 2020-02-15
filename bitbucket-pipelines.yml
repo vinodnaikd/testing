@@ -19,6 +19,7 @@ pipelines:
           - docker build -t $IMAGE:$TAG .
           - docker tag $IMAGE:$TAG $IMAGEURI/$IMAGE:$TAG
           - docker push $IMAGEURI/$IMAGE:$TAG
+          - docker images
           # use the pipe to push to AWS ECR
           - pipe: atlassian/aws-ecr-push-image:1.1.0
             variables:
