@@ -9,14 +9,16 @@ pipelines:
           - pip
         script:
           - pip3 install awscli
-          - IMAGE="133201756615.dkr.ecr.ap-south-1.amazonaws.com/wert/backend"
-          - TAG=${BITBUCKET_BRANCH:-$BITBUCKET_TAG}
+          - IMAGEURI="133201756615.dkr.ecr.ap-south-1.amazonaws.com"
+          - IMAGE="wert/backend"
+          - TAG=${BITBUCKET_BRANCH:-$BITBUCKET_BUILD_NUMBER}
           - aws configure set aws_access_key_id "${AWS_ACCESS_KEY_ID}"
           - aws configure set aws_secret_access_key "${AWS_SECRET_ACCESS_KEY}"
           - eval $(aws ecr get-login --no-include-email --region ap-south-1 | sed 's;https://;;g')
           # build the image
           - docker build -t $IMAGE:$TAG .
-          - docker push $IMAGE:$TAG
+          - docker tag $IMAGE:$TAG $IMAGEURI/$IMAGE:$TAG
+          - docker push $IMAGEURI/$IMAGE:$TAG
           # use the pipe to push to AWS ECR
           - pipe: atlassian/aws-ecr-push-image:1.1.0
             variables:
