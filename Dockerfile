@@ -77,6 +77,8 @@ COPY . /var/www
 
 RUN composer install
 
+RUN chmod a+x storage
+
 CMD php artisan serve --host=0.0.0.0 --port=8181
 
 EXPOSE 8181
