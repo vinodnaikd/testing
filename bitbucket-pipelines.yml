@@ -1,9 +1,8 @@
 image: python:3.7.4-alpine3.10
 
 pipelines:
-  tags:
-    ecr-release-*:
-      - step:
+  default:
+    - step:
         services:
           - docker
         caches:
@@ -18,7 +17,6 @@ pipelines:
           # build the image
           - docker build -t $IMAGE:$TAG .
           - docker push $IMAGE:$TAG .
-
           # use the pipe to push to AWS ECR
           - pipe: atlassian/aws-ecr-push-image:1.1.0
             variables:
