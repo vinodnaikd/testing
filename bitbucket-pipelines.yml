@@ -11,7 +11,7 @@ pipelines:
           - pip3 install awscli
           - IMAGEURI="133201756615.dkr.ecr.ap-south-1.amazonaws.com"
           - IMAGE="wert/backend"
-          - TAG=${BITBUCKET_BRANCH:-$BITBUCKET_BUILD_NUMBER}
+          - TAG=$BITBUCKET_BRANCH."-".$BITBUCKET_BUILD_NUMBER
           - aws configure set aws_access_key_id "${AWS_ACCESS_KEY_ID}"
           - aws configure set aws_secret_access_key "${AWS_SECRET_ACCESS_KEY}"
           - eval $(aws ecr get-login --no-include-email --region ap-south-1 | sed 's;https://;;g')
@@ -26,5 +26,5 @@ pipelines:
               AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
               AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
               AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-              IMAGE_NAME: $IMAGE
+              IMAGE_NAME: ${IMAGE}
               TAGS: '${TAG} latest'
