@@ -16,7 +16,7 @@ pipelines:
           - eval $(aws ecr get-login --no-include-email --region ap-south-1 | sed 's;https://;;g')
           # build the image
           - docker build -t $IMAGE:$TAG .
-          - docker push $IMAGE:$TAG .
+          - docker push $IMAGE:$TAG
           # use the pipe to push to AWS ECR
           - pipe: atlassian/aws-ecr-push-image:1.1.0
             variables:
